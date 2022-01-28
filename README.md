@@ -85,11 +85,11 @@
     
     OS : Window
     
-    Server : Tomcat ( 인텔리제이 내장 톰캣 )
+    Server : Tomcat ( 스프링부트 내장 톰캣 )
     
-    개발 Tool : SpringBoot
+    개발 Framework : SpringBoot
     
-    IDE : InteliJ
+    IDE : IntelliJ
     
     DB Tool : MySql
     
