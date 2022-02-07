@@ -1,4 +1,4 @@
-package com.example.eatingtogether;
+package com.et.eatingtogether;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

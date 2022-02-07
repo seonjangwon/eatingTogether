@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,4 +48,11 @@ public class CustomerEntity {
 
     @OneToMany(mappedBy = "customerEntity",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<WishlistEntity> wishlistEntity;
+
+    public static CustomerEntity loginTest(CustomerDetailDTO customerDetailDTO){
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setCustomerEmail(customerDetailDTO.getCustomerEmail());
+        customerEntity.setCustomerPassword(customerDetailDTO.getCustomerPassword());
+        return customerEntity;
+    }
 }

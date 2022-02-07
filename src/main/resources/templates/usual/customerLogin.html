@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>customerLogin</title>
+    <style>
+        .field-error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h2>customerLogin</h2>
+<form action="/usual/customerLogin" method="post" th:object="${customer}">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="field-error"></p>
+    </div>
+    <input type="text" th:field="*{customerEmail}"><br>
+    <input type="text" th:field="*{customerPassword}"><br>
+    <input type="submit" value="로그인">
+</form>
+</body>
+</html>
