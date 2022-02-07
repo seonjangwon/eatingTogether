@@ -10,4 +10,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsualController3 {
     // branch add
     // commit 1
+    // commit 2
 }
