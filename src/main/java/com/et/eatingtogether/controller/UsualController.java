@@ -13,4 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RequestMapping("/usual")
 public class UsualController {
     // 하하하하하하하하하 sunyoung
+    //jiwon
+    // jangwon
 }
