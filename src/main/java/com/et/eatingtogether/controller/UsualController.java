@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RequiredArgsConstructor
 //@RequestMapping("/usual")
 public class UsualController {
+    // 하하하하하하하하하 sunyoung
     //jiwon
     // jangwon
-
 }
