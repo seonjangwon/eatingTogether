@@ -32,4 +32,23 @@ public class CustomerServiceImpl implements CustomerService{
         }
 
     }
+
+    @Override
+    public CustomerDetailDTO findByEmail(String customerLoginEmail) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(customerLoginEmail);
+        return CustomerDetailDTO.toEntity(customerEntity.get());
+    }
+
+    @Override
+    public String update(CustomerDetailDTO customerDetailDTO) {
+        Optional<CustomerEntity> customerEntity = cr.findById(customerDetailDTO.getCustomerNumber());
+        if (customerEntity.get().getCustomerPassword().equals(customerDetailDTO.getCustomerPassword())){
+            // 비밀 번호가 일치하면
+            cr.save(CustomerEntity.toUpdate(customerDetailDTO));
+            return "ok";
+        } else {
+            // 비밀 번호가 일치하지 않으면
+            return "no";
+        }
+    }
 }
