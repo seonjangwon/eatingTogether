@@ -55,4 +55,15 @@ public class CustomerEntity {
         customerEntity.setCustomerPassword(customerDetailDTO.getCustomerPassword());
         return customerEntity;
     }
+
+    public static CustomerEntity toUpdate(CustomerDetailDTO customerDetailDTO){
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setCustomerNumber(customerDetailDTO.getCustomerNumber());
+        customerEntity.setCustomerEmail(customerDetailDTO.getCustomerEmail());
+        customerEntity.setCustomerNickname(customerDetailDTO.getCustomerNickname());
+        customerEntity.setCustomerAddress(customerDetailDTO.getCustomerAddress());
+        customerEntity.setCustomerPhone(customerDetailDTO.getCustomerPhone());
+        customerEntity.setCustomerDname(customerDetailDTO.getCustomerDname());
+        return customerEntity;
+    }
 }
