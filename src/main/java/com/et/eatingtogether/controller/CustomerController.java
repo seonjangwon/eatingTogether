@@ -1,16 +1,18 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +36,24 @@ public class CustomerController {
     @PutMapping("/update")
     public String updateForm(@ModelAttribute CustomerDetailDTO customerDetailDTO){
         return cs.update(customerDetailDTO);
+    }
+
+    @GetMapping("/history")
+    public String historyList(Model model){
+        List<OrderDTO> orderDTOList = cs.orderList();
+        model.addAttribute("orderList",orderDTOList);
+        return "customer/orderList";
+    }
+
+    @GetMapping("/history/{orderNumber}")
+    public String history(@PathVariable("orderNumber") Long orderNumber, Model model){
+        OrderDTO orderDTO = cs.findOrder(orderNumber);
+        List<OrderMenuDTO> menuDTOList = cs.orderMenu(orderNumber);
+        CustomerDetailDTO customerDetailDTO = cs.findById(orderDTO.getCustomerNumber());
+        model.addAttribute("order",orderDTO);
+        model.addAttribute("menuList",menuDTOList);
+        model.addAttribute("customer",customerDetailDTO);
+        return "customer/order";
     }
 
 }

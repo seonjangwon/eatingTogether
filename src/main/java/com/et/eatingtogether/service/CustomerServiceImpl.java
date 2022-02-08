@@ -1,12 +1,20 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.CustomerEntity;
+import com.et.eatingtogether.entity.MenuEntity;
+import com.et.eatingtogether.entity.OrderEntity;
+import com.et.eatingtogether.entity.OrderMenuEntity;
 import com.et.eatingtogether.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,5 +58,51 @@ public class CustomerServiceImpl implements CustomerService{
             // 비밀 번호가 일치하지 않으면
             return "no";
         }
+    }
+
+    @Override
+    public List<OrderDTO> orderList() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<OrderEntity> orderEntityList = customerEntity.get().getOrderEntityList();
+
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        for (OrderEntity e : orderEntityList){
+            orderDTOList.add(OrderDTO.toEntity(e));
+        }
+        return orderDTOList;
+    }
+
+    @Override
+    public OrderDTO findOrder(Long orderNumber) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<OrderEntity> orderEntityList = customerEntity.get().getOrderEntityList();
+        for(OrderEntity o : orderEntityList) {
+            if(o.getOrderNumber().equals(orderNumber)){
+                return OrderDTO.toEntity(o);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<OrderMenuDTO> orderMenu(Long orderNumber) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<OrderEntity> orderEntityList = customerEntity.get().getOrderEntityList();
+        for(OrderEntity o : orderEntityList) {
+            if(o.getOrderNumber().equals(orderNumber)){
+                List<OrderMenuEntity> orderMenuEntityList = o.getOrderMenuEntityList();
+                List<OrderMenuDTO> orderMenuDTOList = new ArrayList<>();
+                for(OrderMenuEntity m : orderMenuEntityList){
+                    orderMenuDTOList.add(OrderMenuDTO.toEntity(m));
+                }
+                return orderMenuDTOList;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public CustomerDetailDTO findById(Long customerNumber) {
+        return CustomerDetailDTO.toEntity(cr.findById(customerNumber).get());
     }
 }

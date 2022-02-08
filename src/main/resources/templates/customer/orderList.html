@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>orderList</title>
+</head>
+<body>
+<h2>orderList</h2>
+<table>
+    <thead>
+        <tr>
+            <th>사진</th>
+            <th>주문 번호</th>
+            <th>업체 번호</th>
+            <th>주문 시간</th>
+            <th>메뉴 명</th>
+            <th>총 가격</th>
+            <th>배달 상태</th>
+            <th>상세</th>
+            <th>리뷰</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="order : ${orderList}">
+            <td><img th:src="@{|/upload/store/*{order.storeFilename}|}" alt=""></td>
+            <td th:text="*{order.orderNumber}"></td>
+            <td th:text="*{order.storeNumber}"></td>
+            <td th:text="*{order.orderTime}"></td>
+            <td th:text="*{order.menuName}"></td>
+            <td th:text="*{order.orderPrice}"></td>
+            <td th:text="*{order.orderNow}"></td>
+            <td><a th:href="/customer/history/${order.orderNumber}">상세</a></td>
+            <td th:if="*{order.review}">
+                <a th:href="/review/save/${order.orderNumber}">리뷰 작성</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
