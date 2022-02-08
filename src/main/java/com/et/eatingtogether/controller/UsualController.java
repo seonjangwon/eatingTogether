@@ -40,4 +40,6 @@ public class UsualController {
         }
         return "index";
     }
+
+
 }

@@ -8,4 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
+
+
 }
