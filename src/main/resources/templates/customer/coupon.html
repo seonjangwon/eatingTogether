@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>coupon</title>
+</head>
+<body>
+<h2>coupon</h2>
+<table>
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>사용 조건</th>
+            <th>가격</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="coupon : ${couponList}">
+            <td th:text="${coupon.myCouponNumber}"></td>
+            <td th:text="${coupon.couponName}"></td>
+            <td th:text="${coupon.couponCondition}"></td>
+            <td th:text="${coupon.couponPrice}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

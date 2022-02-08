@@ -1,13 +1,12 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.MyCouponDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
-import com.et.eatingtogether.entity.CustomerEntity;
-import com.et.eatingtogether.entity.MenuEntity;
-import com.et.eatingtogether.entity.OrderEntity;
-import com.et.eatingtogether.entity.OrderMenuEntity;
+import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -104,5 +103,15 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CustomerDetailDTO findById(Long customerNumber) {
         return CustomerDetailDTO.toEntity(cr.findById(customerNumber).get());
+    }
+
+    @Override
+    public List<MyCouponDTO> couponList() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<MyCouponDTO> couponDTOList = new ArrayList<>();
+        for (MyCouponEntity m : customerEntity.get().getMyCouponEntityList()){
+            couponDTOList.add(MyCouponDTO.toEntity(m));
+        }
+        return couponDTOList;
     }
 }

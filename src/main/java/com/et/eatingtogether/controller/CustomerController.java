@@ -1,7 +1,9 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.MyCouponDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.service.CustomerService;
@@ -54,6 +56,13 @@ public class CustomerController {
         model.addAttribute("menuList",menuDTOList);
         model.addAttribute("customer",customerDetailDTO);
         return "customer/order";
+    }
+
+    @GetMapping("/coupon")
+    public String coupon(Model model){
+        List<MyCouponDTO> couponDTOList = cs.couponList();
+        model.addAttribute("couponList",couponDTOList);
+        return "customer/coupon";
     }
 
 }

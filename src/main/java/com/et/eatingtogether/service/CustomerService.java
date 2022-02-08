@@ -1,7 +1,9 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.MyCouponDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 
@@ -21,4 +23,6 @@ public interface CustomerService {
     List<OrderMenuDTO> orderMenu(Long orderNumber);
 
     CustomerDetailDTO findById(Long customerNumber);
+
+    List<MyCouponDTO> couponList();
 }
