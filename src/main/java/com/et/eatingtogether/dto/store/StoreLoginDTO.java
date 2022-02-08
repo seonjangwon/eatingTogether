@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*@Data
+@Data
 @AllArgsConstructor
-@NoArgsConstructor*/
-public class StoreDetailDTO {
+@NoArgsConstructor
+public class StoreLoginDTO {
+
+    private String storeEmail;
+    private String storePassword;
 
 }
-
