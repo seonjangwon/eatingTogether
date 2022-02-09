@@ -6,14 +6,12 @@ import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -33,14 +31,24 @@ public class UsualController2 {
         System.out.println("UsualController2.storeSaveForm");
         return "usual/storeSave";
     }
-
+    //2-2
     @PostMapping("/store")
     public String storeSave (@ModelAttribute StoreSaveDTO storeSaveDTO) throws IOException {
         System.out.println("UsualController2.storeSave처리");
 
         Long storeId = ss.save(storeSaveDTO);
-        return "/store/deliverySave";
+        return "./storeMain";
+        /*return "/store/deliverySave";*/
     }
+
+/*    //2-2-1 이메일 중복확인
+    @GetMapping("/storeEmail")
+    public ResponseBody storeEmailCheck(@Validated String storeEmail ) {
+        System.out.println("UsualController2.storeEmailCheck");
+        String result = ss.storeEmailCheck(storeEmail);
+        return result;
+
+    }*/
 
     //2-3
     @GetMapping("/slogin")
