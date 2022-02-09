@@ -1,9 +1,6 @@
 package com.et.eatingtogether.controller;
 
-import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
-import com.et.eatingtogether.dto.customer.MyCouponDTO;
-import com.et.eatingtogether.dto.customer.PointDTO;
-import com.et.eatingtogether.dto.customer.WishlistDTO;
+import com.et.eatingtogether.dto.customer.*;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -91,6 +89,18 @@ public class CustomerController {
         return "customer/wishlist";
     }
 
-
-
+    @GetMapping("/basket")
+    public String myBasket(Model model){
+        List<BasketDTO> basketDTOList = cs.basketList();
+        String storeName = basketDTOList.get(0).getStoreName();
+        int totalPrice = 0;
+        for (BasketDTO b : basketDTOList){
+            totalPrice += b.getMenuPrice();
+        }
+        int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
+        model.addAttribute("basketList",basketDTOList);
+        model.addAttribute("totalPrice",totalPrice);
+        model.addAttribute("deliveryPrice",deliveryPrice);
+        return "customer/basket";
+    }
 }

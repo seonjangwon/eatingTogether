@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>basket</title>
+    <script>
+        const menuDown_btn = (basketNumber) =>{
+
+        }
+        const menuUp_btn = (basketNumber) =>{
+
+        }
+        const menuDelete_btn = (basketNumber) =>{
+
+        }
+        const order_btn = () =>{
+
+        }
+    </script>
+</head>
+<body>
+<h2>my basket</h2>
+<div th:if="${basketList != null}">
+    <h3><p th:text="${basketList[0].storeName}"></p></h3>
+    <table>
+        <thead>
+            <tr>
+                <th>일단 장바구니 번호</th>
+                <th>일단 메뉴 번호</th>
+                <th>메뉴 사진</th>
+                <th>메뉴 이름</th>
+                <th>가격</th>
+                <th>숫자</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${basketList}">
+                <td th:text="${b.basketNumber}"></td>
+                <td th:text="${b.menuNumber}"></td>
+                <td><img th:src="@{|/upload/store/${b.menuFilename}|}" alt=""></td>
+                <td th:text="${b.menuName}"></td>
+                <td th:text="${b.menuPrice}"></td>
+                <td>
+                    <button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button>
+                    <p th:text="${b.menuCount}"></p>
+                    <button th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
+                </td>
+                <td><p th:onclick="menuDelete_btn([[${b.basketNumber}]])"></p></td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>총 주문 금액 : <p th:text="${totalPrice}"></p></h3>
+    <h3>배달비 : <p th:text="${deliveryPrice}"></p></h3>
+    <h3>결제 예정 금액 : <p th:text="${totalPrice + deliveryPrice}"></p></h3>
+    <button onclick="order_btn()">주문 하기</button>
+</div>
+<div th:if="${basketList == null}">
+    <h3>장바구니가 비었어요!</h3>
+</div>
+</body>
+</html>

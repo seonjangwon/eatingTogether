@@ -1,9 +1,6 @@
 package com.et.eatingtogether.service;
 
-import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
-import com.et.eatingtogether.dto.customer.MyCouponDTO;
-import com.et.eatingtogether.dto.customer.PointDTO;
-import com.et.eatingtogether.dto.customer.WishlistDTO;
+import com.et.eatingtogether.dto.customer.*;
 import com.et.eatingtogether.dto.review.ReplyDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
@@ -13,6 +10,7 @@ import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.CustomerRepository;
+import com.et.eatingtogether.repository.DeliveryRepository;
 import com.et.eatingtogether.repository.ReplyRepository;
 import com.et.eatingtogether.repository.ReviewFileRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository cr;
-    private final ReviewFileRepository rfr;
     private final ReplyRepository rpr;
+    private final DeliveryRepository dr;
     private final HttpSession session;
 
     @Override
@@ -158,5 +156,23 @@ public class CustomerServiceImpl implements CustomerService{
             wishlistDTOList.add(WishlistDTO.toEntity(w));
         }
         return wishlistDTOList;
+    }
+
+    @Override
+    public List<BasketDTO> basketList() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<BasketDTO> basketDTOList = new ArrayList<>();
+        for (BasketEntity b : customerEntity.get().getBasketEntityList()){
+            basketDTOList.add(BasketDTO.toEntity(b));
+        }
+        return basketDTOList;
+    }
+
+    @Override
+    public int deliveryPrice(Long storeNumber) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Optional<DeliveryEntity> deliveryEntity = dr.findByIdAndDeliveryDname(storeNumber, customerEntity.get().getCustomerDname());
+
+        return deliveryEntity.get().getDeliveryPrice();
     }
 }

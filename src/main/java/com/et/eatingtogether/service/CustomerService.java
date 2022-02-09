@@ -1,9 +1,6 @@
 package com.et.eatingtogether.service;
 
-import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
-import com.et.eatingtogether.dto.customer.MyCouponDTO;
-import com.et.eatingtogether.dto.customer.PointDTO;
-import com.et.eatingtogether.dto.customer.WishlistDTO;
+import com.et.eatingtogether.dto.customer.*;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
@@ -34,4 +31,8 @@ public interface CustomerService {
     List<ReviewDetailDTO> reviewList();
 
     List<WishlistDTO> wishlist();
+
+    List<BasketDTO> basketList();
+
+    int deliveryPrice(Long storeNumber);
 }
