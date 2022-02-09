@@ -2,6 +2,9 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.MyCouponDTO;
+import com.et.eatingtogether.dto.customer.PointDTO;
+import com.et.eatingtogether.dto.customer.WishlistDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
@@ -64,5 +67,30 @@ public class CustomerController {
         model.addAttribute("couponList",couponDTOList);
         return "customer/coupon";
     }
+
+    @GetMapping("/point")
+    public String point(Model model){
+        List<PointDTO> pointDTOList = cs.pointList();
+        CustomerDetailDTO customerDetailDTO = cs.findById(pointDTOList.get(0).getCustomerNumber());
+        model.addAttribute("pointList",pointDTOList);
+        model.addAttribute("point",customerDetailDTO.getCustomerPoint());
+        return "customer/point";
+    }
+
+    @GetMapping("/review")
+    public String myReview(Model model){
+        List<ReviewDetailDTO> reviewDetailDTOList = cs.reviewList();
+        model.addAttribute("reviewList",reviewDetailDTOList);
+        return "customer/review";
+    }
+
+    @GetMapping("/wishlist")
+    public String myWishlist(Model model){
+        List<WishlistDTO> wishlistDTOList = cs.wishlist();
+        model.addAttribute("wishlist",wishlistDTOList);
+        return "customer/wishlist";
+    }
+
+
 
 }

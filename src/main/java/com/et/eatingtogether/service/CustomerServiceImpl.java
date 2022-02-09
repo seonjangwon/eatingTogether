@@ -2,12 +2,19 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.MyCouponDTO;
+import com.et.eatingtogether.dto.customer.PointDTO;
+import com.et.eatingtogether.dto.customer.WishlistDTO;
+import com.et.eatingtogether.dto.review.ReplyDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.CustomerRepository;
+import com.et.eatingtogether.repository.ReplyRepository;
+import com.et.eatingtogether.repository.ReviewFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +27,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository cr;
+    private final ReviewFileRepository rfr;
+    private final ReplyRepository rpr;
     private final HttpSession session;
 
     @Override
@@ -113,5 +122,41 @@ public class CustomerServiceImpl implements CustomerService{
             couponDTOList.add(MyCouponDTO.toEntity(m));
         }
         return couponDTOList;
+    }
+
+    @Override
+    public List<PointDTO> pointList() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<PointDTO> pointDTOList = new ArrayList<>();
+        for (PointEntity p : customerEntity.get().getPointEntityList()){
+            pointDTOList.add(PointDTO.toEntity(p));
+        }
+        return pointDTOList;
+    }
+
+    @Override
+    public List<ReviewDetailDTO> reviewList() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<ReviewDetailDTO> reviewDetailDTOList = new ArrayList<>();
+        for (ReviewEntity r : customerEntity.get().getReviewEntityList()){
+            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
+        }
+        for (ReviewDetailDTO r : reviewDetailDTOList){
+            r.setReplyDetailDTO(ReplyDetailDTO.toEntity(rpr.findById(r.getReviewNumber()).get()));
+            for (ReviewFileEntity rf : r.getReviewFileEntityList()){
+                r.getReviewFileDTOList().add(ReviewFileDTO.toEntity(rf));
+            }
+        }
+        return reviewDetailDTOList;
+    }
+
+    @Override
+    public List<WishlistDTO> wishlist() {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<WishlistDTO> wishlistDTOList = new ArrayList<>();
+        for (WishlistEntity w : customerEntity.get().getWishlistEntity()){
+            wishlistDTOList.add(WishlistDTO.toEntity(w));
+        }
+        return wishlistDTOList;
     }
 }
