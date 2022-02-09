@@ -3,6 +3,7 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
@@ -56,35 +57,15 @@ public class StoreServiceImpl implements StoreService {
         }
         storeSaveDTO.setStoreFilename(storeFilename);
 
-        /*        MemberEntity memberEntity = mr.findByMemberEmail(boardSaveDTO.getBoardWriter());
-        BoardEntity boardEntity = BoardEntity.toSaveEntity(boardSaveDTO, memberEntity);
-        * */
+
         BigCategoryEntity bigCategoryEntity = bcr.findBybigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);
         return sr.save(storeEntity).getStoreNumber();
     }
 
-    @Override
-    public List<StoreDetailDTO> findAll() {
+/*    @Override
+    public void bcsave(BigCategoryDTO bigCategoryDTO) {
+        BigCategoryEntity bigCategoryEntity = BigCategoryEntity.saveBc(bigCategoryDTO);
+    }*/
 
-        List<StoreEntity> storeEntityList = sr.findAll();
-        List<StoreDetailDTO> storeList = new ArrayList<>();
-        for (StoreEntity se : storeEntityList)  {
-            storeList.add(StoreDetailDTO.toStoreDetailDTO(se));
-        }
-
-        System.out.println("StoreServiceImpl.findAll");
-        return storeList;
-    }
-
-    @Override
-    public StoreDetailDTO findById(Long bigCategoryNumber) {
-        Optional<StoreEntity> optionalStoreEntity = sr.findById(bigCategoryNumber);
-        StoreDetailDTO storeDetailDTO = null;
-        if (optionalStoreEntity.isPresent())    {
-            StoreEntity storeEntity = optionalStoreEntity.get();
-            storeDetailDTO = StoreDetailDTO.toStoreDetailDTO(storeEntity);
-        }
-        return storeDetailDTO;
-    }
 }

@@ -15,23 +15,6 @@
     </header>
 
     <section>
-        <section class="test">
-           <!-- <span th:text="${session['storeEmail']}">님</span>-->
-            <table>
-                <thead>
-                </tr>
-                <th>사진</th>
-                <th>업체명</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="store: ${storeList}">
-                    <td th:text="${store.storeName}"></td>
-                    <td th:text="${store.storeEmail}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
 
         <section class = "menuClickButton">
             <a href = "/store/category/1"> 한식 </a>
