@@ -2,6 +2,7 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class StoreServiceImpl implements StoreService {
         }
         storeSaveDTO.setStoreFilename(storeFilename);
 
+        /*BigCategoryEntity bigCategoryEntity = bc.findByBigCategoryNumber();*/
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO);
         return sr.save(storeEntity).getStoreNumber();
     }

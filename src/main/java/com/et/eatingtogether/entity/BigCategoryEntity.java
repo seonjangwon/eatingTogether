@@ -19,6 +19,7 @@ public class BigCategoryEntity {
 
     private String bigCategoryName;
 
+    // 대분류 : 업장 1:n
     @OneToMany(mappedBy = "bigCategoryEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<StoreEntity> storeEntities;
 }

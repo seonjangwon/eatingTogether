@@ -57,14 +57,16 @@ public class StoreEntity {
     private StoreBlacklistEntity storeBlacklistEntity;
 
     public static StoreEntity toSaveStore(StoreSaveDTO storeSaveDTO) {
+    /*public static StoreEntity toSaveStore(StoreSaveDTO storeSaveDTO, BigCategoryEntity bigCategoryEntity) {*/
         StoreEntity storeEntity = new StoreEntity();
-        storeEntity.setStoreEmail(storeSaveDTO.storeEmail);
+        /*storeEntity.setBigCategoryEntity(bigCategoryEntity);*/
+        storeEntity.setStoreEmail(storeSaveDTO.getStoreEmail());
         storeEntity.setStorePassword(storeSaveDTO.getStorePassword());
         storeEntity.setStoreFilename(storeSaveDTO.getStoreFilename());
         storeEntity.setStoreName(storeSaveDTO.getStoreName());
         storeEntity.setStorePhone(storeSaveDTO.getStorePhone());
         storeEntity.setStoreOpen(storeSaveDTO.getStoreOpen());
-        storeEntity.setStoreClose(storeEntity.getStoreClose());
+        storeEntity.setStoreClose(storeSaveDTO.getStoreClose());
         storeEntity.setStoreAddress(storeSaveDTO.getStoreAddress());
 
         return storeEntity;
