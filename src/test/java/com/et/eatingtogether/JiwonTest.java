@@ -36,7 +36,7 @@ public class JiwonTest {
     public void newMembers() {
     }
 
-    @Test
+/*    @Test
     @DisplayName("대분류생성")
     public void AddBcList() {
         BigCategoryEntity bc1 = new BigCategoryEntity("ㅎㅎ",1L);
@@ -45,7 +45,7 @@ public class JiwonTest {
         List<BigCategoryEntity> bcList = new ArrayList<>();
         bcr.saveAll(bcList);
         System.out.println("흠");
-    }
+    }*/
 
     @Test
     @Transactional

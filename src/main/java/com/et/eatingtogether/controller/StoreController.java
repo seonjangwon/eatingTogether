@@ -24,7 +24,7 @@ public class StoreController {
     private final StoreService ss;
     private final BigCategoryRepository bcr;
 
-    @PostMapping("/saveBc")
+/*    @PostMapping("./storeMain")
     public ResponseEntity<String> insertBc (){
         BigCategoryEntity bc1 = new BigCategoryEntity("한식",1L);
         BigCategoryEntity bc2 = new BigCategoryEntity("중식",2L);
@@ -36,7 +36,7 @@ public class StoreController {
         bcr.saveAll(bigCategoryEntities);
         System.out.println("일단ㅋ");
         return new ResponseEntity(HttpStatus.OK);
-    }
+    }*/
 
 
 }

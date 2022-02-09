@@ -23,10 +23,6 @@ public class BigCategoryEntity {
     @OneToMany(mappedBy = "bigCategoryEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<StoreEntity> storeEntities;
 
-    public BigCategoryEntity (String bigCategoryName, Long bigCategoryNumber ){
-        this.bigCategoryNumber = bigCategoryNumber;
-        this.bigCategoryName = bigCategoryName;
-    }
 
 /*    public static BigCategoryEntity saveBc(BigCategoryDTO bigCategoryDTO) {
         BigCategoryEntity bigCategoryEntity = new BigCategoryEntity();
