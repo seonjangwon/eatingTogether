@@ -77,6 +77,7 @@ public class UsualController2 {
             }   else {
                 System.out.println("로그인실패");
                 return "usual/storeLogin";
+                /*return "./store/category";*/
             }
     }
 

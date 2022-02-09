@@ -10,14 +10,46 @@
 <!-- 필요한 정보: 로그인정보(이메일,비밀번호) / 가게정보(가게명, 가게사진, 연락처, 오픈시간, 마감시간, 가게주소)_업체 메뉴분류 / 배달가능지역 -->
 <form action = "/usual/store" enctype="multipart/form-data" method="post">
 <!-- 업종 분류 -->
-    <select class="form-select" id="bigCategory-select" name="big" aria-label="Default select example">
+    <select class="form-select" name="bigCategoryNumber" aria-label="Default select example">
         <option selected>대분류 선택</option>
-        <option value="1">한식</option>
-        <option value="2">중식</option>
-        <option value="3">일식</option>
-        <option value="4">양식</option>
-        <option value="5">패스트푸드</option>
+        <option value="1" >한식전문</option>
+        <option value="2" >중식전문</option>
+        <option value="3" >일식전문</option>
+        <option value="4" >양식전문</option>
+        <option value="5" >패스트푸드/기타</option>
     </select>
+<!--    <div class="form-check">
+        <div class="bigCategoryCheck">
+            <input class="form-check-input" type="radio" name="bigCategoryNumber" value="1" id="koreanFood">
+            <label class="form-check-label" for="koreanFood">
+                한식
+            </label>
+        </div>
+        <div class="bigCategoryCheck">
+            <input class="form-check-input" type="radio" name="bigCategoryNumber" value="2" id="chinaFood" >
+            <label class="form-check-label" for="chinaFood">
+                중식
+            </label>
+        </div>
+        <div class="bigCategoryCheck">
+            <input class="form-check-input" type="radio" name="bigCategoryNumber" value="3" id="japanFood">
+            <label class="form-check-label" for="japanFood">
+                일식
+            </label>
+        </div>
+        <div class="bigCategoryCheck">
+            <input class="form-check-input" type="radio" name="bigCategoryNumber" value="4" id="yankeeFood">
+            <label class="form-check-label" for="yankeeFood">
+                양식
+            </label>
+        </div>
+        <div class="bigCategoryCheck">
+            <input class="form-check-input" type="radio" name="bigCategoryNumber" value="5" id="fastFood" >
+            <label class="form-check-label" for="fastFood">
+                패스트푸드
+            </label>
+        </div>
+    </div>-->
 
 
 <!-- <div id="loginEssential">-->

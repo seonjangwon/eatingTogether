@@ -1,9 +1,11 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
+import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,11 +13,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
     private final StoreRepository sr;
+    private final BigCategoryRepository bcr;
 
 
     @Override
@@ -48,8 +56,35 @@ public class StoreServiceImpl implements StoreService {
         }
         storeSaveDTO.setStoreFilename(storeFilename);
 
-        /*BigCategoryEntity bigCategoryEntity = bc.findByBigCategoryNumber();*/
-        StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO);
+        /*        MemberEntity memberEntity = mr.findByMemberEmail(boardSaveDTO.getBoardWriter());
+        BoardEntity boardEntity = BoardEntity.toSaveEntity(boardSaveDTO, memberEntity);
+        * */
+        BigCategoryEntity bigCategoryEntity = bcr.findBybigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
+        StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);
         return sr.save(storeEntity).getStoreNumber();
+    }
+
+    @Override
+    public List<StoreDetailDTO> findAll() {
+
+        List<StoreEntity> storeEntityList = sr.findAll();
+        List<StoreDetailDTO> storeList = new ArrayList<>();
+        for (StoreEntity se : storeEntityList)  {
+            storeList.add(StoreDetailDTO.toStoreDetailDTO(se));
+        }
+
+        System.out.println("StoreServiceImpl.findAll");
+        return storeList;
+    }
+
+    @Override
+    public StoreDetailDTO findById(Long bigCategoryNumber) {
+        Optional<StoreEntity> optionalStoreEntity = sr.findById(bigCategoryNumber);
+        StoreDetailDTO storeDetailDTO = null;
+        if (optionalStoreEntity.isPresent())    {
+            StoreEntity storeEntity = optionalStoreEntity.get();
+            storeDetailDTO = StoreDetailDTO.toStoreDetailDTO(storeEntity);
+        }
+        return storeDetailDTO;
     }
 }

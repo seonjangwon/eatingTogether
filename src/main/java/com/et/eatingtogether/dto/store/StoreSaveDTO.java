@@ -25,4 +25,6 @@ public class StoreSaveDTO {
     private String storeOpen;
     private String storeClose;
     private String storeAddress;
+
+
 }
