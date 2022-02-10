@@ -22,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository cr;
+    private final StoreRepository sr;
     private final ReplyRepository rpr;
     private final DeliveryRepository dr;
     private final BasketRepository br;
@@ -169,7 +170,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public int deliveryPrice(Long storeNumber) {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
-        Optional<DeliveryEntity> deliveryEntity = dr.findByIdAndDeliveryDname(storeNumber, customerEntity.get().getCustomerDname());
+        Optional<DeliveryEntity> deliveryEntity = dr.findByStoreEntityAndDeliveryDname(sr.findById(storeNumber).get(), customerEntity.get().getCustomerDname());
 
         return deliveryEntity.get().getDeliveryPrice();
     }
