@@ -20,20 +20,20 @@
         <option value="5" >패스트푸드/기타</option>
     </select>
 
-     <input type="text" id="storeEmail" name = "storeEmail" placeholder="이메일">
-     <input type="password" id="storePassword" name = "storePassword" placeholder="비밀번호">
+     <input type="text" th:field = "*{storeEmail}" placeholder="이메일">
+     <input type="password" th:field = "*{storePassword}" placeholder="비밀번호">
 
-     <input type="text" id="storeName" name = "storeName" placeholder="매장명"><br>
-     <input type="file" id="storeFile" name = "storeFile" placeholder="파일"><br>
-     <input type="text" id="storePhone" name = "storePhone" placeholder="매장연락처"><br>
-     오픈시간: <input type="time" id="storeOpen" name = "storeOpen">  마감시간: <input type="time" id="storeClose" name = "storeClose"><br>
+     <input type="text" th:field = "*{storeName}" placeholder="매장명"><br>
+     <input type="file" th:field = "*{storeFile}" placeholder="파일"><br>
+     <input type="text" th:field = "*{storePhone}" placeholder="매장연락처"><br>
+     오픈시간: <input type="time" th:field = "*{storeOpen}">  마감시간: <input type="time" id="storeClose" name = "storeClose"><br>
 
     <div id = storeAddressForm>
      <input type="text" id="sample3_postcode" placeholder="우편번호">
      <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-     <input type="text" id="sample3_address" name="storeAddress" placeholder="주소"><br>
-     <input type="text" id="sample3_detailAddress" name="storeAddress" placeholder="상세주소">
-     <input type="text" id="sample3_extraAddress" name="storeAddress" placeholder="참고항목">
+     <input type="text" id="sample3_address" th:field = "*{storeAddress}" placeholder="주소"><br>
+     <input type="text" id="sample3_detailAddress" th:field = "*{storeAddress}" placeholder="상세주소">
+     <input type="text" id="sample3_extraAddress" th:field = "*{storeAddress}" placeholder="참고항목">
          <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
              <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
          </div>
