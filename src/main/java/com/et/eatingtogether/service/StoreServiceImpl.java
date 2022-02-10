@@ -51,15 +51,21 @@ public class StoreServiceImpl implements StoreService {
         storeFilename = System.currentTimeMillis()+"-"+storeFilename;
         System.out.println("파일이름: "+storeFilename);
         String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\"+storeFilename;
-
         if (!storeFile.isEmpty()){
             storeFile.transferTo(new File(savePath));
         }
         storeSaveDTO.setStoreFilename(storeFilename);
 
-
         BigCategoryEntity bigCategoryEntity = bcr.findBybigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);
+
+        //0210 사용자가 입력한 이메일 중복체크
+        StoreEntity emailCheckResult = sr.findByStoreEmail(storeSaveDTO.getStoreEmail());
+        if (emailCheckResult != null)   { //64. 입력한 email이 null이 아닐 경우 65.예외 발생
+            throw  new IllegalStateException("중복된 이메일입니다.");
+            // 예외 종류: IllegalStateException, 예외 메세지: 중복된 이메일입니다.
+        }
+
         return sr.save(storeEntity).getStoreNumber();
     }
 

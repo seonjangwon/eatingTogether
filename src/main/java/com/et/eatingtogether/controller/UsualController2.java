@@ -27,18 +27,36 @@ public class UsualController2 {
 
     //2-1
     @GetMapping("/store")
-    public String storeSaveForm (){
+    public String storeSaveForm (Model model){
         System.out.println("UsualController2.storeSaveForm");
+        model.addAttribute("storeSave", new StoreSaveDTO());
         return "usual/storeSave";
     }
     //2-2
     @PostMapping("/store")
-    public String storeSave (@ModelAttribute StoreSaveDTO storeSaveDTO) throws IOException {
+    public String storeSave (@ModelAttribute StoreSaveDTO storeSaveDTO, @Validated BindingResult bindingResult) throws IOException {
         System.out.println("UsualController2.storeSave처리");
+        System.out.println("storeSaveDTO="+storeSaveDTO);
+        // 유효성
+        if(bindingResult.hasErrors()) {
+            return "usual/store";
+        }
 
-        Long storeId = ss.save(storeSaveDTO);
-        return "./storeMain";
+        // Id 중복체크
+        try {
+            Long storeId = ss.save(storeSaveDTO);
+        }   catch (IllegalStateException email) {
+            bindingResult.reject("emailCheck", email.getMessage());
+            //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
+
+            return "usual/store";
+        }
+
+
+        return "redirect:./storeMain";
         /*return "/store/deliverySave";*/
+
+
     }
 
 /*    //2-2-1 이메일 중복확인

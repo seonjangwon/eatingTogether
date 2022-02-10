@@ -9,7 +9,7 @@
 <body>
 가입폼
 <!-- 필요한 정보: 로그인정보(이메일,비밀번호) / 가게정보(가게명, 가게사진, 연락처, 오픈시간, 마감시간, 가게주소)_업체 메뉴분류 / 배달가능지역 -->
-<form action = "/usual/store" id="storeSaveForm" enctype="multipart/form-data" method="post">
+<form action = "/usual/store" id="storeSaveForm" th:object="${storeSave}" enctype="multipart/form-data" method="post">
     <!-- 업종 분류 -->
     <select class="form-select" name="bigCategoryNumber" aria-label="Default select example">
         <option selected>대분류 선택</option>
