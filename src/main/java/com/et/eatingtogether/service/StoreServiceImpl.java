@@ -69,6 +69,19 @@ public class StoreServiceImpl implements StoreService {
         return sr.save(storeEntity).getStoreNumber();
     }
 
+    @Override
+    public List<StoreDetailDTO> findAll() {
+        List<StoreEntity> storeEntityList = sr.findAll();
+        List<StoreDetailDTO> storeList = new ArrayList<>();
+
+            for(StoreEntity se: storeEntityList)    {
+                //Entity 객체를 StoreDetailDTO 로 변환, storeList에 담음.
+                storeList.add(StoreDetailDTO.toStoreDetailDTO(se));
+            }
+
+        return storeList;
+    }
+
 /*    @Override
     public void bcsave(BigCategoryDTO bigCategoryDTO) {
         BigCategoryEntity bigCategoryEntity = BigCategoryEntity.saveBc(bigCategoryDTO);

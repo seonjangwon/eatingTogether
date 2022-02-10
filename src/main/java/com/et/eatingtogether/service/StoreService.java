@@ -13,5 +13,7 @@ public interface StoreService {
 
     Long save(StoreSaveDTO storeSaveDTO) throws IOException;
 
-  /*  void bcsave(BigCategoryDTO bigCategoryDTO);*/
+    List<StoreDetailDTO> findAll();
+
+    /*  void bcsave(BigCategoryDTO bigCategoryDTO);*/
 }
