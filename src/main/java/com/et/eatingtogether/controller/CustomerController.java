@@ -117,4 +117,14 @@ public class CustomerController {
         cs.menuDelete(basketNumber);
         return "ok";
     }
+
+    @GetMapping("/payment")
+    public String paymentForm(Model model){
+        // 내 정보 (주소 연락처 포인트)
+        // 요청사항
+        // 결제 수단
+        // 쿠폰 갯수, 리스트
+        // 결제 금액 주문금액 배달팁 총액
+        return "";
+    }
 }

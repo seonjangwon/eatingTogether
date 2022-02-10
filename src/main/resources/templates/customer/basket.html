@@ -55,9 +55,6 @@
                 }
             });
         }
-        const order_btn = () =>{
-
-        }
     </script>
 </head>
 <body>
@@ -98,7 +95,7 @@
     <h3>총 주문 금액 : <p th:text="${totalPrice}"></p></h3>
     <h3>배달비 : <p th:text="${deliveryPrice}"></p></h3>
     <h3>결제 예정 금액 : <p th:text="${totalPrice + deliveryPrice}"></p></h3>
-    <button onclick="order_btn()">주문 하기</button>
+    <a href="/customer/payment">주문 하기</a>
 </div>
 <div th:if="${basketList == null}">
     <h3>장바구니가 비었어요!</h3>
