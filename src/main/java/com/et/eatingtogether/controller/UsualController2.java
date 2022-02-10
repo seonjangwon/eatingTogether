@@ -39,21 +39,22 @@ public class UsualController2 {
         System.out.println("storeSaveDTO="+storeSaveDTO);
         // 유효성
         if(bindingResult.hasErrors()) {
-            return "usual/store";
+            return "redirect:/usual/store";
         }
+        Long storeId = ss.save(storeSaveDTO);
 
         // Id 중복체크
-        try {
+/*        try {
             Long storeId = ss.save(storeSaveDTO);
         }   catch (IllegalStateException email) {
             bindingResult.reject("emailCheck", email.getMessage());
             //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
 
             return "usual/store";
-        }
+        }*/
 
 
-        return "redirect:./storeMain";
+        return "/storeMain";
         /*return "/store/deliverySave";*/
 
 

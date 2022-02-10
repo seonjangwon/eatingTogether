@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.sql.Time;
 
 @Data
@@ -15,11 +16,15 @@ public class StoreSaveDTO {
 
     private Long bigCategoryNumber;
 
+    @NotBlank(message = "필수기재 사항입니다")
     private String storeEmail;
+    @NotBlank(message = "필수기재 사항입니다")
     private String storePassword;
 
     private MultipartFile storeFile;
     private String storeFilename;
+
+    @NotBlank(message = "필수기재 사항입니다")
     private String storeName;
     private String storePhone;
     private String storeOpen;

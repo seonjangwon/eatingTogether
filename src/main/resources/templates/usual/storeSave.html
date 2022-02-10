@@ -21,9 +21,14 @@
     </select>
 
      <input type="text" th:field = "*{storeEmail}" placeholder="이메일">
-     <input type="password" th:field = "*{storePassword}" placeholder="비밀번호">
+        <p th:if="${#fields.hasErrors('storeEmail')}" th:errors="*{storeEmail}"></p>
+        <!-- fields.hasErrors 안의 내용은 DTO 내의 필드명 -->
+    <br>
+     <input type="password" th:field = "*{storePassword}" placeholder="비밀번호"><br>
+        <p th:if="${#fields.hasErrors('storePassword')}" th:errors="*{storePassword}"></p>
 
      <input type="text" th:field = "*{storeName}" placeholder="매장명"><br>
+        <p th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}"></p>
      <input type="file" th:field = "*{storeFile}" placeholder="파일"><br>
      <input type="text" th:field = "*{storePhone}" placeholder="매장연락처"><br>
      오픈시간: <input type="time" th:field = "*{storeOpen}">  마감시간: <input type="time" id="storeClose" name = "storeClose"><br>
