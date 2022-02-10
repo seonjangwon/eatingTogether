@@ -5,13 +5,55 @@
     <title>basket</title>
     <script>
         const menuDown_btn = (basketNumber) =>{
-
+            $.ajax({
+               type:'put',
+               url:'customer/menu',
+               data:{"basketNumber":basketNumber,"type":"down"},
+               dataType:'text',
+               success:function (result){
+                   console.log(result);
+                   if (result==="ok"){
+                       location.reload();
+                   }
+               },
+               error:function (){
+                   alert('아작아작');
+               }
+            });
         }
         const menuUp_btn = (basketNumber) =>{
-
+            $.ajax({
+                type:'put',
+                url:'customer/menu',
+                data:{"basketNumber":basketNumber,"type":"up"},
+                dataType:'text',
+                success:function (result){
+                    console.log(result);
+                    if (result==="ok"){
+                        location.reload();
+                    }
+                },
+                error:function (){
+                    alert('아작아작');
+                }
+            });
         }
         const menuDelete_btn = (basketNumber) =>{
-
+            $.ajax({
+                type:'delete',
+                url:"customer/menu",
+                data:{"basketNumber":basketNumber},
+                dataType:'text',
+                success:function (result){
+                    console.log(result);
+                    if (result==="ok"){
+                        location.reload();
+                    }
+                },
+                error:function (){
+                    alert('아작아작');
+                }
+            });
         }
         const order_btn = () =>{
 
@@ -40,9 +82,12 @@
                 <td th:text="${b.menuNumber}"></td>
                 <td><img th:src="@{|/upload/store/${b.menuFilename}|}" alt=""></td>
                 <td th:text="${b.menuName}"></td>
-                <td th:text="${b.menuPrice}"></td>
+                <td th:text="${b.menuPrice * b.menuCount}"></td>
                 <td>
-                    <button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button>
+                    <div th:switch="${b.menuCount}">
+                        <p th:case="1"><button>-</button></p>
+                        <p th:case="*"><button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></p>
+                    </div>
                     <p th:text="${b.menuCount}"></p>
                     <button th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
                 </td>

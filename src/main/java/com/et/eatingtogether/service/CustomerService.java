@@ -35,4 +35,8 @@ public interface CustomerService {
     List<BasketDTO> basketList();
 
     int deliveryPrice(Long storeNumber);
+
+    String menuUpDown(Long basketNumber, String type);
+
+    void menuDelete(Long basketNumber);
 }

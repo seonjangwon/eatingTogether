@@ -95,12 +95,26 @@ public class CustomerController {
         String storeName = basketDTOList.get(0).getStoreName();
         int totalPrice = 0;
         for (BasketDTO b : basketDTOList){
-            totalPrice += b.getMenuPrice();
+            totalPrice += b.getMenuPrice() * b.getMenuCount();
         }
         int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
         model.addAttribute("basketList",basketDTOList);
         model.addAttribute("totalPrice",totalPrice);
         model.addAttribute("deliveryPrice",deliveryPrice);
         return "customer/basket";
+    }
+    @PutMapping("/menu")
+    @ResponseBody
+    public String menuUpDown(@RequestParam("basketNumber") Long basketNumber,
+                             @RequestParam("type") String type){
+        String result = cs.menuUpDown(basketNumber,type);
+        return result;
+    }
+
+    @DeleteMapping("/menu")
+    @ResponseBody
+    public String menuDelete(@RequestParam("basketNumber") Long basketNumber){
+        cs.menuDelete(basketNumber);
+        return "ok";
     }
 }

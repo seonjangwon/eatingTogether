@@ -9,10 +9,7 @@ import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.*;
-import com.et.eatingtogether.repository.CustomerRepository;
-import com.et.eatingtogether.repository.DeliveryRepository;
-import com.et.eatingtogether.repository.ReplyRepository;
-import com.et.eatingtogether.repository.ReviewFileRepository;
+import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +24,7 @@ public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository cr;
     private final ReplyRepository rpr;
     private final DeliveryRepository dr;
+    private final BasketRepository br;
     private final HttpSession session;
 
     @Override
@@ -174,5 +172,23 @@ public class CustomerServiceImpl implements CustomerService{
         Optional<DeliveryEntity> deliveryEntity = dr.findByIdAndDeliveryDname(storeNumber, customerEntity.get().getCustomerDname());
 
         return deliveryEntity.get().getDeliveryPrice();
+    }
+
+    @Override
+    public String menuUpDown(Long basketNumber, String type) {
+        Optional<BasketEntity> basketEntity = br.findById(basketNumber);
+        if (type.equals("up")){
+            basketEntity.get().setBasketMenuCount(basketEntity.get().getBasketMenuCount()+1);
+            br.save(basketEntity.get());
+        } else {
+            basketEntity.get().setBasketMenuCount(basketEntity.get().getBasketMenuCount()-1);
+            br.save(basketEntity.get());
+        }
+        return "ok";
+    }
+
+    @Override
+    public void menuDelete(Long basketNumber) {
+        br.deleteById(basketNumber);
     }
 }
