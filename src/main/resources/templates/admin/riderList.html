@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>라이더 리스트</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>라이더번호</th>
+        <th>라이더이름</th>
+        <th>라이더상태</th>
+    </tr>
+    <tr th:each = "rider : ${riderList}">
+        <td th:text="${rider.riderNumber}"></td>
+        <td th:text="${rider.riderName}"></td>
+        <td th:text="${rider.riderState}"></td>
+    </tr>
+</table>
+</body>
+</html>

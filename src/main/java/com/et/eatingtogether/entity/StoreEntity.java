@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,4 +55,12 @@ public class StoreEntity {
 
     @OneToOne(mappedBy = "storeEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private StoreBlacklistEntity storeBlacklistEntity;
+
+    public static StoreEntity toStoreSave(StoreSaveDTO storeSaveDTO){
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setStoreName(storeSaveDTO.getStoreName());
+        return storeEntity;
+    }
+
+
 }
