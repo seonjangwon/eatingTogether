@@ -51,8 +51,4 @@ public class UsualController1 {
 //        session.invalidate();
 //    }
 
-
-
-
-
 }

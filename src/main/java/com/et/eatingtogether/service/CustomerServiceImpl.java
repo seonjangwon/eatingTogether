@@ -52,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService{
             return "no";
         }
     }
-
     // 회원가입
     @Override
     public Long save(CustomerSaveDTO customerSaveDTO) {

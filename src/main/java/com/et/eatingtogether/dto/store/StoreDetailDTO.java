@@ -4,11 +4,20 @@ import com.et.eatingtogether.entity.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreDetailDTO {
+
+
+    private Long bigCategoryNumber;
+
+    private String storeEmail;
+    private String storePassword;
+
+    private MultipartFile storeFile;
     private Long storeNumber;
     private Long bicCategoryNumber;
     private String storeEmail;
@@ -19,6 +28,20 @@ public class StoreDetailDTO {
     private String storeOpen;
     private String storeClose;
     private String storeAddress;
+
+    //MemberEntity -> MemberDetailDTO
+
+    public static StoreDetailDTO toStoreDetailDTO (StoreEntity storeEntity){
+        StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
+        /*storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity());*/
+        storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
+        storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
+        storeDetailDTO.setStoreName(storeEntity.getStoreName());
+        storeDetailDTO.setStoreFilename(storeEntity.getStoreFilename());
+        storeDetailDTO.setStorePhone(storeEntity.getStorePhone());
+        storeDetailDTO.setStoreOpen(storeEntity.getStoreOpen());
+        storeDetailDTO.setStoreClose(storeEntity.getStoreClose());
+        storeDetailDTO.setStoreAddress(storeEntity.getStoreAddress());
     private int storeWish;
 
     public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
@@ -29,3 +52,4 @@ public class StoreDetailDTO {
     }
 
 }
+

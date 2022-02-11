@@ -8,4 +8,6 @@ import lombok.NoArgsConstructor;
 //@AllArgsConstructor
 //@NoArgsConstructor
 public class BigCategoryDTO {
+    private Long bigCategoryNumber;
+    private String bigCategoryName;
 }

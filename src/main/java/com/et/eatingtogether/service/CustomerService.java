@@ -1,6 +1,7 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 
 public interface CustomerService {

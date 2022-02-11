@@ -33,8 +33,4 @@ public class CustomerDetailDTO {
         // 배달 가능 지역은 보여줄 필요 없겠지
         return customerDetailDTO;
     }
-
-
-
-
 }
