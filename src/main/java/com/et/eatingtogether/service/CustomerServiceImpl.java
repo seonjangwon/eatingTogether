@@ -198,6 +198,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void menuDelete(Long basketNumber) {
         br.deleteById(basketNumber);
+    }
 
     // 회원가입
     @Override

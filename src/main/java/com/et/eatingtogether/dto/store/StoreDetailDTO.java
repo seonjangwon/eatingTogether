@@ -20,14 +20,14 @@ public class StoreDetailDTO {
     private MultipartFile storeFile;
     private Long storeNumber;
     private Long bicCategoryNumber;
-    private String storeEmail;
-    private String storePassword;
+
     private String storeFilename;
     private String storeName;
     private String storePhone;
     private String storeOpen;
     private String storeClose;
     private String storeAddress;
+    private int storeWish;
 
     //MemberEntity -> MemberDetailDTO
 
@@ -42,9 +42,10 @@ public class StoreDetailDTO {
         storeDetailDTO.setStoreOpen(storeEntity.getStoreOpen());
         storeDetailDTO.setStoreClose(storeEntity.getStoreClose());
         storeDetailDTO.setStoreAddress(storeEntity.getStoreAddress());
-    private int storeWish;
+        return storeDetailDTO;
+    }
 
-    public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
+    public static StoreDetailDTO toStoreDetailDTO1(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
         storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());

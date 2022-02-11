@@ -114,7 +114,7 @@ public class sunyoungTest {
     @DisplayName("업체등록 테스트")
     public void storeSaveTest(){
         IntStream.rangeClosed(1,10).forEach(i->{
-            as.storeSave(new StoreSaveDTO("이름"+i));
+            //as.storeSave(new StoreSaveDTO("이름"+i));
         });
     }
 
