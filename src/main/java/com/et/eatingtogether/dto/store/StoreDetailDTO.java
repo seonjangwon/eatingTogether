@@ -11,12 +11,17 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class StoreDetailDTO {
 
+
     private Long bigCategoryNumber;
 
     private String storeEmail;
     private String storePassword;
 
     private MultipartFile storeFile;
+    private Long storeNumber;
+    private Long bicCategoryNumber;
+    private String storeEmail;
+    private String storePassword;
     private String storeFilename;
     private String storeName;
     private String storePhone;
@@ -37,6 +42,12 @@ public class StoreDetailDTO {
         storeDetailDTO.setStoreOpen(storeEntity.getStoreOpen());
         storeDetailDTO.setStoreClose(storeEntity.getStoreClose());
         storeDetailDTO.setStoreAddress(storeEntity.getStoreAddress());
+    private int storeWish;
+
+    public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
+        StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
+        storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
+        storeDetailDTO.setStoreName(storeEntity.getStoreName());
         return storeDetailDTO;
     }
 

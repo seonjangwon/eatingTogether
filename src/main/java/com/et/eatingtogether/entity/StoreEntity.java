@@ -73,5 +73,9 @@ public class StoreEntity {
         return storeEntity;
 
     }
-
+    public static StoreEntity toStoreSave(StoreSaveDTO storeSaveDTO){
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setStoreName(storeSaveDTO.getStoreName());
+        return storeEntity;
+    }
 }

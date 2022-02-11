@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>업체목록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        function deleteById(storeNumber){
+            const reqUrl = "/admin/store" + storeNumber;
+            $.ajax({
+                type : "delete",
+                url : reqUrl,
+                data : {"storeNumber" : storeNumber},
+                dataType : "text",
+                success : function(result){
+                    location.href="/admin/store";
+                },
+                error : function(){
+                    console.log('ajax실패');
+                }
+
+
+            })
+        }
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>업체번호</th>
+        <th>업체이메일</th>
+        <th>업체이름</th>
+        <th>업체삭제</th>
+    </tr>
+    <tr th:each = "store : ${storeList}">
+        <td th:text="${store.storeNumber}"></td>
+        <td th:text="${store.storeEmail}"></td>
+        <td th:text="${store.storeName}"></td>
+        <td><button th:onclick="deleteById([[${store.storeNumber}]])">삭제</button></td>
+    </tr>
+</table>
+</body>
+</html>

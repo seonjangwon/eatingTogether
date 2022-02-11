@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.system.RiderDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,4 +18,11 @@ public class RiderEntity {
 
     private String riderName;
     private String riderState;
+
+    public static RiderEntity toRiderSave(RiderDTO riderDTO){
+        RiderEntity riderEntity = new RiderEntity();
+        riderEntity.setRiderName(riderDTO.getRiderName());
+        riderEntity.setRiderState(riderDTO.getRiderState());
+        return riderEntity;
+    }
 }

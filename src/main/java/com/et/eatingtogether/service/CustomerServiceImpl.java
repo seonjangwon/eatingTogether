@@ -1,6 +1,7 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 import com.et.eatingtogether.entity.CustomerEntity;
 import com.et.eatingtogether.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +51,24 @@ public class CustomerServiceImpl implements CustomerService{
             // 비밀 번호가 일치하지 않으면
             return "no";
         }
+    }
+    // 회원가입
+    @Override
+    public Long save(CustomerSaveDTO customerSaveDTO) {
+        // dto -> entity로 변환
+
+       return cr.save(CustomerEntity.toCustomerSave(customerSaveDTO)).getCustomerNumber();
+
+    }
+
+    @Override
+    public String findByCustomerEmail(String customerEmail) {
+//       cr.findByCustomerEmail(customerEmail);
+       if(cr.findByCustomerEmail(customerEmail).isEmpty()){
+           return "ok";
+       } else{
+           return "no";
+       }
+
     }
 }

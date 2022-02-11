@@ -32,4 +32,6 @@ public class StoreSaveDTO {
     private String storeAddress;
 
 
+
+    private String storeName;
 }
