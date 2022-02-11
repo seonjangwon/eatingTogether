@@ -10,6 +10,12 @@ import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
+
+import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
+import com.et.eatingtogether.entity.CustomerEntity;
+import com.et.eatingtogether.repository.CustomerRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +70,7 @@ public class CustomerServiceImpl implements CustomerService{
             return "no";
         }
     }
+
 
     @Override
     public List<OrderDTO> orderList() {
@@ -191,5 +198,25 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void menuDelete(Long basketNumber) {
         br.deleteById(basketNumber);
+
+    // 회원가입
+    @Override
+    public Long save(CustomerSaveDTO customerSaveDTO) {
+        // dto -> entity로 변환
+
+       return cr.save(CustomerEntity.toCustomerSave(customerSaveDTO)).getCustomerNumber();
+
+    }
+
+    @Override
+    public String findByCustomerEmail(String customerEmail) {
+//       cr.findByCustomerEmail(customerEmail);
+       if(cr.findByCustomerEmail(customerEmail).isEmpty()){
+           return "ok";
+       } else{
+           return "no";
+       }
+
+
     }
 }

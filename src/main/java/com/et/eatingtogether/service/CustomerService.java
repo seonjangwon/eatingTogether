@@ -9,6 +9,8 @@ import com.et.eatingtogether.dto.system.OrderMenuDTO;
 
 import java.util.List;
 
+import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
+
 public interface CustomerService {
     void login(CustomerDetailDTO customerDetailDTO);
 
@@ -39,4 +41,9 @@ public interface CustomerService {
     String menuUpDown(Long basketNumber, String type);
 
     void menuDelete(Long basketNumber);
+
+    Long save(CustomerSaveDTO customerSaveDTO);
+
+    String findByCustomerEmail(String customerEmail);
+
 }

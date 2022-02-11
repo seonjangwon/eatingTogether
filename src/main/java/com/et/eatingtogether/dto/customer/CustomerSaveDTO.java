@@ -8,4 +8,13 @@ import lombok.NoArgsConstructor;
 //@AllArgsConstructor
 //@NoArgsConstructor
 public class CustomerSaveDTO {
+    private String customerEmail;
+    private String customerPassword;
+    private String customerNickname;
+    private String customerAddress;
+    private String customerPhone;
+    private String customerDname;
+
+
+
 }

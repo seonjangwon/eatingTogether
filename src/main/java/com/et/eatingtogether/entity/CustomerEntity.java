@@ -1,6 +1,7 @@
 package com.et.eatingtogether.entity;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,6 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_number")
     private Long customerNumber;
-
     private String customerEmail;
     private String customerPassword;
     private String customerNickname;
@@ -65,5 +65,19 @@ public class CustomerEntity {
         customerEntity.setCustomerPhone(customerDetailDTO.getCustomerPhone());
         customerEntity.setCustomerDname(customerDetailDTO.getCustomerDname());
         return customerEntity;
+    }
+
+    //회원가입
+    public static CustomerEntity toCustomerSave(CustomerSaveDTO customerSaveDTO){
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setCustomerEmail(customerSaveDTO.getCustomerEmail());
+        customerEntity.setCustomerPassword(customerSaveDTO.getCustomerPassword());
+        customerEntity.setCustomerNickname(customerSaveDTO.getCustomerNickname());
+        customerEntity.setCustomerPhone(customerSaveDTO.getCustomerPhone());
+        customerEntity.setCustomerAddress(customerSaveDTO.getCustomerAddress());
+        customerEntity.setCustomerDname(customerSaveDTO.getCustomerDname());
+        return customerEntity;
+
+
     }
 }

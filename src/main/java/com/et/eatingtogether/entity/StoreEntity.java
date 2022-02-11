@@ -1,5 +1,7 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.store.StoreLoginDTO;
+import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,4 +56,26 @@ public class StoreEntity {
 
     @OneToOne(mappedBy = "storeEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private StoreBlacklistEntity storeBlacklistEntity;
+
+    public static StoreEntity toSaveStore(StoreSaveDTO storeSaveDTO,  BigCategoryEntity bigCategoryEntity) {
+        StoreEntity storeEntity = new StoreEntity();
+
+        storeEntity.setBigCategoryEntity(bigCategoryEntity);
+        storeEntity.setStoreEmail(storeSaveDTO.getStoreEmail());
+        storeEntity.setStorePassword(storeSaveDTO.getStorePassword());
+        storeEntity.setStoreFilename(storeSaveDTO.getStoreFilename());
+        storeEntity.setStoreName(storeSaveDTO.getStoreName());
+        storeEntity.setStorePhone(storeSaveDTO.getStorePhone());
+        storeEntity.setStoreOpen(storeSaveDTO.getStoreOpen());
+        storeEntity.setStoreClose(storeSaveDTO.getStoreClose());
+        storeEntity.setStoreAddress(storeSaveDTO.getStoreAddress());
+
+        return storeEntity;
+
+    }
+    public static StoreEntity toStoreSave(StoreSaveDTO storeSaveDTO){
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setStoreName(storeSaveDTO.getStoreName());
+        return storeEntity;
+    }
 }

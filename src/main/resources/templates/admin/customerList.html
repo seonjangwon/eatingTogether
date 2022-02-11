@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원조회</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <!--회원삭제-->
+    <script>
+        function deleteById(customerNumber){
+            const reqUrl = "/admin/" + customerNumber;
+            $.ajax({
+                type:"delete",
+                url : reqUrl,
+                data: {"customerNumber" : customerNumber},
+                dataType: "text",
+                success: function(result){
+                    console.log(result);
+                    location.href="/admin/customer";
+                },
+                error: function(){
+                    console.log('ajax실패');
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>회원번호</th>
+        <th>회원이메일</th>
+        <th>회원닉네임</th>
+        <th>회원삭제</th>
+    </tr>
+    <tr th:each = "customer : ${customerList}">
+        <td th:text="${customer.customerNumber}"></td>
+        <td th:text="${customer.customerEmail}"></td>S
+        <td th:text="${customer.customerNickname}"></td>
+        <td><button th:onclick="deleteById([[${customer.customerNumber}]])">삭제</button></td>
+    </tr>
+</table>
+</body>
+</html>
