@@ -46,15 +46,17 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("StoreSerivceImpl.storeSave");
 
         //가게사진 추가
-        MultipartFile storeFile = storeSaveDTO.getStoreFile();
-        String storeFilename = storeFile.getOriginalFilename();
-        storeFilename = System.currentTimeMillis()+"-"+storeFilename;
-        System.out.println("파일이름: "+storeFilename);
-        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\"+storeFilename;
-        if (!storeFile.isEmpty()){
-            storeFile.transferTo(new File(savePath));
+        if (!storeSaveDTO.getStoreFile().isEmpty()) {
+            MultipartFile storeFile = storeSaveDTO.getStoreFile();
+            String storeFilename = storeFile.getOriginalFilename();
+            storeFilename = System.currentTimeMillis()+"-"+storeFilename;
+            System.out.println("파일이름: "+storeFilename);
+            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\"+storeFilename;
+            if (!storeFile.isEmpty()){
+                storeFile.transferTo(new File(savePath));
+            }
+            storeSaveDTO.setStoreFilename(storeFilename);
         }
-        storeSaveDTO.setStoreFilename(storeFilename);
 
         BigCategoryEntity bigCategoryEntity = bcr.findBybigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);

@@ -41,7 +41,7 @@ public class UsualController2 {
         if(bindingResult.hasErrors()) {
             return "redirect:/usual/storeSave";
         }
-        /*Long storeId = ss.save(storeSaveDTO);*/
+        Long storeId = ss.save(storeSaveDTO);
 
         //Id 중복체크
         //아놔 재도전할거야 반드시...
