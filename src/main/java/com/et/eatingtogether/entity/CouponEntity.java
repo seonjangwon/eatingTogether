@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.system.CouponDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,4 +25,16 @@ public class CouponEntity {
 
     @OneToOne(mappedBy = "couponEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private MyCouponEntity myCouponEntity;
+
+
+    public static CouponEntity toCouponSave(CouponDTO couponDTO){
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName(couponDTO.getCouponName());
+        couponEntity.setCouponCondition(couponDTO.getCouponCondition());
+        couponEntity.setCouponPrice(couponDTO.getCouponPrice());
+        return couponEntity;
+    }
+
+
+
 }

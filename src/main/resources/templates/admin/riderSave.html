@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>라이더 등록</title>
 </head>
 <body>
-$END$
+<form action="/admin/rider" method="post" th:object="${rider}">
+    라이더 이름: <input type="text" th:field="*{riderName}" >
+    상태 : <select name="rider" th:field="*{riderState}">
+    <option value="wait">대기중</option>
+    <option value="ride">배달중</option>
+</select>
+    <input type="submit" value="라이더 등록">
+</form>
+
 </body>
 </html>
