@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>payment</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+<h2>payment</h2>
+<div>
+    <form th:object="${order}">
+        <div>
+            <h3>배달 정보</h3>
+            <input type="hidden" th:field="${order.customerNumber}" th:value="${customer.customerNumber}">
+            <span>
+                내 주소 : <p th:text="${customer.customerAddress}"></p>
+                연락처 : <p th:text="${customer.customerPhone}"></p>
+            </span>
+        </div>
+        <div>
+            <h3>요청 사항</h3>
+            사장님께 : <input type="text" th:field="${order.orderTomaster}"><br>
+            라이더님께 : <select th:field="${order.orderTorider}">
+            <option value="조심히 오세요">조심히 오세요</option>
+            <option value="안전 운전 하세요">안전 운전 하세요</option>
+            <option value="직접 입력">직접 입력</option>
+        </select>
+        </div>
+        <div>
+            <h3>결제 수단</h3>
+            <input type="radio" th:name="${order.orderType}" th:id="${order.orderType}1" value="신용카드"><label
+                th:for="${order.orderType}1">신용카드</label>
+            <input type="radio" th:name="${order.orderType}" th:id="${order.orderType}2" value="만나서결제"><label
+                th:for="${order.orderType}2">만나서 결제</label><br>
+            포인트 사용 : <input type="text" id="point_use_value" onblur="point_use()"><br>
+            내 포인트 : <input type="text" th:value="${customer.customerPoint}" readonly><br>
+            할인 쿠폰 :
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Launch demo modal
+            </button>
+        </div>
+        <div>
+            <h3>결제 금액</h3>
+        </div>
+    </form>
+</div>
+
+<!-- 쿠폰용 모달 -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal-dialog modal-dialog-scrollable" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

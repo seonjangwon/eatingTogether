@@ -121,10 +121,24 @@ public class CustomerController {
     @GetMapping("/payment")
     public String paymentForm(Model model){
         // 내 정보 (주소 연락처 포인트)
-        // 요청사항
-        // 결제 수단
+        CustomerDetailDTO customerDetailDTO = cs.findByEmail((String) session.getAttribute("customerLoginEmail"));
+        model.addAttribute("customer",customerDetailDTO); // 정보용
+        // 요청사항 이거는 여기서 안하지...? 모달로 필드만
+        // 결제 수단 이거도 모달로 필드만
+        model.addAttribute("order",new OrderDTO()); // 필드 출력용
         // 쿠폰 갯수, 리스트
+        List<MyCouponDTO> myCouponDTOList = cs.couponList();
+        model.addAttribute("coupon",myCouponDTOList); // 쿠폰 출력용
         // 결제 금액 주문금액 배달팁 총액
-        return "";
+        List<BasketDTO> basketDTOList = cs.basketList();
+        String storeName = basketDTOList.get(0).getStoreName();
+        int totalPrice = 0;
+        for (BasketDTO b : basketDTOList){
+            totalPrice += b.getMenuPrice() * b.getMenuCount();
+        }
+        int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
+        model.addAttribute("totalPrice",totalPrice); // 장바구니 총 금액
+        model.addAttribute("deliveryPrice",deliveryPrice); // 배달비 금액
+        return "customer/payment";
     }
 }
