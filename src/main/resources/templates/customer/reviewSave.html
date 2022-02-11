@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰등록</title>
+</head>
+<body>
+<form name="myform" id="myform" action="/review/" mehtod="post" th:object="${review}">
+    <fieldset th:field="*{reviewScore}">
+    <legend>별점</legend>
+    <input type="radio" name="rating" value="1" id="rate1">
+    <input type="radio" name="rating" value="2" id="rate2">
+    <input type="radio" name="rating" value="3" id="rate3">
+    <input type="radio" name="rating" value="4" id="rate4">
+    <input type="radio" name="rating" value="5" id="rate5">
+    </fieldset>
+    메뉴이름
+    내용 : <input type="text" th:field="*{reviewContents}">
+    사진 :
+    <input type="file" th:field="*{reviewFileDTOList[0].getReviewFilename}">
+    <input type="file" th:field="*{reviewFileDTOList[1].getReviewFilename}">
+    <input type="file" th:field="*{reviewFileDTOList[2].getReviewFilename}">
+</form>
+</body>
+</html>
