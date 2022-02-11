@@ -20,8 +20,12 @@
         <option value="5" >패스트푸드/기타</option>
     </select>
 
-     <input type="text" th:field = "*{storeEmail}" placeholder="이메일">
-        <p th:if="${#fields.hasErrors('storeEmail')}" th:errors="*{storeEmail}"></p>
+     <input type="text" th:field = "*{storeEmail}" placeholder="이메일" oublur="emailCheck()">
+        <p id= "emailCheck"></p>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:text="${#fields.globalErrors()}"></p>
+        </div>
+        <!--<p th:if="${#fields.hasErrors('storeEmail')}" th:errors="*{storeEmail}"></p>-->
         <!-- fields.hasErrors 안의 내용은 DTO 내의 필드명 -->
     <br>
      <input type="password" th:field = "*{storePassword}" placeholder="비밀번호"><br>
