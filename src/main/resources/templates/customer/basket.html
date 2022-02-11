@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>basket</title>
+    <script>
+        const menuDown_btn = (basketNumber) =>{
+            $.ajax({
+               type:'put',
+               url:'customer/menu',
+               data:{"basketNumber":basketNumber,"type":"down"},
+               dataType:'text',
+               success:function (result){
+                   console.log(result);
+                   if (result==="ok"){
+                       location.reload();
+                   }
+               },
+               error:function (){
+                   alert('아작아작');
+               }
+            });
+        }
+        const menuUp_btn = (basketNumber) =>{
+            $.ajax({
+                type:'put',
+                url:'customer/menu',
+                data:{"basketNumber":basketNumber,"type":"up"},
+                dataType:'text',
+                success:function (result){
+                    console.log(result);
+                    if (result==="ok"){
+                        location.reload();
+                    }
+                },
+                error:function (){
+                    alert('아작아작');
+                }
+            });
+        }
+        const menuDelete_btn = (basketNumber) =>{
+            $.ajax({
+                type:'delete',
+                url:"customer/menu",
+                data:{"basketNumber":basketNumber},
+                dataType:'text',
+                success:function (result){
+                    console.log(result);
+                    if (result==="ok"){
+                        location.reload();
+                    }
+                },
+                error:function (){
+                    alert('아작아작');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<h2>my basket</h2>
+<div th:if="${basketList != null}">
+    <h3><p th:text="${basketList[0].storeName}"></p></h3>
+    <table>
+        <thead>
+            <tr>
+                <th>일단 장바구니 번호</th>
+                <th>일단 메뉴 번호</th>
+                <th>메뉴 사진</th>
+                <th>메뉴 이름</th>
+                <th>가격</th>
+                <th>숫자</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${basketList}">
+                <td th:text="${b.basketNumber}"></td>
+                <td th:text="${b.menuNumber}"></td>
+                <td><img th:src="@{|/upload/store/${b.menuFilename}|}" alt=""></td>
+                <td th:text="${b.menuName}"></td>
+                <td th:text="${b.menuPrice * b.menuCount}"></td>
+                <td>
+                    <div th:switch="${b.menuCount}">
+                        <p th:case="1"><button>-</button></p>
+                        <p th:case="*"><button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></p>
+                    </div>
+                    <p th:text="${b.menuCount}"></p>
+                    <button th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
+                </td>
+                <td><p th:onclick="menuDelete_btn([[${b.basketNumber}]])"></p></td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>총 주문 금액 : <p th:text="${totalPrice}"></p></h3>
+    <h3>배달비 : <p th:text="${deliveryPrice}"></p></h3>
+    <h3>결제 예정 금액 : <p th:text="${totalPrice + deliveryPrice}"></p></h3>
+    <a href="/customer/payment">주문 하기</a>
+</div>
+<div th:if="${basketList == null}">
+    <h3>장바구니가 비었어요!</h3>
+</div>
+</body>
+</html>

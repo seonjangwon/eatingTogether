@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>order</title>
+</head>
+<body>
+<li>
+    <ul>
+        <li>배달 상태</li><p th:text="${order.orderNow}"></p>
+        <li>업체명</li><p th:text="${order.storeName}"></p>
+        <li>주문 날짜</li><p th:text="${order.orderTime}"></p>
+        <li>주문 번호</li><p th:text="${order.orderNumber}"></p>
+    </ul>
+    <ul th:each="menu : ${menuList}">
+        <li th:text="${menu.menuName}"></li>
+        <li th:text="${menu.orderMenuCount}"></li>
+        <li th:text="${menu.orderMenuPrice}"></li>
+    </ul>
+    <ul>
+        <li>총 금액</li><p th:text="${order.orderPrice}"></p>
+        <li>결제 방법</li><p th:text="${order.orderType}"></p>
+        <li>주소</li><p th:text="${customer.customerAddress}"></p>
+        <li>번호</li><p th:text="${customer.customerPhone}"></p>
+        <li>사장님께</li><p th:text="${order.orderTomaster}"></p>
+        <li>라이더님께</li><p th:text="${order.orderTorider}"></p>
+    </ul>
+</li>
+</body>
+</html>

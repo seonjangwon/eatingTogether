@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>review</title>
+</head>
+<body>
+<h2>my review</h2>
+<table>
+    <thead>
+        <tr>
+            <th>일단 번호</th>
+            <th>매장</th>
+            <th>작성일</th>
+            <th>사진</th>
+            <th>메뉴</th>
+            <th>리뷰 내용</th>
+            <th>사장님 댓글</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="r : ${reviewList}">
+            <td th:text="${r.reviewNumber}"></td>
+            <td><a th:href="@{|/store/${r.storeNumber}|}"><p th:text="${r.storeName}"></p></a></td>
+            <td th:text="${r.reviewTime}"></td>
+            <td><!--리뷰 사진-->
+                <table>
+                    <thead>
+                        <tr><th>사진</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="menu : ${r.reviewFileDTOList}">
+                            <td><img th:src="@{|/upload/review/${menu.reviewFilename}|}" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td th:text="${r.menuName}"></td>
+            <td th:text="${r.reviewComments}"></td>
+            <td th:if="${r.replyDetailDTO != null}"><p th:text="${r.replyDetailDTO.replyContents}"></p></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
