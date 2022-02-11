@@ -6,7 +6,21 @@
     <title>[뭐먹을까요:업체] 카테고리2 </title>
 </head>
 <body>
+    <table>
+        <thead>
+        <tr>
+            <th>업체명</th>
+            <th>주소</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="bcl: ${storeList}">
+                <td th:text="${bcl.storeName}"> 업체명 </td>
+                <td th:text="${bcl.storePhone}"> 업체주소 </td>
+            </tr>
 
+        </tbody>
+    </table>
 카테고리 선택시 나온다...
 </body>
 </html>

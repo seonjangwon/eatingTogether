@@ -31,9 +31,9 @@ public class StoreDetailDTO {
 
     //MemberEntity -> MemberDetailDTO
 
-    public static StoreDetailDTO toStoreDetailDTO (StoreEntity storeEntity){
+    public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
-        /*storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity());*/
+        /*storeDetailDTO.setBigCategoryNumber(bigCategoryEntity.getBigCategoryNumber());*/
         storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
         storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());

@@ -75,18 +75,26 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreDetailDTO> findAll() {
         List<StoreEntity> storeEntityList = sr.findAll();
         List<StoreDetailDTO> storeList = new ArrayList<>();
-
-            for(StoreEntity se: storeEntityList)    {
-                //Entity 객체를 StoreDetailDTO 로 변환, storeList에 담음.
-                storeList.add(StoreDetailDTO.toStoreDetailDTO(se));
+            for (StoreEntity se1: storeEntityList)  {
+                storeList.add(toStoreDetailDTO(se1));
             }
-
+        System.out.println("StoreSerivceImpl.categoryFindAll");
         return storeList;
     }
 
+    @Override
+    public BigCategoryDTO findById(Long bigCategoryNumber) {
+        return null;
+    }
+
 /*    @Override
-    public void bcsave(BigCategoryDTO bigCategoryDTO) {
-        BigCategoryEntity bigCategoryEntity = BigCategoryEntity.saveBc(bigCategoryDTO);
+    public BigCategoryDTO findById(Long bigCategoryNumber) {
+        Optional<StoreEntity> bigCategoryEntityOptional = sr.findById(bigCategoryNumber);
+        StoreEntity storeEntity = bigCategoryEntityOptional.get();
+
+        BigCategoryDTO bigCategoryDTO = toStoreDetailDTO(storeEntity);
+        return null;
     }*/
+
 
 }
