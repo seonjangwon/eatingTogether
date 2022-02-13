@@ -1,18 +1,14 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewFileDTO;
+import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
-import com.et.eatingtogether.entity.CouponEntity;
-import com.et.eatingtogether.entity.CustomerEntity;
-import com.et.eatingtogether.entity.RiderEntity;
-import com.et.eatingtogether.entity.StoreEntity;
-import com.et.eatingtogether.repository.CouponRepository;
-import com.et.eatingtogether.repository.CustomerRepository;
-import com.et.eatingtogether.repository.RiderRepository;
-import com.et.eatingtogether.repository.StoreRepository;
+import com.et.eatingtogether.entity.*;
+import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +24,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final CustomerRepository ctr; // 고객
     private final StoreRepository sr; // 업체
+
+    private final ReviewFileRepository rfr; // 리뷰파일
+    private final ReviewRepository rer; // 리뷰
+
 
     // 쿠폰저장
     @Override
@@ -114,6 +114,19 @@ public class AdminServiceImpl implements AdminService {
         return sr.save(StoreEntity.toStoreSave(storeSaveDTO)).getStoreNumber();
     }
 
+    // 고객리뷰 저장
+    @Override
+    public void reviewSave(ReviewSaveDTO reviewSaveDTO) {
+        // 1. 리뷰Entity에 saveDTO 저장
+        // 2. 리뷰 Entity
+         Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+        ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
+        // r : reviewSaveDTO에 있는 파일리스트부분, reviewEntity : reviewRepository에 저장한 작성된 리뷰
+        for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()){
+            rfr.save(ReviewFileEntity.toEntity(r,reviewEntity));
+        }
+        // 저장 완료
+    }
 
 
 }

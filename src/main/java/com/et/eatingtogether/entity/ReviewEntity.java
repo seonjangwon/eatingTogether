@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,4 +42,17 @@ public class ReviewEntity {
 
     @OneToOne(mappedBy = "reviewEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ReplyEntity replyEntity;
+
+    // 리뷰저장
+    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO){
+        ReviewEntity reviewEntity = new ReviewEntity();
+        reviewEntity.setReviewNumber(reviewSaveDTO.getReviewNumber());
+        reviewEntity.setReviewScore(reviewSaveDTO.getReviewScore());
+        reviewEntity.setReviewContents(reviewSaveDTO.getReviewContents());
+        return reviewEntity;
+
+    }
+
+
+
 }

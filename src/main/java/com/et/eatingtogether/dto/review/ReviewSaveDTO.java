@@ -18,7 +18,7 @@ public class ReviewSaveDTO {
 //    private Long orderNumber;
 //    private String menuName;
     private String reviewContents;
-    private String reviewScore; // 별점
+    private int reviewScore; // 별점
     private List<ReviewFileDTO> reviewFileDTOList;
 
 

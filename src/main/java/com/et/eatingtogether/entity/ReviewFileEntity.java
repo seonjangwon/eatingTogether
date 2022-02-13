@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,12 @@ public class ReviewFileEntity {
     private ReviewEntity reviewEntity;
 
     private String reviewFilename;
+
+    public static ReviewFileEntity toEntity(ReviewFileDTO r, ReviewEntity reviewEntity) {
+        ReviewFileEntity reviewFileEntity = new ReviewFileEntity();
+        reviewFileEntity.setReviewFilename(r.getReviewFilename());
+        reviewFileEntity.setReviewFileNumber(r.getReviewFileNumber());
+        reviewFileEntity.setReviewEntity(reviewEntity);
+        return reviewFileEntity;
+    }
 }
