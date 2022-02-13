@@ -31,24 +31,16 @@ public class StoreController {
 
     //지원
     //일단 findAll이라고 생각해보자.
-    @GetMapping ("/category/1")
+    @GetMapping ("/category/{bigCategoryNumber}")
     public String bigCategoryPage1 (Model model) {
-        /* 요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
-        BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
-          */
-        List<StoreDetailDTO> storeList = ss.findAll();
-        model.addAttribute("storeList", storeList);
-        System.out.println(storeList);
+        //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
+        //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
+
+        List<StoreDetailDTO> storeList1 = ss.findAll();
+        model.addAttribute("storeList", storeList1);
+        System.out.println(storeList1);
         System.out.println("StoreController.bigCategoryPage");
         return "store/category";
-    }
-
-    //findByBcNum
-    @GetMapping ("/category/{bigCategoryNumber}")
-    public String bigCategoryPage (@PathVariable("bigCategoryNumber") Long bigCategoryNumber, Model model)  {
-        BigCategoryDTO bcDTO = ss.findById(bigCategoryNumber);
-        List<StoreDetailDTO> storeList = ss.findAll();
-        System.out.println(storeList);
     }
 
 

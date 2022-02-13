@@ -82,19 +82,5 @@ public class StoreServiceImpl implements StoreService {
         return storeList;
     }
 
-    @Override
-    public BigCategoryDTO findById(Long bigCategoryNumber) {
-        return null;
-    }
-
-/*    @Override
-    public BigCategoryDTO findById(Long bigCategoryNumber) {
-        Optional<StoreEntity> bigCategoryEntityOptional = sr.findById(bigCategoryNumber);
-        StoreEntity storeEntity = bigCategoryEntityOptional.get();
-
-        BigCategoryDTO bigCategoryDTO = toStoreDetailDTO(storeEntity);
-        return null;
-    }*/
-
 
 }

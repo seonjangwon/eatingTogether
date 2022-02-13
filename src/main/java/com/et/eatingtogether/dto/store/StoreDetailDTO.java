@@ -1,5 +1,6 @@
 package com.et.eatingtogether.dto.store;
 
+import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class StoreDetailDTO {
 
     public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
-        /*storeDetailDTO.setBigCategoryNumber(bigCategoryEntity.getBigCategoryNumber());*/
+        storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity().getBigCategoryNumber());
         storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
         storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());

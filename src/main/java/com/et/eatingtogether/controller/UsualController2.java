@@ -55,7 +55,7 @@ public class UsualController2 {
             return "usual/storeSave";
         }
 
-
+        System.out.println("가입완료");
         return "storeMain";
         /*return "/store/deliverySave";*/
 

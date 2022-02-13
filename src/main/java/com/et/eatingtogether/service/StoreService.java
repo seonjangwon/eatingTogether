@@ -15,7 +15,9 @@ public interface StoreService {
 
     List<StoreDetailDTO> findAll();
 
-    BigCategoryDTO findById(Long bigCategoryNumber);
+
+
+
 
     /*List<StoreDetailDTO> findAll();*/
     /*  void bcsave(BigCategoryDTO bigCategoryDTO);*/
