@@ -15,8 +15,5 @@ public interface StoreService {
 
     List<StoreDetailDTO> findAll();
 
-
-
-
-
+    StoreDetailDTO findById(String storeName);
 }

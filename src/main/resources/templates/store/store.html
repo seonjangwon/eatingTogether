@@ -6,6 +6,65 @@
     <title>[뭐먹을까요:업체] 매장페이지 </title>
 </head>
 <body>
-ㅁㅈ
+매장페이지입니다.
+
+    <header>
+
+    </header>
+
+    <section>
+        <span th:text="${session['storeLoginEmail']}"> 이렇게 쓰면 안나온다. </span>
+        <span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
+
+        <div id="storeDataView">
+            <img th:src="@{|/upload/${storeList.getStoreFilename()}|}" alt="사진">
+            <h4><td th:text="${storeList.storeName}"> </td></h4>
+            주소: <td th:text="${storeList.storeAddress}"> </td><br>
+            연락처: <td th:text="${storeList.storePhone}"> </td><br>
+            오픈시간: <td th:text="${storeList.storeOpen}"> </td>
+            마감시간: <td th:text="${storeList.storeClose}"> </td><br>
+
+            ❤ <td th:text="${storeList.storeWish}"> </td>
+        </div>
+
+        <button onclick="MenuBtn()"> 메뉴 </button>
+        <button onclick="reviewBtn()" > 리뷰 </button>
+    </section>
+    <section id="menuArea">
+        메뉴출력예정
+
+        <table>
+            <thead>
+                <th> 메뉴이름 </th>
+                <th> 메뉴설명 </th>
+                <th> 메뉴가격 </th>
+                <th> 일단수량버튼 </th>
+            </thead>
+            <tbody>
+                <!--<tr th:each="menu: ${menuList}">
+                    <td th:text="${menu.menuname}"></td>
+                </tr>-->
+            </tbody>
+        </table>
+    </section>
+<!--    <section id="reviewArea">
+        리뷰출력예정
+    </section>-->
+    <footer>
+
+    </footer>
+
 </body>
+
+    <script>
+        const MenuBtn = () =>   {
+            console.log("메뉴버튼 클릭")
+        }
+    </script>
+
+    <script>
+        const reviewBtn = () =>   {
+            console.log("리뷰버튼 클릭")
+        }
+    </script>
 </html>

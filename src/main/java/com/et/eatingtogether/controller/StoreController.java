@@ -36,26 +36,29 @@ public class StoreController {
         //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
         //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
 
-        List<StoreDetailDTO> storeList1 = ss.findAll();;
-        model.addAttribute("storeList1", storeList1);
-        System.out.println(storeList1);
+        List<StoreDetailDTO> storeList = ss.findAll();;
+        model.addAttribute("storeList", storeList);
+        System.out.println(storeList);
         System.out.println("StoreController.bigCategoryPage");
         return "store/category";
     }
 
-/*
-    @GetMapping ("/category/{bigCategoryNumber}")
-    public String bigCategoryPage (@PathVariable Long bigCategoryNumber, Model model)   {
-        System.out.println("StoreController.bigCategoryPage{bcNum}");
-
-        return "store/category";
-    }
-*/
-
-    //업체 로그인 후 관리페이지로 이동
+    // 0213 업체 로그인 후 관리페이지로 이동
     @GetMapping ("/menu")
     public String addMenuForm ()    {
         System.out.println("addMenuForm");
         return "store/menuSave";
     }
+
+    // 0214 지원 정리를 좀 해보았음... findById
+    @GetMapping ("/{storeName}")
+    public String storeDetail(@PathVariable String storeName, Model model)  {
+        System.out.println("매장상세내용 띄우기");
+        StoreDetailDTO storeList = ss.findById(storeName);
+        model.addAttribute("storeList",storeList);
+        System.out.println(storeList.getStoreName());
+        System.out.println(storeList);
+        return "store/store";
+    }
+
 }

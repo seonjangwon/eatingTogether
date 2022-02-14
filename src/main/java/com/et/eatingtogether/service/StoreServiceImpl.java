@@ -82,7 +82,12 @@ public class StoreServiceImpl implements StoreService {
         return storeList;
     }
 
-
-
-
+    //0214
+    @Override
+    public StoreDetailDTO findById(String storeName) {
+        System.out.println("StoreSerivceImpl.findByStore");
+        return StoreDetailDTO.toStoreDetailDTO(sr.findByStoreName(storeName));
+    }
+    
+    
 }

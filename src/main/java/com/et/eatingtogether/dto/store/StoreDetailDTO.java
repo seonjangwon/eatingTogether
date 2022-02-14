@@ -20,7 +20,6 @@ public class StoreDetailDTO {
 
     private MultipartFile storeFile;
     private Long storeNumber;
-    private Long bicCategoryNumber;
 
     private String storeFilename;
     private String storeName;
@@ -34,6 +33,7 @@ public class StoreDetailDTO {
 
     public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
+        storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
         storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity().getBigCategoryNumber());
         storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
         storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
