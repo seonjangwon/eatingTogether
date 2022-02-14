@@ -1,15 +1,16 @@
 package com.et.eatingtogether.service;
 
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreLoginDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
+import com.et.eatingtogether.entity.MenuEntity;
+import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -88,6 +89,29 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("StoreSerivceImpl.findByStore");
         return StoreDetailDTO.toStoreDetailDTO(sr.findByStoreName(storeName));
     }
-    
-    
+
+    @Override
+    public void saveMenu(MenuDTO menuDTO) throws IOException {
+        System.out.println("StoreSerivceImpl.menuSave");
+
+            MultipartFile menuFile = menuDTO.getMenuFile();
+            String menuFilename = menuFile.getOriginalFilename();
+            menuFilename = System.currentTimeMillis() + menuFilename;
+
+            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
+            if (!menuFile.isEmpty())    {
+                menuFile.transferTo(new File(savePath));
+            }
+            menuDTO.setMenuFilename(menuFilename);
+
+        StoreEntity storeEntity = sr.findByStoreNumber(menuDTO.getStoreEntity());
+        StoreCategoryEntity storeCategoryEntity = sr.findByStoreCategoryId(menuDTO.getStoreCategoryEntity());
+        MenuEntity menuEntity = MenuEntity.toSaveMenuEntity(menuDTO,storeEntity,storeCategoryEntity);
+
+        sr.saveMenu(menuEntity).getId();
+    }
+
+
+
+
 }

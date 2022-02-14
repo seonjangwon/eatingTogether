@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,12 @@ public class StoreCategoryEntity {
     private StoreEntity storeEntity;
 
     private String storeCategoryName;
+
+    //지원
+    public static StoreCategoryEntity addSmallCategory (StoreCategoryDTO storeCategoryDTO, StoreEntity storeEntity) {
+        StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
+        storeCategoryEntity.setStoreEntity(storeEntity);
+        storeCategoryEntity.setStoreCategoryName(storeCategoryDTO.getStoreCategoryName());
+        return storeCategoryEntity;
+    }
 }

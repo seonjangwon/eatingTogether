@@ -1,12 +1,15 @@
 package com.et.eatingtogether;
 
+import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
+import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
+import com.et.eatingtogether.repository.StoreCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import com.et.eatingtogether.service.StoreService;
 import org.junit.jupiter.api.DisplayName;
@@ -29,23 +32,14 @@ public class JiwonTest {
     private StoreRepository sr;
     @Autowired
     private BigCategoryRepository bcr;
+    @Autowired
+    private StoreCategoryRepository scr;
     //✔ 테스트에 앞서 의존성 주입을 진행
 
     @Test
     @DisplayName("회원데이터 생성")
     public void newMembers() {
     }
-
-/*    @Test
-    @DisplayName("대분류생성")
-    public void AddBcList() {
-        BigCategoryEntity bc1 = new BigCategoryEntity("ㅎㅎ",1L);
-        BigCategoryEntity bc2 = new BigCategoryEntity("ㅋㅋ",2L);
-
-        List<BigCategoryEntity> bcList = new ArrayList<>();
-        bcr.saveAll(bcList);
-        System.out.println("흠");
-    }*/
 
     @Test
     @Transactional
@@ -62,5 +56,14 @@ public class JiwonTest {
         //then 기능실행
         //트라이캐치
     }
+
+/*    @Test
+    @DisplayName("storeCategorySave")
+    public void storeCategorySave() {
+        StoreCategoryEntity storeCategoryEntity1 = new StoreCategoryEntity();
+        storeCategoryEntity1.setStoreCategoryName("대표메뉴1");
+        storeCategoryEntity1.setStoreEntity(store);
+        scr.save(storeCategoryEntity1);
+    }*/
 
 }

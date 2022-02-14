@@ -1,9 +1,11 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.store.MenuDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -33,4 +35,16 @@ public class MenuEntity {
     private BasketEntity basketEntity;
     @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     private OrderMenuEntity orderMenuEntity;
+
+    //지원
+    public static MenuEntity toSaveMenuEntity(MenuDTO menuDTO, StoreEntity storeEntity, StoreCategoryEntity storeCategoryEntity){
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setMenuName(menuDTO.getMenuName());
+        menuEntity.setMenuPrice(menuDTO.getMenuPrice());
+        menuEntity.setMenuExplain(menuDTO.getMenuExplain());
+        menuEntity.setMenuFilename(menuDTO.getMenuFilename());
+        menuEntity.setStoreEntity(storeEntity);
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
+        return menuEntity;
+    }
 }

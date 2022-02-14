@@ -1,9 +1,8 @@
 package com.et.eatingtogether.service;
 
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreLoginDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,4 +15,7 @@ public interface StoreService {
     List<StoreDetailDTO> findAll();
 
     StoreDetailDTO findById(String storeName);
+
+    void saveMenu(MenuDTO menuDTO) throws IOException;
+
 }
