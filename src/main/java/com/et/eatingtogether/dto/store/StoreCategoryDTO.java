@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreCategoryDTO {
 
+    private Long storeCategoryNumber;
     private StoreEntity storeEntity;
     private String storeCategoryName;
 

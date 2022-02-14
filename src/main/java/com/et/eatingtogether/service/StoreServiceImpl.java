@@ -7,6 +7,8 @@ import com.et.eatingtogether.entity.MenuEntity;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
+import com.et.eatingtogether.repository.MenuRepository;
+import com.et.eatingtogether.repository.StoreCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 public class StoreServiceImpl implements StoreService {
     private final StoreRepository sr;
     private final BigCategoryRepository bcr;
-
+    private final StoreCategoryRepository scr;
+    private final MenuRepository mnr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -105,10 +108,10 @@ public class StoreServiceImpl implements StoreService {
             menuDTO.setMenuFilename(menuFilename);
 
         StoreEntity storeEntity = sr.findByStoreNumber(menuDTO.getStoreEntity());
-        StoreCategoryEntity storeCategoryEntity = sr.findByStoreCategoryId(menuDTO.getStoreCategoryEntity());
+        StoreCategoryEntity storeCategoryEntity = scr.findByStoreCategoryNumber(menuDTO.getStoreCategoryEntity());
         MenuEntity menuEntity = MenuEntity.toSaveMenuEntity(menuDTO,storeEntity,storeCategoryEntity);
 
-        sr.saveMenu(menuEntity).getId();
+        mnr.save(menuEntity);
     }
 
 

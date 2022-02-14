@@ -1,6 +1,7 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.repository.BigCategoryRepository;
@@ -45,13 +46,7 @@ public class StoreController {
         return "store/category";
     }
 
-    // 0213 업체 로그인 후 관리페이지로 이동
-    @GetMapping ("/menu")
-    public String MenuForm ()    {
-        System.out.println("addMenuForm");
-        /*model.addAttribute("menuSave", new MenuDTO());*/
-        return "store/menuSave";
-    }
+
 
     // 0214 지원 정리를 좀 해보았음... findById
     @GetMapping ("/{storeName}")
@@ -64,12 +59,27 @@ public class StoreController {
         return "store/store";
     }
 
-    // 0214 지원 메뉴등록
+
+    // 0213 업체 로그인 후 관리페이지로 이동
+    @GetMapping ("/menu")
+    public String MenuForm (Model model)    {
+        System.out.println("addMenuForm");
+        model.addAttribute("menuSave", new MenuDTO());
+        return "store/menuSave";
+    }
+
+    // 0214-15 지원 메뉴등록
     @PostMapping ("/menu")
-    public String menu (@ModelAttribute MenuDTO menuDTO) throws IOException {
+    public String menu (@Validated @ModelAttribute("menuSave") MenuDTO menuDTO) throws IOException {
         System.out.println("StoreController.addMenu");
         ss.saveMenu(menuDTO);
         return "redirect:/store/storeMain";
+    }
 
+    // StoreCategory도 추가해줘야함...
+    @PostMapping ("/saveSc")
+    public String category (@ModelAttribute StoreCategoryDTO storeCategoryDTO, Model model)  {
+        model.addAttribute("menu",new MenuDTO());
+        return "store/menuSave";
     }
 }

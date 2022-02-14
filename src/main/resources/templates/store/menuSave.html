@@ -11,22 +11,22 @@
 <span th:text="${session['storeLoginEmail']}"}> </span>
 님 메뉴추가요청
 
-<form action ="/store/menu" method = "post" enctype="multipart/form-data">
+<form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
     <div id = "menuCategorySelect">
-        <input type ="text" placeholder="일단 직접입력">
-        <input type="submit" value="소분류등록">
-        <select class="form-select" name="bigCategoryNumber" aria-label="Default select example">
+        <input type ="text" th:field="*{storeCategoryEntity.storeCategoryNumber}" placeholder="일단 직접입력">
+        <input type="button" onclick="add_storeCategory()" value="소분류등록">
+        <select class="form-select" name="storeCategoryName" aria-label="Default select example">
             <option selected> 수정해야합니다... ㅎㄷㄷ</option>
             <option value="1" > 소메뉴추가시 늘어남</option>
         </select>
     </div>
 
 
-    <input type="text" placeholder="메뉴이름"><br>
-    <input type="text" placeholder="메뉴설명"><br>
-    <input type="text" placeholder="가격"><br>
-    <input type="file" placeholder="메뉴사진"><br>
-    <input type="text" placeholder="또 뭐 있으면 등록"><br>
+    <input type="text" th:field="*{menuName}" placeholder="메뉴이름"><br>
+    <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
+    <input type="text" th:field="*{menuPrice}" placeholder="가격"><br>
+    <input type="file" th:field="*{menuFile}" placeholder="메뉴사진"><br>
+    <!--<input type="hidden" th:field="*{storeEntity.storeNumber}" placeholder="이게 있어야하지않나?"><br>-->
 
     <input type = "submit" value="메뉴등록">
 

@@ -23,7 +23,7 @@ public class StoreCategoryEntity {
     private String storeCategoryName;
 
     //지원
-    public static StoreCategoryEntity addSmallCategory (StoreCategoryDTO storeCategoryDTO, StoreEntity storeEntity) {
+    public static StoreCategoryEntity saveStoreCategory (StoreCategoryDTO storeCategoryDTO, StoreEntity storeEntity) {
         StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
         storeCategoryEntity.setStoreEntity(storeEntity);
         storeCategoryEntity.setStoreCategoryName(storeCategoryDTO.getStoreCategoryName());

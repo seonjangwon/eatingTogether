@@ -15,8 +15,6 @@ public interface StoreRepository extends JpaRepository<StoreEntity,Long> {
     
     StoreEntity findByStoreNumber(StoreEntity storeEntity);
 
-    StoreCategoryEntity findByStoreCategoryId(StoreCategoryEntity storeCategoryEntity);
-
-    HttpSession saveMenu(MenuEntity menuEntity);
+    /*HttpSession saveMenu(MenuEntity menuEntity);*/
 
 }
