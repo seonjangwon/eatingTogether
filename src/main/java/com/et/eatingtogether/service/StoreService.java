@@ -19,6 +19,4 @@ public interface StoreService {
 
 
 
-    /*List<StoreDetailDTO> findAll();*/
-    /*  void bcsave(BigCategoryDTO bigCategoryDTO);*/
 }

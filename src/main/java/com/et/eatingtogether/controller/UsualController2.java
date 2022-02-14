@@ -87,7 +87,8 @@ public class UsualController2 {
             if(loginResult) {
                 session.setAttribute("storeLoginEmail", storeLoginDTO.getStoreEmail());
                 System.out.println("로그인성공");
-                return "redirect:/store/orderNow";
+                /*return "redirect:/store/orderNow";*/
+                return "store/menuSave";
                 /*String redirectURL = (String) session.getAttribute("redirectURL");
 */
                 /*if(redirectURL != null) {
