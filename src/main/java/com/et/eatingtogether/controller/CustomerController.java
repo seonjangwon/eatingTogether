@@ -92,17 +92,22 @@ public class CustomerController {
     @GetMapping("/basket")
     public String myBasket(Model model){
         List<BasketDTO> basketDTOList = cs.basketList();
-        String storeName = basketDTOList.get(0).getStoreName();
-        int totalPrice = 0;
-        for (BasketDTO b : basketDTOList){
-            totalPrice += b.getMenuPrice() * b.getMenuCount();
+        if (!basketDTOList.isEmpty()) {
+            String storeName = basketDTOList.get(0).getStoreName();
+            int totalPrice = 0;
+            for (BasketDTO b : basketDTOList){
+                totalPrice += (b.getMenuPrice() * b.getMenuCount());
+                System.out.println("b.getMenuPrice() = " + b.getMenuPrice());
+                System.out.println("b.getMenuCount() = " + b.getMenuCount());
+            }
+            int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
+            model.addAttribute("basketList",basketDTOList);
+            model.addAttribute("totalPrice",totalPrice);
+            model.addAttribute("deliveryPrice",deliveryPrice);
         }
-        int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
-        model.addAttribute("basketList",basketDTOList);
-        model.addAttribute("totalPrice",totalPrice);
-        model.addAttribute("deliveryPrice",deliveryPrice);
         return "customer/basket";
     }
+
     @PutMapping("/menu")
     @ResponseBody
     public String menuUpDown(@RequestParam("basketNumber") Long basketNumber,
@@ -131,14 +136,41 @@ public class CustomerController {
         model.addAttribute("coupon",myCouponDTOList); // 쿠폰 출력용
         // 결제 금액 주문금액 배달팁 총액
         List<BasketDTO> basketDTOList = cs.basketList();
-        String storeName = basketDTOList.get(0).getStoreName();
+        Long storeNumber = basketDTOList.get(0).getStoreNumber();
         int totalPrice = 0;
+        String menuList = "";
         for (BasketDTO b : basketDTOList){
             totalPrice += b.getMenuPrice() * b.getMenuCount();
+            menuList += b.getMenuName();
         }
         int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
+        model.addAttribute("storeNumber",storeNumber);
+        model.addAttribute("menuList",menuList);
         model.addAttribute("totalPrice",totalPrice); // 장바구니 총 금액
         model.addAttribute("deliveryPrice",deliveryPrice); // 배달비 금액
         return "customer/payment";
+    }
+
+    @GetMapping("/kakaoPayTest")
+    public String kakaoPayTest(){
+        return "customer/kakaoPayTest";
+    }
+
+    @PostMapping("/payment")
+    public String payment(@ModelAttribute OrderDTO orderDTO,@RequestParam("pointUse") int pointUse){
+        System.out.println("orderDTO = " + orderDTO);
+        System.out.println("pointUse = " + pointUse);
+        // 주문 저장
+        Long orderNumber = cs.orderSave(orderDTO);
+        // 포인트 사용
+        if(pointUse > 0){
+            cs.pointUse(pointUse,orderNumber);
+        }
+        // 포인트 적립
+        cs.pointAdd(orderNumber);
+        // 장바구니 삭제
+//        cs.basketDeleteAll();
+        return "redirect:/customer/history/"+orderNumber;// 주문 번호 추가 하기
+        //return "index";
     }
 }

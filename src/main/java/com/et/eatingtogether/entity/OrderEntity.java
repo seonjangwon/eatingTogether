@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.system.OrderDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,4 +45,18 @@ public class OrderEntity {
 
     @OneToOne(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ReviewEntity reviewEntity;
+
+    public static OrderEntity toDTO(OrderDTO orderDTO,CustomerEntity customerEntity,
+                                    StoreEntity storeEntity) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setCustomerEntity(customerEntity);
+        orderEntity.setStoreEntity(storeEntity);
+        orderEntity.setOrderPrice(orderDTO.getOrderPrice());
+        orderEntity.setOrderTime(LocalDateTime.now());
+        orderEntity.setOrderType(orderDTO.getOrderType());
+        orderEntity.setOrderAddress(orderDTO.getOrderAddress());
+        orderEntity.setOrderTomaster(orderDTO.getOrderTomaster());
+        orderEntity.setOrderTorider(orderDTO.getOrderTorider());
+        return orderEntity;
+    }
 }

@@ -18,7 +18,6 @@ public class MyCouponDTO {
     public static MyCouponDTO toEntity(MyCouponEntity myCouponEntity){
         MyCouponDTO myCouponDTO = new MyCouponDTO();
         myCouponDTO.setMyCouponNumber(myCouponEntity.getMyCouponNumber());
-        myCouponDTO.setMyCouponNumber(myCouponEntity.getMyCouponNumber());
         myCouponDTO.setCouponName(myCouponEntity.getCouponEntity().getCouponName());
         myCouponDTO.setCouponCondition(myCouponEntity.getCouponEntity().getCouponCondition());
         myCouponDTO.setCouponPrice(myCouponEntity.getCouponEntity().getCouponPrice());

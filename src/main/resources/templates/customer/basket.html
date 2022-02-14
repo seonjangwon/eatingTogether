@@ -8,7 +8,7 @@
         const menuDown_btn = (basketNumber) =>{
             $.ajax({
                type:'put',
-               url:'customer/menu',
+               url:'/customer/menu',
                data:{"basketNumber":basketNumber,"type":"down"},
                dataType:'text',
                success:function (result){
@@ -25,7 +25,7 @@
         const menuUp_btn = (basketNumber) =>{
             $.ajax({
                 type:'put',
-                url:'customer/menu',
+                url:'/customer/menu',
                 data:{"basketNumber":basketNumber,"type":"up"},
                 dataType:'text',
                 success:function (result){
@@ -42,7 +42,7 @@
         const menuDelete_btn = (basketNumber) =>{
             $.ajax({
                 type:'delete',
-                url:"customer/menu",
+                url:"/customer/menu",
                 data:{"basketNumber":basketNumber},
                 dataType:'text',
                 success:function (result){
@@ -69,6 +69,7 @@
                 <th>일단 메뉴 번호</th>
                 <th>메뉴 사진</th>
                 <th>메뉴 이름</th>
+                <th>개당 가격</th>
                 <th>가격</th>
                 <th>숫자</th>
                 <th>삭제</th>
@@ -80,16 +81,17 @@
                 <td th:text="${b.menuNumber}"></td>
                 <td><img th:src="@{|/upload/store/${b.menuFilename}|}" alt=""></td>
                 <td th:text="${b.menuName}"></td>
+                <td th:text="${b.menuPrice}"></td>
                 <td th:text="${b.menuPrice * b.menuCount}"></td>
                 <td>
-                    <div th:switch="${b.menuCount}">
-                        <p th:case="1"><button>-</button></p>
-                        <p th:case="*"><button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></p>
-                    </div>
-                    <p th:text="${b.menuCount}"></p>
+                    <span th:switch="${b.menuCount}">
+                        <span th:case="1"><button>-</button></span>
+                        <span th:case="*"><button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></span>
+                    </span>
+                    <span th:text="${b.menuCount}"></span>
                     <button th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
                 </td>
-                <td><p th:onclick="menuDelete_btn([[${b.basketNumber}]])"></p></td>
+                <td><button th:onclick="menuDelete_btn([[${b.basketNumber}]])">삭제</button></td>
             </tr>
         </tbody>
     </table>

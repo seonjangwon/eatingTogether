@@ -46,4 +46,11 @@ public interface CustomerService {
 
     String findByCustomerEmail(String customerEmail);
 
+    void pointUse(int pointUse,Long orderNumber);
+
+    void pointAdd(Long orderNumber);
+
+    Long orderSave(OrderDTO orderDTO);
+
+    void basketDeleteAll();
 }
