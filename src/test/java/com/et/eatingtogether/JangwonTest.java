@@ -106,8 +106,8 @@ public class JangwonTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
+    //@Transactional
+    //@Rollback
     @DisplayName("basketTest")
     public void basketTest(){
         // given
@@ -129,6 +129,7 @@ public class JangwonTest {
         deliveryEntity.setStoreEntity(storeEntity);
         deliveryEntity.setDeliveryDname("basketTestDname");
         deliveryEntity.setDeliveryPrice(1000);
+        deliveryEntity.setDeliveryTime(30);
         int deliveryPrice = dr.save(deliveryEntity).getDeliveryPrice();
         // 스토어카테고리
         StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
@@ -152,29 +153,29 @@ public class JangwonTest {
         br.save(basketEntity).getBasketNumber();
         System.out.println("basketEntity = " + basketEntity);
         // when
-        CustomerEntity customerEntity1 = cr.findById(customerNumber).get();
-        List<BasketEntity> basketEntityList = customerEntity1.getBasketEntityList();
-        List<BasketDTO> basketDTOList = new ArrayList<>();
-        List<BasketDTO> basketDTOList1 = new ArrayList<>();
-        List<BasketDTO> basketDTOList2 = new ArrayList<>();
-        for (BasketEntity b : basketEntityList){
-            basketDTOList.add(BasketDTO.toEntity(b));
-        }
-        for (BasketEntity b : customerEntity1.getBasketEntityList()){
-            basketDTOList1.add(BasketDTO.toEntity(b));
-        }
-        for (BasketEntity b : customerEntity.getBasketEntityList()){
-            basketDTOList2.add(BasketDTO.toEntity(b));
-        }
-        for (BasketDTO b : basketDTOList){
-            System.out.println("b = " + b);
-        }
-        for (BasketDTO b : basketDTOList1){
-            System.out.println("b1 = " + b);
-        }
-        for (BasketDTO b : basketDTOList2){
-            System.out.println("b1 = " + b);
-        }
+//        CustomerEntity customerEntity1 = cr.findById(customerNumber).get();
+//        List<BasketEntity> basketEntityList = customerEntity1.getBasketEntityList();
+//        List<BasketDTO> basketDTOList = new ArrayList<>();
+//        List<BasketDTO> basketDTOList1 = new ArrayList<>();
+//        List<BasketDTO> basketDTOList2 = new ArrayList<>();
+//        for (BasketEntity b : basketEntityList){
+//            basketDTOList.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketEntity b : customerEntity1.getBasketEntityList()){
+//            basketDTOList1.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketEntity b : customerEntity.getBasketEntityList()){
+//            basketDTOList2.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketDTO b : basketDTOList){
+//            System.out.println("b = " + b);
+//        }
+//        for (BasketDTO b : basketDTOList1){
+//            System.out.println("b1 = " + b);
+//        }
+//        for (BasketDTO b : basketDTOList2){
+//            System.out.println("b1 = " + b);
+//        }
 
 //
 //        // then
@@ -232,7 +233,8 @@ public class JangwonTest {
     @Test
     @DisplayName("17번 동이름 변경용")
     public void dnameUpdate(){
-        CustomerEntity customerEntity = cr.findById(17l).get();
+        //CustomerEntity customerEntity = cr.findById(17l).get(); 데탑용
+        CustomerEntity customerEntity = cr.findById(3l).get(); // 노트북용
         customerEntity.setCustomerDname("basketTestDname");
         cr.save(customerEntity);
     }

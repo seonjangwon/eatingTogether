@@ -128,8 +128,10 @@ public class CustomerServiceImpl implements CustomerService {
     public List<MyCouponDTO> couponList() {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<MyCouponDTO> couponDTOList = new ArrayList<>();
-        for (MyCouponEntity m : customerEntity.get().getMyCouponEntityList()) {
-            couponDTOList.add(MyCouponDTO.toEntity(m));
+        if (!customerEntity.get().getMyCouponEntityList().isEmpty()) {
+            for (MyCouponEntity m : customerEntity.get().getMyCouponEntityList()) {
+                couponDTOList.add(MyCouponDTO.toEntity(m));
+            }
         }
         return couponDTOList;
     }
