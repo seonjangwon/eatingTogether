@@ -12,8 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class MenuDTO {
 
-    private StoreEntity storeEntity;
-    private StoreCategoryEntity storeCategoryEntity;
+    private Long storeNumber;
+    private Long storeCategoryNumber;
+    private String storeCategoryName;
 
     private String menuName;
     private MultipartFile menuFile;

@@ -46,12 +46,12 @@ public class StoreDetailDTO {
         return storeDetailDTO;
     }
 
-    public static StoreDetailDTO toStoreDetailDTO1(StoreEntity storeEntity){
+/*    public static StoreDetailDTO toStoreDetailDTO1(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
         storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());
         return storeDetailDTO;
-    }
+    }*/
 
 }
 

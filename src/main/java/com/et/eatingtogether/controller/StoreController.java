@@ -4,6 +4,7 @@ import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import java.util.List;
 public class StoreController {
     private final StoreService ss;
     private final BigCategoryRepository bcr;
+    private final HttpSession session;
 
     @GetMapping("/category")
     public String bigCategoryMain(Model model)   {
@@ -49,13 +52,13 @@ public class StoreController {
 
 
     // 0214 지원 정리를 좀 해보았음... findById
-    @GetMapping ("/{storeName}")
-    public String storeDetail(@PathVariable String storeName, Model model)  {
+    @GetMapping ("/{storeNumber}")
+    public String storeDetail(@PathVariable Long storeNumber, Model model)  {
         System.out.println("매장상세내용 띄우기");
-        StoreDetailDTO storeList = ss.findById(storeName);
-        model.addAttribute("storeList",storeList);
-        System.out.println(storeList.getStoreName());
-        System.out.println(storeList);
+        StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
+        model.addAttribute("storeList",storeDetailDTO);
+        System.out.println(storeDetailDTO.getStoreName());
+        System.out.println(storeDetailDTO);
         return "store/store";
     }
 
@@ -64,7 +67,12 @@ public class StoreController {
     @GetMapping ("/menu")
     public String MenuForm (Model model)    {
         System.out.println("addMenuForm");
-        model.addAttribute("menuSave", new MenuDTO());
+        model.addAttribute("menuSave", new MenuDTO()); // 필드 생성용
+        // 스토어카테고리
+        List<StoreCategoryDTO> categoryDTOList = ss.categoryList();
+        model.addAttribute("storeCategory",categoryDTOList);
+        StoreDetailDTO storeList = ss.findById((String) session.getAttribute("storeLoginEmail"));
+        model.addAttribute("storeNumber",storeList.getStoreNumber());
         return "store/menuSave";
     }
 
@@ -72,14 +80,13 @@ public class StoreController {
     @PostMapping ("/menu")
     public String menu (@Validated @ModelAttribute("menuSave") MenuDTO menuDTO) throws IOException {
         System.out.println("StoreController.addMenu");
-        ss.saveMenu(menuDTO);
-        return "redirect:/store/storeMain";
-    }
-
-    // StoreCategory도 추가해줘야함...
-    @PostMapping ("/saveSc")
-    public String category (@ModelAttribute StoreCategoryDTO storeCategoryDTO, Model model)  {
-        model.addAttribute("menu",new MenuDTO());
-        return "store/menuSave";
+        StoreCategoryEntity storeCategoryEntity;
+        if (menuDTO.getStoreCategoryNumber() == 0){
+            storeCategoryEntity = ss.categorySave(menuDTO.getStoreNumber(),menuDTO.getStoreCategoryName());
+        } else {
+            storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
+        }
+        ss.saveMenu(menuDTO, storeCategoryEntity);
+        return "redirect:/store/"+storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
 }

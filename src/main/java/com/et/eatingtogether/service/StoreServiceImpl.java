@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class StoreServiceImpl implements StoreService {
     private final BigCategoryRepository bcr;
     private final StoreCategoryRepository scr;
     private final MenuRepository mnr;
+    private final HttpSession session;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -94,7 +96,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void saveMenu(MenuDTO menuDTO) throws IOException {
+    public void saveMenu(MenuDTO menuDTO, StoreCategoryEntity storeCategoryEntity) throws IOException {
         System.out.println("StoreSerivceImpl.menuSave");
 
             MultipartFile menuFile = menuDTO.getMenuFile();
@@ -107,14 +109,44 @@ public class StoreServiceImpl implements StoreService {
             }
             menuDTO.setMenuFilename(menuFilename);
 
-        StoreEntity storeEntity = sr.findByStoreNumber(menuDTO.getStoreEntity());
-        StoreCategoryEntity storeCategoryEntity = scr.findByStoreCategoryNumber(menuDTO.getStoreCategoryEntity());
+        StoreEntity storeEntity = sr.findById(menuDTO.getStoreNumber()).get();
+//        StoreCategoryEntity storeCategoryEntity = scr.findById(menuDTO.getStoreCategoryNumber()).get();
         MenuEntity menuEntity = MenuEntity.toSaveMenuEntity(menuDTO,storeEntity,storeCategoryEntity);
 
         mnr.save(menuEntity);
     }
 
+    @Override
+    public List<StoreCategoryDTO> categoryList() {
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
+        List<StoreCategoryDTO> storeCategoryDTOList = new ArrayList<>();
+        if (!storeEntity.getStoreCategoryEntityList().isEmpty()) {
+            for (StoreCategoryEntity c : storeEntity.getStoreCategoryEntityList()){
+                storeCategoryDTOList.add(StoreCategoryDTO.toEntity(c));
+            }
+        }
+        return storeCategoryDTOList;
+    }
 
+    @Override
+    public StoreCategoryEntity categorySave(Long storeNumber, String storeCategoryName) {
+        StoreCategoryDTO storeCategoryDTO = new StoreCategoryDTO();
+        storeCategoryDTO.setStoreCategoryName(storeCategoryName);
+        StoreEntity storeEntity = sr.findById(storeNumber).get();
+        Long storeCategoryNumber = scr.save(StoreCategoryEntity.saveStoreCategory(storeCategoryDTO, storeEntity)).getStoreCategoryNumber();
+        StoreCategoryEntity storeCategoryEntity = scr.findById(storeCategoryNumber).get();
+        return storeCategoryEntity;
+    }
+
+    @Override
+    public StoreCategoryEntity findCategory(Long storeCategoryNumber) {
+        return scr.findById(storeCategoryNumber).get();
+    }
+
+    @Override
+    public StoreDetailDTO findByNumber(Long storeNumber) {
+        return StoreDetailDTO.toStoreDetailDTO(sr.findById(storeNumber).get());
+    }
 
 
 }

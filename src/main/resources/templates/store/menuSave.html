@@ -5,6 +5,23 @@
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 메뉴등록</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const categorySave = () => {
+            console.log("categorySave");
+            const value = document.getElementById('categorySave_value').value;
+            const number = document.getElementById('storeCategoryNumber');
+            const name = document.getElementById('storeCategoryName');
+
+            if (value==="직접입력"){
+                name.type = "text";
+                number.value = "0";
+            } else {
+                number.value = value;
+                name.type = "hidden";
+            }
+
+        }
+    </script>
 </head>
 <body>
 
@@ -13,12 +30,13 @@
 
 <form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
     <div id = "menuCategorySelect">
-        <input type ="text" th:field="*{storeCategoryEntity.storeCategoryNumber}" placeholder="일단 직접입력">
-        <input type="button" onclick="add_storeCategory()" value="소분류등록">
-        <select class="form-select" name="storeCategoryName" aria-label="Default select example">
-            <option selected> 수정해야합니다... ㅎㄷㄷ</option>
-            <option value="1" > 소메뉴추가시 늘어남</option>
+        <select id="categorySave_value" onchange="categorySave()">
+            <option selected>소분류 선택</option>
+            <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
+            <option value="직접입력">직접 입력</option>
         </select>
+        <input type ="hidden" th:field="*{storeCategoryNumber}" value="0">
+        <input type ="hidden" th:field="*{storeCategoryName}">
     </div>
 
 
@@ -26,7 +44,7 @@
     <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
     <input type="text" th:field="*{menuPrice}" placeholder="가격"><br>
     <input type="file" th:field="*{menuFile}" placeholder="메뉴사진"><br>
-    <!--<input type="hidden" th:field="*{storeEntity.storeNumber}" placeholder="이게 있어야하지않나?"><br>-->
+    <input type="hidden" name="storeNumber" th:value="${storeNumber}"  placeholder="이게 있어야하지않나?"><br>
 
     <input type = "submit" value="메뉴등록">
 
