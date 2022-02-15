@@ -65,7 +65,7 @@ public class StoreController {
 
     // 0213 업체 로그인 후 관리페이지로 이동
     @GetMapping ("/menu")
-    public String MenuForm (Model model)    {
+    public String menuForm (Model model)    {
         System.out.println("addMenuForm");
         model.addAttribute("menuSave", new MenuDTO()); // 필드 생성용
         // 스토어카테고리
