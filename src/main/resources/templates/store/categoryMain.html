@@ -17,13 +17,11 @@
 
     <section>
 
-        <section class = "menuClickButton">
+        <section class = "menuClickButton" th:each="bcl: ${bcList}">
+
             <!--<a th:href="@{|/store/category/${bcl.storeName}|}"> 한식 </a>-->
-            <a href = "/store/category/1"> 한식 </a>
-            <a href = "/store/category/2"> 한식 </a>
-            <a href = "/store/category/3"> 한식 </a>
-            <a href = "/store/category/4"> 한식 </a>
-            <a href = "/store/category/5"> 한식 </a>
+            <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></a>
+
 <!--            <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 중식 </a>
             <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 일식 </a>
             <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 양식 </a>

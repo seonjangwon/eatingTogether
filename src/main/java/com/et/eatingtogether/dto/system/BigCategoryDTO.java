@@ -19,4 +19,12 @@ public class BigCategoryDTO {
         bigCategoryDTO.setBigCategoryName(bigCategoryEntity.getBigCategoryName());
         return bigCategoryDTO;
     }
+
+    //지원
+    public static BigCategoryDTO toBCDetailDTO(BigCategoryEntity bigCategoryEntity) {
+        BigCategoryDTO bigCategoryDTO = new BigCategoryDTO();
+        bigCategoryDTO.setBigCategoryNumber(bigCategoryEntity.getBigCategoryNumber());
+        bigCategoryDTO.setBigCategoryName(bigCategoryEntity.getBigCategoryName());
+        return bigCategoryDTO;
+    }
 }

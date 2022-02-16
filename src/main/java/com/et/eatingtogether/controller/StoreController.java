@@ -8,6 +8,8 @@ import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -21,35 +23,44 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
-    private final StoreService ss;
-    private final BigCategoryRepository bcr;
+    private final StoreService ss;;
     private final HttpSession session;
 
     @GetMapping("/category")
     public String bigCategoryMain(Model model)   {
         System.out.println("StoreController.bigCategoryAll");
-        /*List<StoreDetailDTO> storeList = ss.findAll();;
-        model.addAttribute("storeList", storeList);*/
+
+        List<BigCategoryDTO> bcList = ss.findAllBc();
+        model.addAttribute("bcList",bcList);
+
+        List<StoreDetailDTO> storeList = ss.findAll();
+        model.addAttribute("storeList", storeList);
         //얘를 데려와야 정보를 가져오지않남? 단순 창띄우기니까 필요가 없을지도!
         return "store/categoryMain";
     }
 
     //지원
     //일단 findAll이라고 생각해보자.
-    @GetMapping ("/category/{bigCategoryNumber}")
-    public String bigCategoryPage1 (@PathVariable Long bigCategoryNumber, Model model) {
+
         //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
         //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
-
-        List<StoreDetailDTO> storeList = ss.findAll();;
-        /*List<StoreDetailDTO> storeList = ss.findByBigCategoryNumber(bigCategoryNumber);*/
+/*    @GetMapping ("/category/{bcNumberTest}")
+    public String bigCategoryPage1 (Model model) {
+        List<StoreDetailDTO> storeList = ss.findAll();
         model.addAttribute("storeList", storeList);
         System.out.println(storeList);
         System.out.println("StoreController.bigCategoryPage");
+        return "store/categorytest";
+    }*/
+
+    @GetMapping ("/category/{bigCategoryNumber}")
+    public String bigCategoryPage (@PathVariable Long bigCategoryNumber, Model model) {
+        List<StoreDetailDTO> storeList = ss.findAll();
+        model.addAttribute("storeList", storeList);
+        System.out.println("category/{bigCategoryNumber}");
+        // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
         return "store/category";
     }
-
-
 
     // 0214 지원 정리를 좀 해보았음... findById
     @GetMapping ("/{storeNumber}")
@@ -75,6 +86,21 @@ public class StoreController {
         model.addAttribute("storeNumber",storeList.getStoreNumber());
         return "store/menuSave";
     }
+    // 모든것에 의미를 부여하지말자...
+    /* 슬프다 똑똑해지고싶다 흑흑
+
+    public String menuForm(Model model)  {
+    메뉴 등록을 위한 폼을 띄우는 메소드
+        - model.addAttribute("menuSave", new MenuDTO()); 새로운 MenuDTO에 "menuSave" 라는 이름을 가진 데이터를 담는다.
+        - select에 띄울 storeCategory 데이터를 가져옴.
+        List<StoreCategoryDTO> categoryDTOList = ss.categoryList();
+        model.addAttribute("storeCategory", categoryDTOList);
+        StoreDetailDTO storeList = ss.findById((String) seesion.getAttribute("storeLoginEmail));
+        model.addAttribute("storeNumber", storeLit.getStoreNumber());
+    return "store/menuSave";
+
+     */
+
 
     // 0214-15 지원 메뉴등록
     @PostMapping ("/menu")

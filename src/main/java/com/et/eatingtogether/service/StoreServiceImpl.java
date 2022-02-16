@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
+import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +50,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Long save(StoreSaveDTO storeSaveDTO) throws IOException {
-        System.out.println("StoreSerivceImpl.storeSave");
+        System.out.println("StoreServiceImpl.storeSave");
 
         //가게사진 추가
         if (!storeSaveDTO.getStoreFile().isEmpty()) {
@@ -84,20 +85,31 @@ public class StoreServiceImpl implements StoreService {
             for (StoreEntity se1: storeEntityList)  {
                 storeList.add(toStoreDetailDTO(se1));
             }
-        System.out.println("StoreSerivceImpl.categoryFindAll");
+        System.out.println("StoreServiceImpl.categoryFindAll");
         return storeList;
+    }
+
+    @Override
+    public List<BigCategoryDTO> findAllBc() {
+        List<BigCategoryEntity> bigCategoryEntityList = bcr.findAll();
+        List<BigCategoryDTO> bcList = new ArrayList<>();
+            for (BigCategoryEntity bce: bigCategoryEntityList)  {
+                bcList.add(toBCDetailDTO(bce));
+            }
+        System.out.println("ServiceImpl.findAllBc.해치웠나");
+        return bcList;
     }
 
     //0214
     @Override
     public StoreDetailDTO findById(String storeName) {
-        System.out.println("StoreSerivceImpl.findByStore");
+        System.out.println("StoreServiceImpl.findByStore");
         return StoreDetailDTO.toStoreDetailDTO(sr.findByStoreName(storeName));
     }
 
     @Override
     public void saveMenu(MenuDTO menuDTO, StoreCategoryEntity storeCategoryEntity) throws IOException {
-        System.out.println("StoreSerivceImpl.menuSave");
+        System.out.println("StoreServiceImpl.menuSave");
 
             MultipartFile menuFile = menuDTO.getMenuFile();
             String menuFilename = menuFile.getOriginalFilename();
@@ -118,11 +130,11 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreCategoryDTO> categoryList() {
-        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
-        List<StoreCategoryDTO> storeCategoryDTOList = new ArrayList<>();
-        if (!storeEntity.getStoreCategoryEntityList().isEmpty()) {
-            for (StoreCategoryEntity c : storeEntity.getStoreCategoryEntityList()){
-                storeCategoryDTOList.add(StoreCategoryDTO.toEntity(c));
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail")); //session은 object class로 값을 가져오기때문에 String으로 형변환을 해준다.
+        List<StoreCategoryDTO> storeCategoryDTOList = new ArrayList<>();    // List<스토어카테고리의 정보가 있는> storeCategoryDTOList를 새로이 List화 시킨다.
+        if (!storeEntity.getStoreCategoryEntityList().isEmpty()) {          // if, storeEntity의 StoreCategoryEntityList가 Empty가 아닌 경우
+            for (StoreCategoryEntity c : storeEntity.getStoreCategoryEntityList()){ // for문을 이용해 storeEntity의 StoreCategryEntityList를 c에 담는다.
+                storeCategoryDTOList.add(StoreCategoryDTO.toEntity(c));     // StoreCategoryDTO.toEntity(c) 라는 값을. storeCategoryDTOList에 add-추가한다.
             }
         }
         return storeCategoryDTOList;
@@ -146,6 +158,13 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDetailDTO findByNumber(Long storeNumber) {
         return StoreDetailDTO.toStoreDetailDTO(sr.findById(storeNumber).get());
+    }
+
+    // store/category/{bigCategoryNumber} 하기위해.
+    @Override
+    public void findByBigCategoryNumber(Long bigCategoryNumber) {
+        bcr.findBybigCategoryNumber(bigCategoryNumber);
+        System.out.println("findByBigCategoryNumber");
     }
 
 

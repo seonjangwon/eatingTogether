@@ -14,6 +14,7 @@ public interface StoreService {
     Long save(StoreSaveDTO storeSaveDTO) throws IOException;
 
     List<StoreDetailDTO> findAll();
+    List<BigCategoryDTO> findAllBc();
 
     StoreDetailDTO findById(String storeName);
 
@@ -26,4 +27,7 @@ public interface StoreService {
     StoreCategoryEntity findCategory(Long storeCategoryNumber);
 
     StoreDetailDTO findByNumber(Long storeNumber);
+
+    void findByBigCategoryNumber(Long bigCategoryNumber);
+
 }

@@ -15,6 +15,7 @@ public class StoreCategoryDTO {
     private Long storeNumber;
     private String storeCategoryName;
 
+    //
     public static StoreCategoryDTO toEntity(StoreCategoryEntity c) {
         StoreCategoryDTO storeCategoryDTO = new StoreCategoryDTO();
         storeCategoryDTO.setStoreCategoryNumber(c.getStoreCategoryNumber());
