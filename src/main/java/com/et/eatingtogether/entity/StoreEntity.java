@@ -78,4 +78,5 @@ public class StoreEntity {
         storeEntity.setStoreName(storeSaveDTO.getStoreName());
         return storeEntity;
     }
+
 }

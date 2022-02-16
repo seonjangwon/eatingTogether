@@ -3,7 +3,6 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
-import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +14,7 @@ public interface StoreService {
 
     List<StoreDetailDTO> findAll();
     List<BigCategoryDTO> findAllBc();
-
+    
     StoreDetailDTO findById(String storeName);
 
     void saveMenu(MenuDTO menuDTO, StoreCategoryEntity storeCategoryEntity) throws IOException;
@@ -28,6 +27,5 @@ public interface StoreService {
 
     StoreDetailDTO findByNumber(Long storeNumber);
 
-    void findByBigCategoryNumber(Long bigCategoryNumber);
-
+    List<MenuDTO> menuFindAll(Long storeNumber);
 }

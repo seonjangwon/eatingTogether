@@ -11,8 +11,8 @@ import com.et.eatingtogether.repository.MenuRepository;
 import com.et.eatingtogether.repository.StoreCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -20,8 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
 
@@ -65,7 +65,7 @@ public class StoreServiceImpl implements StoreService {
             storeSaveDTO.setStoreFilename(storeFilename);
         }
 
-        BigCategoryEntity bigCategoryEntity = bcr.findBybigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
+        BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);
 
         //0210 사용자가 입력한 이메일 중복체크
@@ -99,6 +99,11 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("ServiceImpl.findAllBc.해치웠나");
         return bcList;
     }
+
+
+    // store/category/{bigCategoryNumber} 하기위해.
+
+
 
     //0214
     @Override
@@ -160,12 +165,44 @@ public class StoreServiceImpl implements StoreService {
         return StoreDetailDTO.toStoreDetailDTO(sr.findById(storeNumber).get());
     }
 
-    // store/category/{bigCategoryNumber} 하기위해.
     @Override
-    public void findByBigCategoryNumber(Long bigCategoryNumber) {
-        bcr.findBybigCategoryNumber(bigCategoryNumber);
-        System.out.println("findByBigCategoryNumber");
+    public List<MenuDTO> menuFindAll(Long storeNumber) {
+        StoreEntity storeEntity = sr.findById(storeNumber).get();
+        List<MenuEntity> menuEntityList = mnr.findByStoreEntity(storeEntity);
+
+        List<MenuDTO> menuList = new ArrayList<>();
+        for(MenuEntity menu: menuEntityList)    {
+            menuList.add(toMenuDetailDTO(menu));
+        }
+        return menuList;
     }
+
+
+    //위에꺼지우기
+    /*
+    @Override //Menu findAll
+    public List<MenuDTO> menuFindAll(Long storeNumber) {
+        *//*List<MenuEntity> menuEntityList = mnr.findByStoreNumber();*//*
+        List<MenuEntity> menuEntityList = mnr.findByStoreEntity(StoreEntity storeEntity);
+
+        *//*MenuEntity menuEntityList = mnr.findById(MenuEntity.toSaveMenuEntity().getStoreEntity().getStoreNumber()).get();*//*
+        *//*MenuEntity menuEntity = mnr.findById(storeNumber).get();*//*
+        List<MenuDTO> menuList = new ArrayList<>();
+        for(MenuEntity menu: menuEntityList)    {
+            menuList.add(toMenuDetailDTO(menu));
+        }
+        return menuList;
+    }*/
+    /*
+    *     public List<StoreDetailDTO> findAll() {
+        List<StoreEntity> storeEntityList = sr.findAll();
+        List<StoreDetailDTO> storeList = new ArrayList<>();
+            for (StoreEntity se1: storeEntityList)  {
+                storeList.add(toStoreDetailDTO(se1));
+            }
+        System.out.println("StoreServiceImpl.categoryFindAll");
+        return storeList;
+    }*/
 
 
 }

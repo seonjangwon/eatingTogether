@@ -31,7 +31,6 @@
 <form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
     <div id = "menuCategorySelect">
         <select id="categorySave_value" onchange="categorySave()">
-            <option selected>소분류 선택</option>
             <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
             <option value="직접입력">직접 입력</option>
         </select>

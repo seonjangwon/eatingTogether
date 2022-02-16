@@ -20,7 +20,7 @@ public class BigCategoryDTO {
         return bigCategoryDTO;
     }
 
-    //지원
+    //지원 - 삭제할수도
     public static BigCategoryDTO toBCDetailDTO(BigCategoryEntity bigCategoryEntity) {
         BigCategoryDTO bigCategoryDTO = new BigCategoryDTO();
         bigCategoryDTO.setBigCategoryNumber(bigCategoryEntity.getBigCategoryNumber());

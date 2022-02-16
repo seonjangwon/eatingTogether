@@ -5,6 +5,7 @@ import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
+import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,7 @@ public class StoreController {
 
     @GetMapping ("/category/{bigCategoryNumber}")
     public String bigCategoryPage (@PathVariable Long bigCategoryNumber, Model model) {
+
         List<StoreDetailDTO> storeList = ss.findAll();
         model.addAttribute("storeList", storeList);
         System.out.println("category/{bigCategoryNumber}");
@@ -68,6 +70,12 @@ public class StoreController {
         System.out.println("매장상세내용 띄우기");
         StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
         model.addAttribute("storeList",storeDetailDTO);
+
+        // 0216 메뉴띄우기
+        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+        model.addAttribute("menuList",menuList);
+        System.out.println(menuList);
+
         System.out.println(storeDetailDTO.getStoreName());
         System.out.println(storeDetailDTO);
         return "store/store";

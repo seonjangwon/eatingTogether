@@ -18,9 +18,10 @@
             <tr th:each="bcl: ${storeList}">
                 <td th:text="${bcl.bigCategoryNumber}"> 번호... </td>
                 <td th:text="${bcl.storeName}"> 업체명 </td>
-                <td><a th:href="@{|/store/${bcl.storeName}|}"><span th:text="${bcl.storeName}"></span> </a> </td>
+                <td><a th:href="@{|/store/${bcl.storeNumber}|}"><span th:text="${bcl.storeName}"></span> </a> </td>
                 <td th:text="${bcl.storePhone}"> 업체주소 </td>
             </tr>
+
 
         </tbody>
     </table>

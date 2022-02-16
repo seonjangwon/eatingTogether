@@ -1,5 +1,6 @@
 package com.et.eatingtogether.dto.store;
 
+import com.et.eatingtogether.entity.MenuEntity;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,16 @@ public class MenuDTO {
     private int menuPrice;
     private String menuExplain;
 
+
+
+    public static MenuDTO toMenuDetailDTO (MenuEntity menuEntity)   {
+        MenuDTO menuDTO = new MenuDTO();
+            menuDTO.setMenuName(menuEntity.getMenuName());
+            menuDTO.setMenuExplain(menuEntity.getMenuExplain());
+            menuDTO.setMenuPrice(menuEntity.getMenuPrice());
+            menuDTO.setMenuFilename(menuEntity.getMenuFilename());
+            menuDTO.setStoreNumber(menuEntity.getStoreEntity().getStoreNumber());
+            menuDTO.setStoreCategoryName(menuEntity.getStoreCategoryEntity().getStoreCategoryName());
+        return menuDTO;
+    }
 }

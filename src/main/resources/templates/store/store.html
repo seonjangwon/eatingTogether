@@ -38,12 +38,19 @@
                 <th> 메뉴이름 </th>
                 <th> 메뉴설명 </th>
                 <th> 메뉴가격 </th>
+                <th> 메뉴사진 </th>
                 <th> 일단수량버튼 </th>
             </thead>
             <tbody>
-                <!--<tr th:each="menu: ${menuList}">
-                    <td th:text="${menu.menuname}"></td>
-                </tr>-->
+            <tr th:each="menu: ${menuList}">
+                <td th:text="${menu.menuName}"></td>
+                <td th:text="${menu.menuExplain}"></td>
+                <td th:text="${menu.menuPrice}"></td>
+                <td th:hidden="${menu.storeNumber}"></td>
+                <td th:hidden="${menu.storeCategoryName}"></td>
+                <td th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></td>
+            </tr>
+
             </tbody>
         </table>
     </section>
