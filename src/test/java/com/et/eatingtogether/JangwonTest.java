@@ -311,4 +311,13 @@ public class JangwonTest {
         cr.save(customerEntity);
     }
 
+    @Test
+    @DisplayName("업체 이메일 비번 생성용")
+    public void storeEmailPasswordAdd(){
+        StoreEntity storeEntity = sr.findById(10l).get();
+        storeEntity.setStoreEmail("qwe");
+        storeEntity.setStorePassword("qwe");
+        sr.save(storeEntity);
+    }
+
 }
