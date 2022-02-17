@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class MenuDTO {
 
+    private Long menuNumber;
     private Long storeNumber;
     private Long storeCategoryNumber;
     private String storeCategoryName;
@@ -27,6 +28,7 @@ public class MenuDTO {
 
     public static MenuDTO toMenuDetailDTO (MenuEntity menuEntity)   {
         MenuDTO menuDTO = new MenuDTO();
+            menuDTO.setMenuNumber(menuEntity.getMenuNumber());
             menuDTO.setMenuName(menuEntity.getMenuName());
             menuDTO.setMenuExplain(menuEntity.getMenuExplain());
             menuDTO.setMenuPrice(menuEntity.getMenuPrice());

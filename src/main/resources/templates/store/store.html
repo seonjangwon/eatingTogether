@@ -94,6 +94,7 @@
                 <th> 메뉴가격 </th>
                 <th> 메뉴사진 </th>
                 <th> 일단수량버튼 </th>
+                <th> 일단수정버튼 </th>
             </thead>
             <tbody>
             <tr th:each="menu: ${menuList}">
@@ -103,10 +104,13 @@
                 <td th:hidden="${menu.storeNumber}"></td>
                 <td th:hidden="${menu.storeCategoryName}"></td>
                 <td th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></td>
+                <td> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정? </a></td>
             </tr>
 
             </tbody>
         </table>
+        <a th:src="@{|/store/update/{menuNum}|}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
+        <a href="/store/update/{menu.menuNumber}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
     </section>
     <section id="reviewArea">
         리뷰출력예정

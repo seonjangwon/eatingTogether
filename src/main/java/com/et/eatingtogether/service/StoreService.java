@@ -30,4 +30,8 @@ public interface StoreService {
     List<MenuDTO> menuFindAll(Long storeNumber);
 
     MenuDetailDTO findByMenu(Long menuNumber);
+
+    Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException;
+
+    void deleteByMenu(Long menuNumber);
 }

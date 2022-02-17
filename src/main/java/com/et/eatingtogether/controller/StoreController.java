@@ -128,6 +128,22 @@ public class StoreController {
         return "store/menuUpdate";
     }
 
+    //왜 안돼
+    @PutMapping ("/update/{menuNumber}")
+    /*@ResponseBody*/
+    public ResponseEntity menuUpdate (@RequestBody MenuDetailDTO menuDetailDTO)  throws IOException {
+        System.out.println("StoreController.menuUpdate 처리");
+        ss.updateMenu(menuDetailDTO);
+    return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping ("/delete/{menuNumber}")
+    public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
+        System.out.println("StoreController.menuDelete");
+        ss.deleteByMenu(menuNumber);
+        return "redirect:/store/storeMain";
+    }
+
 
 
 

@@ -11,7 +11,6 @@ import com.et.eatingtogether.repository.MenuRepository;
 import com.et.eatingtogether.repository.StoreCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -191,32 +190,30 @@ public class StoreServiceImpl implements StoreService {
         return menuDetailDTO;
     }
 
+    @Override
+    public Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException{
+        System.out.println("updateMenu: "+menuDetailDTO);
+        MultipartFile menufile = menuDetailDTO.getMenuFile();
+        String menuFilename = menufile.getOriginalFilename();
+        menuFilename = System.currentTimeMillis() + "-" + menuFilename;
+        //저장되는 곳
+        String updatePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
 
-    //위에꺼지우기
-    /*
-    @Override //Menu findAll
-    public List<MenuDTO> menuFindAll(Long storeNumber) {
-        *//*List<MenuEntity> menuEntityList = mnr.findByStoreNumber();*//*
-        List<MenuEntity> menuEntityList = mnr.findByStoreEntity(StoreEntity storeEntity);
-
-        *//*MenuEntity menuEntityList = mnr.findById(MenuEntity.toSaveMenuEntity().getStoreEntity().getStoreNumber()).get();*//*
-        *//*MenuEntity menuEntity = mnr.findById(storeNumber).get();*//*
-        List<MenuDTO> menuList = new ArrayList<>();
-        for(MenuEntity menu: menuEntityList)    {
-            menuList.add(toMenuDetailDTO(menu));
+        if(!menuFilename.isEmpty()) {
+            menufile.transferTo(new File(updatePath));
         }
-        return menuList;
-    }*/
-    /*
-    *     public List<StoreDetailDTO> findAll() {
-        List<StoreEntity> storeEntityList = sr.findAll();
-        List<StoreDetailDTO> storeList = new ArrayList<>();
-            for (StoreEntity se1: storeEntityList)  {
-                storeList.add(toStoreDetailDTO(se1));
-            }
-        System.out.println("StoreServiceImpl.categoryFindAll");
-        return storeList;
-    }*/
+        StoreEntity storeEntity = sr.findById(menuDetailDTO.getStoreNumber()).get();
+        StoreCategoryEntity storeCategoryEntity = scr.findById(menuDetailDTO.getStoreCategoryNumber()).get();
+        menuDetailDTO.setMenuFilename(menuFilename);
+        System.out.println("StoreServiceImpl.updateMenu");
+        return mnr.save(MenuEntity.toUpdateMenuEntity(menuDetailDTO, storeEntity, storeCategoryEntity)).getMenuNumber();
+    }
+
+    @Override
+    public void deleteByMenu(Long menuNumber) {
+        System.out.println("StoreServiceImpl.deleteByMenu");
+        mnr.deleteById(menuNumber);
+    }
 
 
 }

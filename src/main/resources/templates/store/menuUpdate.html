@@ -6,8 +6,14 @@
   <title>[뭐먹을까요:업체] 메뉴수정</title>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script>
-    const menuUpdateBtn = () => {
-      let menuUpdateData = new FormData($('#updateForm')[0]);
+    const menuUpdate_btn = () => {
+      /*let menuUpdateData = new FormData($('#updateForm'));*/
+      let menuUpdateData = new FormData();
+      menuUpdateData.append("number",$('#menu_number').val());
+      menuUpdateData.append("name",$('#menu_name').val());
+      menuUpdateData.append("explain",$('#menu_explain').val());
+      menuUpdateData.append("price",$('#menu_price').val());
+      menuUpdateData.append("file",$('#menu_file')[0]);
       //새로운 form #updateForm에 [0] = 1개의 데이터를 담아 menuUpdateData에 넣음
       const id = document.querySelector('#menu_number').value;
       console.log(menuUpdateData);
@@ -33,19 +39,20 @@
 
   <section id="menuUpdate">
   <span th:text="${session['storeLoginEmail']}"}> </span>
-  님 메뉴수정요청
+  님
+    <h4> <span th:text="*{menu.menuName}"> </span> 메뉴 수정 </h4>
 
     <form id="updateForm" enctype="multipart/form-data">
 
       <input type="hidden" id="menu_number" th:value="${menu.menuNumber}">
-      <input type="text" name="menuName" th:value="${menu.menuName}" placeholder="메뉴이름"><br>
-      <input type="text" name="menuExplain" th:value="${menu.menuExplain}" placeholder="메뉴설명"><br>
-      <input type="text" name="menuPrice" th:value="${menu.menuPrice}" placeholder="가격"><br>
-      <input type="file" name="menuFile" th:value="${menu.menuFilename}" placeholder="메뉴사진"><br>
+      <input type="text" id="menu_name" name="menuName" th:value="${menu.menuName}" placeholder="메뉴이름"><br>
+      <input type="text" id="menu_explain" name="menuExplain" th:value="${menu.menuExplain}" placeholder="메뉴설명"><br>
+      <input type="text" id="menu_price" name="menuPrice" th:value="${menu.menuPrice}" placeholder="가격"><br>
+      <input type="file" id="menu_file" name="menuFile" th:value="${menu.menuFilename}" placeholder="메뉴사진"><br>
       <img th:src="@{|/upload/${menu.menuFile}|}" alt="사진"><br>
       <input type="hidden" name="storeNumber" th:value="${menu.storeNumber}"><br>
     </form>
-    <button th:onclick="menuUpdateBtn([[${menu.menuNumber}]])"> 수정ajax</button>
+    <button th:onclick="menuUpdate_btn([[${menu.menuNumber}]])"> 수정ajax</button>
   </section>
 
 
