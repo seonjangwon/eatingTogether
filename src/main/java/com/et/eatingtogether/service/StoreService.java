@@ -34,4 +34,5 @@ public interface StoreService {
     Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException;
 
     void deleteByMenu(Long menuNumber);
+
 }

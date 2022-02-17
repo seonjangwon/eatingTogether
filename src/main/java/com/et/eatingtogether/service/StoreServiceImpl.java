@@ -214,6 +214,4 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("StoreServiceImpl.deleteByMenu");
         mnr.deleteById(menuNumber);
     }
-
-
 }

@@ -61,5 +61,4 @@ public class MenuEntity {
         menuEntity.setStoreCategoryEntity(storeCategoryEntity);
         return menuEntity;
     }
-
 }

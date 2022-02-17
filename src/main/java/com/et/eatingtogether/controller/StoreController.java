@@ -137,11 +137,19 @@ public class StoreController {
     return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping ("/delete/{menuNumber}")
+/*    @DeleteMapping ("/delete/{menuNumber}")
     public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
         System.out.println("StoreController.menuDelete");
         ss.deleteByMenu(menuNumber);
         return "redirect:/store/storeMain";
+    }*/
+
+    @DeleteMapping ("/delete/{menuNumber}")
+
+    public ResponseEntity menuDelete (@PathVariable Long menuNumber)  {
+        System.out.println("StoreController.menuDelete");
+        ss.deleteByMenu(menuNumber);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 

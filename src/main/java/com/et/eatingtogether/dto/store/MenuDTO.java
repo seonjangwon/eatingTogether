@@ -25,7 +25,6 @@ public class MenuDTO {
     private String menuExplain;
 
 
-
     public static MenuDTO toMenuDetailDTO (MenuEntity menuEntity)   {
         MenuDTO menuDTO = new MenuDTO();
             menuDTO.setMenuNumber(menuEntity.getMenuNumber());
@@ -37,4 +36,5 @@ public class MenuDTO {
             menuDTO.setStoreCategoryName(menuEntity.getStoreCategoryEntity().getStoreCategoryName());
         return menuDTO;
     }
+
 }
