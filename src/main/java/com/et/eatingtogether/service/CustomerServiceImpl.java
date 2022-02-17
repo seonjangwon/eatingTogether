@@ -17,12 +17,20 @@ import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 import com.et.eatingtogether.entity.CustomerEntity;
 import com.et.eatingtogether.repository.CustomerRepository;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -295,5 +303,127 @@ public class CustomerServiceImpl implements CustomerService {
             br.deleteById(b.getBasketNumber());
         }
         // 장바구니 모두 삭제
+    }
+
+    @Override
+    public String getAccessToken(String code) {
+        String access_token = "";
+        String refresh_token = "";
+        String reqURL = "https://kauth.kakao.com/oauth/token";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            // post 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=b577db5cfc34ee9556c27e55b2f22763");
+            sb.append("&redirect_uri=http://localhost:8099/customer/kakaoLogin");
+            sb.append("&code=" + code);
+            bw.write(sb.toString());
+            bw.flush();
+            // 200이면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode = " + responseCode);
+            // 요청을 통해 얻은 JSON타입의 response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("result = " + result);
+            // gson 라이브러리에 포함된 클래스로 json파싱 객체 생성
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            access_token = element.getAsJsonObject().get("access_token").getAsString();
+            refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
+            // 이건 왜 하는거지 refresh 쓰는 곳이 없는데?
+            System.out.println("access_token = " + access_token);
+            System.out.println("refresh_token = " + refresh_token);
+            br.close();
+            bw.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return access_token;
+    }
+
+    @Override
+    public HashMap<String, String> getUserInfo(String access_token) {
+        HashMap<String,String> userInfo = new HashMap<String,String>();
+        String reqURL = "https://kapi.kakao.com/v2/user/me";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            // 200이면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode = " + responseCode);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null){
+                result += line;
+            }
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            String id = element.getAsJsonObject().get("id").getAsString();
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            userInfo.put("id",id);
+            userInfo.put("nickname",nickname);
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userInfo;
+    }
+
+    @Override
+    public void kakaoLogout(String access_token) {
+        String reqURL = "https://kapi.kakao.com/v1/user/logout";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection)   url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode = " + responseCode);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String result = "";
+            String line = "";
+            while ((line = br.readLine()) != null){
+                result += line;
+            }
+            System.out.println("result = " + result);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void kakaoUnlink(String access_token) {
+        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection)   url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode = " + responseCode);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String result = "";
+            String line = "";
+            while ((line = br.readLine()) != null){
+                result += line;
+            }
+            System.out.println("result = " + result);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

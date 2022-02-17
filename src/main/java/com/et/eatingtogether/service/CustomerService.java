@@ -7,6 +7,7 @@ import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
@@ -53,4 +54,12 @@ public interface CustomerService {
     Long orderSave(OrderDTO orderDTO);
 
     void basketDeleteAll();
+
+    String getAccessToken(String code);
+
+    HashMap<String, String> getUserInfo(String access_token);
+
+    void kakaoLogout(String access_token);
+
+    void kakaoUnlink(String access_token);
 }

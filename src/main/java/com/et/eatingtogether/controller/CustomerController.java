@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -37,7 +38,7 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public String updateForm(@ModelAttribute CustomerDetailDTO customerDetailDTO){
+    public String update(@ModelAttribute CustomerDetailDTO customerDetailDTO){
         return cs.update(customerDetailDTO);
     }
 
@@ -173,4 +174,47 @@ public class CustomerController {
         return "redirect:/customer/history/"+orderNumber;// 주문 번호 추가 하기
         //return "index";
     }
+
+    @GetMapping("/kakaoLogin")
+    public String kakaoLogin(@RequestParam("code") String code, Model model){
+        System.out.println("code = " + code);
+        String access_token = cs.getAccessToken(code);
+        System.out.println("access_token = " + access_token);
+        HashMap<String,String> userInfo = cs.getUserInfo(access_token);
+        CustomerDetailDTO customerDetailDTO = cs.findByEmail(userInfo.get("id"));
+        System.out.println("customerDetailDTO = " + customerDetailDTO);
+        session.setAttribute("customerLoginEmail",userInfo.get("id"));
+        session.setAttribute("access_token",access_token); // 로그아웃 또는 연결 해제에 사용
+        if (customerDetailDTO == null){
+            // 가입 시작
+            model.addAttribute("id",userInfo.get("id"));
+            model.addAttribute("nickname",userInfo.get("nickname"));
+            model.addAttribute("customer",new CustomerDetailDTO());
+            return "customer/kakaoUpdate";
+        } else {
+            return "index";// 나중에 수정
+        }
+    }
+
+    @PostMapping("/kakaoUpdate")
+    public String kakaoUpdate(@ModelAttribute CustomerSaveDTO customerSaveDTO){
+        cs.save(customerSaveDTO);
+        return "index";
+    }
+
+    @GetMapping("/kakaoLogout")
+    public String kakaoLogout(){
+        cs.kakaoLogout((String)session.getAttribute("access_token"));
+        session.invalidate();
+        return "index";
+    }
+
+    @GetMapping("kakaoUnlink")
+    public String kakaoUnlink(){
+        cs.kakaoUnlink((String) session.getAttribute("access_token"));
+        // 그리고 회원 삭제
+        session.invalidate();
+        return "index";
+    }
+
 }
