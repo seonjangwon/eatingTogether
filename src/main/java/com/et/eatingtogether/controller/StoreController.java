@@ -1,6 +1,7 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.store.MenuDetailDTO;
 import com.et.eatingtogether.dto.store.StoreCategoryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
@@ -94,21 +95,7 @@ public class StoreController {
         model.addAttribute("storeNumber",storeList.getStoreNumber());
         return "store/menuSave";
     }
-    // 모든것에 의미를 부여하지말자...
-    /* 슬프다 똑똑해지고싶다 흑흑
-
-    public String menuForm(Model model)  {
-    메뉴 등록을 위한 폼을 띄우는 메소드
-        - model.addAttribute("menuSave", new MenuDTO()); 새로운 MenuDTO에 "menuSave" 라는 이름을 가진 데이터를 담는다.
-        - select에 띄울 storeCategory 데이터를 가져옴.
-        List<StoreCategoryDTO> categoryDTOList = ss.categoryList();
-        model.addAttribute("storeCategory", categoryDTOList);
-        StoreDetailDTO storeList = ss.findById((String) seesion.getAttribute("storeLoginEmail));
-        model.addAttribute("storeNumber", storeLit.getStoreNumber());
-    return "store/menuSave";
-
-     */
-
+    // 모든것에 의미를 부여하지말자... 슬프다 똑똑해지고싶다 흑흑
 
     // 0214-15 지원 메뉴등록
     @PostMapping ("/menu")
@@ -123,4 +110,25 @@ public class StoreController {
         ss.saveMenu(menuDTO, storeCategoryEntity);
         return "redirect:/store/"+storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
+
+    //0216
+    @PostMapping("/menuList")
+    public @ResponseBody List<MenuDTO> menuAjax(@PathVariable Long storeNumber)  {
+        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+        System.out.println("storeController.List<MenuDTO> menuAjax");
+        return menuList;
+    }
+
+    //0217 헉 이거 아니다 아 아니 맞다
+    @GetMapping ("/update/{menuNumber}")
+    public String menuUpdateForm (@PathVariable Long menuNumber, Model model) {
+        MenuDetailDTO menuDetail = ss.findByMenu(menuNumber);
+        model.addAttribute("menu", menuDetail);
+        System.out.println("StoreController.menuUpdateForm 실행");
+        return "store/menuUpdate";
+    }
+
+
+
+
 }

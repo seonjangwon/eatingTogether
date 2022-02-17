@@ -28,4 +28,6 @@ public interface StoreService {
     StoreDetailDTO findByNumber(Long storeNumber);
 
     List<MenuDTO> menuFindAll(Long storeNumber);
+
+    MenuDetailDTO findByMenu(Long menuNumber);
 }

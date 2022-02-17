@@ -1,6 +1,7 @@
 package com.et.eatingtogether.entity;
 
 import com.et.eatingtogether.dto.store.MenuDTO;
+import com.et.eatingtogether.dto.store.MenuDetailDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,5 +49,17 @@ public class MenuEntity {
         return menuEntity;
     }
 
+    //지원
+    public static MenuEntity toUpdateMenuEntity (MenuDetailDTO menuDetailDTO, StoreEntity storeEntity, StoreCategoryEntity storeCategoryEntity) {
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setMenuNumber(menuDetailDTO.getMenuNumber());
+        menuEntity.setMenuName(menuDetailDTO.getMenuName());
+        menuEntity.setMenuPrice(menuDetailDTO.getMenuPrice());
+        menuEntity.setMenuExplain(menuDetailDTO.getMenuExplain());
+        menuEntity.setMenuFilename(menuDetailDTO.getMenuFilename());
+        menuEntity.setStoreEntity(storeEntity);
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
+        return menuEntity;
+    }
 
 }

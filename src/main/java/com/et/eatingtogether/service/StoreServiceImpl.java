@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
@@ -175,6 +176,19 @@ public class StoreServiceImpl implements StoreService {
             menuList.add(toMenuDetailDTO(menu));
         }
         return menuList;
+    }
+
+    //0217 메뉴수정을 위한.
+    @Override
+    public MenuDetailDTO findByMenu(Long menuNumber) {
+        Optional<MenuEntity> optionalMenuEntity = mnr.findById(menuNumber);
+        MenuDetailDTO menuDetailDTO = null;
+
+        if(optionalMenuEntity.isPresent()) {
+            MenuEntity menuEntity = optionalMenuEntity.get();
+            menuDetailDTO = MenuDetailDTO.toDetailMenu(menuEntity);
+        }
+        return menuDetailDTO;
     }
 
 
