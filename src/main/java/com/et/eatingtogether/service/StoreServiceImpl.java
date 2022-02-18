@@ -38,12 +38,13 @@ public class StoreServiceImpl implements StoreService {
     public boolean login(StoreLoginDTO storeLoginDTO) {
         System.out.println("StoreSerivceImpl.login");
         StoreEntity storeEntity = sr.findByStoreEmail(storeLoginDTO.getStoreEmail());
-        if (storeEntity != null)    {
-            if(storeEntity.getStorePassword().equals(storeLoginDTO.getStorePassword())) {
-            return true;
-        }   else    {
-            return false;
-        }}  else    {
+        if (storeEntity != null) {
+            if (storeEntity.getStorePassword().equals(storeLoginDTO.getStorePassword())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
             return false;
         }
     }
@@ -56,10 +57,10 @@ public class StoreServiceImpl implements StoreService {
         if (!storeSaveDTO.getStoreFile().isEmpty()) {
             MultipartFile storeFile = storeSaveDTO.getStoreFile();
             String storeFilename = storeFile.getOriginalFilename();
-            storeFilename = System.currentTimeMillis()+"-"+storeFilename;
-            System.out.println("파일이름: "+storeFilename);
-            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\"+storeFilename;
-            if (!storeFile.isEmpty()){
+            storeFilename = System.currentTimeMillis() + "-" + storeFilename;
+            System.out.println("파일이름: " + storeFilename);
+            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\" + storeFilename;
+            if (!storeFile.isEmpty()) {
                 storeFile.transferTo(new File(savePath));
             }
             storeSaveDTO.setStoreFilename(storeFilename);
@@ -70,8 +71,8 @@ public class StoreServiceImpl implements StoreService {
 
         //0210 사용자가 입력한 이메일 중복체크
         StoreEntity emailCheckResult = sr.findByStoreEmail(storeSaveDTO.getStoreEmail());
-        if (emailCheckResult != null)   { //64. 입력한 email이 null이 아닐 경우 65.예외 발생
-            throw  new IllegalStateException("중복된 이메일입니다.");
+        if (emailCheckResult != null) { //64. 입력한 email이 null이 아닐 경우 65.예외 발생
+            throw new IllegalStateException("중복된 이메일입니다.");
             // 예외 종류: IllegalStateException, 예외 메세지: 중복된 이메일입니다.
         }
 
@@ -82,9 +83,9 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreDetailDTO> findAll() {
         List<StoreEntity> storeEntityList = sr.findAll();
         List<StoreDetailDTO> storeList = new ArrayList<>();
-            for (StoreEntity se1: storeEntityList)  {
-                storeList.add(toStoreDetailDTO(se1));
-            }
+        for (StoreEntity se1 : storeEntityList) {
+            storeList.add(toStoreDetailDTO(se1));
+        }
         System.out.println("StoreServiceImpl.categoryFindAll");
         return storeList;
     }
@@ -93,16 +94,15 @@ public class StoreServiceImpl implements StoreService {
     public List<BigCategoryDTO> findAllBc() {
         List<BigCategoryEntity> bigCategoryEntityList = bcr.findAll();
         List<BigCategoryDTO> bcList = new ArrayList<>();
-            for (BigCategoryEntity bce: bigCategoryEntityList)  {
-                bcList.add(toBCDetailDTO(bce));
-            }
+        for (BigCategoryEntity bce : bigCategoryEntityList) {
+            bcList.add(toBCDetailDTO(bce));
+        }
         System.out.println("ServiceImpl.findAllBc.해치웠나");
         return bcList;
     }
 
 
     // store/category/{bigCategoryNumber} 하기위해.
-
 
 
     //0214
@@ -116,19 +116,19 @@ public class StoreServiceImpl implements StoreService {
     public void saveMenu(MenuDTO menuDTO, StoreCategoryEntity storeCategoryEntity) throws IOException {
         System.out.println("StoreServiceImpl.menuSave");
 
-            MultipartFile menuFile = menuDTO.getMenuFile();
-            String menuFilename = menuFile.getOriginalFilename();
-            menuFilename = System.currentTimeMillis() + menuFilename;
+        MultipartFile menuFile = menuDTO.getMenuFile();
+        String menuFilename = menuFile.getOriginalFilename();
+        menuFilename = System.currentTimeMillis() + menuFilename;
 
-            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
-            if (!menuFile.isEmpty())    {
-                menuFile.transferTo(new File(savePath));
-            }
-            menuDTO.setMenuFilename(menuFilename);
+        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
+        if (!menuFile.isEmpty()) {
+            menuFile.transferTo(new File(savePath));
+        }
+        menuDTO.setMenuFilename(menuFilename);
 
         StoreEntity storeEntity = sr.findById(menuDTO.getStoreNumber()).get();
 //        StoreCategoryEntity storeCategoryEntity = scr.findById(menuDTO.getStoreCategoryNumber()).get();
-        MenuEntity menuEntity = MenuEntity.toSaveMenuEntity(menuDTO,storeEntity,storeCategoryEntity);
+        MenuEntity menuEntity = MenuEntity.toSaveMenuEntity(menuDTO, storeEntity, storeCategoryEntity);
 
         mnr.save(menuEntity);
     }
@@ -138,7 +138,7 @@ public class StoreServiceImpl implements StoreService {
         StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail")); //session은 object class로 값을 가져오기때문에 String으로 형변환을 해준다.
         List<StoreCategoryDTO> storeCategoryDTOList = new ArrayList<>();    // List<스토어카테고리의 정보가 있는> storeCategoryDTOList를 새로이 List화 시킨다.
         if (!storeEntity.getStoreCategoryEntityList().isEmpty()) {          // if, storeEntity의 StoreCategoryEntityList가 Empty가 아닌 경우
-            for (StoreCategoryEntity c : storeEntity.getStoreCategoryEntityList()){ // for문을 이용해 storeEntity의 StoreCategryEntityList를 c에 담는다.
+            for (StoreCategoryEntity c : storeEntity.getStoreCategoryEntityList()) { // for문을 이용해 storeEntity의 StoreCategryEntityList를 c에 담는다.
                 storeCategoryDTOList.add(StoreCategoryDTO.toEntity(c));     // StoreCategoryDTO.toEntity(c) 라는 값을. storeCategoryDTOList에 add-추가한다.
             }
         }
@@ -171,13 +171,13 @@ public class StoreServiceImpl implements StoreService {
         List<MenuEntity> menuEntityList = mnr.findByStoreEntity(storeEntity);
 
         List<MenuDTO> menuList = new ArrayList<>();
-        for(MenuEntity menu: menuEntityList)    {
+        for (MenuEntity menu : menuEntityList) {
             menuList.add(toMenuDetailDTO(menu));
         }
         return menuList;
     }
 
-     // 0218 bigCategoryNum 눌렀을 때 해당 bcNum 을 갖고있는 스토어만 띄우는 기능
+    // 0218 bigCategoryNum 눌렀을 때 해당 bcNum 을 갖고있는 스토어만 띄우는 기능
     @Override
     public List<StoreDetailDTO> findByBcNumber(Long bigCategoryNumber) {
         BigCategoryEntity bigCategoryEntity = bcr.findById(bigCategoryNumber).get();
@@ -188,7 +188,7 @@ public class StoreServiceImpl implements StoreService {
 
         List<StoreDetailDTO> storeList = new ArrayList<>();
 
-        for(StoreEntity se: storeEntityList){
+        for (StoreEntity se : storeEntityList) {
             storeList.add(toStoreDetailDTO(se));
         }
         return storeList;
@@ -201,7 +201,7 @@ public class StoreServiceImpl implements StoreService {
         Optional<MenuEntity> optionalMenuEntity = mnr.findById(menuNumber);
         MenuDetailDTO menuDetailDTO = null;
 
-        if(optionalMenuEntity.isPresent()) {
+        if (optionalMenuEntity.isPresent()) {
             MenuEntity menuEntity = optionalMenuEntity.get();
             menuDetailDTO = MenuDetailDTO.toDetailMenu(menuEntity);
         }
@@ -209,20 +209,24 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException{
-        System.out.println("updateMenu: "+menuDetailDTO);
+    public Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException {
+        System.out.println("updateMenu: " + menuDetailDTO);
+        StoreEntity storeEntity = null;
+        StoreCategoryEntity storeCategoryEntity = null;
+
         MultipartFile menufile = menuDetailDTO.getMenuFile();
         String menuFilename = menufile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + "-" + menuFilename;
         //저장되는 곳
         String updatePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
 
-        if(!menuFilename.isEmpty()) {
+        if (!menuFilename.isEmpty()) {
             menufile.transferTo(new File(updatePath));
         }
-        StoreEntity storeEntity = sr.findById(menuDetailDTO.getStoreNumber()).get();
-        StoreCategoryEntity storeCategoryEntity = scr.findById(menuDetailDTO.getStoreCategoryNumber()).get();
+        storeEntity = sr.findById(menuDetailDTO.getStoreNumber()).get();
+        storeCategoryEntity = scr.findById(menuDetailDTO.getStoreCategoryNumber()).get();
         menuDetailDTO.setMenuFilename(menuFilename);
+
         System.out.println("StoreServiceImpl.updateMenu");
         return mnr.save(MenuEntity.toUpdateMenuEntity(menuDetailDTO, storeEntity, storeCategoryEntity)).getMenuNumber();
     }

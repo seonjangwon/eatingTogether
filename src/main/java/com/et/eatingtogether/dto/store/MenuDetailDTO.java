@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
             MenuDetailDTO menuDetailDTO = new MenuDetailDTO();
             menuDetailDTO.setMenuNumber(menuEntity.getMenuNumber());
             menuDetailDTO.setMenuName(menuEntity.getMenuName());
+            menuDetailDTO.setStoreNumber(menuEntity.getStoreEntity().getStoreNumber());
             menuDetailDTO.setStoreCategoryNumber(menuEntity.getStoreCategoryEntity().getStoreCategoryNumber());
             menuDetailDTO.setStoreCategoryName(menuEntity.getStoreCategoryEntity().getStoreCategoryName());
             menuDetailDTO.setMenuExplain(menuEntity.getMenuExplain());

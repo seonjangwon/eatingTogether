@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -132,13 +134,36 @@ public class StoreController {
         return "store/menuUpdate";
     }
 
-    //왜 안돼
-    @PutMapping ("/update/{menuNumber}")
-    /*@ResponseBody*/
-    public ResponseEntity menuUpdate (@RequestBody MenuDetailDTO menuDetailDTO)  throws IOException {
+    //왜 ㅠ
+    @PutMapping ("/update")
+    @ResponseBody
+    public String menuUpdate (//@RequestBody MenuDetailDTO menuDetailDTO,
+            @RequestParam(value = "menuFile",required = false) MultipartFile menuFile,
+                              MultipartHttpServletRequest request,
+                              @RequestParam("menuNumber") Long menuNumber,
+                              @RequestParam("storeNumber") Long storeNumber,
+                              @RequestParam("storeCategoryNumber") Long storeCategoryNumber,
+                              @RequestParam("menuName") String menuName,
+                              @RequestParam("menuPrice") int menuPrice,
+                              @RequestParam("menuExplain") String menuExplain
+                              )  throws IOException {
         System.out.println("StoreController.menuUpdate 처리");
-        Long menuNumber = ss.updateMenu(menuDetailDTO);
-    return new ResponseEntity(HttpStatus.OK);
+        System.out.println("menuFile = " + menuFile);
+        System.out.println("menuNumber = " + menuNumber);
+        System.out.println("menuName = " + menuName);
+        System.out.println("menuPrice = " + menuPrice);
+        System.out.println("menuExplain = " + menuExplain);
+//        System.out.println("menuDetailDTO = " + menuDetailDTO);
+        MenuDetailDTO menuDetailDTO = new MenuDetailDTO();
+        menuDetailDTO.setMenuNumber(menuNumber);
+        menuDetailDTO.setMenuName(menuName);
+        menuDetailDTO.setMenuPrice(menuPrice);
+        menuDetailDTO.setMenuExplain(menuExplain);
+        menuDetailDTO.setMenuFile(menuFile);
+        menuDetailDTO.setStoreNumber(storeNumber);
+        menuDetailDTO.setStoreCategoryNumber(storeCategoryNumber);
+        ss.updateMenu(menuDetailDTO);
+    return "ok"; // ok는 memberUpdate의 ajax success 의 result 값으로 적용된다.
     }
 
 /*    @DeleteMapping ("/delete/{menuNumber}")
