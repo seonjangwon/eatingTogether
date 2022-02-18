@@ -1,12 +1,14 @@
 package com.et.eatingtogether;
 
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreLoginDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
+import com.et.eatingtogether.entity.MenuEntity;
+import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.repository.BigCategoryRepository;
+import com.et.eatingtogether.repository.MenuRepository;
+import com.et.eatingtogether.repository.StoreCategoryRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import com.et.eatingtogether.service.StoreService;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -29,38 +32,47 @@ public class JiwonTest {
     private StoreRepository sr;
     @Autowired
     private BigCategoryRepository bcr;
+    @Autowired
+    private StoreCategoryRepository scr;
+    @Autowired
+    private MenuRepository mnr;
     //✔ 테스트에 앞서 의존성 주입을 진행
+
 
     @Test
     @DisplayName("회원데이터 생성")
     public void newMembers() {
     }
 
-/*    @Test
-    @DisplayName("대분류생성")
-    public void AddBcList() {
-        BigCategoryEntity bc1 = new BigCategoryEntity("ㅎㅎ",1L);
-        BigCategoryEntity bc2 = new BigCategoryEntity("ㅋㅋ",2L);
-
-        List<BigCategoryEntity> bcList = new ArrayList<>();
-        bcr.saveAll(bcList);
-        System.out.println("흠");
-    }*/
-
     @Test
-    @Transactional
-    @Rollback
-    //작업을 취소하고 이전의 상태로 돌림
-    //로그인테스트
-    public void loginTest() {
-        //given 나는 가입기능이 있으니까 가입부터 진행
+    //@Transactional
+    //@Rollback
+    @DisplayName("메뉴추가 힘들어")
+    public void SaveMenuTest()  {
 
-        //when 로그인
-        //1. 이메일이 틀렸을 경우
-        //2. 비밀번호가 틀렸을 경우
+        //업체
+        BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setBigCategoryEntity(bigCategoryEntity);
+        storeEntity.setStoreName("오 이런식으로");
+        Long storeNumber = sr.save(storeEntity).getStoreNumber();
 
-        //then 기능실행
-        //트라이캐치
+        //스토어카테고리
+        StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
+        storeCategoryEntity.setStoreEntity(storeEntity);
+        storeCategoryEntity.setStoreCategoryName("김밥류");
+        Long storeCategoryNumber = scr.save(storeCategoryEntity).getStoreCategoryNumber();
+
+        //메뉴
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setStoreEntity(storeEntity);
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
+        menuEntity.setMenuName("SaveMenu");
+        menuEntity.setMenuPrice(3000);
+        Long menuNumber = mnr.save(menuEntity).getMenuNumber();
+        System.out.println("menuEntity: "+menuEntity);
+
+
     }
 
 }

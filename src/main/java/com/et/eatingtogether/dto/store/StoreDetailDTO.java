@@ -1,5 +1,6 @@
 package com.et.eatingtogether.dto.store;
 
+import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,6 @@ public class StoreDetailDTO {
 
     private MultipartFile storeFile;
     private Long storeNumber;
-    private Long bicCategoryNumber;
 
     private String storeFilename;
     private String storeName;
@@ -31,9 +31,10 @@ public class StoreDetailDTO {
 
     //MemberEntity -> MemberDetailDTO
 
-    public static StoreDetailDTO toStoreDetailDTO (StoreEntity storeEntity){
+    public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
-        /*storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity());*/
+        storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
+        storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity().getBigCategoryNumber());
         storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
         storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());
@@ -45,12 +46,12 @@ public class StoreDetailDTO {
         return storeDetailDTO;
     }
 
-    public static StoreDetailDTO toStoreDetailDTO1(StoreEntity storeEntity){
+/*    public static StoreDetailDTO toStoreDetailDTO1(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
         storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());
         return storeDetailDTO;
-    }
+    }*/
 
 }
 

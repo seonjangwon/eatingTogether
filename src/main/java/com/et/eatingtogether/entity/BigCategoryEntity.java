@@ -24,10 +24,5 @@ public class BigCategoryEntity {
     private List<StoreEntity> storeEntities;
 
 
-/*    public static BigCategoryEntity saveBc(BigCategoryDTO bigCategoryDTO) {
-        BigCategoryEntity bigCategoryEntity = new BigCategoryEntity();
-        bigCategoryEntity.setBigCategoryNumber(bigCategoryEntity.getBigCategoryNumber());
-        bigCategoryEntity.setBigCategoryName(bigCategoryDTO.getBigCategoryName());
-        return bigCategoryEntity;
-    }*/
+
 }
