@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원신고페이지</title>
+    <script>
+    const reportbtn = () => {
+        fomdata = $("#report_form").serialize();
+
+
+
+    }
+    </script>
+</head>
+<body>
+<form id="report_form">
+<div>
+    <input type="checkbox" name="reportCause" value="1"> 주문과 관련없는 내용
+    <input type="checkbox" name="reportCause" value="2"> 음란성, 욕설 등 부적절한 내용
+    <input type="checkbox" name="reportCause" value="3"> 부적절한 홍보 또는 광고
+    <input type="checkbox" name="reportCause" value="4"> 개인정보 유출위험
+    <input type="checkbox" name="reportCause" value="5"> 리뷰작성 취지에 맞지 않는 내용
+</div>
+    <textarea name="reportOpinion" cols="70" roww="4"></textarea>
+    <input type="button" value="신고하기" onclick="reportbtn()">
+</form>
+
+</body>
+</html>

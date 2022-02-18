@@ -1,8 +1,10 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
+import com.et.eatingtogether.dto.review.ReviewTestDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
@@ -11,10 +13,12 @@ import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,8 @@ public class AdminServiceImpl implements AdminService {
     private final ReviewFileRepository rfr; // 리뷰파일
     private final ReviewRepository rer; // 리뷰
 
+    private final CustomerBlacklistRepository cbr; // 회원블랙리스트
+    private final CustomerReportRepository crr; // 회원신고내역
 
     // 쿠폰저장
     @Override
@@ -95,7 +101,7 @@ public class AdminServiceImpl implements AdminService {
     public List<StoreDetailDTO> storeFindAll() {
         List<StoreEntity> storeEntityList = sr.findAll();
         List<StoreDetailDTO> storeList = new ArrayList<>();
-        for(StoreEntity s : storeEntityList){
+        for (StoreEntity s : storeEntityList) {
             storeList.add(StoreDetailDTO.toStoreDetailDTO(s));
         }
         System.out.println("서비스임플 storeList = " + storeList);
@@ -116,16 +122,75 @@ public class AdminServiceImpl implements AdminService {
 
     // 고객리뷰 저장
     @Override
-    public void reviewSave(ReviewSaveDTO reviewSaveDTO) {
+    public void reviewSave(ReviewSaveDTO reviewSaveDTO) throws IOException {
+//      reviewSaveDTO.getReviewFileDTOList().forEach(reviewFileDTO ->{
+//          rfr.save(reviewFileDTO.getReviewFilename());
+//      });
         // 1. 리뷰Entity에 saveDTO 저장
         // 2. 리뷰 Entity
-         Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+        Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+        System.out.println("reviewNumber = " + reviewNumber);
         ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
+        ReviewTestDTO reviewTestDTO = ReviewTestDTO.toEntity(reviewEntity);
+        System.out.println("reviewTestDTO = " + reviewTestDTO);
+        System.out.println("reviewEntity = " + reviewEntity);
+
         // r : reviewSaveDTO에 있는 파일리스트부분, reviewEntity : reviewRepository에 저장한 작성된 리뷰
-        for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()){
-            rfr.save(ReviewFileEntity.toEntity(r,reviewEntity));
+
+        if (!reviewSaveDTO.getReviewFileDTOList().isEmpty()) {
+            for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()) {
+
+                MultipartFile r_file = r.getReviewFile();
+                String r_fileName = System.currentTimeMillis() + r_file.getOriginalFilename();
+                System.out.println("r_fileName = " + r_fileName);
+                // 저장경로
+                String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;
+
+                // 만약 r_file이 비어있지 않다면 저장경로에 저장하기
+                if (r_file != null) {
+                    r_file.transferTo(new File(savePath));
+                }
+                // 파일이름 dto에 저장
+                r.setReviewFilename(r_fileName);
+
+                rfr.save(ReviewFileEntity.toEntity(r, reviewEntity));
+
+            }
         }
-        // 저장 완료
+
+    }
+
+
+    // 리뷰 목록 출력용
+    @Override
+    public List<ReviewTestDTO> reviewFindAll() {
+        List<ReviewEntity> reviewEntityList = rer.findAll();
+        List<ReviewTestDTO> reviewList = new ArrayList<>();
+        for (ReviewEntity r : reviewEntityList) {
+            reviewList.add(ReviewTestDTO.toEntity(r));
+        }
+        return reviewList;
+    }
+
+    @Override
+    public void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException {
+        Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+        System.out.println("reviewNumber = " + reviewNumber);
+        ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
+        MultipartFile r_file = r.getReviewFile();
+        String r_fileName = System.currentTimeMillis() + r_file.getOriginalFilename();
+        System.out.println("r_fileName = " + r_fileName);
+        // 저장경로
+        String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;
+
+        // 만약 r_file이 비어있지 않다면 저장경로에 저장하기
+        if (r_file != null) {
+            r_file.transferTo(new File(savePath));
+        }
+        // 파일이름 dto에 저장
+        r.setReviewFilename(r_fileName);
+
+        rfr.save(ReviewFileEntity.toEntity(r, reviewEntity));
     }
 
 

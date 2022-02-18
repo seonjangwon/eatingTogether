@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,8 @@ public class ReviewEntity {
     private String reviewContents;
     private int reviewScore;
     private LocalDateTime reviewTime;
+
+
 
     @OneToMany(mappedBy = "reviewEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ReviewFileEntity> reviewFileEntityList = new ArrayList<>();
