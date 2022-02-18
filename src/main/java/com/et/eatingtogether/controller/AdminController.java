@@ -104,4 +104,14 @@ public class AdminController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+//    // 신고페이지로 이동
+//    @GetMapping("/customerReport/{customerNumber}")
+//    public String reportPage(@PathVariable ){
+//        return "admin/customerReport";
+//    }
+
+
+
+
 }
