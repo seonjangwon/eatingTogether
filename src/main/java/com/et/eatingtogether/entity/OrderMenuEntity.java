@@ -24,4 +24,5 @@ public class OrderMenuEntity {
     private MenuEntity menuEntity;
 
     private int orderMenuCount;
+
 }

@@ -49,6 +49,11 @@ public class CustomerEntity {
     @OneToMany(mappedBy = "customerEntity",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<WishlistEntity> wishlistEntity;
 
+//    // 신고관련
+//    @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<CustomerReportEntity> customerReportEntityList = new ArrayList<>();
+
+
     public static CustomerEntity loginTest(CustomerDetailDTO customerDetailDTO){
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setCustomerEmail(customerDetailDTO.getCustomerEmail());
