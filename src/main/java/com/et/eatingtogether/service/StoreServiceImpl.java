@@ -177,6 +177,24 @@ public class StoreServiceImpl implements StoreService {
         return menuList;
     }
 
+     // 0218 bigCategoryNum 눌렀을 때 해당 bcNum 을 갖고있는 스토어만 띄우는 기능
+    @Override
+    public List<StoreDetailDTO> findByBcNumber(Long bigCategoryNumber) {
+        BigCategoryEntity bigCategoryEntity = bcr.findById(bigCategoryNumber).get();
+        List<StoreEntity> storeEntityList = sr.findByBigCategoryEntity(bigCategoryEntity);
+
+        /*BigCategoryEntity bigCategoryEntity = scr.findById(bigCategoryNumber).get();
+        List<StoreEntity> storeEntityList = sr.findByStoreCategoryEntity(storeCategoryEntity);*/
+
+        List<StoreDetailDTO> storeList = new ArrayList<>();
+
+        for(StoreEntity se: storeEntityList){
+            storeList.add(toStoreDetailDTO(se));
+        }
+        return storeList;
+    }
+
+
     //0217 메뉴수정을 위한.
     @Override
     public MenuDetailDTO findByMenu(Long menuNumber) {
@@ -214,4 +232,6 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("StoreServiceImpl.deleteByMenu");
         mnr.deleteById(menuNumber);
     }
+
+
 }

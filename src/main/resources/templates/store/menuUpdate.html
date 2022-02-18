@@ -6,16 +6,17 @@
   <title>[뭐먹을까요:업체] 메뉴수정</title>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script>
-    const menuUpdate_btn = () => {
-      /*let menuUpdateData = new FormData($('#updateForm'));*/
-      let menuUpdateData = new FormData();
-      menuUpdateData.append("number",$('#menu_number').val());
-      menuUpdateData.append("name",$('#menu_name').val());
-      menuUpdateData.append("explain",$('#menu_explain').val());
-      menuUpdateData.append("price",$('#menu_price').val());
-      menuUpdateData.append("file",$('#menu_file')[0]);
+    /*const updateMenu_btn = () => {
+      let menuUpdateData = new FormData($('#updateMenuForm'));
+      /!*let menuUpdateData = new FormData();*!/
+/!*      let menuUpdateData = new FormData(document.getElementById('updateForm'));
+      menuUpdateData.append("menuNumber",$('#menu_number').val());
+      menuUpdateData.append("menuName",$('#menu_name').val());
+      menuUpdateData.append("menuExplain",$('#menu_explain').val());
+      menuUpdateData.append("menuPrice",$('#menu_price').val());
+      menuUpdateData.append("menuFilename",$('#menu_filename')[0]);*!/
       //새로운 form #updateForm에 [0] = 1개의 데이터를 담아 menuUpdateData에 넣음
-      const id = document.querySelector('#menu_number').value;
+      const id = document.querySelector('#menuNumber');
       console.log(menuUpdateData);
 
       $.ajax ({
@@ -32,8 +33,40 @@
           alert("ajax 아작아작")
         }
       });
+    }*/
+
+    const updateMenu_btn = () =>{
+      let menu = new FormData();
+      menu.append("menuNumber",$("#menuNumber").val());
+      menu.append("menuName",$("#menuName").val());
+      menu.append("menuExplain",$("#menuExplain").val());
+      menu.append("menuPrice",$("#menuPrice").val());
+      menu.append("menuFile",$("#menuFile")[0]);
+      console.log(menu.get("menuName"));
+      console.log(menu);
+
+      $.ajax({
+        type: 'PUT',
+        url: '/store/update',
+        data: menu,
+        processData : false,
+        contentType : false,
+        enctype: 'multipart/form-data',
+        cache: false,
+        success: function (result)  {
+          console.log(result);
+          location.href = result;
+        },
+        error: function ()  {
+          alert("ajax ajax")
+        }
+
+      });
     }
+
+
   </script>
+
 </head>
 <body>
 
@@ -42,17 +75,18 @@
   님
     <h4> <span th:text="*{menu.menuName}"> </span> 메뉴 수정 </h4>
 
-    <form id="updateForm" enctype="multipart/form-data">
+    <form id="updateMenuForm" enctype="multipart/form-data">
 
-      <input type="hidden" id="menu_number" th:value="${menu.menuNumber}">
-      <input type="text" id="menu_name" name="menuName" th:value="${menu.menuName}" placeholder="메뉴이름"><br>
-      <input type="text" id="menu_explain" name="menuExplain" th:value="${menu.menuExplain}" placeholder="메뉴설명"><br>
-      <input type="text" id="menu_price" name="menuPrice" th:value="${menu.menuPrice}" placeholder="가격"><br>
-      <input type="file" id="menu_file" name="menuFile" th:value="${menu.menuFilename}" placeholder="메뉴사진"><br>
+      <input type="hidden" id="menuNumber" th:value="${menu.menuNumber}">
+      <input type="text" id="menuName" name="menuName" th:value="${menu.menuName}" placeholder="메뉴이름"><br>
+      <input type="text" id="menuExplain" name="menuExplain" th:value="${menu.menuExplain}" placeholder="메뉴설명"><br>
+      <input type="text" id="menuPrice" name="menuPrice" th:value="${menu.menuPrice}" placeholder="가격"><br>
+      <input type="file" id="menuFile" name="menuFile" th:value="${menu.menuFilename}" placeholder="메뉴사진"><br>
       <img th:src="@{|/upload/${menu.menuFile}|}" alt="사진"><br>
       <input type="hidden" name="storeNumber" th:value="${menu.storeNumber}"><br>
     </form>
-    <button th:onclick="menuUpdate_btn([[${menu.menuNumber}]])"> 수정ajax</button>
+    <input type="button" value="수정버튼" th:onclick="updateMenu_btn([[${menu.menuNumber}]])">
+    <button th:onclick="updateMenu_btn1([[${menu.menuNumber}]])"> 수정ajax</button>
   </section>
 
 

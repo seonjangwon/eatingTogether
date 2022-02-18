@@ -14,6 +14,5 @@ public interface StoreRepository extends JpaRepository<StoreEntity,Long> {
 
     StoreEntity findByStoreName(String storeName);
 
-
-    List<MenuEntity> findByStoreNumber(Long storeNumber);
+    List<StoreEntity> findByBigCategoryEntity(BigCategoryEntity bigCategoryEntity);
 }

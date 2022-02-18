@@ -29,6 +29,8 @@ public interface StoreService {
 
     List<MenuDTO> menuFindAll(Long storeNumber);
 
+    List<StoreDetailDTO> findByBcNumber(Long bigCategoryNumber);
+
     MenuDetailDTO findByMenu(Long menuNumber);
 
     Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException;

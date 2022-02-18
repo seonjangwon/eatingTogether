@@ -58,7 +58,11 @@ public class StoreController {
     @GetMapping ("/category/{bigCategoryNumber}")
     public String bigCategoryPage (@PathVariable Long bigCategoryNumber, Model model) {
 
-        List<StoreDetailDTO> storeList = ss.findAll();
+        /*List<StoreDetailDTO> storeList = ss.findAll();*/
+
+        // 0218
+        List<StoreDetailDTO> storeList = ss.findByBcNumber(bigCategoryNumber);
+
         model.addAttribute("storeList", storeList);
         System.out.println("category/{bigCategoryNumber}");
         // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
@@ -133,7 +137,7 @@ public class StoreController {
     /*@ResponseBody*/
     public ResponseEntity menuUpdate (@RequestBody MenuDetailDTO menuDetailDTO)  throws IOException {
         System.out.println("StoreController.menuUpdate 처리");
-        ss.updateMenu(menuDetailDTO);
+        Long menuNumber = ss.updateMenu(menuDetailDTO);
     return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -145,7 +149,6 @@ public class StoreController {
     }*/
 
     @DeleteMapping ("/delete/{menuNumber}")
-
     public ResponseEntity menuDelete (@PathVariable Long menuNumber)  {
         System.out.println("StoreController.menuDelete");
         ss.deleteByMenu(menuNumber);
