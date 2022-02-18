@@ -24,6 +24,31 @@
         }
 
     </script>
+
+    <script>
+        const blackCustom_btn = (customerNumber) => {
+            location.href="/admin/customerReport" + customerNumber;
+        }
+        //     const reqUrl = "/admin/customer" + customerNumber;
+        //     $.ajax({
+        //         type: "post",
+        //         url: reqUrl,
+        //         data: {"customerNumber" : customerNumber},
+        //         dataType: "text",
+        //         success: function(result){
+        //             console.log(result);
+        //             location.href="/admin/customer";
+        //         },
+        //         error: function(){
+        //             console.log("ajax실패");
+        //         }
+        //     })
+        // }
+
+    </script>
+
+
+
 </head>
 <body>
 <table>
@@ -38,6 +63,7 @@
         <td th:text="${customer.customerEmail}"></td>S
         <td th:text="${customer.customerNickname}"></td>
         <td><button th:onclick="deleteById([[${customer.customerNumber}]])">삭제</button></td>
+        <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>
     </tr>
 </table>
 </body>

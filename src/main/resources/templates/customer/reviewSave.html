@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰등록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="/path/to/plugin/jquery.MultiFile.min.js"></script> <!--멀티파트파일-->
+
+ <!--   <script>
+        function reviewSave(){
+            // var formdata = new FormData($("#myform")[0]);
+
+
+            var fileRepository = [];
+            $('input[type="file"]').on('change', function(){
+                fileRepository.push(this.files[0]);
+            });
+
+            formdata.append("files[]", fileRepository);
+
+
+            $.ajax({
+                type:'post',
+                url: '/review/save',
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(result){
+                    console.log(result);
+                    console.log("성공!");
+                    // location.href='/review/';
+                },
+                error: function(){
+                    console.log("ajax실패");
+                }
+            });
+
+
+        }
+    </script>-->
+
+
+    <script>
+        function reviewSave(){
+            // const saveData = JSON.stringify({
+            //     reviewScore:  $('input[name="reviewScore"]').val(),
+            //     reviewContents:  $('input[name="reviewContents"]').val(),
+            // })
+           var formdata = new FormData();
+            formdata.append("reviewScore", $('input[name="reviewScore"]').val());
+            formdata.append("reviewContents", $('input[name="reviewContents"]').val());
+            // formdata.append("reviewScore", $('input[name="reviewScore"]').val());
+            //formdata.append("reviewFileDTOList[0].reviewFile", document.getElementById('reviewFile').files[0]);
+            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[0]);
+            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[1]);
+
+            // formdata.append("data", saveData);
+
+            var fileList = document.getElementById('reviewFile').files;
+            // var fileList = $('input[name="reviewFile"]').files;
+            console.log(fileList.length)
+            for(var i=0; i< fileList.length; i++){
+                formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[i]);
+            }
+
+            // formData = $("#myform").serialize();
+            // console.log(formData);
+            $.ajax({
+                type:'post',
+                url: '/review/save',
+                data: formdata,
+                dataType: 'text',
+                contentType: false,
+                processData: false,
+                enctype:'multipart/form-data',
+                success: function(result){
+                    console.log(result);
+                    console.log("성공!");
+                    // location.href='/review/';
+            },
+            error: function(){
+                console.log("ajax실패");
+            }
+            });
+        }
+    </script>
+
+
+
+
+</head>
+<body>
+<form name="myform" id="myform" enctype="multipart/form-data">
+    <fieldset>
+    <legend>별점</legend>
+    <input type="radio" name="reviewScore" th:value="1" id="rate1">
+    <input type="radio" name="reviewScore" th:value="2" id="rate2">
+    <input type="radio" name="reviewScore" th:value="3" id="rate3">
+    <input type="radio" name="reviewScore" th:value="4" id="rate4">
+    <input type="radio" name="reviewScore" th:value="5" id="rate5">
+    </fieldset>
+    메뉴이름
+    내용 : <input type="text" name="reviewContents">
+    사진 :
+    <input type="file" id="reviewFile" name="reviewFile" class="multi" multiple="multiple" maxlength="3"/>
+
+    <input type="button" value="등록" onclick="reviewSave()">
+</form>
+
+</body>
+</html>
