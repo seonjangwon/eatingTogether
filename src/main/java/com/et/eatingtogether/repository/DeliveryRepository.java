@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<DeliveryEntity,Long> {
     Optional<DeliveryEntity> findByStoreEntityAndDeliveryDname(StoreEntity storeEntity, String deliveryDname);
+//    Optional<DeliveryEntity> findByStoreNumberAndDeliveryDname(Long storeNumber, String deliveryDname);
+//    Optional<DeliveryEntity> findByStoreEntityAndDeliveryDname(Long storeNumber, String deliveryDname);
 }

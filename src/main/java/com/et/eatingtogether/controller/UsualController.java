@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/usual")
@@ -33,7 +35,7 @@ public class UsualController {
     @PostMapping("/customerLogin")
     public String customerLogin(@Validated @ModelAttribute("customer") CustomerDetailDTO customerDetailDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "usual/cutomerLogin";
+            return "usual/customerLogin";
         }
         try {
             cs.login(customerDetailDTO);
@@ -70,5 +72,12 @@ public class UsualController {
         String result =  cs.findByCustomerEmail(customerEmail);
         System.out.println("result = " + result);
         return result;
+    }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "index";
     }
 }

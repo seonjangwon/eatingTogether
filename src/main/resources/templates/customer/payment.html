@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
+    <script>
+        const toRider_s = () => {
+            console.log("toRider_s");
+            const select = document.getElementById('toRider_select').value;
+            const input = document.getElementById('orderTorider');
+            console.log(select, input);
+
+            if (select === "직접 입력") {
+                input.type = "text";
+                input.value = "";
+            } else {
+                input.type = "hidden";
+                input.value = select;
+            }
+        }
+        const coupon_select = (couponPrice) => {
+            console.log("coupon_select");
+            console.log("쿠폰"+couponPrice);
+            const view = document.getElementById("couponDiscount"); // 할인 값 출력용
+            const startPrice = '[[${deliveryPrice + totalPrice}]]'; // 초기 값
+            const point = document.getElementById('point_value').value; // 포인트값
+            console.log("포인트 : "+point);
+
+            const final = document.getElementById("finalPrice"); // 총액 출력용
+
+            var plusPrice = parseInt(point)+ parseInt(couponPrice); // 쿠폰 포인트 합친값
+            console.log("합 : "+plusPrice);
+
+            document.getElementById('coupon_value').value = couponPrice; // 쿠폰 저장용
+
+            document.getElementById('orderPrice').value = startPrice - plusPrice; // 값 저장용
+            final.innerHTML = startPrice - plusPrice;
+            view.innerHTML = couponPrice;
+
+        }
+        const point_use = () => {
+            console.log("point_select");
+            const maxPoint = '[[${customer.customerPoint}]]';
+            const point = document.getElementById('point_use_value').value; // 포인트 값
+
+            if (point < maxPoint) {
+                const view = document.getElementById("pointDiscount"); // 할인 값 출력용
+                const startPrice = '[[${deliveryPrice + totalPrice}]]'; // 초기 값
+                const coupon = document.getElementById('coupon_value').value; // 쿠폰값
+                console.log("포인트" + point);
+                console.log("쿠폰" + coupon);
+
+                var plusPrice = parseInt(point) + parseInt(coupon); // 쿠폰 포인트 합친값
+                console.log("합 : " + plusPrice);
+
+                document.getElementById('point_value').value = point;
+
+                const final = document.getElementById("finalPrice"); // 총액 출력용
+
+                document.getElementById('orderPrice').value = startPrice - plusPrice; // 값 저장용
+                final.innerHTML = startPrice - plusPrice;
+                view.innerHTML = point;
+            } else {
+                alert(maxPoint + "만큼 사용 가능합니다");
+            }
+
+        }
+    </script>
+</head>
+<body>
+<h2>payment</h2>
+<div>
+    <div>
+        <h3>배달 정보</h3>
+        <span>
+                내 주소 : <p th:text="${customer.customerAddress}"></p>
+                연락처 : <p th:text="${customer.customerPhone}"></p>
+            </span>
+    </div>
+    <form action="/customer/payment" method="post" id="payment_form">
+        <input type="hidden" name="storeNumber" th:value="${storeNumber}">
+        <input type="hidden" name="customerNumber" th:value="${customer.customerNumber}">
+        <div>
+            <h3>요청 사항</h3>
+            사장님께 : <input type="text" th:field="${order.orderTomaster}"><br>
+            라이더님께 :
+            <select id="toRider_select" onchange="toRider_s()">
+                <option value="-" selected> 선택하기</option>
+                <option value="조심히 오세요">조심히 오세요</option>
+                <option value="안전 운전 하세요">안전 운전 하세요</option>
+                <option value="직접 입력">직접 입력</option>
+            </select><br>
+            <input type="hidden" th:field="${order.orderTorider}">
+
+        </div>
+        <div>
+            <h3>결제 수단</h3>
+            <input type="radio" name="orderType" id="creditCard" value="카카오"><label
+                for="creditCard">카카오</label>
+            <input type="radio" name="orderType" id="cash" value="만나서결제" checked><label
+                for="cash">만나서 결제</label><br>
+            포인트 사용 : <input type="number" min="0" th:max="${customer.customerPoint}" id="point_use_value" name="pointUse" onblur="point_use()" value="0"><br>
+            내 포인트 : <input type="text" th:value="${customer.customerPoint}" readonly><br>
+            할인 쿠폰 :
+            <!-- 쿠폰용 모달 -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                쿠폰 조회
+            </button>
+            <!-- Modal -->
+
+        </div>
+        <div>
+            <h3>결제 금액</h3>
+            주문 금액 : <span th:text="${totalPrice}"></span><br>
+            배달비 : <span th:text="${deliveryPrice}"></span><br>
+            -<span id="couponDiscount"></span><input type="hidden" id="coupon_value" value="0">
+            <span id="pointDiscount"></span><input type="hidden" id="point_value" value="0">
+            총액 : <p id="finalPrice" th:text="${deliveryPrice + totalPrice}"></p>
+            <input type="hidden" name="orderPrice" id="orderPrice" th:value="${deliveryPrice + totalPrice}"><br>
+        </div>
+        <input type="submit" value="만나서 결제 test">
+    </form>
+    <button id="check_module" type="button">테스트 결제</button>
+</div>
+<div class="modal fade modal-dialog modal-dialog-scrollable modal-dialog-centered" id="exampleModal"
+     tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">쿠폰 리스트</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul th:each="c : ${coupon}">
+                    <div th:if="${c != null}">
+                        <div th:if="${c.couponCondition <= totalPrice + deliveryPrice}">
+                            <li>
+                                <label>
+                                    <input type="radio" name="coupon"
+                                           th:attr="onclick=|coupon_select('${c.couponPrice}')|">
+                                    쿠폰 이름 : <span th:text="${c.couponName}"></span>
+                                </label>
+                            </li>
+                        </div>
+                        <div th:unless="${c.couponCondition <= totalPrice + deliveryPrice}">
+                            <li>
+                                <label>
+                                    <input type="radio" th:disabled="true">
+                                    쿠폰 이름 : <span th:text="${c.couponName}"></span> 사용 못함
+                                </label>
+                            </li>
+                        </div>
+                    </div>
+                    <div th:unless="${c != null}">
+                        <p>쿠폰이 없어요 ㅠㅁㅠ</p>
+                    </div>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    $("#check_module").click(function () {
+        var IMP = window.IMP; // 생략가능
+        IMP.init('imp26543723');
+        // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+        // ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
+        IMP.request_pay({
+            pg: 'kakao',
+            pay_method: 'card',
+            merchant_uid: '[[${customer.customerNumber}]]' + new Date().getTime(),
+            /*
+             *  merchant_uid에 경우
+             *  https://docs.iamport.kr/implementation/payment
+             *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+             */
+            name: '[[${menuList}]]',
+            // 결제창에서 보여질 이름
+            // name: '주문명 : ${auction.a_title}',
+            // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
+            amount: document.getElementById('orderPrice').value,
+            // amount: ${bid.b_bid},
+            // 가격
+            buyer_name: '[[${customer.customerNickname}]]',
+            // 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
+            // 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
+            buyer_postcode: '123-456',// 이거는 왜 받음?
+        }, function (rsp) {
+            console.log(rsp);
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                msg += '결제 금액 : ' + rsp.paid_amount;
+                // success.submit();
+                document.getElementById('payment_form').submit();
+                // 결제 성공 시 정보를 넘겨줘야한다면 body에 form을 만든 뒤 위의 코드를 사용하는 방법이 있습니다.
+                // 자세한 설명은 구글링으로 보시는게 좋습니다.
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+            }
+            alert(msg);
+        });
+    });
+</script>
+</html>

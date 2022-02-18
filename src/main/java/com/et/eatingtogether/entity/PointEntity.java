@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.customer.PointDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,4 +28,14 @@ public class PointEntity {
     private int pointQuantity;
     private String pointHistory; // 사용/적립
     private LocalDateTime pointTime;
+
+    public static PointEntity toDTO(PointDTO pointDTO,CustomerEntity customerEntity,OrderEntity orderEntity){
+        PointEntity pointEntity = new PointEntity();
+        pointEntity.setCustomerEntity(customerEntity);
+        pointEntity.setOrderEntity(orderEntity);
+        pointEntity.setPointQuantity(pointDTO.getPointQuantity());
+        pointEntity.setPointHistory(pointDTO.getPointHistory());
+        pointEntity.setPointTime(pointDTO.getPointTime());
+        return pointEntity;
+    }
 }

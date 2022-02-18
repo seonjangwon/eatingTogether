@@ -36,6 +36,12 @@ public class JangwonTest {
     private MenuRepository mr;
     @Autowired
     private BasketRepository br;
+    @Autowired
+    private CouponRepository cpr;
+    @Autowired
+    private MyCouponRepository mcr;
+    @Autowired
+    private PointRepository pr;
 
     @Test
     @Transactional
@@ -100,8 +106,8 @@ public class JangwonTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
+    //@Transactional
+    //@Rollback
     @DisplayName("basketTest")
     public void basketTest(){
         // given
@@ -123,6 +129,7 @@ public class JangwonTest {
         deliveryEntity.setStoreEntity(storeEntity);
         deliveryEntity.setDeliveryDname("basketTestDname");
         deliveryEntity.setDeliveryPrice(1000);
+        deliveryEntity.setDeliveryTime(30);
         int deliveryPrice = dr.save(deliveryEntity).getDeliveryPrice();
         // 스토어카테고리
         StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
@@ -146,29 +153,29 @@ public class JangwonTest {
         br.save(basketEntity).getBasketNumber();
         System.out.println("basketEntity = " + basketEntity);
         // when
-        CustomerEntity customerEntity1 = cr.findById(customerNumber).get();
-        List<BasketEntity> basketEntityList = customerEntity1.getBasketEntityList();
-        List<BasketDTO> basketDTOList = new ArrayList<>();
-        List<BasketDTO> basketDTOList1 = new ArrayList<>();
-        List<BasketDTO> basketDTOList2 = new ArrayList<>();
-        for (BasketEntity b : basketEntityList){
-            basketDTOList.add(BasketDTO.toEntity(b));
-        }
-        for (BasketEntity b : customerEntity1.getBasketEntityList()){
-            basketDTOList1.add(BasketDTO.toEntity(b));
-        }
-        for (BasketEntity b : customerEntity.getBasketEntityList()){
-            basketDTOList2.add(BasketDTO.toEntity(b));
-        }
-        for (BasketDTO b : basketDTOList){
-            System.out.println("b = " + b);
-        }
-        for (BasketDTO b : basketDTOList1){
-            System.out.println("b1 = " + b);
-        }
-        for (BasketDTO b : basketDTOList2){
-            System.out.println("b1 = " + b);
-        }
+//        CustomerEntity customerEntity1 = cr.findById(customerNumber).get();
+//        List<BasketEntity> basketEntityList = customerEntity1.getBasketEntityList();
+//        List<BasketDTO> basketDTOList = new ArrayList<>();
+//        List<BasketDTO> basketDTOList1 = new ArrayList<>();
+//        List<BasketDTO> basketDTOList2 = new ArrayList<>();
+//        for (BasketEntity b : basketEntityList){
+//            basketDTOList.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketEntity b : customerEntity1.getBasketEntityList()){
+//            basketDTOList1.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketEntity b : customerEntity.getBasketEntityList()){
+//            basketDTOList2.add(BasketDTO.toEntity(b));
+//        }
+//        for (BasketDTO b : basketDTOList){
+//            System.out.println("b = " + b);
+//        }
+//        for (BasketDTO b : basketDTOList1){
+//            System.out.println("b1 = " + b);
+//        }
+//        for (BasketDTO b : basketDTOList2){
+//            System.out.println("b1 = " + b);
+//        }
 
 //
 //        // then
@@ -221,6 +228,96 @@ public class JangwonTest {
         System.out.println("deliveryEntity1.getDeliveryDname() = " + deliveryEntity1.getDeliveryDname());
         System.out.println("deliveryEntity1.getDeliveryPrice() = " + deliveryEntity1.getDeliveryPrice());
 
+    }
+
+    @Test
+    @DisplayName("17번 동이름 변경용")
+    public void dnameUpdate(){
+        //CustomerEntity customerEntity = cr.findById(17l).get(); 데탑용
+        CustomerEntity customerEntity = cr.findById(3l).get(); // 노트북용
+        customerEntity.setCustomerDname("basketTestDname");
+        cr.save(customerEntity);
+    }
+
+    @Test
+    @DisplayName("장바구니추가삭제용")
+    public void basketadd(){
+        CustomerEntity customerEntity = cr.findById(17l).get();
+        StoreEntity storeEntity = sr.findById(10l).get();
+        StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
+        storeCategoryEntity.setStoreEntity(storeEntity);
+        storeCategoryEntity.setStoreCategoryName("basketTestCategory2");
+        Long storeCategoryNumber = scr.save(storeCategoryEntity).getStoreCategoryNumber();
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setStoreEntity(storeEntity);
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
+        menuEntity.setMenuName("basketTestMenuName");
+        menuEntity.setMenuPrice(3000);
+        Long menuNumber = mr.save(menuEntity).getMenuNumber();
+        BasketEntity basketEntity = new BasketEntity();
+        basketEntity.setCustomerEntity(customerEntity);
+        basketEntity.setStoreEntity(storeEntity);
+        basketEntity.setMenuEntity(menuEntity);
+        basketEntity.setBasketMenuCount(2);
+        br.save(basketEntity).getBasketNumber();
+    }
+
+    @Test
+    @DisplayName("쿠폰 생성용")
+    public void couponAdd(){
+        CustomerEntity customerEntity = cr.findById(17l).get();
+
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("testCoupon1");
+        couponEntity.setCouponCondition(1000);
+        couponEntity.setCouponPrice(1000);
+        cpr.save(couponEntity);
+        CouponEntity couponEntity2 = new CouponEntity();
+        couponEntity2.setCouponName("testCoupon2");
+        couponEntity2.setCouponCondition(10000);
+        couponEntity2.setCouponPrice(1000);
+        cpr.save(couponEntity2);
+
+        MyCouponEntity myCouponEntity = new MyCouponEntity();
+        myCouponEntity.setCustomerEntity(customerEntity);
+        myCouponEntity.setCouponEntity(couponEntity);
+        mcr.save(myCouponEntity);
+        MyCouponEntity myCouponEntity2 = new MyCouponEntity();
+        myCouponEntity2.setCustomerEntity(customerEntity);
+        myCouponEntity2.setCouponEntity(couponEntity2);
+        mcr.save(myCouponEntity2);
+    }
+    @Test
+    @DisplayName("쿠폰 생성용2")
+    public void couponAdd2(){
+        CustomerEntity customerEntity = cr.findById(17l).get();
+
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("testCoupon1");
+        couponEntity.setCouponCondition(1000);
+        couponEntity.setCouponPrice(2000);
+        cpr.save(couponEntity);
+
+        MyCouponEntity myCouponEntity = new MyCouponEntity();
+        myCouponEntity.setCustomerEntity(customerEntity);
+        myCouponEntity.setCouponEntity(couponEntity);
+        mcr.save(myCouponEntity);
+    }
+    @Test
+    @DisplayName("포인트 생성용1")
+    public void pointAdd(){
+        CustomerEntity customerEntity = cr.findById(17l).get();
+        customerEntity.setCustomerPoint(customerEntity.getCustomerPoint()+1000);
+        cr.save(customerEntity);
+    }
+
+    @Test
+    @DisplayName("업체 이메일 비번 생성용")
+    public void storeEmailPasswordAdd(){
+        StoreEntity storeEntity = sr.findById(10l).get();
+        storeEntity.setStoreEmail("qwe");
+        storeEntity.setStorePassword("qwe");
+        sr.save(storeEntity);
     }
 
 }

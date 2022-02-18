@@ -2,9 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <title>kakaoUpdate</title>
     <script>
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
@@ -68,87 +66,23 @@
             }).open();
         }
     </script>
-    <!--이메일 중복확인-->
-    <script>
-        function EmailCk(){
-        const customerEmail = document.getElementById('customerEmail').value;
-        const EmailCheck = document.getElementById('EmailCheck');
-        $.ajax({
-            type: 'post',
-            url: '/usual/customerEmail',
-            data: {"customerEmail": customerEmail},
-            dataType: "text",
-            success: function (result) {
-                console.log(result);
-                if (result==="ok") {
-                    EmailCheck.innerHTML = "사용 가능한 이메일";
-                } else {
-                    EmailCheck.innerHTML = "중복된 이메일";
-                }
-            },
-            error: function () {
-                alert('실패');
-            }
-        });
-
-
-
-
-        }
-
-        function save(){
-            const Check = document.getElementById('EmailCheck').innerHTML;
-            const formdata = $("#save_form").serialize();
-            if(Check==="사용 가능한 이메일"){
-                $.ajax({
-                    type:'post',
-                    url: "/usual/customer",
-                    data: formdata,
-                    dataType: 'text',
-                    success: function(result){
-                        if(result==="ok"){
-                            location.href="/usual/customerLogin";
-                        }
-                    },
-                    error: function(){
-                        alert('실패');
-                    }
-                })
-            }else{
-                alert('이메일확인');
-            }
-        }
-
-
-
-
-    </script>
-
-
-
 </head>
 <body>
-<form action="/usual/customer" method="post" th:object="${customer}" id="save_form">
-    아이디 : <input type="text" th:field="*{customerEmail}" onblur="EmailCk()">
-    <p id="EmailCheck"></p><br>
-    비밀번호 : <input type="text" th:field="*{customerPassword}"><br>
-    비밀번호 확인 : <input type="text"><br>
-    닉네임 : <input type="text" th:field="*{customerNickname}"><br>
-    핸드폰번호 : <input type="text" th:field="*{customerPhone}"><br>
-
-    주소 :   <input type="text" id="sample4_postcode" placeholder="우편번호"><br>
+<h2>카카오 로그인 추가 정보 입력</h2>
+<form action="/customer/kakaoUpdate" th:object="${customer}"  method="post">
+    <input type="text" name="customerEmail" th:value="${id}" readonly><br>
+    <input type="text" name="customerNickname" th:value="${nickname}" readonly><br>
+    <input type="text" id="sample4_postcode" placeholder="우편번호">
     <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-    <input type="text" id="sample4_roadAddress" placeholder="도로명주소"><br>
-    <input type="text" id="sample4_jibunAddress" placeholder="지번주소"><br>
+    <input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+    <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
     <span id="guide" style="color:#999;display:none"></span>
-    <input type="text" id="sample4_detailAddress" placeholder="상세주소"><br>
-    <input type="text" id="sample4_extraAddress" placeholder="참고항목"><br>
-    <input type="hidden" th:field="*{customerAddress}">
-    <input type="hidden" th:field="*{customerDname}">
-
-
-
+    <input type="text" id="sample4_detailAddress" placeholder="상세주소">
+    <input type="text" id="sample4_extraAddress" placeholder="참고항목">
+    <input type="hidden" th:field="*{customerAddress}"><br>
+    <input type="hidden" th:field="*{customerDname}"><br>
+    <input type="text" th:field="*{customerPhone}"><br>
+    <input type="submit" value="정보 저장하기">
 </form>
-    <input type="button" value="회원가입" onclick="save()">
 </body>
 </html>
