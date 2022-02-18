@@ -1,6 +1,7 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.store.DeliveryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
@@ -103,6 +104,17 @@ public class UsualController2 {
             }
     }
 
+    @GetMapping("/delivery")
+    public String storeDeliveryForm (Model model)   {
+        System.out.println("UsualController.storeDeliveryForm");
+        model.addAttribute("storeDelivery", new DeliveryDTO());
+        return "store/storeDelivery";
+    }
 
+    @PostMapping("/delivery")
+    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO)   {
+
+        return "usual/storeSave";
+    }
 
 }

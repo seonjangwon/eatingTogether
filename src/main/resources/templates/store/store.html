@@ -146,7 +146,7 @@
             </thead>
             <tbody>
             <tr th:each="menu: ${menuList}">
-                <td th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></td>
+                <th> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></th>
                 <td th:text="${menu.menuName}"></td>
                 <td th:text="${menu.menuExplain}"></td>
                 <td th:text="${menu.menuPrice}"></td>
