@@ -79,6 +79,19 @@ public class StoreServiceImpl implements StoreService {
         return sr.save(storeEntity).getStoreNumber();
     }
 
+    //0219
+    @Override
+    public String idDuplicate(String storeEmail) {
+        StoreEntity emailCheckResult = sr.findByStoreEmail(storeEmail);
+        /*StoreEntity emailCheckResult = sr.findByStoreEmail(storeSaveDTO.getStoreEmail());*/
+        /*String result = sr.findByStoreEmail(storeEmail);*/
+        if (emailCheckResult== null) {
+            return "ok";
+        }   else    {
+            return "no";
+        }
+    }
+
     @Override
     public List<StoreDetailDTO> findAll() {
         List<StoreEntity> storeEntityList = sr.findAll();
@@ -236,6 +249,7 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("StoreServiceImpl.deleteByMenu");
         mnr.deleteById(menuNumber);
     }
+
 
 
 }

@@ -54,7 +54,7 @@ public class JiwonTest {
         BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setBigCategoryEntity(bigCategoryEntity);
-        storeEntity.setStoreName("오 이런식으로");
+        storeEntity.setStoreNumber(19L);
         Long storeNumber = sr.save(storeEntity).getStoreNumber();
 
         //스토어카테고리

@@ -11,10 +11,12 @@ public interface StoreService {
     boolean login(StoreLoginDTO storeLoginDTO);
 
     Long save(StoreSaveDTO storeSaveDTO) throws IOException;
+    //0219
+    String idDuplicate(String storeEmail);
 
     List<StoreDetailDTO> findAll();
     List<BigCategoryDTO> findAllBc();
-    
+
     StoreDetailDTO findById(String storeName);
 
     void saveMenu(MenuDTO menuDTO, StoreCategoryEntity storeCategoryEntity) throws IOException;

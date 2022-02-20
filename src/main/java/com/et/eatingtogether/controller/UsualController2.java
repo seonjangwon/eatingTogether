@@ -104,6 +104,7 @@ public class UsualController2 {
             }
     }
 
+    //지원 0218
     @GetMapping("/delivery")
     public String storeDeliveryForm (Model model)   {
         System.out.println("UsualController.storeDeliveryForm");
@@ -111,10 +112,20 @@ public class UsualController2 {
         return "store/storeDelivery";
     }
 
+    //지원 0218
     @PostMapping("/delivery")
     public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO)   {
 
         return "usual/storeSave";
     }
+
+    //지원 0219
+    @PostMapping("/idDuplicate")
+    @ResponseBody //-
+    public String storeEmailCheck (@RequestParam String storeEmail){
+        System.out.println("storeEmail = " + storeEmail);
+        String result = ss.idDuplicate(storeEmail);
+        return result;
+}
 
 }
