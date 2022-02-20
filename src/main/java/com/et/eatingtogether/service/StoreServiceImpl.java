@@ -2,14 +2,8 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.entity.BigCategoryEntity;
-import com.et.eatingtogether.entity.MenuEntity;
-import com.et.eatingtogether.entity.StoreCategoryEntity;
-import com.et.eatingtogether.entity.StoreEntity;
-import com.et.eatingtogether.repository.BigCategoryRepository;
-import com.et.eatingtogether.repository.MenuRepository;
-import com.et.eatingtogether.repository.StoreCategoryRepository;
-import com.et.eatingtogether.repository.StoreRepository;
+import com.et.eatingtogether.entity.*;
+import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +27,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreCategoryRepository scr;
     private final MenuRepository mnr;
     private final HttpSession session;
+    private final DeliveryRepository dr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -250,6 +245,12 @@ public class StoreServiceImpl implements StoreService {
         mnr.deleteById(menuNumber);
     }
 
+    @Override
+    public void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+        DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO,storeEntity);
+        System.out.println("오류가 안난다고...?");
+        dr.save(deliveryEntity);
+    }
 
 
 }

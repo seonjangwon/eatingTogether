@@ -2,7 +2,9 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
+import com.et.eatingtogether.entity.StoreEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,5 +40,7 @@ public interface StoreService {
     Long updateMenu(MenuDetailDTO menuDetailDTO) throws IOException;
 
     void deleteByMenu(Long menuNumber);
+
+    void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
 
 }

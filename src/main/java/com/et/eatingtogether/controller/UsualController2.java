@@ -5,6 +5,8 @@ import com.et.eatingtogether.dto.store.DeliveryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.entity.DeliveryEntity;
+import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ import java.io.IOException;
 public class UsualController2 {
     //
     private final StoreService ss;
+    private final HttpSession session;
     // 필요한 기능
     // 2-1 업체 회원가입요청, 2-2 업체 회원가입처리, 2-2-1 업체 가입 이메일 중복체크
     // 2-3 업체 로그인요청, 2-4 업체 로그인처리
@@ -109,13 +112,28 @@ public class UsualController2 {
     public String storeDeliveryForm (Model model)   {
         System.out.println("UsualController.storeDeliveryForm");
         model.addAttribute("storeDelivery", new DeliveryDTO());
+        StoreDetailDTO storeDetailDTO = ss.findById((String) session.getAttribute("StoreLoginEmail"));
+        model.addAttribute("storeNumber",storeDetailDTO.getStoreNumber());
         return "store/storeDelivery";
     }
 
-    //지원 0218
+    //지원 0220~
     @PostMapping("/delivery")
-    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO)   {
+    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity)   {
+        System.out.println("UsualController.storeDelivery");
 
+/*        DeliveryEntity deliveryEntity;
+        if(deliveryDTO.getDeliveryDname() == 0) {
+            // Dname이 DTO에 없다면 새로 생성
+            deliveryEntity = ss.deliverySave(deliveryDTO.getStoreEntity(),deliveryDTO.getDeliveryDname());
+        }   else    {
+            // 있다면 찾아서 보여줌
+            deliveryEntity = ss.findByDelivery(deliveryDTO.getDeliveryNumber());
+        }*/
+        //뜨악 연구름 좀 더 ㅠ
+        
+        
+        ss.deliverySave(deliveryDTO, storeEntity); //기본
         return "usual/storeSave";
     }
 

@@ -7,16 +7,16 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
-배송지 추가 ㅎㄷㄷ
+<span th:text = "${session['storeLoginEmail']}"></span> 님, 배송지 추가 ㅎㄷㄷ
 
 <form action="/usual/storeDelivery" id="storeDeliverySave" th:object="${storeDelivery}" method="post">
-<select class="form-select" name="storeDeliveryNumber" aria-label="Default select example">
-
-    <!--
-
-
-    -->
-    <option th:each ="sd:${storeDelivery}" th:value="${sd.storeDeliveryNumber}"><span th:text="${sd.storeDeliveryName}"></span> </option>
+    <div id = "regionData"> <!-- 회원가입시 주소 저장했던 것 처럼 name값을 동일하게 적어주면 함께 입력 됨. -->
+        <select class="form-select" id="storeDeliverySave_region" onchange="deliveryRegion()" aria-label="Default select example"></select>
+    <!--<option th:each ="sd:${storeDeliveryRegion}" th:value="${sd.store}"><span th:text="${}"></span> </option>-->
+    <!-- th:each => foreach 추가됨, DeliveryNumber 동만 생각해야하는건가?
+     그럼 인천은 기본으로 두고, 구~동 으로 추가시킬 것
+     어떻게 종속시켜서 보여줄 수 있을까?-->
+    </div>
 </select>
 </form>
 </body>
