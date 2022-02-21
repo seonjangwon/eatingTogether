@@ -9,15 +9,131 @@
 <body>
 <span th:text = "${session['storeLoginEmail']}"></span> 님, 배송지 추가 ㅎㄷㄷ
 
-<form action="/usual/storeDelivery" id="storeDeliverySave" th:object="${storeDelivery}" method="post">
     <div id = "regionData"> <!-- 회원가입시 주소 저장했던 것 처럼 name값을 동일하게 적어주면 함께 입력 됨. -->
-        <select class="form-select" id="storeDeliverySave_region" onchange="deliveryRegion()" aria-label="Default select example"></select>
-    <!--<option th:each ="sd:${storeDeliveryRegion}" th:value="${sd.store}"><span th:text="${}"></span> </option>-->
+<form action="/usual/storeDelivery" id="storeDeliverySave" th:object="${DeliverySave}" method="post">
+        <!--test-->
+        <label>Option1</label> <!--첫번째 선택지-->
+            <span class="spanInput">
+                <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectA"> 서울 &nbsp; </label>
+                <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectB"> 인천 &nbsp; </label>
+                <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectC"> 경기 &nbsp; </label>
+                <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectD"> 기타 &nbsp; </label>
+
+            </span>
+        <br>
+        <label>option2</label> <!--첫번째 선택지-->
+        <select name="selectOption2" id="selectOption2" onchange="get_option3(selectOption2.value,selectOption3)">
+            <option value="option2"> select option2 </option>
+        </select>
+        <br>
+        <label>option3</label>
+        <select name="selectOption3">
+            <option value="option3"> select option3 </option>
+        </select>
+        <br>
+</form>
+        </div>
+
+
+
+<!--나중에 살리기-->
+        <!--<select class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+        </select>
+        <select class="form-select" aria-label="Default select example" id="storeDeliverySave_region" onchange="deliveryRegion()" >
+            <option th:each ="sd:${storeDelivery}" th:value="${sd.deliveryNumber}"><span th:text="${sd.deliveryDname}"></span> </option>
+            <option selected> 지역선택 </option>
+            <option value="1">서울</option>
+            <option value="2">경기</option>
+            <option value="3">인천</option>
+            <option value="4">대전</option>
+            <option value="5">대구</option>
+            <option value="6">부산</option>
+        </select>-->
+    </div>
+
     <!-- th:each => foreach 추가됨, DeliveryNumber 동만 생각해야하는건가?
      그럼 인천은 기본으로 두고, 구~동 으로 추가시킬 것
+     인천 무슨구(8개) 선택시 innerHtml로 변형되어서 동 선택 가능.
      어떻게 종속시켜서 보여줄 수 있을까?-->
-    </div>
-</select>
+
 </form>
 </body>
+<script>
+    function get_option2(option1,selectOption)  {
+        //지역 선택시 구 출력
+        if(option1 == "selectA") { //서울
+            options = new Array ("마포·용산","서대문·은평","도봉·노원","성북·강북","성동·광진","중랑·송파·강동","강서·양천","영등포·구로·금천","종로·중구","강남·서초","관악·동작");
+            values = new Array("1","2","3","4","5","6","7","8","9","10","11");
+            console.log(option1);
+
+            for (i=0; i < 11; i++)  {
+                /*selectOption.options[i] = null;*/
+                console.log(options[i]);
+                console.log(values[i]);
+            }
+
+        }   else if (option1 == "selectB")   { //인천
+            options = new Array ("서구","동구","연수구","미추홀구","남동구","중구","계양구","부평구");
+            values = new Array("서구","동구","연수구","미추홀구","남동구","중구","계양구","부평구");
+            console.log(options);
+            console.log(option1);
+
+            for (i=0; i < 8; i++)  {
+                /*selectOption.options[i] = null;*/
+                console.log(values[i], options[i]);
+            }
+        }
+            else if (option1 == "selectC")   { //경기 북부
+            options = new Array ("연천·포천","가평·양평","남양주·구리·하남","동두천·양주·의정부","파주·고양","김포·부천");
+            values = new Array("연천·포천","가평·양평","남양주·구리·하남","동두천·양주·의정부","파주·고양","김포·부천");
+            console.log(options);
+            console.log(values);
+        }
+            else if (option1 == "selectD")   { //경기 남부
+            options = new Array ("광명·시흥·안산","안양·군포·과천·의왕","성남·분당","용인","화성·오산","평택","평택","안성·이천·여주");
+            values = new Array("광명·시흥·안산","안양·군포·과천·의왕","성남·분당","용인","화성·오산","평택","평택","안성·이천·여주");
+            console.log(options);
+            console.log(values);
+        }
+        //select box 기본옵션 초기화
+        for (i=0; i < option1.length; i++)  {
+            selectOption.options[i] = null;
+        }
+        // seconds select box
+        for (i=0; i< options.length; i++)   {
+            selectOption.options[i] = new Option(options[i], values[i]);
+        }
+
+    }
+    function get_option3(option2, selectOption)  {
+
+
+
+    //구 선택시 동 나옴
+        // secondsBox
+        if(option2 == "미추홀구") { //1
+            values = new Array("숭의동", "용현동", "도화동", "주안동","학익동", "관교동", "문학동");
+            options = new Array ("숭의동", "용현동", "도화동", "주안동","학익동", "관교동", "문학동");
+        }
+        else if (option2 == "계양구")   { //인천
+            options = new Array ("효성동","계양동","작전동","서운동");
+            values = new Array("효성동","계양동","작전동","서운동");
+        }
+        for (i=0; i < options.length; i++)  {
+            selectOption.options[i] = null;
+        }
+
+        // seconds select box
+        for (i=0; i< options.length; i++)   {
+            selectOption.options[i] = new Option(options[i], values[i]);
+        }
+    }
+</script> <!--script test-->
+<!--<script>
+    function deliveryRegion(){
+        console.log("deliveryRegion1 click");
+    }
+</script> &lt;!&ndash; select#1&ndash;&gt;-->
 </html>

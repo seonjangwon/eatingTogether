@@ -110,8 +110,11 @@ public class UsualController2 {
     //지원 0218
     @GetMapping("/delivery")
     public String storeDeliveryForm (Model model)   {
+        // 필요한 것, storeNumber? storeEntity 의 storeNumber
+        // delivery의 정보.
         System.out.println("UsualController.storeDeliveryForm");
-        model.addAttribute("storeDelivery", new DeliveryDTO());
+        /*model.addAttribute("storeDelivery", new DeliveryDTO()); //필드생성용*/
+        model.addAttribute("DeliverySave", new DeliveryDTO());
         StoreDetailDTO storeDetailDTO = ss.findById((String) session.getAttribute("StoreLoginEmail"));
         model.addAttribute("storeNumber",storeDetailDTO.getStoreNumber());
         return "store/storeDelivery";
