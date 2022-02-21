@@ -4,8 +4,11 @@ import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import com.et.eatingtogether.dto.review.ReviewTestDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.entity.ReviewEntity;
 import com.et.eatingtogether.service.AdminService;
+import com.et.eatingtogether.service.CustomerService;
+import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,27 +27,31 @@ import java.util.List;
 @RequestMapping("/review")
 public class ReviewController {
     private final AdminService as;
+    private final StoreService ss;
+    private final CustomerService cs;
+
+
+
+
 
     // 리뷰 작성 페이지로 이동
     @GetMapping("/save")
-    public String reviewSaveForm(){
+    public String reviewSaveForm(Model model){
+        model.addAttribute("review", new ReviewSaveDTO());
         return "customer/reviewSave";
     }
 
     // 리뷰 등록 처리
     @PostMapping("/save")
-    @ResponseBody
-    public String review(@RequestParam("reviewScore") int reviewScore,
-                         @RequestParam("reviewContents") String reviewContents,
-                         @RequestParam(value = "reviewFileDTOList",required = false) MultipartFile[] reviewFileDTOList,
+    public String review(@ModelAttribute ReviewSaveDTO reviewSaveDTO,
+                         @RequestParam(value = "reviewFileDTO",required = false) MultipartFile[] reviewFileDTOList,
                          MultipartHttpServletRequest request
                          ) throws IOException {
-        System.out.println("reviewScore = " + reviewScore);
-        System.out.println("reviewContents = " + reviewContents);
+
+
+
         System.out.println("reviewFileDTOList = " + reviewFileDTOList.length);
-        ReviewSaveDTO reviewSaveDTO = new ReviewSaveDTO();
-        reviewSaveDTO.setReviewScore(reviewScore);
-        reviewSaveDTO.setReviewContents(reviewContents);
+        System.out.println("reviewSaveDTO = " + reviewSaveDTO);
 
         List<ReviewFileDTO> reviewFileDTOS =new ArrayList<>();
 
@@ -72,7 +79,7 @@ public class ReviewController {
     // 리뷰 등록 후 페이지 이동
     @GetMapping("/")
     public String reviewFinish(Model model){
-        List<ReviewTestDTO> reviewList = as.reviewFindAll();
+        List<ReviewDetailDTO> reviewList = as.reviewFindAll();
         model.addAttribute("reviewList", reviewList);
         return "customer/review";
     }

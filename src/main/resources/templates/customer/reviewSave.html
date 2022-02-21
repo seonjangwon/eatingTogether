@@ -41,57 +41,65 @@
     </script>-->
 
 
-    <script>
-        function reviewSave(){
-            // const saveData = JSON.stringify({
-            //     reviewScore:  $('input[name="reviewScore"]').val(),
-            //     reviewContents:  $('input[name="reviewContents"]').val(),
-            // })
-           var formdata = new FormData();
-            formdata.append("reviewScore", $('input[name="reviewScore"]').val());
-            formdata.append("reviewContents", $('input[name="reviewContents"]').val());
-            // formdata.append("reviewScore", $('input[name="reviewScore"]').val());
-            //formdata.append("reviewFileDTOList[0].reviewFile", document.getElementById('reviewFile').files[0]);
-            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[0]);
-            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[1]);
+<!--    <script>-->
+<!--        function reviewSave(){-->
+<!--            // const saveData = JSON.stringify({-->
+<!--            //     reviewScore:  $('input[name="reviewScore"]').val(),-->
+<!--            //     reviewContents:  $('input[name="reviewContents"]').val(),-->
+<!--            // })-->
+<!--           var formdata = new FormData();-->
+<!--            formdata.append("reviewScore", $('input[name="reviewScore"]').val());-->
+<!--            formdata.append("reviewContents", $('input[name="reviewContents"]').val());-->
+<!--            // formdata.append("reviewScore", $('input[name="reviewScore"]').val());-->
+<!--            //formdata.append("reviewFileDTOList[0].reviewFile", document.getElementById('reviewFile').files[0]);-->
+<!--            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[0]);-->
+<!--            // formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[1]);-->
 
-            // formdata.append("data", saveData);
+<!--            // formdata.append("data", saveData);-->
 
-            var fileList = document.getElementById('reviewFile').files;
-            // var fileList = $('input[name="reviewFile"]').files;
-            console.log(fileList.length)
-            for(var i=0; i< fileList.length; i++){
-                formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[i]);
-            }
+<!--            var fileList = document.getElementById('reviewFile').files;-->
+<!--            // var fileList = $('input[name="reviewFile"]').files;-->
+<!--            console.log(fileList.length)-->
+<!--            for(var i=0; i< fileList.length; i++){-->
+<!--                formdata.append("reviewFileDTOList", document.getElementById('reviewFile').files[i]);-->
+<!--            }-->
 
-            // formData = $("#myform").serialize();
-            // console.log(formData);
-            $.ajax({
-                type:'post',
-                url: '/review/save',
-                data: formdata,
-                dataType: 'text',
-                contentType: false,
-                processData: false,
-                enctype:'multipart/form-data',
-                success: function(result){
-                    console.log(result);
-                    console.log("성공!");
-                    // location.href='/review/';
-            },
-            error: function(){
-                console.log("ajax실패");
-            }
-            });
-        }
-    </script>
+<!--            // formData = $("#myform").serialize();-->
+<!--            // console.log(formData);-->
+<!--            $.ajax({-->
+<!--                type:'post',-->
+<!--                url: '/review/save',-->
+<!--                data: formdata,-->
+<!--                dataType: 'text',-->
+<!--                contentType: false,-->
+<!--                processData: false,-->
+<!--                enctype:'multipart/form-data',-->
+<!--                success: function(result){-->
+<!--                    console.log(result);-->
+<!--                    console.log("성공!");-->
+<!--                    // location.href='/review/';-->
+<!--            },-->
+<!--            error: function(){-->
+<!--                console.log("ajax실패");-->
+<!--            }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
 
+<!--    <script>-->
+<!--        $(document).ready(function(){-->
+<!--            $("input[type=file]").change(function(){-->
+<!--                var fileInput = document.getElementById("")-->
+
+<!--            }-->
+<!--        })-->
+<!--    </script>-->
 
 
 
 </head>
 <body>
-<form name="myform" id="myform" enctype="multipart/form-data">
+<form action="/review/save" method="post" th:object="${review}" name="myform" id="myform" enctype="multipart/form-data">
     <fieldset>
     <legend>별점</legend>
     <input type="radio" name="reviewScore" th:value="1" id="rate1">
@@ -100,13 +108,16 @@
     <input type="radio" name="reviewScore" th:value="4" id="rate4">
     <input type="radio" name="reviewScore" th:value="5" id="rate5">
     </fieldset>
-    메뉴이름
+    메뉴이름 : <input type="text" name="menuName" th:value="${review.menuName}">
+    <input type="hidden" name="storeNumber" th:value="${review.storeNumber}"> <!--가게번호-->
+     <input type="hidden" name="orderNumber" th:value="${review.orderNumber}"> <!--주문번호-->
+    <input type="hidden" name="customerNumber" th:value="${review.customerNumber}" > <!--회원번호-->
     내용 : <input type="text" name="reviewContents">
     사진 :
-    <input type="file" id="reviewFile" name="reviewFile" class="multi" multiple="multiple" maxlength="3"/>
-
-    <input type="button" value="등록" onclick="reviewSave()">
+    <input type="file" id="reviewFile" name="reviewFileDTO" class="multi" multiple="multiple" maxlength="3"/>
+    <input type="submit" value="등록">
 </form>
+    <input type="button" value="등록" onclick="reviewSave()">
 
 </body>
 </html>

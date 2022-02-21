@@ -39,16 +39,16 @@ public class ReviewDetailDTO {
                                            //ReplyDetailDTO replyDetailDTO){
         ReviewDetailDTO reviewDetailDTO = new ReviewDetailDTO();
         reviewDetailDTO.setReviewNumber(reviewEntity.getReviewNumber());
-        reviewDetailDTO.setStoreNumber(reviewEntity.getStoreEntity().getStoreNumber());
-        reviewDetailDTO.setStoreName(reviewEntity.getStoreEntity().getStoreName());
-        reviewDetailDTO.setCustomerNumber(reviewEntity.getCustomerEntity().getCustomerNumber());
-        reviewDetailDTO.setCustomerName(reviewEntity.getCustomerEntity().getCustomerNickname());
-        reviewDetailDTO.setMenuName(reviewEntity.getMenuName());
+//        reviewDetailDTO.setStoreNumber(reviewEntity.getStoreEntity().getStoreNumber());
+//        reviewDetailDTO.setStoreName(reviewEntity.getStoreEntity().getStoreName());
+//        reviewDetailDTO.setCustomerNumber(reviewEntity.getCustomerEntity().getCustomerNumber());
+//        reviewDetailDTO.setCustomerName(reviewEntity.getCustomerEntity().getCustomerNickname());
+//        reviewDetailDTO.setMenuName(reviewEntity.getMenuName());
         reviewDetailDTO.setReviewComments(reviewEntity.getReviewContents());
         reviewDetailDTO.setReviewScore(reviewEntity.getReviewScore());
         reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
         reviewDetailDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());
-        reviewDetailDTO.setReviewTime(reviewEntity.getReviewTime());
+        reviewDetailDTO.setReviewTime(reviewEntity.getCreateTime());
         //reviewDetailDTO.setReviewFileListNumber();
         //reviewDetailDTO.setReviewFileDTOList(reviewFileDTOList);
         //reviewDetailDTO.setReplyDetailDTO(replyDetailDTO);

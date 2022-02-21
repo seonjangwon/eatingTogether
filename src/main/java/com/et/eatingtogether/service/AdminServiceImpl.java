@@ -123,39 +123,42 @@ public class AdminServiceImpl implements AdminService {
     // 고객리뷰 저장
     @Override
     public void reviewSave(ReviewSaveDTO reviewSaveDTO) throws IOException {
-//      reviewSaveDTO.getReviewFileDTOList().forEach(reviewFileDTO ->{
+        if(reviewSaveDTO!=null){
+            //      reviewSaveDTO.getReviewFileDTOList().forEach(reviewFileDTO ->{
 //          rfr.save(reviewFileDTO.getReviewFilename());
 //      });
-        // 1. 리뷰Entity에 saveDTO 저장
-        // 2. 리뷰 Entity
-        Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
-        System.out.println("reviewNumber = " + reviewNumber);
-        ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
-        ReviewTestDTO reviewTestDTO = ReviewTestDTO.toEntity(reviewEntity);
-        System.out.println("reviewTestDTO = " + reviewTestDTO);
-        System.out.println("reviewEntity = " + reviewEntity);
+            // 1. 리뷰Entity에 saveDTO 저장
+            // 2. 리뷰 Entity
+            Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+            System.out.println("reviewNumber = " + reviewNumber);
+            ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
+//        ReviewTestDTO reviewTestDTO = ReviewTestDTO.toEntity(reviewEntity);
+//        System.out.println("reviewTestDTO = " + reviewTestDTO);
+//        System.out.println("reviewEntity = " + reviewEntity);
 
-        // r : reviewSaveDTO에 있는 파일리스트부분, reviewEntity : reviewRepository에 저장한 작성된 리뷰
+            // r : reviewSaveDTO에 있는 파일리스트부분, reviewEntity : reviewRepository에 저장한 작성된 리뷰
 
-        if (!reviewSaveDTO.getReviewFileDTOList().isEmpty()) {
-            for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()) {
+            if (!reviewSaveDTO.getReviewFileDTOList().isEmpty()) {
+                for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()) {
 
-                MultipartFile r_file = r.getReviewFile();
-                String r_fileName = System.currentTimeMillis() + r_file.getOriginalFilename();
-                System.out.println("r_fileName = " + r_fileName);
-                // 저장경로
-                String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;
+                    MultipartFile r_file = r.getReviewFile();
+                    String r_fileName = System.currentTimeMillis() + r_file.getOriginalFilename();
+                    System.out.println("r_fileName = " + r_fileName);
+                    // 저장경로
+                    String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;
 
-                // 만약 r_file이 비어있지 않다면 저장경로에 저장하기
-                if (r_file != null) {
-                    r_file.transferTo(new File(savePath));
+                    // 만약 r_file이 비어있지 않다면 저장경로에 저장하기
+                    if (r_file != null) {
+                        r_file.transferTo(new File(savePath));
+                    }
+                    // 파일이름 dto에 저장
+                    r.setReviewFilename(r_fileName);
+
+                    rfr.save(ReviewFileEntity.toEntity(r, reviewEntity));
+
                 }
-                // 파일이름 dto에 저장
-                r.setReviewFilename(r_fileName);
-
-                rfr.save(ReviewFileEntity.toEntity(r, reviewEntity));
-
             }
+
         }
 
     }
@@ -163,11 +166,11 @@ public class AdminServiceImpl implements AdminService {
 
     // 리뷰 목록 출력용
     @Override
-    public List<ReviewTestDTO> reviewFindAll() {
+    public List<ReviewDetailDTO> reviewFindAll() {
         List<ReviewEntity> reviewEntityList = rer.findAll();
-        List<ReviewTestDTO> reviewList = new ArrayList<>();
+        List<ReviewDetailDTO> reviewList = new ArrayList<>();
         for (ReviewEntity r : reviewEntityList) {
-            reviewList.add(ReviewTestDTO.toEntity(r));
+            reviewList.add(ReviewDetailDTO.toEntity(r));
         }
         return reviewList;
     }

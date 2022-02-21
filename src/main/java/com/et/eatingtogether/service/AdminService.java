@@ -52,7 +52,7 @@ public interface AdminService {
     void reviewSave(ReviewSaveDTO reviewSaveDTO) throws IOException;
 
     // 리뷰 목록 출력용
-    List<ReviewTestDTO> reviewFindAll();
+    List<ReviewDetailDTO> reviewFindAll();
 
 
     void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException;
