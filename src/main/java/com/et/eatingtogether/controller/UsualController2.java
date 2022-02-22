@@ -107,38 +107,7 @@ public class UsualController2 {
             }
     }
 
-    //지원 0218
-    @GetMapping("/delivery")
-    public String storeDeliveryForm (Model model)   {
-        // 필요한 것, storeNumber? storeEntity 의 storeNumber
-        // delivery의 정보.
-        System.out.println("UsualController.storeDeliveryForm");
-        /*model.addAttribute("storeDelivery", new DeliveryDTO()); //필드생성용*/
-        model.addAttribute("DeliverySave", new DeliveryDTO());
-        StoreDetailDTO storeDetailDTO = ss.findById((String) session.getAttribute("StoreLoginEmail"));
-        model.addAttribute("storeNumber",storeDetailDTO.getStoreNumber());
-        return "store/storeDelivery";
-    }
 
-    //지원 0220~
-    @PostMapping("/delivery")
-    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity)   {
-        System.out.println("UsualController.storeDelivery");
-
-/*        DeliveryEntity deliveryEntity;
-        if(deliveryDTO.getDeliveryDname() == 0) {
-            // Dname이 DTO에 없다면 새로 생성
-            deliveryEntity = ss.deliverySave(deliveryDTO.getStoreEntity(),deliveryDTO.getDeliveryDname());
-        }   else    {
-            // 있다면 찾아서 보여줌
-            deliveryEntity = ss.findByDelivery(deliveryDTO.getDeliveryNumber());
-        }*/
-        //뜨악 연구름 좀 더 ㅠ
-        
-        
-        ss.deliverySave(deliveryDTO, storeEntity); //기본
-        return "usual/storeSave";
-    }
 
     //지원 0219
     @PostMapping("/idDuplicate")

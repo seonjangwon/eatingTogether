@@ -1,9 +1,6 @@
 package com.et.eatingtogether.controller;
 
-import com.et.eatingtogether.dto.store.MenuDTO;
-import com.et.eatingtogether.dto.store.MenuDetailDTO;
-import com.et.eatingtogether.dto.store.StoreCategoryDTO;
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
@@ -181,6 +178,26 @@ public class StoreController {
     }
 
 
+    //지원 0218
+    @GetMapping("/delivery")
+    public String storeDeliveryForm (Model model)   {
+        // 필요한 것, storeNumber? storeEntity 의 storeNumber
+        // delivery의 정보.
+        System.out.println("UsualController.storeDeliveryForm");
+        model.addAttribute("DeliverySave", new DeliveryDTO());
+        StoreDetailDTO storeDetailDTO = ss.findById((String) session.getAttribute("StoreLoginEmail"));
+        model.addAttribute("storeNumber",storeDetailDTO.getStoreNumber());
+        return "store/storeDelivery";
+    }
+
+    //지원 0220~
+    @PostMapping("/delivery")
+    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity)   {
+        System.out.println("UsualController.storeDelivery");
+        ss.deliverySave(deliveryDTO,storeEntity);
+        //등록만 하는거 맞잖어...
+        return "usual/storeSave";
+    }
 
 
 }
