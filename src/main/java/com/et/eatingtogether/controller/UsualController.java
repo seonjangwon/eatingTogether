@@ -2,6 +2,7 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class UsualController {
     }
 
     @PostMapping("/customerLogin")
-    public String customerLogin(@Validated @ModelAttribute("customer") CustomerDetailDTO customerDetailDTO, BindingResult bindingResult){
+    public String customerLogin(@Validated @ModelAttribute("customer") CustomerDetailDTO customerDetailDTO, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             return "usual/customerLogin";
         }
@@ -59,9 +61,8 @@ public class UsualController {
     @PostMapping("/customer")
     @ResponseBody
     public String customerSave(@ModelAttribute CustomerSaveDTO customerSaveDTO){
-        // 테스트용 리턴갑 cNum
-        Long cNum = cs.save(customerSaveDTO);
-
+        // 테스트용 리턴값 customerNum
+        Long customerNum = cs.save(customerSaveDTO);
         return "ok";
     }
 

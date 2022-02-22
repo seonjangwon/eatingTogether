@@ -37,6 +37,7 @@ public class ReviewEntity extends BaseEntity {
     private LocalDateTime createTime; // 리뷰 등록시간
     private String reviewContents;
 
+
     //    private LocalDateTime reviewTime;
     //    private String reviewFilename; // 테이블 따로 뺌
 
@@ -47,15 +48,16 @@ public class ReviewEntity extends BaseEntity {
     private ReplyEntity replyEntity;
 
     // 리뷰저장
-    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO){
+    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO, CustomerEntity customerEntity, StoreEntity storeEntity, String menuName){
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setReviewNumber(reviewSaveDTO.getReviewNumber());
         reviewEntity.setReviewScore(reviewSaveDTO.getReviewScore());
         reviewEntity.setReviewContents(reviewSaveDTO.getReviewContents());
+        reviewEntity.setStoreEntity(storeEntity);
+        reviewEntity.setCustomerEntity(customerEntity);
+        reviewEntity.setMenuName(menuName);
         return reviewEntity;
 
     }
-
-
 
 }

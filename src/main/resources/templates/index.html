@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--선영 220222 : 리뷰확인하려고 타임리프좀..-->
 <head>
     <meta charset="UTF-8">
     <title>[뭐먹을까요] 어서오세요</title>
@@ -24,7 +24,11 @@
 <a href="/customer/kakaoLogout">카카오 로그아웃</a>
 <div id="msgStack"></div>
 <button onclick="send_btn()">웹소켓 전송 테스트</button>
-
+<span th:each="order : ${orderList}">
+<a th:href="@{|/review/save/${order.orderNumber}|}">리뷰작성</a>
+</span>
+${orderList}
+<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>
 
 
 

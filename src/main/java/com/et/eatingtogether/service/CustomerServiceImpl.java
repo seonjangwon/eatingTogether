@@ -158,16 +158,18 @@ public class CustomerServiceImpl implements CustomerService {
     public List<ReviewDetailDTO> reviewList() {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<ReviewDetailDTO> reviewDetailDTOList = new ArrayList<>();
-        for (ReviewEntity r : customerEntity.get().getReviewEntityList()) {
-            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
-        }
-        for (ReviewDetailDTO r : reviewDetailDTOList) {
-            r.setReplyDetailDTO(ReplyDetailDTO.toEntity(rpr.findById(r.getReviewNumber()).get()));
-            for (ReviewFileEntity rf : r.getReviewFileEntityList()) {
-                r.getReviewFileDTOList().add(ReviewFileDTO.toEntity(rf));
+            for (ReviewEntity r : customerEntity.get().getReviewEntityList()) {
+                reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
             }
-        }
-        return reviewDetailDTOList;
+
+            for (ReviewDetailDTO r : reviewDetailDTOList) {
+                r.setReplyDetailDTO(ReplyDetailDTO.toEntity(rpr.findById(r.getReviewNumber()).get()));
+                for (ReviewFileEntity rf : r.getReviewFileEntityList()) {
+                    r.getReviewFileDTOList().add(ReviewFileDTO.toEntity(rf));
+                }
+            }
+        System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
+            return reviewDetailDTOList;
     }
 
     @Override

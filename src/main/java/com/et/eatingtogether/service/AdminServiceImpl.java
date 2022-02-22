@@ -4,7 +4,6 @@ import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
-import com.et.eatingtogether.dto.review.ReviewTestDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
@@ -34,6 +33,9 @@ public class AdminServiceImpl implements AdminService {
 
     private final CustomerBlacklistRepository cbr; // 회원블랙리스트
     private final CustomerReportRepository crr; // 회원신고내역
+
+    private final MenuRepository mr; // 메뉴
+
 
     // 쿠폰저장
     @Override
@@ -120,24 +122,24 @@ public class AdminServiceImpl implements AdminService {
         return sr.save(StoreEntity.toStoreSave(storeSaveDTO)).getStoreNumber();
     }
 
-    // 고객리뷰 저장
+    // 고객리뷰 저장 220222 선영
     @Override
     public void reviewSave(ReviewSaveDTO reviewSaveDTO) throws IOException {
         if(reviewSaveDTO!=null){
-            //      reviewSaveDTO.getReviewFileDTOList().forEach(reviewFileDTO ->{
-//          rfr.save(reviewFileDTO.getReviewFilename());
-//      });
-            // 1. 리뷰Entity에 saveDTO 저장
-            // 2. 리뷰 Entity
-            Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+            // 회원 Entity 필요함
+            CustomerEntity customerEntity = ctr.findById(reviewSaveDTO.getCustomerNumber()).get();
+            // 업체 Entity 필요함
+            StoreEntity storeEntity = sr.findById(reviewSaveDTO.getStoreNumber()).get();
+            // 메뉴이름 필요함
+
+//            String menuName = sr.findById(storeEntity.getStoreNumber()).get().getMenuEntityList().get(Math.toIntExact(reviewSaveDTO.getOrderNumber())).getMenuName();
+            String menuName = storeEntity.getMenuEntityList().get(Math.toIntExact(reviewSaveDTO.getOrderNumber())).getMenuName();
+
+            Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO, customerEntity, storeEntity, menuName)).getReviewNumber();
             System.out.println("reviewNumber = " + reviewNumber);
             ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
-//        ReviewTestDTO reviewTestDTO = ReviewTestDTO.toEntity(reviewEntity);
-//        System.out.println("reviewTestDTO = " + reviewTestDTO);
-//        System.out.println("reviewEntity = " + reviewEntity);
 
             // r : reviewSaveDTO에 있는 파일리스트부분, reviewEntity : reviewRepository에 저장한 작성된 리뷰
-
             if (!reviewSaveDTO.getReviewFileDTOList().isEmpty()) {
                 for (ReviewFileDTO r : reviewSaveDTO.getReviewFileDTOList()) {
 
@@ -159,6 +161,8 @@ public class AdminServiceImpl implements AdminService {
                 }
             }
 
+
+
         }
 
     }
@@ -177,7 +181,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException {
-        Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO)).getReviewNumber();
+        // 회원 Entity 필요함
+        CustomerEntity customerEntity = ctr.findById(reviewSaveDTO.getCustomerNumber()).get();
+        // 업체 Entity 필요함
+        StoreEntity storeEntity = sr.findById(reviewSaveDTO.getStoreNumber()).get();
+        // 메뉴이름 필요함
+//            String menuName = sr.findById(storeEntity.getStoreNumber()).get().getMenuEntityList().get(Math.toIntExact(reviewSaveDTO.getOrderNumber())).getMenuName();
+        String menuName = storeEntity.getMenuEntityList().get(Math.toIntExact(reviewSaveDTO.getOrderNumber())).getMenuName();
+
+
+        Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO, customerEntity, storeEntity, menuName)).getReviewNumber();
         System.out.println("reviewNumber = " + reviewNumber);
         ReviewEntity reviewEntity = rer.findById(reviewNumber).get();
         MultipartFile r_file = r.getReviewFile();
