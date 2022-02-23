@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
+@SessionAttributes("storeLoginEmail")
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {

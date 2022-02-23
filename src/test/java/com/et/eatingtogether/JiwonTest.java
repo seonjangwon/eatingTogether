@@ -89,6 +89,16 @@ public class JiwonTest {
         System.out.println("menuEntity: "+menuEntity);
     }
 
+    @Test
+    @DisplayName("회원가입만")
+    public void joinTest() {
+        //회원
+        IntStream.rangeClosed(1, 5).forEach(i -> {
+            cs.save(new CustomerSaveDTO("이메일" + i, "비밀번호" + i, "닉네임" + i, "주소" + i, "핸드폰" + i, "동이름" + i));
+        });
+        System.out.println("회원가입 테스트 실행됨");
+    }
+
 
     @Test
     @Transactional
@@ -144,13 +154,13 @@ public class JiwonTest {
     public void orderTest() {
         //메뉴, 고객, 업체
         //회원
-        CustomerEntity customerEntity = cr.findById(60l).get();
+        CustomerEntity customerEntity = cr.findById(6l).get();
         System.out.println("회원가입 테스트 실행됨");
         System.out.println("회원정보: "+customerEntity);
 
         //업체
         BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
-        StoreEntity storeEntity = sr.findByStoreEmail("888");
+        StoreEntity storeEntity = sr.findByStoreEmail("777");
         System.out.println("bigCategoryEntity:"+bigCategoryEntity);
         System.out.println("업체가입 테스트 실행됨");
 
@@ -158,7 +168,7 @@ public class JiwonTest {
         MenuEntity menuEntity = new MenuEntity();
         menuEntity.setMenuName("testMenu");
         menuEntity.setStoreEntity(storeEntity);
-        menuEntity.setMenuPrice(100);
+        menuEntity.setMenuPrice(40000);
         Long menuNumber = mnr.save(menuEntity).getMenuNumber();
         System.out.println("menuEntity:"+menuEntity);
         System.out.println("메뉴저장 테스트 실행됨");
@@ -169,7 +179,7 @@ public class JiwonTest {
         orderEntity.setStoreEntity(storeEntity);
         orderEntity.setCustomerEntity(customerEntity);
         orderEntity.setOrderMenuEntityList(orderEntity.getOrderMenuEntityList());
-        orderEntity.setOrderPrice(15000);
+        orderEntity.setOrderPrice(85000);
         orderEntity.setOrderAddress("우걱우걱동");
         orderEntity.setOrderTime(LocalDateTime.now());
         orderEntity.setOrderTomaster("^^");
@@ -181,7 +191,7 @@ public class JiwonTest {
         System.out.println("orderEntity:"+orderEntity);
 
         //이걸 했어야했나?
-        menuEntity = mnr.findById(4l).get();
+        menuEntity = mnr.findById(1l).get();
         OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
         orderMenuEntity.setOrderEntity(orderEntity);
         orderMenuEntity.setOrderMenuCount(2);

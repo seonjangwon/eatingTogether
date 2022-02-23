@@ -16,6 +16,8 @@ public interface StoreRepository extends JpaRepository<StoreEntity,Long> {
 
     List<StoreEntity> findByBigCategoryEntity(BigCategoryEntity bigCategoryEntity);
 
+    StoreEntity findByStoreNumber(String storeNumber);
+
     /*String findByStoreEmail(StoreEntity storeEmail);*/
 
   /* StoreEntity idDuplicate(String storeEmail); 오류의 주범 ㅠㅠ

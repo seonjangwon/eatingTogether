@@ -123,7 +123,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDetailDTO findById(String storeName) {
         System.out.println("StoreServiceImpl.findByStore");
-        return StoreDetailDTO.toStoreDetailDTO(sr.findByStoreName(storeName));
+        return StoreDetailDTO.toStoreDetailDTO(sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail")));
     }
 
     @Override

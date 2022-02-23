@@ -41,7 +41,11 @@
         <tr>
 
         <tr th:each="od:${orderList}">
-            <td></td>
+            <td th:text="${od.orderTime}"></td>
+            <td th:text="${od.menuName}"></td>
+            <td th:text="${od.orderAddress}"></td>
+            <td th:text="${od.orderPrice}"></td>
+            <td th:text="${od.orderType}"></td>
         </tr>
         </tbody>
     </table>
