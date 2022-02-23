@@ -206,9 +206,9 @@ public class StoreController {
     // store별 주문상황을 띄웁니다. 필요한 것 storeNumber(해당 업체) , orderNowDTO(주문에 대한 전반적인 사항)
     @GetMapping("/orderList")
     public String orderFindAll(Model model) {
-        List<OrderNowDTO> orderNowDTO = ss.findAllOrderNow();
-        model.addAttribute("orderNowDTO", orderNowDTO);
-        System.out.println("StoreController.orderAll");
+        List<OrderDTO> orderList = ss.findByOrderAll();
+        model.addAttribute("orderList", orderList);
+        System.out.println("StoreController.orderFindAll");
         return "store/orderList";
     }
 

@@ -2,6 +2,7 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
-import static com.et.eatingtogether.dto.system.OrderNowDTO.toOrderDetailDTO;
+import static com.et.eatingtogether.dto.system.OrderDTO.toStoreOrderDetailDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -258,13 +259,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<OrderNowDTO> findAllOrderNow() {
-        List<OrderNowEntity> orderNowEntityList = onr.findAll();
-        List<OrderNowDTO> orderList = new ArrayList<>();
-        for (OrderNowEntity one: orderNowEntityList) {
-            orderList.add(toOrderDetailDTO(one));
+    public List<OrderDTO> findByOrderAll() {
+        List<OrderEntity> orderEntityList = or.findAll();
+        List<OrderDTO> orderList = new ArrayList<>();
+        for (OrderEntity oe: orderEntityList)   {
+            orderList.add(toStoreOrderDetailDTO(oe));
         }
-        System.out.println("ss.findAllOrder");
+        System.out.println(orderList);
         return orderList;
     }
 
