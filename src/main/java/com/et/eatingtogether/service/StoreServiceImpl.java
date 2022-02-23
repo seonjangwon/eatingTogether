@@ -3,7 +3,6 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import java.util.Optional;
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
+import static com.et.eatingtogether.dto.system.OrderDTO.toEntity;
 import static com.et.eatingtogether.dto.system.OrderDTO.toStoreOrderDetailDTO;
 
 @Service
@@ -269,7 +269,19 @@ public class StoreServiceImpl implements StoreService {
         return orderList;
     }
 
+    @Override
+    public List<OrderDTO> findByOrderDetail(Long orderNumber) {
+/*        //흠냐리
+        List<OrderEntity> orderEntityList = or.findAll();
+        List<OrderDTO> orderDTOList = new ArrayList<>();
 
+        for(OrderEntity oe: orderEntityList)    {
+            orderDTOList.add(toEntity(oe));
+        }
+        System.out.println("StoreServiceImpl.findByOrderDetail");
+        return orderDTOList;*/
+        return null;
+    }
 
 
 }

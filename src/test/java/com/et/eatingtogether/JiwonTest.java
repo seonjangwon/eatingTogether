@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,46 +156,62 @@ public class JiwonTest {
         //메뉴, 고객, 업체
         //회원
         CustomerEntity customerEntity = cr.findById(6l).get();
-        System.out.println("회원가입 테스트 실행됨");
+        System.out.println("회원 테스트 실행");
         System.out.println("회원정보: "+customerEntity);
 
         //업체
-        BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
-        StoreEntity storeEntity = sr.findByStoreEmail("777");
+        BigCategoryEntity bigCategoryEntity = bcr.findById(3l).get();
+        StoreEntity storeEntity = sr.findByStoreEmail("123");
         System.out.println("bigCategoryEntity:"+bigCategoryEntity);
         System.out.println("업체가입 테스트 실행됨");
 
         //메뉴
         MenuEntity menuEntity = new MenuEntity();
-        menuEntity.setMenuName("testMenu");
+        StoreCategoryEntity storeCategoryEntity = scr.findById(5l).get();
+        menuEntity.setMenuName("우울한울면");
         menuEntity.setStoreEntity(storeEntity);
-        menuEntity.setMenuPrice(40000);
+        menuEntity.setMenuPrice(12000);
+        menuEntity.setMenuExplain("힝입니다");
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
         Long menuNumber = mnr.save(menuEntity).getMenuNumber();
         System.out.println("menuEntity:"+menuEntity);
         System.out.println("메뉴저장 테스트 실행됨");
 
 
+
         //주문
+        OrderNowEntity orderNowEntity = new OrderNowEntity();
+        /*orderNowEntity = onr.findById(1l).get();*/
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setStoreEntity(storeEntity);
         orderEntity.setCustomerEntity(customerEntity);
         orderEntity.setOrderMenuEntityList(orderEntity.getOrderMenuEntityList());
-        orderEntity.setOrderPrice(85000);
-        orderEntity.setOrderAddress("우걱우걱동");
+        orderEntity.setOrderPrice(menuEntity.getMenuPrice());
+        orderEntity.setOrderAddress(customerEntity.getCustomerAddress());
         orderEntity.setOrderTime(LocalDateTime.now());
-        orderEntity.setOrderTomaster("^^");
-        orderEntity.setOrderTorider("빨리천천히");
+        orderEntity.setOrderTomaster("?");
+        orderEntity.setOrderTorider("!");
         orderEntity.setOrderType("주문");
+        orderEntity.setOrderNowEntity(orderNowEntity);
 
         Long orderNumber = or.save(orderEntity).getOrderNumber();
         System.out.println("주문저장 테스트 실행됨");
         System.out.println("orderEntity:"+orderEntity);
 
+        //주문상황관리
+        /*orderNowEntity = onr.findById(orderNowEntity.getOrderNowNumber()).get();*/
+        /*OrderEntity orderEntity = new OrderEntity();*/
+        orderNowEntity.setOrderEntity(orderEntity);
+        orderNowEntity.setOrderNowStatus("요리");
+        orderNowEntity.setOrderNowTime(orderEntity.getOrderTime().plusMinutes(10));
+        Long orderNowNumber = onr.save(orderNowEntity).getOrderNowNumber();
+        System.out.println("주문상황 테스트 실행됨");
+
         //이걸 했어야했나?
-        menuEntity = mnr.findById(1l).get();
+        menuEntity = mnr.findById(22l).get();
         OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
         orderMenuEntity.setOrderEntity(orderEntity);
-        orderMenuEntity.setOrderMenuCount(2);
+        orderMenuEntity.setOrderMenuCount(1);
         orderMenuEntity.setMenuEntity(menuEntity);
         Long orderMenuNumber = omr.save(orderMenuEntity).getOrderMenuNumber();
         System.out.println("오더메뉴저장 테스트 실행됨");

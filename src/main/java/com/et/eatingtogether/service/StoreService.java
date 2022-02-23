@@ -3,8 +3,6 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderNowDTO;
-import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 
@@ -46,4 +44,6 @@ public interface StoreService {
     void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
 
     List<OrderDTO> findByOrderAll();
+
+    List<OrderDTO> findByOrderDetail(Long orderNumber);
 }

@@ -213,6 +213,17 @@ public class StoreController {
         return "store/orderList";
     }
 
+    //지원 0223
+    // 주문상세버튼을 누를 시 해당 주문으로 이동되는 페이지입니다.
+    @GetMapping("/order/{orderNumber}")
+    public String orderDetail(@PathVariable Long orderNumber, Model model) {
+        System.out.println("StoreController.orderDetail");
+        List<OrderDTO> orderDTOList = ss.findByOrderDetail(orderNumber);
+        model.addAttribute("orderDTOList",orderDTOList);
+        System.out.println(orderDTOList);
+        return "store/orderDetail";
+    }
+
 
 
 

@@ -31,9 +31,9 @@
         <tr>
             <th> 주문시간 </th>
             <th> 주문메뉴 </th>
-            <th> 주문자 주소 </th>
+            <th> 주문주소 </th>
             <th> 결제금액 </th>
-            <th> 주문처리 버튼 </th>
+            <th> 주문처리 </th>
             <th> 주문상세 </th>
         </tr>
         </thead>
@@ -45,10 +45,17 @@
             <td th:text="${od.menuName}"></td>
             <td th:text="${od.orderAddress}"></td>
             <td th:text="${od.orderPrice}"></td>
-            <td th:text="${od.orderType}"></td>
+            <td><button th:onclick="btn_orderStatus()" type="button" class="btn btn-white btn-sm" style="background-color: lightcoral"><span id="orderStatus" value="주문">주문1</span></button></td>
+            <!--<td><a th:href="@{|/store/order/${od.orderNumber}|}"> 상세조회 </a></td>-->
+            <td><a th:href="@{|/store/order/${od.orderNumber}|}" class="btn btn-white btn-sm" role="button" data-bs-toggle="button" aria-pressed="true" style="background-color: lightcoral"> 주문상세 </a></td>
         </tr>
         </tbody>
     </table>
 </section>
 </body>
+<script>
+    function btn_orderStatus()  {
+        console.log("btn_orderStatus 누름");
+    }
+</script>
 </html>
