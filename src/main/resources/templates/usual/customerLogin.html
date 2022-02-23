@@ -11,12 +11,14 @@
 </head>
 <body>
 <h2>customerLogin</h2>
-<form action="/usual/customerLogin" method="post" th:object="${customer}">
-    <div th:if="${#fields.hasGlobalErrors()}">
+<!--<form action="/usual/customerLogin" method="post" th:object="${customer}">-->
+<form action="/usual/customerLogin" method="post">
+
+    <!--<div th:if="${#fields.hasGlobalErrors()}">
         <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="field-error"></p>
-    </div>
-    <input type="text" th:field="*{customerEmail}"><br>
-    <input type="text" th:field="*{customerPassword}"><br>
+    </div>-->
+    <input type="text" name="username" placeholder="이메일을 입력해주세요"><br>
+    <input type="text" name="password" placeholder="비밀번호"><br>
     <input type="submit" value="로그인">
 </form>
 <a href="https://kauth.kakao.com/oauth/authorize?client_id=b577db5cfc34ee9556c27e55b2f22763&redirect_uri=http://localhost:8099/customer/kakaoLogin&response_type=code">kakao Sign in!</a>

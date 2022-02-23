@@ -5,6 +5,7 @@ import com.et.eatingtogether.dto.store.DeliveryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.service.CustomerUserService;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class UsualController2 {
     //
     private final StoreService ss;
+    private final CustomerUserService cus;
     // 필요한 기능
     // 2-1 업체 회원가입요청, 2-2 업체 회원가입처리, 2-2-1 업체 가입 이메일 중복체크
     // 2-3 업체 로그인요청, 2-4 업체 로그인처리
@@ -48,13 +50,14 @@ public class UsualController2 {
 
         //Id 중복체크
         //아놔 재도전할거야 반드시...
-        try {
-            Long storeId = ss.save(storeSaveDTO);
-        }   catch (IllegalStateException email) {
-            bindingResult.reject("emailCheck", email.getMessage());
-            //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
-            return "usual/storeSave";
-        }
+//        try {
+//            Long storeId = ss.save(storeSaveDTO);
+//        }   catch (IllegalStateException email) {
+//            bindingResult.reject("emailCheck", email.getMessage());
+//            //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
+//            return "usual/storeSave";
+//        }
+        Long sNumber = cus.storeJoinUser(storeSaveDTO);
 
         System.out.println("가입완료");
         return "storeMain";

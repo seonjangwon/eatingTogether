@@ -5,6 +5,8 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <script>
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
@@ -73,11 +75,17 @@
         function EmailCk(){
         const customerEmail = document.getElementById('customerEmail').value;
         const EmailCheck = document.getElementById('EmailCheck');
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+
         $.ajax({
             type: 'post',
             url: '/usual/customerEmail',
             data: {"customerEmail": customerEmail},
             dataType: "text",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
             success: function (result) {
                 console.log(result);
                 if (result==="ok") {
@@ -97,6 +105,8 @@
         }
 
         function save(){
+            const detailAddress = document.getElementById("sample4_detailAddress").value;
+            document.getElementById("customerAddress").value += detailAddress;
             const Check = document.getElementById('EmailCheck').innerHTML;
             const formdata = $("#save_form").serialize();
             if(Check==="사용 가능한 이메일"){
@@ -128,7 +138,7 @@
 
 </head>
 <body>
-<form action="/usual/customer" method="post" th:object="${customer}" id="save_form">
+<form th:action="@{/usual/customer}" method="post" th:object="${customer}" id="save_form">
     아이디 : <input type="text" th:field="*{customerEmail}" onblur="EmailCk()">
     <p id="EmailCheck"></p><br>
     비밀번호 : <input type="text" th:field="*{customerPassword}"><br>

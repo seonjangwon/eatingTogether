@@ -20,6 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -185,7 +187,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<BasketDTO> basketList() {
-        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        String email = ((UserDetails) principal).getUsername();
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(email);
+//        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketEntity b : customerEntity.get().getBasketEntityList()) {
             basketDTOList.add(BasketDTO.toEntity(b));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 로그인</title>
@@ -8,6 +8,7 @@
 로그인폼
 
  <form action = "/usual/slogin" method = "post">
+     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
      <input type = "text" name="storeEmail" placeholder="이메일">
      <input type = "password" name = "storePassword" placeholder="비밀번호">
      <input type = "submit" value="로그인">

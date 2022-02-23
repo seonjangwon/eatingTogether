@@ -3,6 +3,7 @@ package com.et.eatingtogether.controller;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 import com.et.eatingtogether.service.CustomerService;
+import com.et.eatingtogether.service.CustomerUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ public class UsualController {
     // jangwon
 
     private final CustomerService cs;
+    private final CustomerUserService cus;
 
     @GetMapping("/customerLogin")
     public String customerLoginForm(Model model){
@@ -32,7 +34,7 @@ public class UsualController {
         return "usual/customerLogin";
     }
 
-    @PostMapping("/customerLogin")
+    /*@PostMapping("/customerLogin")
     public String customerLogin(@Validated @ModelAttribute("customer") CustomerDetailDTO customerDetailDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "usual/customerLogin";
@@ -43,7 +45,7 @@ public class UsualController {
             return "usual/customerLogin";
         }
         return "index";
-    }
+    }*/
 
 
 
@@ -60,7 +62,8 @@ public class UsualController {
     @ResponseBody
     public String customerSave(@ModelAttribute CustomerSaveDTO customerSaveDTO){
         // 테스트용 리턴갑 cNum
-        Long cNum = cs.save(customerSaveDTO);
+//        Long cNum = cs.save(customerSaveDTO);
+        Long cNum = cus.joinUser(customerSaveDTO);
 
         return "ok";
     }
@@ -77,7 +80,7 @@ public class UsualController {
     // 로그아웃
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        session.invalidate();
+        //session.invalidate();
         return "index";
     }
 }
