@@ -2,6 +2,7 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
@@ -43,4 +44,9 @@ public interface StoreService {
 
     void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
 
+    //주문확인을 위한
+    /*List<OrderNowDTO> findByOrderAll(Long storeNumber);*/
+
+    //findAll로 다시...ㅠㅠ
+    List<OrderNowDTO> findAllOrderNow();
 }

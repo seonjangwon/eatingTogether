@@ -2,9 +2,10 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
-import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,15 +25,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
-    private final StoreService ss;;
+    private final StoreService ss;
+    ;
     private final HttpSession session;
 
     @GetMapping("/category")
-    public String bigCategoryMain(Model model)   {
+    public String bigCategoryMain(Model model) {
         System.out.println("StoreController.bigCategoryAll");
 
         List<BigCategoryDTO> bcList = ss.findAllBc();
-        model.addAttribute("bcList",bcList);
+        model.addAttribute("bcList", bcList);
 
         List<StoreDetailDTO> storeList = ss.findAll();
         model.addAttribute("storeList", storeList);
@@ -43,8 +45,8 @@ public class StoreController {
     //지원
     //일단 findAll이라고 생각해보자.
 
-        //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
-        //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
+    //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
+    //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
 /*    @GetMapping ("/category/{bcNumberTest}")
     public String bigCategoryPage1 (Model model) {
         List<StoreDetailDTO> storeList = ss.findAll();
@@ -54,8 +56,8 @@ public class StoreController {
         return "store/categorytest";
     }*/
 
-    @GetMapping ("/category/{bigCategoryNumber}")
-    public String bigCategoryPage (@PathVariable Long bigCategoryNumber, Model model) {
+    @GetMapping("/category/{bigCategoryNumber}")
+    public String bigCategoryPage(@PathVariable Long bigCategoryNumber, Model model) {
 
         /*List<StoreDetailDTO> storeList = ss.findAll();*/
 
@@ -69,15 +71,15 @@ public class StoreController {
     }
 
     // 0214 지원 정리를 좀 해보았음... findById
-    @GetMapping ("/{storeNumber}")
-    public String storeDetail(@PathVariable Long storeNumber, Model model)  {
+    @GetMapping("/{storeNumber}")
+    public String storeDetail(@PathVariable Long storeNumber, Model model) {
         System.out.println("매장상세내용 띄우기");
         StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
-        model.addAttribute("storeList",storeDetailDTO);
+        model.addAttribute("storeList", storeDetailDTO);
 
         // 0216 메뉴띄우기
         List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
-        model.addAttribute("menuList",menuList);
+        model.addAttribute("menuList", menuList);
         System.out.println(menuList);
 
         System.out.println(storeDetailDTO.getStoreName());
@@ -87,44 +89,45 @@ public class StoreController {
 
 
     // 0213 업체 로그인 후 관리페이지로 이동
-    @GetMapping ("/menu")
-    public String menuForm (Model model)    {
+    @GetMapping("/menu")
+    public String menuForm(Model model) {
         System.out.println("addMenuForm");
         model.addAttribute("menuSave", new MenuDTO()); // 필드 생성용
         // 스토어카테고리
         List<StoreCategoryDTO> categoryDTOList = ss.categoryList();
-        model.addAttribute("storeCategory",categoryDTOList);
+        model.addAttribute("storeCategory", categoryDTOList);
         StoreDetailDTO storeList = ss.findById((String) session.getAttribute("storeLoginEmail"));
-        model.addAttribute("storeNumber",storeList.getStoreNumber());
+        model.addAttribute("storeNumber", storeList.getStoreNumber());
         return "store/menuSave";
     }
     // 모든것에 의미를 부여하지말자... 슬프다 똑똑해지고싶다 흑흑
 
     // 0214-15 지원 메뉴등록
-    @PostMapping ("/menu")
-    public String menu (@Validated @ModelAttribute("menuSave") MenuDTO menuDTO) throws IOException {
+    @PostMapping("/menu")
+    public String menu(@Validated @ModelAttribute("menuSave") MenuDTO menuDTO) throws IOException {
         System.out.println("StoreController.addMenu");
         StoreCategoryEntity storeCategoryEntity;
-        if (menuDTO.getStoreCategoryNumber() == 0){
-            storeCategoryEntity = ss.categorySave(menuDTO.getStoreNumber(),menuDTO.getStoreCategoryName());
+        if (menuDTO.getStoreCategoryNumber() == 0) {
+            storeCategoryEntity = ss.categorySave(menuDTO.getStoreNumber(), menuDTO.getStoreCategoryName());
         } else {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/"+storeCategoryEntity.getStoreEntity().getStoreNumber();
+        return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
 
     //0216
     @PostMapping("/menuList")
-    public @ResponseBody List<MenuDTO> menuAjax(@PathVariable Long storeNumber)  {
+    public @ResponseBody
+    List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
         List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
         System.out.println("storeController.List<MenuDTO> menuAjax");
         return menuList;
     }
 
     //0217 헉 이거 아니다 아 아니 맞다
-    @GetMapping ("/update/{menuNumber}")
-    public String menuUpdateForm (@PathVariable Long menuNumber, Model model) {
+    @GetMapping("/update/{menuNumber}")
+    public String menuUpdateForm(@PathVariable Long menuNumber, Model model) {
         MenuDetailDTO menuDetail = ss.findByMenu(menuNumber);
         model.addAttribute("menu", menuDetail);
         System.out.println("StoreController.menuUpdateForm 실행");
@@ -132,18 +135,18 @@ public class StoreController {
     }
 
     //왜 ㅠ
-    @PutMapping ("/update")
+    @PutMapping("/update")
     @ResponseBody
-    public String menuUpdate (//@RequestBody MenuDetailDTO menuDetailDTO,
-            @RequestParam(value = "menuFile",required = false) MultipartFile menuFile,
-                              MultipartHttpServletRequest request,
-                              @RequestParam("menuNumber") Long menuNumber,
-                              @RequestParam("storeNumber") Long storeNumber,
-                              @RequestParam("storeCategoryNumber") Long storeCategoryNumber,
-                              @RequestParam("menuName") String menuName,
-                              @RequestParam("menuPrice") int menuPrice,
-                              @RequestParam("menuExplain") String menuExplain
-                              )  throws IOException {
+    public String menuUpdate(//@RequestBody MenuDetailDTO menuDetailDTO,
+                             @RequestParam(value = "menuFile", required = false) MultipartFile menuFile,
+                             MultipartHttpServletRequest request,
+                             @RequestParam("menuNumber") Long menuNumber,
+                             @RequestParam("storeNumber") Long storeNumber,
+                             @RequestParam("storeCategoryNumber") Long storeCategoryNumber,
+                             @RequestParam("menuName") String menuName,
+                             @RequestParam("menuPrice") int menuPrice,
+                             @RequestParam("menuExplain") String menuExplain
+    ) throws IOException {
         System.out.println("StoreController.menuUpdate 처리");
         System.out.println("menuFile = " + menuFile);
         System.out.println("menuNumber = " + menuNumber);
@@ -160,7 +163,7 @@ public class StoreController {
         menuDetailDTO.setStoreNumber(storeNumber);
         menuDetailDTO.setStoreCategoryNumber(storeCategoryNumber);
         ss.updateMenu(menuDetailDTO);
-    return "ok"; // ok는 memberUpdate의 ajax success 의 result 값으로 적용된다.
+        return "ok"; // ok는 memberUpdate의 ajax success 의 result 값으로 적용된다.
     }
 
 /*    @DeleteMapping ("/delete/{menuNumber}")
@@ -170,8 +173,8 @@ public class StoreController {
         return "redirect:/store/storeMain";
     }*/
 
-    @DeleteMapping ("/delete/{menuNumber}")
-    public ResponseEntity menuDelete (@PathVariable Long menuNumber)  {
+    @DeleteMapping("/delete/{menuNumber}")
+    public ResponseEntity menuDelete(@PathVariable Long menuNumber) {
         System.out.println("StoreController.menuDelete");
         ss.deleteByMenu(menuNumber);
         return new ResponseEntity(HttpStatus.OK);
@@ -180,24 +183,38 @@ public class StoreController {
 
     //지원 0218
     @GetMapping("/delivery")
-    public String storeDeliveryForm (Model model)   {
+    public String storeDeliveryForm(Model model) {
         // 필요한 것, storeNumber? storeEntity 의 storeNumber
         // delivery의 정보.
-        System.out.println("UsualController.storeDeliveryForm");
+        System.out.println("StoreController.storeDeliveryForm");
         model.addAttribute("DeliverySave", new DeliveryDTO());
         StoreDetailDTO storeDetailDTO = ss.findById((String) session.getAttribute("StoreLoginEmail"));
-        model.addAttribute("storeNumber",storeDetailDTO.getStoreNumber());
+        model.addAttribute("storeNumber", storeDetailDTO.getStoreNumber());
         return "store/storeDelivery";
     }
 
     //지원 0220~
     @PostMapping("/delivery")
-    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity)   {
-        System.out.println("UsualController.storeDelivery");
-        ss.deliverySave(deliveryDTO,storeEntity);
+    public String storeDelivery(@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+        System.out.println("StoreController.storeDelivery");
+        ss.deliverySave(deliveryDTO, storeEntity);
         //등록만 하는거 맞잖어...
         return "usual/storeSave";
     }
+
+    //지원 0222~0223
+    // store별 주문상황을 띄웁니다. 필요한 것 storeNumber(해당 업체) , orderNowDTO(주문에 대한 전반적인 사항)
+    @GetMapping("/orderList")
+    public String orderFindAll(Model model) {
+        List<OrderNowDTO> orderNowDTO = ss.findAllOrderNow();
+        model.addAttribute("orderNowDTO", orderNowDTO);
+        System.out.println("StoreController.orderAll");
+        return "store/orderList";
+    }
+
+
+
+
 
 
 }
