@@ -5,7 +5,6 @@ import com.et.eatingtogether.dto.review.ReplyDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
-import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.dto.system.OrderNowDTO;
@@ -21,12 +20,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,6 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final OrderRepository or;
     private final OrderNowRepository onr;
     private final OrderMenuRepository omr;
+    private final MenuRepository mr;
     private final HttpSession session;
 
     @Override
@@ -69,7 +70,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDetailDTO findByEmail(String customerLoginEmail) {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(customerLoginEmail);
-        return CustomerDetailDTO.toEntity(customerEntity.get());
+        if (customerEntity.isPresent()) {
+            return CustomerDetailDTO.toEntity(customerEntity.get());
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -182,7 +187,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<BasketDTO> basketList() {
-        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        String email = ((UserDetails) principal).getUsername();
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(email);
+//        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketEntity b : customerEntity.get().getBasketEntityList()) {
             basketDTOList.add(BasketDTO.toEntity(b));
@@ -425,5 +434,42 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public MenuDTO menuDetail(Long menuNumber) {
+        Optional<MenuEntity> menuEntity = mr.findById(menuNumber);
+        System.out.println("menuEntity = " + menuEntity);
+        return MenuDTO.toMenuDetailDTO(menuEntity.get());
+    }
+
+    @Override
+    public String basketAdd(BasketDTO basketDTO) {
+        CustomerEntity customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail")).get();
+        MenuEntity menuEntity = mr.findById(basketDTO.getMenuNumber()).get();
+        Optional<BasketEntity> basketEntity = br.findByCustomerEntityAndAndMenuEntity(customerEntity, menuEntity);
+        if (basketEntity.isEmpty()) {
+            if (customerEntity.getBasketEntityList().isEmpty()) {
+                br.save(BasketEntity.toDTO(basketDTO,customerEntity,menuEntity.getStoreEntity(),menuEntity));
+                return "ok";
+            } else if (menuEntity.getStoreEntity().equals(customerEntity.getBasketEntityList().get(0).getStoreEntity())){
+                br.save(BasketEntity.toDTO(basketDTO,customerEntity,menuEntity.getStoreEntity(),menuEntity));
+                return "ok";
+            } else {
+                return "other";
+            }
+        } else {
+            return "no";
+        }
+    }
+
+    @Override
+    public List<MenuDTO> menuFindAll() {
+        List<MenuEntity> menuEntityList = mr.findAll();
+        List<MenuDTO> menuDTOList = new ArrayList<>();
+        for (MenuEntity m : menuEntityList){
+            menuDTOList.add(MenuDTO.toMenuDetailDTO(m));
+        }
+        return menuDTOList;
     }
 }

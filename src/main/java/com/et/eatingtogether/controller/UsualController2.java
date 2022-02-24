@@ -1,15 +1,14 @@
 package com.et.eatingtogether.controller;
 
-import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.DeliveryDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.service.SecurityService;
 import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +24,7 @@ import java.io.IOException;
 public class UsualController2 {
     //
     private final StoreService ss;
+    private final SecurityService ses;
     private final HttpSession session;
     // 필요한 기능
     // 2-1 업체 회원가입요청, 2-2 업체 회원가입처리, 2-2-1 업체 가입 이메일 중복체크
@@ -58,6 +58,7 @@ public class UsualController2 {
             //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
             return "usual/storeSave";
         }
+//        Long sNumber = ses.joinStore(storeSaveDTO);
 
         System.out.println("가입완료");
         return "storeMain";

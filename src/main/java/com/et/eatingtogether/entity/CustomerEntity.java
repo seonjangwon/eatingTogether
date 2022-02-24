@@ -2,6 +2,7 @@ package com.et.eatingtogether.entity;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
+import com.et.eatingtogether.security.Role;
 import lombok.Getter;
 import lombok.Setter;
 

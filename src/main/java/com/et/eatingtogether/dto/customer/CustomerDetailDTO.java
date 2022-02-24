@@ -1,6 +1,7 @@
 package com.et.eatingtogether.dto.customer;
 
 import com.et.eatingtogether.entity.CustomerEntity;
+import com.et.eatingtogether.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class CustomerDetailDTO {
     private int customerGrade;
     private int customerPoint;
     private String customerDname;
+    private Role role;
 
     public static CustomerDetailDTO toEntity(CustomerEntity customerEntity){
         CustomerDetailDTO customerDetailDTO = new CustomerDetailDTO();

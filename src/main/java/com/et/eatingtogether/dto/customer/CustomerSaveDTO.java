@@ -1,5 +1,6 @@
 package com.et.eatingtogether.dto.customer;
 
+import com.et.eatingtogether.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class CustomerSaveDTO {
     private String customerAddress;
     private String customerPhone;
     private String customerDname;
+    private Role role;
 
 
 

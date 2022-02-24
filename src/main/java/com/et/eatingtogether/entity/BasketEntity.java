@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.customer.BasketDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,4 +29,13 @@ public class BasketEntity {
 
     private int basketMenuCount;
 
+    public static BasketEntity toDTO(BasketDTO basketDTO,CustomerEntity customerEntity,
+                                     StoreEntity storeEntity, MenuEntity menuEntity){
+        BasketEntity basketEntity = new BasketEntity();
+        basketEntity.setCustomerEntity(customerEntity);
+        basketEntity.setStoreEntity(storeEntity);
+        basketEntity.setMenuEntity(menuEntity);
+        basketEntity.setBasketMenuCount(basketDTO.getMenuCount());
+        return basketEntity;
+    }
 }
