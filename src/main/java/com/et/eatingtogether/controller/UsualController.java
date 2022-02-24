@@ -3,12 +3,10 @@ package com.et.eatingtogether.controller;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
 import com.et.eatingtogether.service.CustomerService;
-import com.et.eatingtogether.service.CustomerUserService;
+import com.et.eatingtogether.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +24,7 @@ public class UsualController {
     // jangwon
 
     private final CustomerService cs;
-    private final CustomerUserService cus;
+    private final SecurityService ss;
 
     @GetMapping("/customerLogin")
     public String customerLoginForm(Model model){
@@ -63,7 +61,7 @@ public class UsualController {
     public String customerSave(@ModelAttribute CustomerSaveDTO customerSaveDTO){
         // 테스트용 리턴갑 cNum
 //        Long cNum = cs.save(customerSaveDTO);
-        Long cNum = cus.joinUser(customerSaveDTO);
+        Long cNum = ss.joinCustomer(customerSaveDTO);
 
         return "ok";
     }

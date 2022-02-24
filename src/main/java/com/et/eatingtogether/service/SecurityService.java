@@ -9,7 +9,7 @@ import com.et.eatingtogether.repository.BigCategoryRepository;
 import com.et.eatingtogether.repository.CustomerRepository;
 import com.et.eatingtogether.repository.StoreRepository;
 import com.et.eatingtogether.security.Role;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -29,23 +29,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-public class CustomerUserService implements UserDetailsService {
+@RequiredArgsConstructor
+public class SecurityService implements UserDetailsService {
     private final CustomerRepository cr;
     private final StoreRepository sr;
-    private final BigCategoryRepository bcr;
     private final HttpSession session;
+    private final BigCategoryRepository bcr;
 
+    // 회원용 회원가입
     @Transactional
-    public Long joinUser(CustomerSaveDTO customerSaveDTO){
+    public Long joinCustomer(CustomerSaveDTO customerSaveDTO){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         customerSaveDTO.setCustomerPassword(passwordEncoder.encode(customerSaveDTO.getCustomerPassword()));
-
         return cr.save(CustomerEntity.toCustomerSave(customerSaveDTO)).getCustomerNumber();
     }
-    @Transactional
-    public Long storeJoinUser(StoreSaveDTO storeSaveDTO) throws IOException {
 
+    // 업체용 회원가입
+    @Transactional
+    public Long joinStore(StoreSaveDTO storeSaveDTO) throws IOException {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!storeSaveDTO.getStoreFile().isEmpty()) {
             MultipartFile storeFile = storeSaveDTO.getStoreFile();
             String storeFilename = storeFile.getOriginalFilename();
@@ -57,30 +59,40 @@ public class CustomerUserService implements UserDetailsService {
             }
             storeSaveDTO.setStoreFilename(storeFilename);
         }
-
         BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeSaveDTO.getBigCategoryNumber());
         StoreEntity storeEntity = StoreEntity.toSaveStore(storeSaveDTO, bigCategoryEntity);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         storeEntity.setStorePassword(passwordEncoder.encode(storeSaveDTO.getStorePassword()));
-
         return sr.save(storeEntity).getStoreNumber();
     }
 
+    // 로그인용
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         Optional<CustomerEntity> userEntityWrapper = cr.findByCustomerEmail(userEmail);
-        CustomerEntity userEntity = userEntityWrapper.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (("admin").equals(userEmail)){
-            authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+        if (userEntityWrapper.isPresent()) {
+            CustomerEntity userEntity = userEntityWrapper.get();
+
+
+            if (("admin").equals(userEmail)){
+                authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+            } else {
+                authorities.add(new SimpleGrantedAuthority(Role.CUSTOMER.getValue()));
+            }
+
+            session.setAttribute("customerLoginEmail",userEntity.getCustomerEmail());
+
+            return new User(userEntity.getCustomerEmail(),userEntity.getCustomerPassword(),authorities);
         } else {
-            authorities.add(new SimpleGrantedAuthority(Role.CUSTOMER.getValue()));
+            StoreEntity storeEntity = sr.findByStoreEmail(userEmail);
+
+            authorities.add(new SimpleGrantedAuthority(Role.STORE.getValue()));
+
+            session.setAttribute("storeLoginEmail",storeEntity.getStoreEmail());
+
+            return new User(storeEntity.getStoreEmail(),storeEntity.getStorePassword(),authorities);
         }
-
-        session.setAttribute("customerLoginEmail",userEntity.getCustomerEmail());
-
-        return new User(userEntity.getCustomerEmail(),userEntity.getCustomerPassword(),authorities);
     }
 }
