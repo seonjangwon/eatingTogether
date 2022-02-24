@@ -206,7 +206,7 @@ public class StoreController {
         return "usual/storeSave";
     }
 
-    //지원 0222~0223
+/*    //지원 0222~0223
     // store별 주문상황을 띄웁니다. 필요한 것 storeNumber(해당 업체) , orderNowDTO(주문에 대한 전반적인 사항)
     @GetMapping("/orderList")
     public String orderFindAll(Model model) {
@@ -216,6 +216,12 @@ public class StoreController {
         return "store/orderList";
     }
 
+*//*    @GetMapping("/orderList/{storeNumber}")
+    public String orderListAll(@PathVariable("storeNumber") Long storeNumber, Model model) {
+
+        System.out.println("StoreController.orderListAll");
+        return "store/orderList";
+    }*/
 
 
     //지원 0223

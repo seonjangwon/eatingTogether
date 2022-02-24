@@ -300,5 +300,14 @@ public class StoreServiceImpl implements StoreService {
         return null;
     }
 
-
+    @Override
+    public List<OrderDTO> findByStoreInOrder(Long storeNumber) {
+        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
+        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity.get());
+        List<OrderDTO> orderList = new ArrayList<>();
+        for (OrderEntity oe: orderEntityList)   {
+            orderList.add(toStoreOrderDetailDTO(oe));
+        }
+        return orderList;
+    }
 }

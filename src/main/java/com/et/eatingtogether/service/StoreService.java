@@ -52,4 +52,7 @@ public interface StoreService {
     OrderDTO findByOrder(Long orderNumber);
 
     List<OrderMenuDTO> orderMenu(Long orderNumber);
+
+    //OrderFindAll(storeNumber)
+    List<OrderDTO> findByStoreInOrder(Long storeNumber);
 }
