@@ -68,11 +68,14 @@ public class SecurityService implements UserDetailsService {
     // 로그인용
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+        System.out.println("시큐리티 로그인");
+        System.out.println("userEmail = " + userEmail);
         Optional<CustomerEntity> userEntityWrapper = cr.findByCustomerEmail(userEmail);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (userEntityWrapper.isPresent()) {
+        if (!userEntityWrapper.isEmpty()) {
+            System.out.println("회원");
             CustomerEntity userEntity = userEntityWrapper.get();
 
 
@@ -86,6 +89,7 @@ public class SecurityService implements UserDetailsService {
 
             return new User(userEntity.getCustomerEmail(),userEntity.getCustomerPassword(),authorities);
         } else {
+            System.out.println("업체");
             StoreEntity storeEntity = sr.findByStoreEmail(userEmail);
 
             authorities.add(new SimpleGrantedAuthority(Role.STORE.getValue()));

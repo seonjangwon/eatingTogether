@@ -5,8 +5,8 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+<!--    <meta name="_csrf" th:content="${_csrf.token}">-->
+<!--    <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
     <script>
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
@@ -75,17 +75,17 @@
         function EmailCk(){
         const customerEmail = document.getElementById('customerEmail').value;
         const EmailCheck = document.getElementById('EmailCheck');
-        var header = $("meta[name='_csrf_header']").attr('content');
-        var token = $("meta[name='_csrf']").attr('content');
+        // var header = $("meta[name='_csrf_header']").attr('content');
+        // var token = $("meta[name='_csrf']").attr('content');
 
         $.ajax({
             type: 'post',
             url: '/usual/customerEmail',
             data: {"customerEmail": customerEmail},
             dataType: "text",
-            beforeSend: function(xhr){
-                xhr.setRequestHeader(header, token);
-            },
+            // beforeSend: function(xhr){
+            //     xhr.setRequestHeader(header, token);
+            // },
             success: function (result) {
                 console.log(result);
                 if (result==="ok") {

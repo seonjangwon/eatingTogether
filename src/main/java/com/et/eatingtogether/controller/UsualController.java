@@ -7,6 +7,8 @@ import com.et.eatingtogether.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +34,7 @@ public class UsualController {
         return "usual/customerLogin";
     }
 
-    /*@PostMapping("/customerLogin")
+    @PostMapping("/customerLogin")
     public String customerLogin(@Validated @ModelAttribute("customer") CustomerDetailDTO customerDetailDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "usual/customerLogin";
@@ -43,7 +45,7 @@ public class UsualController {
             return "usual/customerLogin";
         }
         return "index";
-    }*/
+    }
 
 
 
@@ -60,8 +62,8 @@ public class UsualController {
     @ResponseBody
     public String customerSave(@ModelAttribute CustomerSaveDTO customerSaveDTO){
         // 테스트용 리턴갑 cNum
-//        Long cNum = cs.save(customerSaveDTO);
-        Long cNum = ss.joinCustomer(customerSaveDTO);
+        Long cNum = cs.save(customerSaveDTO);
+//        Long cNum = ss.joinCustomer(customerSaveDTO);
 
         return "ok";
     }
@@ -78,7 +80,23 @@ public class UsualController {
     // 로그아웃
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        //session.invalidate();
+        session.invalidate();
         return "index";
+    }
+
+    //통합로그인
+    @GetMapping("/loginForm")
+    public String loginForm(){
+        return "usual/login";
+    }
+
+//    @PostMapping("/login")
+//    public String login(){
+//        return "usual/login";
+//    }
+
+    @GetMapping("/loginResult")
+    public String loginResult(){
+        return "usual/loginResult";
     }
 }

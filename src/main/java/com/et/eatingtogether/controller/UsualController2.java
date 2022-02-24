@@ -48,14 +48,14 @@ public class UsualController2 {
 
         //Id 중복체크
         //아놔 재도전할거야 반드시...
-//        try {
-//            Long storeId = ss.save(storeSaveDTO);
-//        }   catch (IllegalStateException email) {
-//            bindingResult.reject("emailCheck", email.getMessage());
-//            //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
-//            return "usual/storeSave";
-//        }
-        Long sNumber = ses.joinStore(storeSaveDTO);
+        try {
+            Long storeId = ss.save(storeSaveDTO);
+        }   catch (IllegalStateException email) {
+            bindingResult.reject("emailCheck", email.getMessage());
+            //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
+            return "usual/storeSave";
+        }
+//        Long sNumber = ses.joinStore(storeSaveDTO);
 
         System.out.println("가입완료");
         return "storeMain";
