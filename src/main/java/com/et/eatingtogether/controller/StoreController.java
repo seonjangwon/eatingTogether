@@ -1,11 +1,14 @@
 package com.et.eatingtogether.controller;
 
+import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
+import com.et.eatingtogether.service.CustomerService;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +30,7 @@ import java.util.List;
 @RequestMapping("/store")
 public class StoreController {
     private final StoreService ss;
-    ;
+    private final CustomerService cs;
     private final HttpSession session;
 
     @GetMapping("/category")
@@ -213,14 +216,29 @@ public class StoreController {
         return "store/orderList";
     }
 
+
+
     //지원 0223
     // 주문상세버튼을 누를 시 해당 주문으로 이동되는 페이지입니다.
     @GetMapping("/order/{orderNumber}")
     public String orderDetail(@PathVariable Long orderNumber, Model model) {
         System.out.println("StoreController.orderDetail");
-        List<OrderDTO> orderDTOList = ss.findByOrderDetail(orderNumber);
-        model.addAttribute("orderDTOList",orderDTOList);
-        System.out.println(orderDTOList);
+
+        OrderDTO orderDTO = ss.findByOrder(orderNumber); //주문자의 정보가 함께 와야하지...
+        List<OrderMenuDTO> orderMenuDTOList = ss.orderMenu(orderNumber);
+
+        CustomerDetailDTO customerDetailDTO = cs.findById(orderDTO.getCustomerNumber());
+        // 고객 주소도 필요하니까 ㅎㅎ...
+        StoreDetailDTO storeDetailDTO = ss.findByNumber(orderDTO.getStoreNumber());
+        // store에서 기능하기때문에 customer가 아닌 store로 진행.
+
+        model.addAttribute("order",orderDTO);
+        model.addAttribute("menu",orderMenuDTOList);
+        model.addAttribute("storeDetail",storeDetailDTO);
+        model.addAttribute("customer",customerDetailDTO);
+
+        System.out.println(orderMenuDTOList);
+
         return "store/orderDetail";
     }
 

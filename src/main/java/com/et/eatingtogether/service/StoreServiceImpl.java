@@ -3,6 +3,7 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -269,17 +270,33 @@ public class StoreServiceImpl implements StoreService {
         return orderList;
     }
 
+    //0224. 주문상세보기
     @Override
-    public List<OrderDTO> findByOrderDetail(Long orderNumber) {
-/*        //흠냐리
-        List<OrderEntity> orderEntityList = or.findAll();
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-
-        for(OrderEntity oe: orderEntityList)    {
-            orderDTOList.add(toEntity(oe));
+    public OrderDTO findByOrder(Long orderNumber) {
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
+        List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
+        for(OrderEntity o : orderEntityList)    {
+            if(o.getOrderNumber().equals(orderNumber))  {
+                return OrderDTO.toStoreOrderDetailDTO(o);
+            }
         }
-        System.out.println("StoreServiceImpl.findByOrderDetail");
-        return orderDTOList;*/
+        return null;
+    }
+
+    @Override
+    public List<OrderMenuDTO> orderMenu(Long orderNumber) {
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
+        List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
+        for (OrderEntity o: orderEntityList) {
+            if (o.getOrderNumber().equals(orderNumber)) {
+                List<OrderMenuEntity> orderMenuEntityList = o.getOrderMenuEntityList();
+                List<OrderMenuDTO> orderMenuDTOList = new ArrayList<>();
+                for (OrderMenuEntity ome: orderMenuEntityList) {
+                    orderMenuDTOList.add(OrderMenuDTO.toEntity(ome));
+                }
+                return orderMenuDTOList;
+            }
+        }
         return null;
     }
 

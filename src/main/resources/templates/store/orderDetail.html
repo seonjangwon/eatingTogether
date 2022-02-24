@@ -17,7 +17,38 @@
 
 <section>
     <span th:text="${session['storeLoginEmail']}"></span> 로그인
-    <!--<span th:text="${}"></span>-->
+
+    <div id = "OrderNow">
+        <li>
+            <ul>
+                <li>배달상태</li>   <p th:text="${order.orderNow}"></p>
+                <li>업체명</li>    <p th:text="${order.storeName}"></p>
+                <li>주문날짜</li>   <p th:text="${order.orderTime}"></p>
+                <li>주문번호</li>   <p th:text="${order.orderNumber}"></p>
+            </ul>
+        </li>
+
+    </div>
+    <div id = "Menu">
+            <ul th:each="m :${menu}">
+                <li th:text="${m.menuName}"></li>
+                <li th:text="${m.orderMenuCount}"></li>
+                <li th:text="${m.orderMenuPrice}"></li>
+            </ul>
+    </div>
+    <div id = "requestByCustomer">
+        <li>
+            <ul>
+                <li>총금액</li> <p th:text="${order.orderPrice}"></p>
+                <li>결제 방법</li><p th:text="${order.orderType}"></p>
+                <li>주소</li><p th:text="${customer.customerAddress}"></p>
+                <li>번호</li><p th:text="${customer.customerPhone}"></p>
+                <li>사장님께</li><p th:text="${order.orderTomaster}"></p>
+                <li>라이더님께</li><p th:text="${order.orderTorider}"></p>
+            </ul>
+        </li>
+    </div>
+
 </section>
 </body>
 </html>

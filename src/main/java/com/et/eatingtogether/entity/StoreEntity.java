@@ -57,6 +57,7 @@ public class StoreEntity {
     @OneToOne(mappedBy = "storeEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private StoreBlacklistEntity storeBlacklistEntity;
 
+
     public static StoreEntity toSaveStore(StoreSaveDTO storeSaveDTO,  BigCategoryEntity bigCategoryEntity) {
         StoreEntity storeEntity = new StoreEntity();
 

@@ -3,6 +3,7 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 
@@ -45,5 +46,10 @@ public interface StoreService {
 
     List<OrderDTO> findByOrderAll();
 
-    List<OrderDTO> findByOrderDetail(Long orderNumber);
+/*    List<OrderDTO> findByOrderDetail(Long orderNumber);*/
+
+    //orderDetail
+    OrderDTO findByOrder(Long orderNumber);
+
+    List<OrderMenuDTO> orderMenu(Long orderNumber);
 }

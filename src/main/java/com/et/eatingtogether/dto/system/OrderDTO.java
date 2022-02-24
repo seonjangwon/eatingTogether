@@ -61,6 +61,8 @@ public class OrderDTO {
         orderDTO.setOrderTomaster(orderEntity.getOrderTomaster());
         orderDTO.setOrderTorider(orderEntity.getOrderTorider());
         orderDTO.setStoreFilename(orderEntity.getStoreEntity().getStoreFilename());
+        orderDTO.setOrderNow(orderEntity.getOrderNowEntity().getOrderNowStatus());
+        orderDTO.setStoreName(orderEntity.getStoreEntity().getStoreName());
         if (!orderEntity.getOrderMenuEntityList().isEmpty()) {
             orderDTO.setMenuName(orderEntity.getOrderMenuEntityList().get(0).getMenuEntity().getMenuName());
         }
