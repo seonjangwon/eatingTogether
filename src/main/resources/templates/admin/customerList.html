@@ -6,13 +6,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <!--회원삭제-->
     <script>
-        function deleteById(customerNumber){
+        function deleteCustomer(customerNumber){
             const reqUrl = "/admin/" + customerNumber;
+            const data = {"customerNumber" : customerNumber};
             $.ajax({
                 type:"delete",
                 url : reqUrl,
-                data: {"customerNumber" : customerNumber},
-                dataType: "text",
+                // data: JSON.stringify(data), 필요없음
+                // dataType: "json", // 받아올 필요가 없어서 생략 가능
                 success: function(result){
                     console.log(result);
                     location.href="/admin/customer";
@@ -20,7 +21,7 @@
                 error: function(){
                     console.log('ajax실패');
                 }
-            })
+            });
         }
 
     </script>
@@ -29,21 +30,7 @@
         const blackCustom_btn = (customerNumber) => {
             location.href="/admin/customerReport" + customerNumber;
         }
-        //     const reqUrl = "/admin/customer" + customerNumber;
-        //     $.ajax({
-        //         type: "post",
-        //         url: reqUrl,
-        //         data: {"customerNumber" : customerNumber},
-        //         dataType: "text",
-        //         success: function(result){
-        //             console.log(result);
-        //             location.href="/admin/customer";
-        //         },
-        //         error: function(){
-        //             console.log("ajax실패");
-        //         }
-        //     })
-        // }
+
 
     </script>
 
@@ -62,7 +49,10 @@
         <td th:text="${customer.customerNumber}"></td>
         <td th:text="${customer.customerEmail}"></td>S
         <td th:text="${customer.customerNickname}"></td>
-        <td><button th:onclick="deleteById([[${customer.customerNumber}]])">삭제</button></td>
+        <td><button th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>
+<!--        <td><a th:href="@{|/admin/delete/${customer.customerNumber}|}">회원삭제</a></td>-->
+
+
         <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>
     </tr>
 </table>

@@ -19,16 +19,17 @@
 <a href="/usual/customer">회원가입</a>
 <a href="/usual/logout">로그아웃</a>
 <a href="/admin">관리자</a>
+로그인이메일 : <span th:text="${session['customerLoginEmail']}"></span>
   
 <a href="/customer/basket">장바구니</a><br>
 <a href="/customer/kakaoLogout">카카오 로그아웃</a>
 <div id="msgStack"></div>
 <button onclick="send_btn()">웹소켓 전송 테스트</button>
-<span th:each="order : ${orderList}">
-<a th:href="@{|/review/save/${order.orderNumber}|}">리뷰작성</a>
-</span>
-${orderList}
-<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>
+
+<!--<a th:href="@{|/review/save/${orderList.orderNumber}|}">리뷰작성</a>-->
+
+
+<!--<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>-->
 
 
 

@@ -109,15 +109,15 @@
     <input type="radio" name="reviewScore" th:value="5" id="rate5">
     </fieldset>
     메뉴이름 : <input type="text" name="menuName" th:value="${review.menuName}">
-    <input type="hidden" name="storeNumber" th:value="${review.storeNumber}"> <!--가게번호-->
-     <input type="hidden" name="orderNumber" th:value="${review.orderNumber}"> <!--주문번호-->
-    <input type="hidden" name="customerNumber" th:value="${review.customerNumber}" > <!--회원번호-->
+<!--    <input type="hidden" name="storeNumber" th:value="${review.storeNumber}"> &lt;!&ndash;가게번호&ndash;&gt;-->
+<!--     <input type="hidden" name="orderNumber" th:value="${review.orderNumber}"> &lt;!&ndash;주문번호&ndash;&gt;-->
+<!--    <input type="hidden" name="customerNumber" th:value="${review.customerNumber}" > &lt;!&ndash;회원번호&ndash;&gt;-->
     내용 : <input type="text" name="reviewContents">
     사진 :
     <input type="file" id="reviewFile" name="reviewFileDTO" class="multi" multiple="multiple" maxlength="3"/>
     <input type="submit" value="등록">
 </form>
-    <input type="button" value="등록" onclick="reviewSave()">
+<!--    <input type="button" value="등록" onclick="reviewSave()">-->
 
 </body>
 </html>

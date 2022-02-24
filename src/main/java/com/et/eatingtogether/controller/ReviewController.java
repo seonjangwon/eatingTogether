@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@SessionAttributes("customerLoginEmail") // 선영 220223 : 리뷰테스트용
 @RequiredArgsConstructor
 @RequestMapping("/review")
 public class ReviewController {
@@ -41,30 +42,33 @@ public class ReviewController {
 
     // 리뷰 작성 페이지로 이동 0222
     @GetMapping("/save/{orderNumber}")
-    public String reviewSaveForm(Model model, @PathVariable("orderNumber") Long orderNumber){
-        // 여기서 회원이메일, 가게이름, 메뉴이름을 같이 넘겨줘야 함
+//    public String reviewSaveForm(Model model){
+    public String reviewSaveForm(Model model, @PathVariable("orderNumber") Long orderNum){
+        // 여기서 회원번호, 가게이름, 메뉴이름을 같이 넘겨줘야 함
+        // 어떻게? 찾아서!
+        // 회원번호
+        String customerLoginEmail = cs.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+//        Long customerNumber = cs.findByEmail(customerLoginEmail).getCustomerNumber();
+        Long customerNumber = cs.findOrder(orderNum).getCustomerNumber();
+//         가게이름
+        Long storeNumber = cs.findOrder(orderNum).getStoreNumber();
+        String storeName = cs.findOrder(orderNum).getStoreName();
+
+//         메뉴이름
+        cs.findOrder(orderNum).getMenuName();
 
         ReviewSaveDTO reviewSaveDTO = new ReviewSaveDTO();
-        reviewSaveDTO.setCustomerNumber(cs.findOrder(orderNumber).getCustomerNumber());
-        reviewSaveDTO.setStoreNumber(cs.findOrder(orderNumber).getStoreNumber());
-        reviewSaveDTO.setMenuName(cs.findOrder(orderNumber).getMenuName());
-        System.out.println("컨트롤러 리뷰save : reviewSaveDTO = " + reviewSaveDTO);
+        reviewSaveDTO.setCustomerNumber(cs.findOrder(orderNum).getCustomerNumber());
+        reviewSaveDTO.setStoreNumber(cs.findOrder(orderNum).getStoreNumber());
+        reviewSaveDTO.setMenuName(cs.findOrder(orderNum).getMenuName());
 
-//        // 메뉴이름
-//        model.addAttribute("menuName",cs.findOrder(orderNumber).getMenuName());
-//        // 가게번호
-//        model.addAttribute("storeNum", cs.findOrder(orderNumber).getStoreNumber());
-//        // 회원번호
-//       model.addAttribute("customerNum", cs.findOrder(orderNumber).getCustomerNumber());
-
-        // 로그인이메일?
-        String LoginEmail = cs.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
-        model.addAttribute("loginEmail", LoginEmail);
         model.addAttribute("review", reviewSaveDTO);
+
         return "customer/reviewSave";
     }
 
     // 리뷰 등록 처리
+    // 리뷰 내용 등을 담은 ReviewSaveDTO와 파일을 담은 ReviewFileDTO를 함께 보내줌.
     @PostMapping("/save")
     public String review(@ModelAttribute ReviewSaveDTO reviewSaveDTO,
                          @RequestParam(value = "reviewFileDTO",required = false) MultipartFile[] reviewFileDTOList,
