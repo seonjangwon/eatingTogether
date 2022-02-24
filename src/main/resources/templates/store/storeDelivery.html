@@ -7,17 +7,192 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
-배송지 추가 ㅎㄷㄷ
+<span th:text = "${session['storeLoginEmail']}"></span> 님, 배송지 추가 ㅎㄷㄷ
 
-<form action="/usual/storeDelivery" id="storeDeliverySave" th:object="${storeDelivery}" method="post">
-<select class="form-select" name="storeDeliveryNumber" aria-label="Default select example">
+    <div id = "regionData"> <!-- 회원가입시 주소 저장했던 것 처럼 name값을 동일하게 적어주면 함께 입력 됨. -->
+        <form action="/store/delivery" id="storeDeliverySave" th:object="${DeliverySave}" method="post">
+           <label>Option1</label> <!--첫번째 선택지-->
+                    <span class="spanInput"> <!--큰 지역 선택-->
+                        <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectA"> 서울 &nbsp; </label>
+                        <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectB"> 인천 &nbsp; </label>
+                        <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectC"> 경기 북부 </label>
+                        <label><input type = "radio" name="selectOption1" onchange="get_option2(selectOption1.value,selectOption2)" value="selectD"> 경기 남부 &nbsp; </label>
+                    </span>
+                <br>
+                <label>option2</label> <!--구 or 경기는 세부지역 선택-->
+                <select name="selectOption2" id="selectOption2" onchange="get_option3(selectOption1.value,selectOption2.value,selectOption3)">
+                    <option value="option2"> 구/지역 선택 </option>
+                </select>
 
-    <!--
+                <br>
+                <label>option3</label>
+                <!--<select name="selectOption3" id="selectOption3" onchange="get_option4(selectOption3.value)"> &lt;!&ndash; 동 or 경기는 동 / 구 선택 &ndash;&gt;-->
+                <select name="selectOption3" id="selectOption3"> <!-- 동 or 경기는 동 / 구 선택 -->
+                    <!--<option value="option3" > 동 선택 </option> --><!--원래꺼-->
+                    <option th:each="ds:${DeliverySave}" value="option3" > 동 선택 </option>
+                </select>
+                <input type ="button" value="추가" onclick="addDname()">
+               <div id ="insertDname">
+                    <input type = "hidden" th:field="*{deliveryNumber}" placeholder="넘버나옴" value="0">
+                    <!--<input type = "hidden" th:field="*{deliveryDname}" placeholder="동 이름">-->
+                    <input type = "hidden" th:field="*{deliveryDname}" placeholder="동 이름" readonly>
+                    <input type = "hidden" th:field="*{deliveryTime}" placeholder="소요시간">
+                    <input type = "hidden" th:field="*{deliveryPrice}" placeholder="배달비">
+                    <input type = "hidden" th:field="*{storeEntity}">
+               </div>
 
+        <br>
+            <!--직접입력란 th:field="*{}"-->
+            <br>
+            <input type = "submit" value="배송지등록">
+        </form>
+    </div>
+    <div class="deliveryList">
 
-    -->
-    <option th:each ="sd:${storeDelivery}" th:value="${sd.storeDeliveryNumber}"><span th:text="${sd.storeDeliveryName}"></span> </option>
-</select>
-</form>
+    </div>
+
 </body>
+<script>
+    function addDname(){
+        const value = document.getElementById('insertDname').value;
+        const number = document.getElementById('deliveryNumber');
+        const name = document.getElementById('deliveryDname');
+        const price = document.getElementById('deliveryPrice');
+        const time = document.getElementById('deliveryTime');
+        const storeInfo = document.getElementById('storeEntity');
+        if (value != 0)   {
+            name.type = "text";
+            price.type = "text";
+            time.type = "text";
+            storeInfo.type = "text";
+            number.value = value;
+        }
+    }
+
+    /*    function get_option4(option3)  {
+            /!*const option3 = document.getElementById('selectOption3').value;*!/
+            const number = document.getElementById('deliveryNumber');
+            const name = document.getElementById('deliveryDname');
+
+            if (option3==="직접입력"){
+                name.type = "text";
+                number.value = "0";
+            } else {
+                number.value = value;
+                name.type = "hidden";
+            }
+        }*/
+    /*function addDname() {
+
+        /!*$("#insertDname").clone().appendTo(".deliveryList");*!/
+        /!*const value = document.getElementById().value;*!/
+
+        const number = document.getElementById('deliveryNumber');
+        const name = document.getElementById('deliveryDname');
+
+        /!*if (value === "직접입력"){
+            name.type = "text";
+            number.value = "0";
+        } else {
+            number.value = value;
+            name.type = "hidden";
+        }*!/
+        console.log("addDname 누름")
+    }*/
+</script><!--선택한 주소지가 추가됩니다-->
+<script>
+    function get_option2(option1,selectOption)  {
+        //지역 선택시 구 출력
+        if(option1 == "selectA") { //서울
+            options = new Array ("구역선택","마포·용산","서대문·은평","도봉·노원","성북·강북","성동·광진","중랑·송파·강동","강서·양천","영등포·구로·금천","종로·중구","강남·서초","관악·동작");
+            values = new Array("구역선택","마포·용산","서대문·은평","도봉·노원","성북·강북","성동·광진","중랑·송파·강동","강서·양천","영등포·구로·금천","종로·중구","강남·서초","관악·동작");
+            console.log(option1);
+
+            for (i=0; i < 8; i++)  {
+                /*selectOption.options[i] = null;*/
+                console.log(values[i], options[i]);
+            }
+
+        }   else if (option1 == "selectB")   { //인천
+            options = new Array ("구역선택","서구","동구","연수구","미추홀구","남동구","중구","계양구","부평구");
+            values = new Array("동 선택","서구","동구","연수구","미추홀구","남동구","중구","계양구","부평구");
+            console.log(options);
+
+            for (i=0; i < 8; i++)  {
+                /*selectOption.options[i] = null;*/
+                console.log(values[i], options[i]);
+            }
+        }
+            else if (option1 == "selectC")   { //경기 북부
+            options = new Array ("구역선택","연천·포천","가평·양평","남양주·구리·하남","동두천·양주·의정부","파주·고양","김포·부천");
+            values = new Array("구역선택","연천·포천","가평·양평","남양주·구리·하남","동두천·양주·의정부","파주·고양","김포·부천");
+            console.log(options);
+            console.log(values);
+
+            for (i=0; i < 8; i++)  {
+                /*selectOption.options[i] = null;*/
+                console.log(values[i], options[i]);
+            }
+        }
+            else if (option1 == "selectD")   { //경기 남부
+            options = new Array ("구역선택","광명·시흥·안산","안양·군포·과천·의왕","성남·분당","용인","화성·오산","평택","평택","안성·이천·여주");
+            values = new Array("구역선택","광명·시흥·안산","안양·군포·과천·의왕","성남·분당","용인","화성·오산","평택","평택","안성·이천·여주");
+            console.log(options);
+            console.log(values);
+        }
+        //select box 기본옵션 초기화
+        for (i=0; i < option1.length; i++)  {
+            selectOption.options[i] = null;
+        }
+
+
+        // seconds select box
+        for (i=0; i< options.length; i++)   {
+            selectOption.options[i] = new Option(options[i], values[i]);
+            /*selectOption.options[i] = new Option(options[i], values[i]);*/
+        }
+
+    }
+    function get_option3(option1, option2, selectOption)  {
+        //구 선택시 동 나옴
+        // secondsBox
+        if(option2 == "미추홀구") { //1
+            values = new Array("구역선택","숭의동", "용현동", "도화동", "주안동","학익동", "관교동", "문학동");
+            options = new Array ("숭의동", "용현동", "도화동", "주안동","학익동", "관교동", "문학동");
+        }
+        else if (option2 == "계양구")   { //인천
+            options = new Array ("효성동","계양동","작전동","서운동","직접입력");
+            values = new Array("효성동","계양동","작전동","서운동","직접입력");
+        }
+        // 눈 속임용...
+        else if (option2 == "마포·용산")   { //인천
+            options = new Array ("아현동","공덕동","상암동","마포동","후암동","용산동","서계동","이촌동","이태원동","직접입력");
+            values = new Array("아현동","공덕동","상암동","마포동","후암동","용산동","서계동","이촌동","이태원동","직접입력");
+        }
+        else if (option2 == "서구")   { //인천
+            options = new Array ("백석동","검암동","경서동","공촌동","가정동","가좌동","연희동","심곡동","석남동","직접입력");
+            values = new Array("백석동","검암동","경서동","공촌동","가정동","가좌동","연희동","심곡동","석남동","직접입력");
+        }
+        else if (option2 == "광명·시흥·안산")   { //인천
+            options = new Array ("광명동","철산동","소하동","하안동","신천동","대야동","방산동","정왕동","월곶동","상록구","단원구","직접입력");
+            values = new Array("광명동","철산동","소하동","하안동","신천동","대야동","방산동","정왕동","월곶동","상록구","단원구","직접입력");
+        }
+        else if (option2 == "연천·포천")   { //인천
+            options = new Array ("연천읍","전곡읍","군남면·청산면","신읍동","자작동","포천동","동교동","직접입력");
+            values = new Array("연천읍","전곡읍","군남면·청산면","신읍동","자작동","포천동","동교동","직접입력");
+        }
+
+
+        for (i=0; i < option2.length; i++)  {
+            selectOption.options[i] = null;
+        }
+
+        // seconds select box
+        for (i=0; i< options.length; i++)   {
+            selectOption.options[i] = new Option(options[i], values[i]);
+        }
+    }
+
+</script> <!--주소지를 선택-->
+
 </html>

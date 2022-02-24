@@ -33,6 +33,7 @@
         <select id="categorySave_value" onchange="categorySave()">
             <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
             <option selected> 소메뉴 선택</option>
+            <option value="1"> 대표 메뉴 </option>
             <option value="직접입력">직접 입력</option>
         </select>
         <input type ="hidden" th:field="*{storeCategoryNumber}" value="0">
