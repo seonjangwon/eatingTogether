@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>totalLogin</title>
+</head>
+<body>
+<form action="/usual/login" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <input type="text" name="userId" placeholder="아이디를 입력하세요">
+    <input type="text" name="password" placeholder="비밀번호">
+    <input type="submit" value="로그인" >
+</form>
+</body>
+</html>

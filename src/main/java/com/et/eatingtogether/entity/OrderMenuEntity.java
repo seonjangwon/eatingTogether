@@ -20,7 +20,7 @@ public class OrderMenuEntity {
     @JoinColumn(name = "order_number")
     private OrderEntity orderEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //ManyToOne으로 변경하세용^^
     @JoinColumn(name = "menu_number")
     private MenuEntity menuEntity;
 

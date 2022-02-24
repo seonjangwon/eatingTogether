@@ -320,4 +320,35 @@ public class JangwonTest {
         sr.save(storeEntity);
     }
 
+    @Test
+    @DisplayName("업체 생성용")
+    public void storeAdd(){
+        // 업체
+        BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setBigCategoryEntity(bigCategoryEntity);
+        storeEntity.setStoreName("basketTestStore22");
+        Long storeNumber = sr.save(storeEntity).getStoreNumber();
+        // 배달지
+        DeliveryEntity deliveryEntity = new DeliveryEntity();
+        deliveryEntity.setStoreEntity(storeEntity);
+        deliveryEntity.setDeliveryDname("basketTestDname");
+        deliveryEntity.setDeliveryPrice(1000);
+        deliveryEntity.setDeliveryTime(30);
+        int deliveryPrice = dr.save(deliveryEntity).getDeliveryPrice();
+        // 스토어카테고리
+        StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
+        storeCategoryEntity.setStoreEntity(storeEntity);
+        storeCategoryEntity.setStoreCategoryName("basketTestCategory");
+        Long storeCategoryNumber = scr.save(storeCategoryEntity).getStoreCategoryNumber();
+        // 메뉴
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setStoreEntity(storeEntity);
+        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
+        menuEntity.setMenuName("basketTestMenuName22");
+        menuEntity.setMenuPrice(4000);
+        Long menuNumber = mr.save(menuEntity).getMenuNumber();
+        System.out.println("menuEntity = " + menuEntity);
+    }
+
 }

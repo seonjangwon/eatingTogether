@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.store.DeliveryDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,15 @@ public class DeliveryEntity {
     private String deliveryDname;
     private int deliveryTime;
     private int deliveryPrice;
+
+
+    public static DeliveryEntity toSaveDeliveryEntity (DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+        DeliveryEntity deliveryEntity = new DeliveryEntity();
+        deliveryEntity.setStoreEntity(storeEntity);
+        deliveryEntity.setDeliveryDname(deliveryDTO.getDeliveryDname());
+        deliveryEntity.setDeliveryTime(deliveryDTO.getDeliveryTime());
+        deliveryEntity.setDeliveryPrice(deliveryDTO.getDeliveryPrice());
+        return  deliveryEntity;
+
+    }
 }

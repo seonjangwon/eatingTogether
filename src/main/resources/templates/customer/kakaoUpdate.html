@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>kakaoUpdate</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
@@ -81,7 +82,7 @@
     <input type="text" id="sample4_extraAddress" placeholder="참고항목">
     <input type="hidden" th:field="*{customerAddress}"><br>
     <input type="hidden" th:field="*{customerDname}"><br>
-    <input type="text" th:field="*{customerPhone}"><br>
+    <input type="text" th:field="*{customerPhone}" placeholder="전화번호"><br>
     <input type="submit" value="정보 저장하기">
 </form>
 </body>

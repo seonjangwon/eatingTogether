@@ -6,7 +6,9 @@ import com.et.eatingtogether.dto.store.MenuDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
+import com.et.eatingtogether.service.AdminService;
 import com.et.eatingtogether.service.CustomerService;
+import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService cs;
+    private final AdminService as;
+    private final StoreService ss;
     private final HttpSession session;
 
     @GetMapping("/")
@@ -209,14 +213,46 @@ public class CustomerController {
         return "index";
     }
 
-    @GetMapping("kakaoUnlink")
+    @GetMapping("/kakaoUnlink")
     public String kakaoUnlink(){
+        Long customerNumber = cs.findByEmail((String) session.getAttribute("customerLoginEmail")).getCustomerNumber();
         cs.kakaoUnlink((String) session.getAttribute("access_token"));
         // 그리고 회원 삭제
+        as.customerDelete(customerNumber);
         session.invalidate();
         return "index";
     }
 
+
+
+    @GetMapping("/basketAddTest")
+    public String basketAddTest(Model model){
+        //List<MenuDTO> menuDTOS = ss.menuFindAll(10l);
+        List<MenuDTO> menuDTOS = cs.menuFindAll();
+        model.addAttribute("menuList",menuDTOS);
+        return "store/basketAddTest";
+    }
+
+    @GetMapping("/menu")
+    @ResponseBody
+    public MenuDTO menuDetailAjax(@RequestParam("menuNumber") Long menuNumber){
+        MenuDTO menuDTO = cs.menuDetail(menuNumber);
+        System.out.println("menuDTO = " + menuDTO);
+        return menuDTO;
+    }
+
+    @PostMapping("/basket")
+    @ResponseBody
+    public String basketAdd(@RequestParam("menuNumber") Long menuNumber,@RequestParam("menuCount") int menuCount){
+        System.out.println("menuNumber = " + menuNumber);
+        System.out.println("menuCount = " + menuCount);
+        BasketDTO basketDTO = new BasketDTO();
+        basketDTO.setMenuNumber(menuNumber);
+        basketDTO.setMenuCount(menuCount);
+        String result = cs.basketAdd(basketDTO);
+        System.out.println("result = " + result);
+        return result;
+    }
 
 
 }

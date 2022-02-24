@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--선영 220222 : 리뷰확인하려고 타임리프좀..-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>[뭐먹을까요] 어서오세요</title>
@@ -22,9 +22,12 @@
 로그인이메일 : <span th:text="${session['customerLoginEmail']}"></span>
   
 <a href="/customer/basket">장바구니</a><br>
+<a href="/customer/">마이페이지</a><br>
 <a href="/customer/kakaoLogout">카카오 로그아웃</a>
 <div id="msgStack"></div>
-<button onclick="send_btn()">웹소켓 전송 테스트</button>
+<button onclick="send_btn()">웹소켓 전송 테스트</button><br>
+<a href="/customer/basketAddTest">테스트용</a><br>
+이메일 : <span sec:authentication="name"></span><br>
 
 <!--<a th:href="@{|/review/save/${orderList.orderNumber}|}">리뷰작성</a>-->
 
@@ -38,7 +41,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 
-    let socket = new WebSocket("ws://localhost:8099//ws/chat");
+    let socket = new WebSocket("ws://localhost:8099/ws/chat");
     socket.onopen = function (e) {
         console.log('open server!')
     };
@@ -50,7 +53,8 @@
         toast += "<button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
         toast += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>";
         toast += "</div> <div class='toast-body'>" + data + "</div></div>";
-        $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+        // $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+        document.getElementById('msgStack').innerHTML = toast;
         $(".toast").toast({"animation": true, "autohide": false});
         $('.toast').toast('show');
     };

@@ -62,4 +62,10 @@ public interface CustomerService {
     void kakaoLogout(String access_token);
 
     void kakaoUnlink(String access_token);
+
+    MenuDTO menuDetail(Long menuNumber);
+
+    String basketAdd(BasketDTO basketDTO);
+
+    List<MenuDTO> menuFindAll();
 }

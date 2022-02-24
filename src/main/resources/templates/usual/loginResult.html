@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>Title</title>
+</head>
+<body>
+이메일 : <span sec:authentication="name"></span><br>
+회원 세션 : <span th:text="${session.customerLoginEmail}"></span><br>
+업체 세션 : <span th:text="${session.storeLoginEmail}"></span><br>
+</body>
+</html>
