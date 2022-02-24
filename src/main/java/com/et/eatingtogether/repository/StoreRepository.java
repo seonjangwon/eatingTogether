@@ -15,4 +15,12 @@ public interface StoreRepository extends JpaRepository<StoreEntity,Long> {
     StoreEntity findByStoreName(String storeName);
 
     List<StoreEntity> findByBigCategoryEntity(BigCategoryEntity bigCategoryEntity);
+
+    StoreEntity findByStoreNumber(String storeNumber);
+
+    /*String findByStoreEmail(StoreEntity storeEmail);*/
+
+  /* StoreEntity idDuplicate(String storeEmail); 오류의 주범 ㅠㅠ
+
+    String findByEmail(String storeEmail); */
 }

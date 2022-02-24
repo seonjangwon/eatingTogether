@@ -5,6 +5,8 @@ import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreLoginDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.service.SecurityService;
+import com.et.eatingtogether.entity.DeliveryEntity;
+import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ public class UsualController2 {
     //
     private final StoreService ss;
     private final SecurityService ses;
+    private final HttpSession session;
     // 필요한 기능
     // 2-1 업체 회원가입요청, 2-2 업체 회원가입처리, 2-2-1 업체 가입 이메일 중복체크
     // 2-3 업체 로그인요청, 2-4 업체 로그인처리
@@ -105,17 +108,15 @@ public class UsualController2 {
             }
     }
 
-    @GetMapping("/delivery")
-    public String storeDeliveryForm (Model model)   {
-        System.out.println("UsualController.storeDeliveryForm");
-        model.addAttribute("storeDelivery", new DeliveryDTO());
-        return "store/storeDelivery";
-    }
 
-    @PostMapping("/delivery")
-    public String storeDelivery (@Validated @ModelAttribute DeliveryDTO deliveryDTO)   {
 
-        return "usual/storeSave";
-    }
+    //지원 0219
+    @PostMapping("/idDuplicate")
+    @ResponseBody //-
+    public String storeEmailCheck (@RequestParam String storeEmail){
+        System.out.println("storeEmail = " + storeEmail);
+        String result = ss.idDuplicate(storeEmail);
+        return result;
+}
 
 }

@@ -23,6 +23,8 @@
     </select>
 
      <input type="text" th:field = "*{storeEmail}" placeholder="이메일" oublur="emailCheck()">
+    <input type = "button" onclick="emailCheck_btn()" value="중복확인"><br>
+        <span id ="emailCheckBlockSpan"></span><br> <!--이부분이 변화-->
         <p id= "emailCheck"></p>
         <div th:if="${#fields.hasGlobalErrors()}">
             <p th:text="${#fields.globalErrors()}"></p>
@@ -56,8 +58,8 @@
 </body>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    // 우편번호 찾기 찾기 화면을 넣을 element
+<script> //우편번호 찾기 찾기 화면을 넣을 element
+
     var element_wrap = document.getElementById('wrap');
 
     function foldDaumPostcode() {
@@ -130,5 +132,32 @@
         // iframe을 넣은 element를 보이게 한다.
         element_wrap.style.display = 'block';
     }
-</script>
+</script> <!--카카오 주소 api-->
+<script>
+function emailCheck_btn()   {
+    console.log("emailCheck_btn 누름");
+     const storeEmail = document.getElementById("storeEmail").value;
+     const emailCheckBlock = document.getElementById('emailCheckBlockSpan');
+
+     $.ajax({
+         type:'post',
+         url:'idDuplicate',
+         data: {'storeEmail' :storeEmail},
+         dataType:'text',
+         success: function(result)  {
+             console.log("ajax 성공");
+             console.log(result);
+             if (result == "ok"){
+                 emailCheckBlock.innerHTML = "사용가능합니다."
+             } else {
+                 emailCheckBlock.innerHTML = "사용할 수 없습니다."
+             }
+         }, error: function ()  {
+             console.log("아작아작 ㅠ,ㅠ")
+         }
+
+     })
+
+}
+</script> <!--Email 중복체크-->
 </html>
