@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -32,10 +33,10 @@ public class MenuEntity {
     private int menuPrice;
     private String menuExplain;
 
-    @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private BasketEntity basketEntity;
-    @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    private OrderMenuEntity orderMenuEntity;
+    @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<OrderMenuEntity> orderMenuEntityList;
 
     //지원
     public static MenuEntity toSaveMenuEntity(MenuDTO menuDTO, StoreEntity storeEntity, StoreCategoryEntity storeCategoryEntity){
