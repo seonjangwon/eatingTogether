@@ -234,7 +234,7 @@ public class JangwonTest {
     @DisplayName("17번 동이름 변경용")
     public void dnameUpdate(){
         //CustomerEntity customerEntity = cr.findById(17l).get(); 데탑용
-        CustomerEntity customerEntity = cr.findById(3l).get(); // 노트북용
+        CustomerEntity customerEntity = cr.findById(17l).get(); // 노트북용
         customerEntity.setCustomerDname("basketTestDname");
         cr.save(customerEntity);
     }

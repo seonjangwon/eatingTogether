@@ -18,3 +18,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+## MultipartFile 설정
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 20MB
+

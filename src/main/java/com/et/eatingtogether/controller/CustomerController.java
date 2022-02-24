@@ -223,6 +223,8 @@ public class CustomerController {
         return "index";
     }
 
+
+
     @GetMapping("/basketAddTest")
     public String basketAddTest(Model model){
         //List<MenuDTO> menuDTOS = ss.menuFindAll(10l);
@@ -251,5 +253,6 @@ public class CustomerController {
         System.out.println("result = " + result);
         return result;
     }
+
 
 }

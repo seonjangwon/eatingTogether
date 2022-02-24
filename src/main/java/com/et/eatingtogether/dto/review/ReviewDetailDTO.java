@@ -48,7 +48,7 @@ public class ReviewDetailDTO {
         reviewDetailDTO.setReviewScore(reviewEntity.getReviewScore());
         reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
         reviewDetailDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());
-        reviewDetailDTO.setReviewTime(reviewEntity.getReviewTime());
+        reviewDetailDTO.setReviewTime(reviewEntity.getCreateTime());
         //reviewDetailDTO.setReviewFileListNumber();
         //reviewDetailDTO.setReviewFileDTOList(reviewFileDTOList);
         //reviewDetailDTO.setReplyDetailDTO(replyDetailDTO);

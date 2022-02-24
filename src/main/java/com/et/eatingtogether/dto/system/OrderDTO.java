@@ -46,7 +46,12 @@ public class OrderDTO {
         orderDTO.setOrderNow(orderEntity.getOrderNowEntity().getOrderNowStatus());
         orderDTO.setStoreName(orderEntity.getStoreEntity().getStoreName());
         return orderDTO;
+
     }
+
+
+
+
 
     //지원
     public static OrderDTO toStoreOrderDetailDTO (OrderEntity orderEntity) {
@@ -69,4 +74,5 @@ public class OrderDTO {
 
         return orderDTO;
     }
+
 }

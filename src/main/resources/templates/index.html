@@ -19,6 +19,7 @@
 <a href="/usual/customer">회원가입</a>
 <a href="/usual/logout">로그아웃</a>
 <a href="/admin">관리자</a>
+로그인이메일 : <span th:text="${session['customerLoginEmail']}"></span>
   
 <a href="/customer/basket">장바구니</a><br>
 <a href="/customer/">마이페이지</a><br>
@@ -28,6 +29,10 @@
 <a href="/customer/basketAddTest">테스트용</a><br>
 이메일 : <span sec:authentication="name"></span><br>
 
+<!--<a th:href="@{|/review/save/${orderList.orderNumber}|}">리뷰작성</a>-->
+
+
+<!--<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>-->
 
 
 

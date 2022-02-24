@@ -25,6 +25,7 @@ public class ReviewTestDTO {
         ReviewTestDTO reviewTestDTO = new ReviewTestDTO();
         reviewTestDTO.setReviewNumber(reviewEntity.getReviewNumber());
         reviewTestDTO.setReviewScore(reviewEntity.getReviewScore());
+        reviewTestDTO.setReviewContents(reviewEntity.getReviewContents());
         reviewTestDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());
 
         return reviewTestDTO;

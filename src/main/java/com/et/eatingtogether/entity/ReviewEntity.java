@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "review_table")
-public class ReviewEntity {
+public class ReviewEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_number")
@@ -33,12 +33,13 @@ public class ReviewEntity {
     private OrderEntity orderEntity;
 
     private String menuName;// , 단위로 구분해서 출력할 것임
-//    private String reviewFilename; // 테이블 따로 뺌
-    private String reviewContents;
     private int reviewScore;
-    private LocalDateTime reviewTime;
+    private LocalDateTime createTime; // 리뷰 등록시간
+    private String reviewContents;
 
 
+    //    private LocalDateTime reviewTime;
+    //    private String reviewFilename; // 테이블 따로 뺌
 
     @OneToMany(mappedBy = "reviewEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ReviewFileEntity> reviewFileEntityList = new ArrayList<>();
@@ -47,15 +48,16 @@ public class ReviewEntity {
     private ReplyEntity replyEntity;
 
     // 리뷰저장
-    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO){
+    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO, CustomerEntity customerEntity, StoreEntity storeEntity, String menuName){
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setReviewNumber(reviewSaveDTO.getReviewNumber());
         reviewEntity.setReviewScore(reviewSaveDTO.getReviewScore());
         reviewEntity.setReviewContents(reviewSaveDTO.getReviewContents());
+        reviewEntity.setStoreEntity(storeEntity);
+        reviewEntity.setCustomerEntity(customerEntity);
+        reviewEntity.setMenuName(menuName);
         return reviewEntity;
 
     }
-
-
 
 }

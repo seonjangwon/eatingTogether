@@ -3,7 +3,9 @@ package com.et.eatingtogether.controller;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
+import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
+import com.et.eatingtogether.entity.OrderEntity;
 import com.et.eatingtogether.service.AdminService;
 import com.et.eatingtogether.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +15,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@SessionAttributes("customerLoginEmail") // 선영 220223 : 리뷰 테스트용으로 작성함
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService as;
     private final CustomerService cs;
+    private final HttpSession session;
 
     @GetMapping
-    public String adminpage(){
+    public String adminpage(Model model){
         return "admin/admin";
     }
 
@@ -81,13 +86,24 @@ public class AdminController {
         return "admin/customerList";
     }
 
-    // 회원삭제
+    // 회원삭제(ajax)
     @DeleteMapping("/{customerNumber}")
     public ResponseEntity customerDelete(@PathVariable("customerNumber") Long customerNum){
         as.customerDelete(customerNum);
         return new ResponseEntity(HttpStatus.OK);
 
     }
+
+//    // 회원삭제
+//    @DeleteMapping("/{customerNumber}")
+//    public String customerDelete(@PathVariable("customerNumber") Long customerNum){
+//       as.customerDelete(customerNum);
+//      return "redirect:/admin/customer";
+//
+//    }
+
+
+
 
     // 업체목록
     @GetMapping("/store")
@@ -98,7 +114,7 @@ public class AdminController {
     }
 
     // 업체삭제
-    @DeleteMapping("/{storeNumber}")
+    @DeleteMapping("/store/{storeNumber}")
     public ResponseEntity storeDelete(@PathVariable("storeNumber") Long storeNum){
         as.storeDelete(storeNum);
         return new ResponseEntity(HttpStatus.OK);
