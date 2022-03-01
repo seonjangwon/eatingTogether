@@ -40,12 +40,10 @@ public class ReviewController {
     private final HttpSession session;
 
 
-    // 리뷰 작성 페이지로 이동 0222
+    // 리뷰 작성 페이지로 이동 0222, 0301
     @GetMapping("/save/{orderNumber}")
-//    public String reviewSaveForm(Model model){
     public String reviewSaveForm(Model model, @PathVariable("orderNumber") Long orderNum){
         // 여기서 회원번호, 가게이름, 메뉴이름을 같이 넘겨줘야 함
-        // 어떻게? 찾아서!
         // 회원번호
         String customerLoginEmail = cs.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
 //        Long customerNumber = cs.findByEmail(customerLoginEmail).getCustomerNumber();
@@ -67,8 +65,10 @@ public class ReviewController {
         return "customer/reviewSave";
     }
 
-    // 리뷰 등록 처리
+    // 리뷰 등록 처리(임시)
     // 리뷰 내용 등을 담은 ReviewSaveDTO와 파일을 담은 ReviewFileDTO를 함께 보내줌.
+
+
     @PostMapping("/save")
     public String review(@ModelAttribute ReviewSaveDTO reviewSaveDTO,
                          @RequestParam(value = "reviewFileDTO",required = false) MultipartFile[] reviewFileDTOList,
@@ -105,10 +105,9 @@ public class ReviewController {
     // 리뷰 등록 후 페이지 이동( 내가 쓴 리뷰목록)
     @GetMapping("/")
     public String reviewFinish(Model model){
-
         List<ReviewDetailDTO> reviewList = as.reviewFindAll();
         model.addAttribute("reviewList", reviewList);
-        return "customer/review";
+        return "store/store";
     }
 
 

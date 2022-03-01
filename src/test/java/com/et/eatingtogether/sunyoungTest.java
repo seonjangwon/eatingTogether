@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,6 +59,9 @@ public class sunyoungTest {
 
     @Autowired
     private OrderMenuRepository omr; // 내가 주문한거 저장
+    
+    @Autowired
+    private OrderRepository or; // 주문엔티티
 
 
     @Test
@@ -168,121 +172,108 @@ public class sunyoungTest {
 
 
     @Test
-//    @Transactional
-//    @Rollback
+    @Transactional
+    @Rollback
     @DisplayName("리뷰테스트")
 
     public void reviewTest() throws IOException {
         // 리뷰정보에서 필요한 것 : 회원, 업체, 메뉴, 리뷰내용, 리뷰작성시간, 작성자(회원 또는 로그인이메일?), 파일, 별점
         //given
-        //회원
+        //회원생성
         CustomerDetailDTO customerDetailDTO = new CustomerDetailDTO();
         customerDetailDTO.setCustomerEmail("테스트이메일!");
         customerDetailDTO.setCustomerPassword("1");
+        
+        // customerNumber , customerEntity 값 가져옴
         Long customerNumber = ctr.save(CustomerEntity.loginTest(customerDetailDTO)).getCustomerNumber();
-
         CustomerEntity customerEntity = ctr.findById(customerNumber).get();
-
-
-        // 업체
+        
+        // 업체생성
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setStoreName("테스트가게1");
+        
+        // storeNumber, storeEntity 가져옴
         Long storeNumber = sr.save(storeEntity).getStoreNumber();
-        StoreEntity storeEntity1 = sr.findById(storeNumber).get();
+        StoreEntity storeSaveEntity = sr.findById(storeNumber).get();
 
-        // 스토어 카테고리
+        // 스토어 카테고리 생성
         StoreCategoryEntity storeCategoryEntity = new StoreCategoryEntity();
-        storeCategoryEntity.setStoreEntity(storeEntity1);
+        storeCategoryEntity.setStoreEntity(storeSaveEntity);
         storeCategoryEntity.setStoreCategoryName("한식");
-        scr.save(storeCategoryEntity);
+        
+        // 카테고리 db에 저장 / storeCategoryNumber, storeCategoryEntity 가져옴
+        Long storeCategoryNumber = scr.save(storeCategoryEntity).getStoreCategoryNumber();
+        StoreCategoryEntity storeCategorySaveEntity = scr.findById(storeCategoryNumber).get();
 
-
-        // 업체에 메뉴 생성 - 업체번호 필요.
+        // 스토어에 메뉴저장 : MenuEntity에 메뉴를 저장합시다
         MenuEntity menuEntity = new MenuEntity();
-        menuEntity.setStoreEntity(storeEntity1);
-        menuEntity.setStoreCategoryEntity(storeCategoryEntity);
         menuEntity.setMenuName("된장찌개");
-
-        MenuEntity menuEntity2 = new MenuEntity();
-        menuEntity2.setStoreEntity(storeEntity1);
-        menuEntity2.setStoreCategoryEntity(storeCategoryEntity);
-        menuEntity2.setMenuName("포케");
-
-        mr.save(menuEntity);
-        mr.save(menuEntity2);
-
-        List<MenuEntity> byStoreEntity = mr.findByStoreEntity(storeEntity1); // storeEntity1의 메뉴리스트
+        menuEntity.setStoreCategoryEntity(storeCategorySaveEntity);
+        menuEntity.setStoreEntity(storeSaveEntity);
+        menuEntity.setMenuPrice(5000);
 
 
-        // 주문번호엔티티 => 회원이 주문한 스토어의 메뉴에서 메뉴번호가 필요함
-        OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
-        orderMenuEntity.setMenuEntity(menuEntity);
-
-        OrderMenuEntity orderMenuEntity2 = new OrderMenuEntity();
-        orderMenuEntity.setMenuEntity(menuEntity2);
-
-        OrderMenuEntity save = omr.save(orderMenuEntity);
-        OrderMenuEntity save1 = omr.save(orderMenuEntity2);
-
-        // 주문한 메뉴목록에 위에 생성한 메뉴엔티티 2개를 담음
-        List<OrderMenuEntity> orderMenuEntityList = new ArrayList<>();
-        orderMenuEntityList.add(save);
-        orderMenuEntityList.add(save1);
+        MenuEntity menuEntity1 = new MenuEntity();
+        menuEntity1.setMenuName("포케");
+        menuEntity1.setStoreCategoryEntity(storeCategorySaveEntity);
+        menuEntity1.setStoreEntity(storeSaveEntity);
+        menuEntity1.setMenuPrice(10000);
 
 
-//        // 메뉴를 주문해!
-//        // 주문한다! 테스트가게1의 메뉴리스트에서 메뉴를 골라 주문한다!
-//        // 회원번호, 가게번호, 주문하는 메뉴가 뭔지(orderMenuEntityList)
+        // mentEntity 인스턴스를 db에 저장! 저장한 menuEntity 객체를 사용해야 하니까 리턴값으로 가져오기
+        MenuEntity menu = mr.save(menuEntity);
+        MenuEntity menu1 = mr.save(menuEntity1);
 
+        //위에서 save하고 불러온 MenuEntity를 list로 담기(특정 가게에 등록되어 있는 메뉴 리스트!)
+        List<MenuEntity> menuEntityList = new ArrayList<>();
+        menuEntityList.add(menu);
+        menuEntityList.add(menu1);
 
+        System.out.println("menuEntityList.get(0).getMenuName() = " + menuEntityList.get(0).getMenuName());
+        System.out.println("menuEntityList.get(0).getMenuName() = " + menuEntityList.get(1).getMenuName());
+        
+        
+        storeSaveEntity.setMenuEntityList(menuEntityList); // 가게db에 메뉴리스트 추가
+        System.out.println("storeEntity1 = " + storeSaveEntity.getMenuEntityList().get(0).getMenuName()); // 0번인덱스 메뉴가 뭔지 확인
+        
+        List<MenuEntity> bystoreMenuList = mr.findByStoreEntity(storeSaveEntity); // storeEntity1 가게의 메뉴리스트
+        System.out.println("bystoreMenuList = " + bystoreMenuList.get(0).getMenuName());
+        System.out.println("bystoreMenuList = " + bystoreMenuList.get(1).getMenuName());
+
+       // 주문엔티티 (회원이 주문할때)
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setCustomerEntity(customerEntity); //회원
-        orderEntity.setStoreEntity(storeEntity); //업체정보
-        orderEntity.setOrderPrice(3000); // 가격
-        orderEntity.setOrderMenuEntityList(orderMenuEntityList);
-
-        System.out.println("orderEntity.getOrderMenuEntityList() = " + orderEntity.getOrderMenuEntityList().get(0));
-
-////
-////
-////        // menuEntity를 orderMenuEntity에 넣어!
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//        System.out.println("orderEntity = " + orderEntity.getOrderMenuEntityList().get(0).getMenuEntity().getMenuName());
-//
-//
-//
-//        // 리뷰등록 테스트
-//        ReviewEntity reviewEntity = new ReviewEntity();
-//        reviewEntity.setReviewContents("재밌다");
-//        reviewEntity.setMenuName(menuEntityList.get(0).getMenuName());
-//        reviewEntity.setCustomerEntity(customerEntity);
-//        reviewEntity.setStoreEntity(storeEntity);
-//
-//        // 파일 : list라 for문을 사용하나..?
-//        ReviewFileEntity reviewFileEntity = new ReviewFileEntity();
-//        reviewFileEntity.setReviewFilename("테스트 파일이름");
-//        reviewFileEntity.setReviewEntity(reviewEntity);
-//
-//
-//
-//        System.out.println("reviewFileEntity.getFileName = " + reviewFileEntity.getReviewFilename());
-//
-//        System.out.println("reviewEntity = " + reviewEntity.getMenuName());
-//        System.out.println("reviewEntity = " + reviewEntity.getCustomerEntity().getCustomerNumber());
-//        System.out.println("reviewEntity = " + reviewEntity.getStoreEntity().getStoreName());
-//
-////        System.out.println("reviewEntity = " + reviewEntity.getReviewFileEntityList().get(0).getReviewFilename());
-//
+        orderEntity.setCustomerEntity(customerEntity); // 회원번호
+        orderEntity.setStoreEntity(storeSaveEntity); // 가게번호
 
 
+        Long orderNumber = or.save(orderEntity).getOrderNumber(); // 주문번호
+        OrderEntity orderEntity1 = or.findById(orderNumber).get(); // orderEntity
+
+
+        // 회원이 주문한 메뉴 ( orderMenuEntity)
+        OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
+
+        OrderMenuEntity orderMenuEntity1 = new OrderMenuEntity();
+        orderMenuEntity1.setMenuEntity(storeSaveEntity.getMenuEntityList().get(1));
+
+        OrderMenuEntity ordermenuSave = omr.save(orderMenuEntity);
+        OrderMenuEntity ordermenuSave1 = omr.save(orderMenuEntity1);
+
+
+        // 주문한 메뉴를 회원의 주문ENTITY에 리스트로 넣어준다
+
+        List<OrderMenuEntity> orderMenuEntityList = or.findById(orderNumber).get().getOrderMenuEntityList();
+        orderMenuEntityList.add(ordermenuSave);
+        orderMenuEntityList.add(ordermenuSave1);
+
+        // 회원 orderEntity에 리스트 추가
+        orderEntity1.setOrderMenuEntityList(orderMenuEntityList);
+
+        System.out.println("orderEntity1 = " + orderEntity1.getOrderMenuEntityList().get(0).getMenuEntity().getMenuName());
+        System.out.println("orderEntity1 = " + orderEntity1.getOrderMenuEntityList().get(1).getMenuEntity().getMenuName());
+
+
+        
 //        rr.save(reviewEntity);
 
 

@@ -23,8 +23,9 @@ public class CustomerBlacklistEntity {
     private CustomerEntity customerEntity;
 
 //    // 블랙리스트 회원 : 신고 = 1:many
-//    @OneToMany(mappedBy = "customerBlackListEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<CustomerReportEntity> customerReportEntityList = new ArrayList<>();
+     // 신고사유리스트..?
+    @OneToMany(mappedBy = "customerBlackListEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CustomerReportEntity> customerReportEntityList = new ArrayList<>();
 
     private int customerBlacklistCount; // 신고당한 횟수
 

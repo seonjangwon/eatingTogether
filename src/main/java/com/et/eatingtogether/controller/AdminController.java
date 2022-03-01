@@ -4,6 +4,7 @@ import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.OrderEntity;
 import com.et.eatingtogether.service.AdminService;
@@ -121,12 +122,19 @@ public class AdminController {
     }
 
 
-//    // 신고페이지로 이동
-//    @GetMapping("/customerReport/{customerNumber}")
-//    public String reportPage(@PathVariable ){
-//        return "admin/customerReport";
-//    }
+    // 신고페이지로 이동
+    @GetMapping("/customerReport/{customerNumber}")
+    public String reportForm(Model model, @PathVariable("customerNumber") Long customerNumber){
+        model.addAttribute("customerNumber", customerNumber);
+        return "admin/customerReport";
+    }
 
+    // 신고저장
+    @PostMapping("/customerReport")
+    public String report(@ModelAttribute ReportSaveDTO reportSaveDTO){
+        as.reportSave(reportSaveDTO);
+
+    }
 
 
 

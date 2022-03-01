@@ -28,7 +28,7 @@
 
     <script>
         const blackCustom_btn = (customerNumber) => {
-            location.href="/admin/customerReport" + customerNumber;
+            location.href="/admin/customerReport/" + customerNumber;
         }
 
 
@@ -44,6 +44,7 @@
         <th>회원이메일</th>
         <th>회원닉네임</th>
         <th>회원삭제</th>
+        <th>신고하기</th>
     </tr>
     <tr th:each = "customer : ${customerList}">
         <td th:text="${customer.customerNumber}"></td>
@@ -51,9 +52,9 @@
         <td th:text="${customer.customerNickname}"></td>
         <td><button th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>
 <!--        <td><a th:href="@{|/admin/delete/${customer.customerNumber}|}">회원삭제</a></td>-->
-
-
-        <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>
+<!--        <button type="button" onclick="location.href='/admin/customerReport/${customerList.customerNumber}'">신고하기</button>-->
+       <td><button type="button" th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>
+<!--        <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>-->
     </tr>
 </table>
 </body>

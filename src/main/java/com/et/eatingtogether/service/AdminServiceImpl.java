@@ -7,6 +7,7 @@ import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
+import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
@@ -207,6 +208,14 @@ public class AdminServiceImpl implements AdminService {
         r.setReviewFilename(r_fileName);
 
         rfr.save(ReviewFileEntity.toEntity(r, reviewEntity));
+    }
+
+    // 회원신고 저장
+    @Override
+    public void reportSave(ReportSaveDTO reportSaveDTO) {
+        //dto -> entity
+
+        crr.save(reportSaveDTO);
     }
 
 

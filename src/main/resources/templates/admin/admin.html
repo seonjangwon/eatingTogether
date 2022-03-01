@@ -11,9 +11,11 @@
 <a href="/admin/coupon">쿠폰등록</a>
 <a href="/admin/coupon/">쿠폰리스트</a>
 <a href="/admin/rider">라이더등록</a>
-<a th:href="@{|/review/save/|}">리뷰작성</a>
+<a th:href="@{|/review/save|}">리뷰작성</a>
 <!--<a href="/review/orderList">주문목록 페이지</a>-->
 <!--<span th:text="${orderList}"></span>-->
+<button type="button" onclick="location.href='/admin/customerReport'">신고하기</button>
+
 로그인아이디 : <span th:text="${session['customerLoginEmail']}"></span>
 
 </body>

@@ -8,6 +8,7 @@ import com.et.eatingtogether.dto.review.ReviewTestDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
+import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.CustomerEntity;
 import com.et.eatingtogether.entity.ReviewEntity;
@@ -56,4 +57,6 @@ public interface AdminService {
 
 
     void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException;
+
+    void reportSave(ReportSaveDTO reportSaveDTO); // 회원신고 저장
 }
