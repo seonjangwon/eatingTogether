@@ -44,15 +44,12 @@ public interface StoreService {
 
     void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
 
-    List<OrderDTO> findByOrderAll();
-
-/*    List<OrderDTO> findByOrderDetail(Long orderNumber);*/
-
     //orderDetail
     OrderDTO findByOrder(Long orderNumber);
 
     List<OrderMenuDTO> orderMenu(Long orderNumber);
 
-    //OrderFindAll(storeNumber)
-    List<OrderDTO> findByStoreInOrder(Long storeNumber);
+    //orderAll
+    List<OrderDTO> findOrderAll(Long storeNumber);
+
 }

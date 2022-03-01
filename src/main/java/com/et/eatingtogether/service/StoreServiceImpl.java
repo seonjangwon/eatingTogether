@@ -4,9 +4,11 @@ import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
+import com.et.eatingtogether.dto.system.OrderNowDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -115,7 +117,6 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("ServiceImpl.findAllBc.해치웠나");
         return bcList;
     }
-
 
     // store/category/{bigCategoryNumber} 하기위해.
 
@@ -259,17 +260,6 @@ public class StoreServiceImpl implements StoreService {
         dr.save(deliveryEntity);
     }
 
-    @Override
-    public List<OrderDTO> findByOrderAll() {
-        List<OrderEntity> orderEntityList = or.findAll();
-        List<OrderDTO> orderList = new ArrayList<>();
-        for (OrderEntity oe: orderEntityList)   {
-            orderList.add(toStoreOrderDetailDTO(oe));
-        }
-        System.out.println(orderList);
-        return orderList;
-    }
-
     //0224. 주문상세보기
     @Override
     public OrderDTO findByOrder(Long orderNumber) {
@@ -301,13 +291,17 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<OrderDTO> findByStoreInOrder(Long storeNumber) {
-        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
-        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity.get());
+    public List<OrderDTO> findOrderAll(Long storeNumber) {
+        StoreEntity storeEntity = sr.findById(storeNumber).get();
+        /*List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);*/
+        List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
         List<OrderDTO> orderList = new ArrayList<>();
         for (OrderEntity oe: orderEntityList)   {
             orderList.add(toStoreOrderDetailDTO(oe));
         }
+
         return orderList;
     }
+
+
 }

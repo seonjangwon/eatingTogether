@@ -9,6 +9,7 @@ import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,7 @@ public class UsualController2 {
 
     //2-1
     @GetMapping("/store")
-    public String storeSaveForm (Model model){
+    public String storeSaveForm (@NotNull Model model){
         System.out.println("UsualController2.storeSaveForm");
         model.addAttribute("storeSave", new StoreSaveDTO());
         return "usual/storeSave";
@@ -110,13 +111,13 @@ public class UsualController2 {
 
 
 
-    //지원 0219
+/*    //지원 0219
     @PostMapping("/idDuplicate")
     @ResponseBody //-
     public String storeEmailCheck (@RequestParam String storeEmail){
         System.out.println("storeEmail = " + storeEmail);
         String result = ss.idDuplicate(storeEmail);
         return result;
-}
+}*/
 
 }

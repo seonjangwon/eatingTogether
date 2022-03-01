@@ -120,14 +120,14 @@ public class StoreController {
         return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
 
-    //0216
+/*    //0216
     @PostMapping("/menuList")
     public @ResponseBody
     List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
         List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
         System.out.println("storeController.List<MenuDTO> menuAjax");
         return menuList;
-    }
+    }*/
 
     //0217 헉 이거 아니다 아 아니 맞다
     @GetMapping("/update/{menuNumber}")
@@ -206,24 +206,6 @@ public class StoreController {
         return "usual/storeSave";
     }
 
-/*    //지원 0222~0223
-    // store별 주문상황을 띄웁니다. 필요한 것 storeNumber(해당 업체) , orderNowDTO(주문에 대한 전반적인 사항)
-    @GetMapping("/orderList")
-    public String orderFindAll(Model model) {
-        List<OrderDTO> orderList = ss.findByOrderAll();
-        model.addAttribute("orderList", orderList);
-        System.out.println("StoreController.orderFindAll");
-        return "store/orderList";
-    }
-
-*//*    @GetMapping("/orderList/{storeNumber}")
-    public String orderListAll(@PathVariable("storeNumber") Long storeNumber, Model model) {
-
-        System.out.println("StoreController.orderListAll");
-        return "store/orderList";
-    }*/
-
-
     //지원 0223
     // 주문상세버튼을 누를 시 해당 주문으로 이동되는 페이지입니다.
     @GetMapping("/order/{orderNumber}")
@@ -249,8 +231,24 @@ public class StoreController {
     }
 
 
+    //심기일전... 0227 n회차 재도전 findAll
+    @GetMapping ("/order/{storeNumber}")
+    public String orderAll(@PathVariable Long storeNumber, Model model)   {
+        System.out.println("StoreController.orderAll");
+        StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
+        List<OrderDTO> order = ss.findOrderAll(storeNumber);
 
+        model.addAttribute("order",order);
+        model.addAttribute("storeDetailDTO",storeDetailDTO);
 
+        System.out.println("페이지 출력만이라도 일단 ㅠ");
+        return "store/orderList";
+    }
 
+    @GetMapping("menuList")
+    public String menuAjaxTest (Model model)    {
+        System.out.println("menuAjaxTest");
+        return "store/menuList";
+    }
 
 }

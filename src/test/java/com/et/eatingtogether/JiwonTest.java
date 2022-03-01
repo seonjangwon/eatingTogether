@@ -71,7 +71,7 @@ public class JiwonTest {
         BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setBigCategoryEntity(bigCategoryEntity);
-        storeEntity.setStoreNumber(19L);
+        storeEntity.setStoreNumber(1L);
         Long storeNumber = sr.save(storeEntity).getStoreNumber();
 
         //스토어카테고리
@@ -134,19 +134,8 @@ public class JiwonTest {
         deliveryEntity.setDeliveryTime(20);
         Long deliveryNumber = dr.save(deliveryEntity).getDeliveryNumber();
         System.out.println("배달지 테스트 실행됨");
-        /*//주문
-        OrderEntity orderEntity = new OrderEntity();
-        CustomerEntity customerEntity1 = cr.findById(1l).get();
-        StoreEntity storeEntity1 = sr.findById(1l).get();
-        OrderNowEntity orderNowEntity = onr.findById(1l).get();
-        orderEntity.setCustomerEntity(customerEntity1);
-        orderEntity.setStoreEntity(storeEntity1);
-        orderEntity.setOrderNowEntity(orderNowEntity);
-        orderEntity.setOrderAddress("냠냠동");
-        orderEntity.setOrderPrice(4000);
-        Long orderNumber = or.save(orderEntity).getOrderNumber();
-        System.out.println("주문 테스트 실행됨");*/
     }
+
 
     @Test
     @DisplayName("주문Test")
@@ -155,19 +144,22 @@ public class JiwonTest {
     public void orderTest() {
         //메뉴, 고객, 업체
         //회원
-        CustomerEntity customerEntity = cr.findById(6l).get();
+        CustomerEntity customerEntity = cr.findById(1l).get();
         System.out.println("회원 테스트 실행");
         System.out.println("회원정보: "+customerEntity);
 
         //업체
-        BigCategoryEntity bigCategoryEntity = bcr.findById(3l).get();
-        StoreEntity storeEntity = sr.findByStoreEmail("123");
+        BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setBigCategoryEntity(bigCategoryEntity);
+        storeEntity.setStoreName("testStore");
+        Long storeNumber = sr.save(storeEntity).getStoreNumber();
         System.out.println("bigCategoryEntity:"+bigCategoryEntity);
         System.out.println("업체가입 테스트 실행됨");
 
         //메뉴
         MenuEntity menuEntity = new MenuEntity();
-        StoreCategoryEntity storeCategoryEntity = scr.findById(5l).get();
+        StoreCategoryEntity storeCategoryEntity = scr.findById(1l).get();
         menuEntity.setMenuName("우울한울면");
         menuEntity.setStoreEntity(storeEntity);
         menuEntity.setMenuPrice(12000);
@@ -189,8 +181,8 @@ public class JiwonTest {
         orderEntity.setOrderPrice(menuEntity.getMenuPrice());
         orderEntity.setOrderAddress(customerEntity.getCustomerAddress());
         orderEntity.setOrderTime(LocalDateTime.now());
-        orderEntity.setOrderTomaster("?");
-        orderEntity.setOrderTorider("!");
+        orderEntity.setOrderTomaster("우울우울");
+        orderEntity.setOrderTorider("ㅠㅠㅠ");
         orderEntity.setOrderType("주문");
         orderEntity.setOrderNowEntity(orderNowEntity);
 
@@ -199,8 +191,6 @@ public class JiwonTest {
         System.out.println("orderEntity:"+orderEntity);
 
         //주문상황관리
-        /*orderNowEntity = onr.findById(orderNowEntity.getOrderNowNumber()).get();*/
-        /*OrderEntity orderEntity = new OrderEntity();*/
         orderNowEntity.setOrderEntity(orderEntity);
         orderNowEntity.setOrderNowStatus("요리");
         orderNowEntity.setOrderNowTime(orderEntity.getOrderTime().plusMinutes(10));
@@ -208,7 +198,7 @@ public class JiwonTest {
         System.out.println("주문상황 테스트 실행됨");
 
         //이걸 했어야했나?
-        menuEntity = mnr.findById(22l).get();
+        menuEntity = mnr.findById(1l).get();
         OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
         orderMenuEntity.setOrderEntity(orderEntity);
         orderMenuEntity.setOrderMenuCount(1);

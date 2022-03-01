@@ -5,106 +5,6 @@
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 매장페이지 </title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script defer>
-        const MenuBtn = () =>   {
-            console.log("메뉴버튼 클릭");
-            /*document.getElementById("menuArea").innerHTML = menuArea;*/
-
-            const menuName = document.getElementById('menuName').value;
-            const menuExplain = document.getElementById('menuExplain').value;
-            const menuPrice = document.getElementById('menuPrice').value;
-
-
-            $.ajax({
-                type:'post',
-                url: '/store/menuList',
-                data: {
-                    'menuName' : menuName,
-                    'menuExplain' : menuExplain,
-                    'menuPrice' : menuPrice
-                },
-                dataType : 'json',
-                success: function (result) {
-                    console.log(result);
-                    let output = "<table>\n" +
-                        "<thead>\n" +
-                        "<tr>+\n" +
-                        "<th>메뉴이름</th>+\n" +
-                        "<th>메뉴설명</th>+\n" +
-                        "<th>메뉴가격</th>+\n" +
-                        "</tr>+\n" +
-                        "</thead>>+\n" +
-                        "<tbody>+\n";
-
-                    $.each(result, function (i) {
-                        output += "<tr>";
-                        output += "<td>" + result[i].menuName + "</td>";
-                        output += "<td>" + result[i].menuExplain + "</td>";
-                        output += "<td>" + result[i].menuPrice + "</td>";
-                        output += "</tr>";
-                    })
-                },
-                error: function ()  {
-                    alert('ajax 실패해도 기죽지말기');
-                }
-
-            });
-        };
-
-    </script>
-    <script defer>
-        const reviewBtn = () =>   {
-            console.log("리뷰버튼 클릭")
-            document.getElementById("menuArea").innerHTML = "review";
-        };
-    </script>
-
-    <script>
-        function delete_menu(menuNumber)  {
-            console.log("delete_menu_btn 클릭")
-            console.log(menuNumber);
-            const requestUrl = "/store/delete/" + menuNumber;
-
-            const menuName = document.getElementById('menuName').value;
-            const menuExplain = document.getElementById('menuExplain').value;
-            const menuPrice = document.getElementById('menuPrice').value;
-
-
-            $.ajax({
-                type: 'delete',
-                url: 'redirect:/store/menuList',
-                data: {
-                    'menuName' : menuName,
-                    'menuExplain' : menuExplain,
-                    'menuPrice': menuPrice
-                },
-                dataType: 'json',
-                success: function (result) {
-                    console.log(result);
-                    let output = "<table>\n" +
-                        "<thead>\n" +
-                        "<tr>+\n" +
-                        "<th>메뉴이름</th>" + "\n" +
-                        "<th>메뉴설명</th>" + "\n" +
-                        "<th>메뉴가격</th>" + "\n" +
-                        "</tr>" + "\n" +
-                        "</thead>" + "\n" +
-                        "<tbody>" + "\n";
-
-                    $.each(result, function (i) {
-                        output += "<tr>";
-                        output += "<td>" + result[i].menuName + "</td>";
-                        output += "<td>" + result[i].menuExplain + "</td>";
-                        output += "<td>" + result[i].menuPrice + "</td>";
-                        output += "</tr>";
-                    })
-                },
-                    error : function () {
-                    alert ("할수있어!");
-                    }
-        });
-        };
-    </script>
 </head>
 <body>
 매장페이지입니다.
@@ -161,14 +61,72 @@
         <a th:src="@{|/store/update/{menuNum}|}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
         <a href="/store/update/{menu.menuNumber}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
     </section>
-    <section id="reviewArea">
-        리뷰출력예정
-    </section>
     <footer>
 
     </footer>
 
 </body>
+<script>
+    const MenuBtn = () => {
+        console.log("메뉴버튼 클릭");
+        document.getElementById("menuArea").innerHTML = "menu";
 
+        $(function (){
+            $("#menuArea").load("menuList.html #menuList");
+        })
+    };
+</script> <!-- 메뉴버튼 클릭 -->
+<script>
+    const reviewBtn = () =>   {
+        console.log("리뷰버튼 클릭")
+        document.getElementById("menuArea").innerHTML = "review";
+    };
+</script> <!-- 리뷰버튼 클릭-->
+<script>
+    function delete_menu(menuNumber)  {
+        console.log("delete_menu_btn 클릭")
+        console.log(menuNumber);
+        const requestUrl = "/store/delete/" + menuNumber;
+
+        const menuName = document.getElementById('menuName').value;
+        const menuExplain = document.getElementById('menuExplain').value;
+        const menuPrice = document.getElementById('menuPrice').value;
+
+
+        $.ajax({
+            type: 'delete',
+            url: 'redirect:/store/menuList',
+            data: {
+                'menuName' : menuName,
+                'menuExplain' : menuExplain,
+                'menuPrice': menuPrice
+            },
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                let output = "<table>\n" +
+                    "<thead>\n" +
+                    "<tr>+\n" +
+                    "<th>메뉴이름</th>" + "\n" +
+                    "<th>메뉴설명</th>" + "\n" +
+                    "<th>메뉴가격</th>" + "\n" +
+                    "</tr>" + "\n" +
+                    "</thead>" + "\n" +
+                    "<tbody>" + "\n";
+
+                $.each(result, function (i) {
+                    output += "<tr>";
+                    output += "<td>" + result[i].menuName + "</td>";
+                    output += "<td>" + result[i].menuExplain + "</td>";
+                    output += "<td>" + result[i].menuPrice + "</td>";
+                    output += "</tr>";
+                })
+            },
+            error : function () {
+                alert ("할수있어!");
+            }
+        });
+    };
+</script>
 
 </html>
