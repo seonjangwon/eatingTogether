@@ -1,10 +1,7 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
-import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderMenuDTO;
-import com.et.eatingtogether.dto.system.OrderNowDTO;
+import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +34,7 @@ public class StoreServiceImpl implements StoreService {
     private final OrderNowRepository onr;
     private final OrderRepository or;
     private final CustomerRepository cr;
+    private final RiderRepository rr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -302,23 +300,6 @@ public class StoreServiceImpl implements StoreService {
         }
         return orderAll;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

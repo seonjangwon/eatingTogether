@@ -2,12 +2,10 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.*;
-import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderMenuDTO;
-import com.et.eatingtogether.dto.system.OrderNowDTO;
+import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
+import com.et.eatingtogether.service.AdminService;
 import com.et.eatingtogether.service.CustomerService;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,7 @@ import java.util.List;
 public class StoreController {
     private final StoreService ss;
     private final CustomerService cs;
+    private final AdminService as;
     private final HttpSession session;
 
 
@@ -233,11 +232,22 @@ public class StoreController {
         return "store/orderList";
     }
 
+    //0302 라이더선택을 위한 창 띄우기...admin에 있네.
 
-    @GetMapping("menuList")
-    public String menuAjaxTest (Model model)    {
-        System.out.println("menuAjaxTest");
-        return "store/menuList";
+
+    @GetMapping("/riderList/{orderNumber}")
+    public String riderList(@PathVariable Long orderNumber, Model model)   {
+        List<RiderDTO> riderList = as.riderFindAll();
+        model.addAttribute("orderNumber",orderNumber);
+        model.addAttribute("riderList", riderList);
+        System.out.println(riderList);
+        return "store/riderList";
+    }
+
+    //라이더 선택
+    @PostMapping("/rider")
+    public String riderSelect() {
+        return null;
     }
 
 }
