@@ -15,7 +15,6 @@ public class CustomerSaveDTO {
     private String customerAddress;
     private String customerPhone;
     private String customerDname;
-    private Role role;
 
 
 
