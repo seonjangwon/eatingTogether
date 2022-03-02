@@ -83,9 +83,9 @@
             url: '/usual/customerEmail',
             data: {"customerEmail": customerEmail},
             dataType: "text",
-            // beforeSend: function(xhr){
-            //     xhr.setRequestHeader(header, token);
-            // },
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
             success: function (result) {
                 console.log(result);
                 if (result==="ok") {

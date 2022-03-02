@@ -189,11 +189,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<BasketDTO> basketList() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        String email = ((UserDetails) principal).getUsername();
-        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(email);
-//        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketEntity b : customerEntity.get().getBasketEntityList()) {
             basketDTOList.add(BasketDTO.toEntity(b));

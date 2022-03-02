@@ -54,6 +54,7 @@
 <!--        <td><a th:href="@{|/admin/delete/${customer.customerNumber}|}">회원삭제</a></td>-->
 <!--        <button type="button" onclick="location.href='/admin/customerReport/${customerList.customerNumber}'">신고하기</button>-->
        <td><button type="button" th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>
+
 <!--        <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>-->
     </tr>
 </table>

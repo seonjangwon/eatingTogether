@@ -1,9 +1,11 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
+import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
@@ -33,7 +35,8 @@ public class AdminServiceImpl implements AdminService {
     private final ReviewRepository rer; // 리뷰
 
     private final CustomerBlacklistRepository cbr; // 회원블랙리스트
-    private final CustomerReportRepository crr; // 회원신고내역
+    private final StoreBlacklistRepository sbr; // 업체블랙리스트
+
 
     private final MenuRepository mr; // 메뉴
 
@@ -212,10 +215,34 @@ public class AdminServiceImpl implements AdminService {
 
     // 회원신고 저장
     @Override
-    public void reportSave(ReportSaveDTO reportSaveDTO) {
+    public void reportSave(CustomerBlacklistDTO customerBlacklistDTO) {
         //dto -> entity
+        CustomerEntity customerEntity = ctr.findById(customerBlacklistDTO.getCustomerNumber()).get();
+        CustomerBlacklistEntity customerBlacklistEntity = CustomerBlacklistEntity.toEntity(customerBlacklistDTO, customerEntity);
+        cbr.save(customerBlacklistEntity);
 
-        crr.save(reportSaveDTO);
+    }
+
+    // 블랙리스트 회원
+    @Override
+    public List<CustomerBlacklistDTO> cblackList() {
+        List<CustomerBlacklistEntity> customerBlacklistEntityList = cbr.findAll();
+        // ENTITY -> DTO
+        List<CustomerBlacklistDTO> customerBlacklist = new ArrayList<>();
+        for(CustomerBlacklistEntity c : customerBlacklistEntityList){
+            customerBlacklist.add( CustomerBlacklistDTO.toDTO(c));
+        }
+
+        return customerBlacklist;
+    }
+
+    // 업체신고 저장
+    @Override
+    public void storeReportSave(StoreBlacklistDTO storeBlacklistDTO) {
+        StoreEntity storeEntity = sr.findById(storeBlacklistDTO.getStoreNumber()).get();
+        // dto -> entity
+        StoreBlacklistEntity storeBlacklistEntity = StoreBlacklistEntity.toEntity(storeBlacklistDTO, storeEntity);
+        sbr.save(storeBlacklistEntity);
     }
 
 
