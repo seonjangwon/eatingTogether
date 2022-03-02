@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface StoreService {
+
     boolean login(StoreLoginDTO storeLoginDTO);
 
     Long save(StoreSaveDTO storeSaveDTO) throws IOException;
@@ -49,7 +50,5 @@ public interface StoreService {
 
     List<OrderMenuDTO> orderMenu(Long orderNumber);
 
-    //orderAll
-    List<OrderDTO> findOrderAll(Long storeNumber);
-
+    List<OrderDTO> findOrderAll(String storeEmail);
 }

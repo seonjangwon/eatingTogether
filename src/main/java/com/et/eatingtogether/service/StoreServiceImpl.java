@@ -89,9 +89,9 @@ public class StoreServiceImpl implements StoreService {
         StoreEntity emailCheckResult = sr.findByStoreEmail(storeEmail);
         /*StoreEntity emailCheckResult = sr.findByStoreEmail(storeSaveDTO.getStoreEmail());*/
         /*String result = sr.findByStoreEmail(storeEmail);*/
-        if (emailCheckResult== null) {
+        if (emailCheckResult == null) {
             return "ok";
-        }   else    {
+        } else {
             return "no";
         }
     }
@@ -255,7 +255,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
-        DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO,storeEntity);
+        DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO, storeEntity);
         System.out.println("오류가 안난다고...?");
         dr.save(deliveryEntity);
     }
@@ -265,8 +265,8 @@ public class StoreServiceImpl implements StoreService {
     public OrderDTO findByOrder(Long orderNumber) {
         StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
-        for(OrderEntity o : orderEntityList)    {
-            if(o.getOrderNumber().equals(orderNumber))  {
+        for (OrderEntity o : orderEntityList) {
+            if (o.getOrderNumber().equals(orderNumber)) {
                 return OrderDTO.toStoreOrderDetailDTO(o);
             }
         }
@@ -277,11 +277,11 @@ public class StoreServiceImpl implements StoreService {
     public List<OrderMenuDTO> orderMenu(Long orderNumber) {
         StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
-        for (OrderEntity o: orderEntityList) {
+        for (OrderEntity o : orderEntityList) {
             if (o.getOrderNumber().equals(orderNumber)) {
                 List<OrderMenuEntity> orderMenuEntityList = o.getOrderMenuEntityList();
                 List<OrderMenuDTO> orderMenuDTOList = new ArrayList<>();
-                for (OrderMenuEntity ome: orderMenuEntityList) {
+                for (OrderMenuEntity ome : orderMenuEntityList) {
                     orderMenuDTOList.add(OrderMenuDTO.toEntity(ome));
                 }
                 return orderMenuDTOList;
@@ -291,17 +291,36 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<OrderDTO> findOrderAll(Long storeNumber) {
-        StoreEntity storeEntity = sr.findById(storeNumber).get();
-        /*List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);*/
-        List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
-        List<OrderDTO> orderList = new ArrayList<>();
-        for (OrderEntity oe: orderEntityList)   {
-            orderList.add(toStoreOrderDetailDTO(oe));
-        }
+    public List<OrderDTO> findOrderAll(String storeEmail) {
+        //storeEmail에 해당하는 orderList를 가져옵니다
 
-        return orderList;
+        StoreEntity storeEntity = sr.findByStoreEmail(storeEmail);
+        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);
+        List<OrderDTO> orderAll = new ArrayList<>();
+        for (OrderEntity oe : orderEntityList)  {
+            orderAll.add(toStoreOrderDetailDTO(oe));
+        }
+        return orderAll;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

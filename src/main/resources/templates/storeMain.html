@@ -5,9 +5,12 @@
     <title>[뭐먹을까요:업체] 업체메인페이지</title>
 </head>
 <body>
+<span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
+<br>
 <a href="/store/delivery"> 업체가입 </a><br>
 <a href="/usual/store"> 업체가입 </a><br>
 <a href="/usual/slogin"> 업체로그인 </a><br>
-<a href="/store/orderAll"> 주문관리 </a>
+<a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a><br>
+<a href="/store/orderAll/{storeLoginEmail}"> 주문관리 </a>
 </body>
 </html>

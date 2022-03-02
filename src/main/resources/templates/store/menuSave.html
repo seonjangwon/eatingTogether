@@ -33,14 +33,13 @@
         <select id="categorySave_value" onchange="categorySave()">
             <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
             <option selected> 소메뉴 선택</option>
-            <option value="1"> 대표 메뉴 </option>
             <option value="직접입력">직접 입력</option>
         </select>
         <input type ="hidden" th:field="*{storeCategoryNumber}" value="0">
         <input type ="hidden" th:field="*{storeCategoryName}">
     </div>
 
-
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <input type="text" th:field="*{menuName}" placeholder="메뉴이름"><br>
     <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
     <input type="text" th:field="*{menuPrice}" placeholder="가격"><br>

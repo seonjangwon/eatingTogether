@@ -33,6 +33,7 @@ public class StoreController {
     private final CustomerService cs;
     private final HttpSession session;
 
+
     @GetMapping("/category")
     public String bigCategoryMain(Model model) {
         System.out.println("StoreController.bigCategoryAll");
@@ -46,31 +47,15 @@ public class StoreController {
         return "store/categoryMain";
     }
 
-    //지원
-    //일단 findAll이라고 생각해보자.
-
-    //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
-    //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
-/*    @GetMapping ("/category/{bcNumberTest}")
-    public String bigCategoryPage1 (Model model) {
-        List<StoreDetailDTO> storeList = ss.findAll();
-        model.addAttribute("storeList", storeList);
-        System.out.println(storeList);
-        System.out.println("StoreController.bigCategoryPage");
-        return "store/categorytest";
-    }*/
-
     @GetMapping("/category/{bigCategoryNumber}")
     public String bigCategoryPage(@PathVariable Long bigCategoryNumber, Model model) {
-
-        /*List<StoreDetailDTO> storeList = ss.findAll();*/
 
         // 0218
         List<StoreDetailDTO> storeList = ss.findByBcNumber(bigCategoryNumber);
 
         model.addAttribute("storeList", storeList);
         System.out.println("category/{bigCategoryNumber}");
-        // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
+                // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
         return "store/category";
     }
 
@@ -120,14 +105,14 @@ public class StoreController {
         return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
 
-/*    //0216
-    @PostMapping("/menuList")
-    public @ResponseBody
-    List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
-        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
-        System.out.println("storeController.List<MenuDTO> menuAjax");
-        return menuList;
-    }*/
+                    //0216
+                @PostMapping("/menuList")
+                public @ResponseBody
+                List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
+                    List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+                    System.out.println("storeController.List<MenuDTO> menuAjax");
+                    return menuList;
+                }
 
     //0217 헉 이거 아니다 아 아니 맞다
     @GetMapping("/update/{menuNumber}")
@@ -170,12 +155,12 @@ public class StoreController {
         return "ok"; // ok는 memberUpdate의 ajax success 의 result 값으로 적용된다.
     }
 
-/*    @DeleteMapping ("/delete/{menuNumber}")
-    public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
-        System.out.println("StoreController.menuDelete");
-        ss.deleteByMenu(menuNumber);
-        return "redirect:/store/storeMain";
-    }*/
+                   /* @DeleteMapping ("/delete/{menuNumber}")
+                    public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
+                        System.out.println("StoreController.menuDelete");
+                        ss.deleteByMenu(menuNumber);
+                        return "redirect:/store/storeMain";
+                    }*/
 
     @DeleteMapping("/delete/{menuNumber}")
     public ResponseEntity menuDelete(@PathVariable Long menuNumber) {
@@ -232,18 +217,22 @@ public class StoreController {
 
 
     //심기일전... 0227 n회차 재도전 findAll
-    @GetMapping ("/order/{storeNumber}")
-    public String orderAll(@PathVariable Long storeNumber, Model model)   {
+    @GetMapping ("/orderAll/{storeEmail}")
+    public String orderFindAll(@PathVariable String storeEmail, Model model)   {
         System.out.println("StoreController.orderAll");
-        StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
-        List<OrderDTO> order = ss.findOrderAll(storeNumber);
 
-        model.addAttribute("order",order);
-        model.addAttribute("storeDetailDTO",storeDetailDTO);
+        StoreDetailDTO storeDetailDTO = ss.findById(storeEmail);
+        List<OrderDTO> orderAll = ss.findOrderAll(storeEmail);
+        /*List<OrderDTO> storeDetailDTOList = ss.findOrderAll(storeDetailDTO.getStoreNumber());*/
 
+        model.addAttribute("store",storeDetailDTO);
+        model.addAttribute("orderAll",orderAll);
+
+        System.out.println("store: "+storeDetailDTO);
         System.out.println("페이지 출력만이라도 일단 ㅠ");
         return "store/orderList";
     }
+
 
     @GetMapping("menuList")
     public String menuAjaxTest (Model model)    {
