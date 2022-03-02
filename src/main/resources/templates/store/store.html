@@ -14,7 +14,7 @@
     </header>
 
     <section>
-        <span th:text="${session['storeLoginEmail']}"> 이렇게 쓰면 안나온다. </span>
+<!--        <span th:text="${session['storeLoginEmail']}"> 이렇게 쓰면 안나온다. </span>-->
         <span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
 
         <div id="storeDataView">
@@ -27,63 +27,75 @@
 
             ❤ <td th:text="${storeList.storeWish}"> </td>
         </div>
+    </section>
 
-        <button onclick="MenuBtn()"> 메뉴 </button>
+        <button onclick="MenuBtn()" > 메뉴 </button>
         <button onclick="reviewBtn()" > 리뷰 </button>
-    </section>
-    <section id="menuArea">
-        메뉴출력예정
 
-        <table>
-            <thead>
-                <th> 메뉴사진 </th>
-                <th> 메뉴이름 </th>
-                <th> 메뉴설명 </th>
-                <th> 메뉴가격 </th>
-                <th> 일단수량버튼 </th>
-                <th> 일단수정버튼 </th>
-                <th> 일단삭제버튼 </th>
-            </thead>
-            <tbody>
-            <tr th:each="menu: ${menuList}">
-                <th> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></th>
-                <td th:text="${menu.menuName}"></td>
-                <td th:text="${menu.menuExplain}"></td>
-                <td th:text="${menu.menuPrice}"></td>
-                <td th:hidden="${menu.storeNumber}"></td>
-                <td th:hidden="${menu.storeCategoryName}"></td>
-                <td> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정? </a></td>
-                <td> <button th:onclick="delete_menu([[${menu.menuNumber}]])"> 삭제 </button> </td>
-            </tr>
+        <div id="menuArea">
+            된다 흑흑 ㅠㅠ
 
-            </tbody>
-        </table>
-        <a th:src="@{|/store/update/{menuNum}|}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
-        <a href="/store/update/{menu.menuNumber}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
-    </section>
+            <table>
+                <thead>
+                    <th> 메뉴사진 </th>
+                    <th> 메뉴이름 </th>
+                    <th> 메뉴설명 </th>
+                    <th> 메뉴가격 </th>
+                    <th> 일단수량버튼 </th>
+                    <th> 일단수정버튼 </th>
+                    <th> 일단삭제버튼 </th>
+                </thead>
+                <tbody>
+                <tr th:each="menu: ${menuList}">
+                    <th> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></th>
+                    <td th:text="${menu.menuName}"></td>
+                    <td th:text="${menu.menuExplain}"></td>
+                    <td th:text="${menu.menuPrice}"></td>
+                    <td th:hidden="${menu.storeNumber}"></td>
+                    <td th:hidden="${menu.storeCategoryName}"></td>
+                    <td> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정 </a></td>
+                    <td> <button th:onclick="delete_menu([[${menu.menuNumber}]])"> 삭제 </button> </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <a th:src="@{|/store/update/{menuNum}|}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
+            <a href="/store/update/{menu.menuNumber}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
+        </div>
+        <div id = "reviewArea">
+            리뷰나옴
+        </div>
+
     <footer>
 
     </footer>
 
 </body>
 <script>
-    const MenuBtn = () => {
-        console.log("메뉴버튼 클릭");
-        document.getElementById("menuArea").innerHTML = "menu";
 
-        $(function (){
-            $("#menuArea").load("menuList.html #menuList");
-        })
-    };
+    function MenuBtn()  {
+        $("#menuArea").show();
+        $("#reviewArea").hide();
+        console.log("메뉴버튼 클릭");
+    }
+
+/*    const MenuBtn = () => {
+        console.log("메뉴버튼 클릭");
+        $("#menuArea").show();
+    };*/
 </script> <!-- 메뉴버튼 클릭 -->
+
+
 <script>
     const reviewBtn = () =>   {
         console.log("리뷰버튼 클릭")
-        document.getElementById("menuArea").innerHTML = "review";
+        $("#reviewArea").show();
+        $("#menuArea").hide();
+        /*document.getElementById("menuArea").innerHTML = "review";*/
     };
 </script> <!-- 리뷰버튼 클릭-->
 <script>
-    function delete_menu(menuNumber)  {
+    function delete_menu()  {
         console.log("delete_menu_btn 클릭")
         console.log(menuNumber);
         const requestUrl = "/store/delete/" + menuNumber;
