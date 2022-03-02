@@ -51,6 +51,8 @@ public class JiwonTest {
     private OrderRepository or;
     @Autowired
     private OrderMenuRepository omr;
+    @Autowired
+    private RiderRepository rr;
 
 
     //✔ 테스트에 앞서 의존성 주입을 진행
@@ -206,6 +208,28 @@ public class JiwonTest {
         Long orderMenuNumber = omr.save(orderMenuEntity).getOrderMenuNumber();
         System.out.println("오더메뉴저장 테스트 실행됨");
 
+    }
+
+    @Test
+    //@Transactional
+    //@Rollback
+    public void 배달원등록테스트() {
+        RiderEntity riderEntity = new RiderEntity();
+        riderEntity.setRiderName("김밥짱");
+        riderEntity.setRiderState("학익동");
+        Long riderNumber = rr.save(riderEntity).getRiderNumber();
+        riderEntity = new RiderEntity();
+        riderEntity.setRiderName("이잇몸");
+        riderEntity.setRiderState("학익1동");
+        riderNumber = rr.save(riderEntity).getRiderNumber();
+        riderEntity = new RiderEntity();
+        riderEntity.setRiderName("박박사");
+        riderEntity.setRiderState("문학동");
+        riderNumber = rr.save(riderEntity).getRiderNumber();
+        riderEntity = new RiderEntity();
+        riderEntity.setRiderName("최최고");
+        riderEntity.setRiderState("학익동");
+        riderNumber = rr.save(riderEntity).getRiderNumber();
     }
 
 }
