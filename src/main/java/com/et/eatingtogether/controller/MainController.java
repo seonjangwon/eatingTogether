@@ -13,6 +13,7 @@ public class MainController {
 
     @GetMapping ("/storeMain")
     public String storeMain()   {
+        System.out.println("storeMain");
         return "storeMain";
     }
 }

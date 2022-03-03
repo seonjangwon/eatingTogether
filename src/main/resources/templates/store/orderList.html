@@ -13,7 +13,7 @@
 </head>
 <body>
 <section id="orderMenuArea">
-    <!--<span th:text="${session['storeLoginEmail']}"></span> 로그인-->
+    <!--<span th:text="${session['storeLoginEmail']}"></span> ㅎ2-->
     들어온 주문<br>
     배달완료<br>
 </section>
@@ -30,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-<!--        <tr th:each="od:${orderList}">
+        <tr th:each="od:${orderAll}">
             <td th:text="${od.orderTime}"></td>
             <td th:text="${od.menuName}"></td>
             <td th:text="${od.orderAddress}"></td>
@@ -38,7 +38,7 @@
             <td><button th:onclick="btn_orderStatus()" type="button" class="btn btn-white btn-sm" style="background-color: lightcoral"><span id="orderStatus" value="주문">주문1</span></button></td>
             &lt;!&ndash;<td><a th:href="@{|/store/order/${od.orderNumber}|}"> 상세조회 </a></td>&ndash;&gt;
             <td><a th:href="@{|/store/order/${od.orderNumber}|}" class="btn btn-white btn-sm" role="button" data-bs-toggle="button" aria-pressed="true" style="background-color: lightcoral"> 주문상세 </a></td>
-        </tr>-->
+        </tr>
         </tbody>
     </table>
 </section>
