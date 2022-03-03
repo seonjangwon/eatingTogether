@@ -23,7 +23,7 @@ public class BasketEntity {
     @JoinColumn(name = "store_number")
     private StoreEntity storeEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_number")
     private MenuEntity menuEntity;
 

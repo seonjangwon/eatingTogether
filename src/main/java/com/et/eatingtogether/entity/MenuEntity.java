@@ -35,8 +35,9 @@ public class MenuEntity {
     private String menuExplain;
 
     //아래 두 컬럼 FetchType.Lazy로 변경.
-    @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private BasketEntity basketEntity;
+    @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<BasketEntity> basketEntity = new ArrayList<>();
+  
     @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<OrderMenuEntity> orderMenuEntityList = new ArrayList<>();
     //orderMenuEntity는 OneToMany로 변경하세요.

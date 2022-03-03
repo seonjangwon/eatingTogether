@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>블랙리스트</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script>
+        function customerBtn(){
+        $("#customerArea").show();
+        $("#storeArea").hide();
+        }
+
+        function storeBtn(){
+            $("#customerArea").hide();
+            $("#storeArea").show();
+        }
+    </script>
+
+    <style>
+        #storeArea {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+<button type="button" onclick="customerBtn()">회원</button>
+<button type="button" onclick="storeBtn()">업체</button>
+
+<!--블랙리스트 회원조회-->
+<div id="customerArea">
+    <table>
+        <thead>
+        <tr>
+            <th>블랙리스트 번호</th>
+            <th>신고한 회원 이메일</th>
+            <th>신고당한 회원번호</th>
+            <th>신고사유</th>
+            <th>기타의견</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${customerBlackList}">
+            <td th:text="${c.customerBlacklistNumber}"></td>
+            <td th:text="${c.customerLoginEmail}"></td>
+            <td th:text="${c.customerNumber}"></td>
+            <td th:text="${c.reportCause}"></td>
+            <td th:text="${c.reportOpinion}"></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="storeArea">
+    <table>
+        <thead>
+        <tr>
+            <th>블랙리스트 번호</th>
+            <th>신고한 회원 이메일</th>
+            <th>신고당한 업체번호</th>
+            <th>신고사유</th>
+            <th>기타의견</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+<!--        <tr th:each="c : ${customerBlackList}">-->
+<!--            <td th:text="${c.customerBlacklistNumber}"></td>-->
+<!--            <td th:text="${c.customerLoginEmail}"></td>-->
+<!--            <td th:text="${c.customerNumber}"></td>-->
+<!--            <td th:text="${c.reportCause}"></td>-->
+<!--            <td th:text="${c.reportOpinion}"></td>-->
+<!--            <td></td>-->
+<!--        </tr>-->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

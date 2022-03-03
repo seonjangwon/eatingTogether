@@ -47,6 +47,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final OrderNowRepository onr;
     private final OrderMenuRepository omr;
     private final MenuRepository mr;
+    private final ReviewFileRepository rfr;
+    private final ReviewRepository rr;
     private final HttpSession session;
 
     @Override
@@ -163,18 +165,28 @@ public class CustomerServiceImpl implements CustomerService {
     public List<ReviewDetailDTO> reviewList() {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<ReviewDetailDTO> reviewDetailDTOList = new ArrayList<>();
-            for (ReviewEntity r : customerEntity.get().getReviewEntityList()) {
-                reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
-            }
+        for (ReviewEntity r : customerEntity.get().getReviewEntityList()) {
+            reviewDetailDTOList.add(ReviewDetailDTO.toEntity1(r));
+//            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
+        }
 
-            for (ReviewDetailDTO r : reviewDetailDTOList) {
-                r.setReplyDetailDTO(ReplyDetailDTO.toEntity(rpr.findById(r.getReviewNumber()).get()));
-                for (ReviewFileEntity rf : r.getReviewFileEntityList()) {
-                    r.getReviewFileDTOList().add(ReviewFileDTO.toEntity(rf));
+        for (ReviewDetailDTO r : reviewDetailDTOList) {
+            List<ReviewFileDTO> reviewFileDTOS = new ArrayList<>();
+            Optional<ReplyEntity> replyEntity = rpr.findById(r.getReviewNumber());
+            if (replyEntity.isPresent()) {
+                r.setReplyDetailDTO(ReplyDetailDTO.toEntity(replyEntity.get()));
+            }
+            List<ReviewFileEntity> reviewFileEntities = rfr.findAllByReviewEntity(rr.findById(r.getReviewNumber()).get());
+            if (!reviewFileEntities.isEmpty()) {
+                for (ReviewFileEntity rf : reviewFileEntities) {
+                    System.out.println("rf = " + rf.getReviewFilename());
+                    reviewFileDTOS.add(ReviewFileDTO.toEntity(rf));
                 }
             }
+            r.setReviewFileDTOList(reviewFileDTOS);
+        }
         System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
-            return reviewDetailDTOList;
+        return reviewDetailDTOList;
     }
 
     @Override
@@ -189,11 +201,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<BasketDTO> basketList() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        String email = ((UserDetails) principal).getUsername();
-        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail(email);
-//        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketEntity b : customerEntity.get().getBasketEntityList()) {
             basketDTOList.add(BasketDTO.toEntity(b));
@@ -356,7 +364,7 @@ public class CustomerServiceImpl implements CustomerService {
             System.out.println("refresh_token = " + refresh_token);
             br.close();
             bw.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return access_token;
@@ -364,20 +372,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public HashMap<String, String> getUserInfo(String access_token) {
-        HashMap<String,String> userInfo = new HashMap<String,String>();
+        HashMap<String, String> userInfo = new HashMap<String, String>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            conn.setRequestProperty("Authorization", "Bearer " + access_token);
             // 200이면 성공
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode = " + responseCode);
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String line = "";
             String result = "";
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 result += line;
             }
             JsonParser parser = new JsonParser();
@@ -385,8 +393,8 @@ public class CustomerServiceImpl implements CustomerService {
             String id = element.getAsJsonObject().get("id").getAsString();
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            userInfo.put("id",id);
-            userInfo.put("nickname",nickname);
+            userInfo.put("id", id);
+            userInfo.put("nickname", nickname);
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -399,19 +407,19 @@ public class CustomerServiceImpl implements CustomerService {
         String reqURL = "https://kapi.kakao.com/v1/user/logout";
         try {
             URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection)   url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            conn.setRequestProperty("Authorization", "Bearer " + access_token);
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode = " + responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String result = "";
             String line = "";
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 result += line;
             }
             System.out.println("result = " + result);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -421,19 +429,19 @@ public class CustomerServiceImpl implements CustomerService {
         String reqURL = "https://kapi.kakao.com/v1/user/unlink";
         try {
             URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection)   url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization","Bearer "+ access_token);
+            conn.setRequestProperty("Authorization", "Bearer " + access_token);
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode = " + responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String result = "";
             String line = "";
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 result += line;
             }
             System.out.println("result = " + result);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -452,10 +460,10 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<BasketEntity> basketEntity = br.findByCustomerEntityAndAndMenuEntity(customerEntity, menuEntity);
         if (basketEntity.isEmpty()) {
             if (customerEntity.getBasketEntityList().isEmpty()) {
-                br.save(BasketEntity.toDTO(basketDTO,customerEntity,menuEntity.getStoreEntity(),menuEntity));
+                br.save(BasketEntity.toDTO(basketDTO, customerEntity, menuEntity.getStoreEntity(), menuEntity));
                 return "ok";
-            } else if (menuEntity.getStoreEntity().equals(customerEntity.getBasketEntityList().get(0).getStoreEntity())){
-                br.save(BasketEntity.toDTO(basketDTO,customerEntity,menuEntity.getStoreEntity(),menuEntity));
+            } else if (menuEntity.getStoreEntity().equals(customerEntity.getBasketEntityList().get(0).getStoreEntity())) {
+                br.save(BasketEntity.toDTO(basketDTO, customerEntity, menuEntity.getStoreEntity(), menuEntity));
                 return "ok";
             } else {
                 return "other";
@@ -469,7 +477,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<MenuDTO> menuFindAll() {
         List<MenuEntity> menuEntityList = mr.findAll();
         List<MenuDTO> menuDTOList = new ArrayList<>();
-        for (MenuEntity m : menuEntityList){
+        for (MenuEntity m : menuEntityList) {
             menuDTOList.add(MenuDTO.toMenuDetailDTO(m));
         }
         return menuDTOList;

@@ -34,7 +34,7 @@ public class StoreDetailDTO {
     public static StoreDetailDTO toStoreDetailDTO(StoreEntity storeEntity){
         StoreDetailDTO storeDetailDTO = new StoreDetailDTO();
         storeDetailDTO.setStoreNumber(storeEntity.getStoreNumber());
-        storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity().getBigCategoryNumber());
+//        storeDetailDTO.setBigCategoryNumber(storeEntity.getBigCategoryEntity().getBigCategoryNumber());
         storeDetailDTO.setStoreEmail(storeEntity.getStoreEmail());
         storeDetailDTO.setStorePassword(storeEntity.getStorePassword());
         storeDetailDTO.setStoreName(storeEntity.getStoreName());

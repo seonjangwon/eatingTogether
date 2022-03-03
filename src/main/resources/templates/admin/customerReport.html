@@ -1,12 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>회원신고페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
     const reportbtn = () => {
-        fomdata = $("#report_form").serialize();
+        // fomdata = $("#report_form").serialize();
+        const customerNum = $('#customerNumber').val();
+        console.log(customerNum);
+        const loginEmail = document.getElementById('loginEmail').value;
+        console.log(loginEmail);
+        const opinion = document.getElementById('reportOpinion').value;
+        console.log(opinion);
 
+        const check = document.getElementsByName('reportCause').values;
+
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+
+        // name이 같은 체크박스으 값을 배열에 담음
+        const reportCauseArr = [];
+        $("input[name='reportCause']:checked").each(function(i){
+            reportCauseArr.push($(this).val()); // 체크된 것만 뽑아서 배열에 push
+        });
+        const form = $('#report_form').serialize();
+        console.log(form);
+
+        // console.log(reportCauseArr);
+        //
+        // // 회원번호랑 체크박스값(배열)을 name/value 형태로 담음
+        // const Data = JSON.stringify({customerNumber : customerNum,
+        //     customerLoginEmail : loginEmail,
+        //     reportCause : check,
+        //     reportOpinion : opinion});
+        //
+        // console.log(Data);
+
+        $.ajax({
+            url: "/admin/customerReport",
+            type: "post",
+            data: form,
+            dataType: 'text', // 값 받아오는 타입
+            // contentType : 'application/json', // 보내는 타입
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(result){
+                console.log('성공');
+                console.log(result);
+            },
+            error: function(){
+                console.log('실패');
+            }
+        });
 
 
     }
@@ -14,16 +63,18 @@
 </head>
 <body>
 <form id="report_form">
-<div>
+    <input type="hidden" id="customerNumber" name="customerNumber" th:value="${customerNumber}" > <!--회원번호?-->
+    <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session['customerLoginEmail']}">
+<filedset>
     <input type="checkbox" name="reportCause" value="1"> 주문과 관련없는 내용
     <input type="checkbox" name="reportCause" value="2"> 음란성, 욕설 등 부적절한 내용
     <input type="checkbox" name="reportCause" value="3"> 부적절한 홍보 또는 광고
     <input type="checkbox" name="reportCause" value="4"> 개인정보 유출위험
     <input type="checkbox" name="reportCause" value="5"> 리뷰작성 취지에 맞지 않는 내용
-</div>
-    <textarea name="reportOpinion" cols="70" roww="4"></textarea>
-    <input type="button" value="신고하기" onclick="reportbtn()">
+</filedset>
+    <textarea id="reportOpinion" name="reportOpinion" cols="70" roww="4"></textarea>
 </form>
+    <input type="button" value="신고하기" onclick="reportbtn()">
 
 </body>
 </html>

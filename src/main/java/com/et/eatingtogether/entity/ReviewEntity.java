@@ -48,14 +48,15 @@ public class ReviewEntity extends BaseEntity {
     private ReplyEntity replyEntity;
 
     // 리뷰저장
-    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO, CustomerEntity customerEntity, StoreEntity storeEntity, String menuName){
+    public static ReviewEntity toReviewSave(ReviewSaveDTO reviewSaveDTO, OrderEntity orderEntity){
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setReviewNumber(reviewSaveDTO.getReviewNumber());
         reviewEntity.setReviewScore(reviewSaveDTO.getReviewScore());
         reviewEntity.setReviewContents(reviewSaveDTO.getReviewContents());
-        reviewEntity.setStoreEntity(storeEntity);
-        reviewEntity.setCustomerEntity(customerEntity);
-        reviewEntity.setMenuName(menuName);
+        reviewEntity.setOrderEntity(orderEntity);
+        reviewEntity.setStoreEntity(orderEntity.getStoreEntity());
+        reviewEntity.setCustomerEntity(orderEntity.getCustomerEntity());
+        reviewEntity.setMenuName(orderEntity.getOrderMenuEntityList().get(0).getMenuEntity().getMenuName());
         return reviewEntity;
 
     }
