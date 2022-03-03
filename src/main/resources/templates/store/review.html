@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰관리</title>
+</head>
+<body>
+<!--여기서 회원이 작성한 리뷰목록 확인-->
+
+<table>
+    <thead>
+    <tr>
+        <th>리뷰번호</th>
+        <th>회원아이디</th>
+        <th>메뉴</th>
+        <th>날짜</th>
+        <th>리뷰내용</th>
+        <th>별점</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+    <tr th:each="r : ${reviewList}">
+        <td th:text="${r.reviewNumber}"></td>
+        <td th:text="${r.customerNumber}"></td>
+        <td th:text="${r.menuName}"></td>
+        <td th:text="${r.reviewComments}"></td>
+        <td th:text="${r.reviewScore}"></td>
+    </tr>
+    </tbody>
+
+
+
+
+
+</table>
+</body>
+</html>

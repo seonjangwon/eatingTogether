@@ -1,13 +1,16 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.review.ReviewSaveDTO;
 import com.et.eatingtogether.dto.review.ReviewTestDTO;
+import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
+import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.CustomerEntity;
 import com.et.eatingtogether.entity.ReviewEntity;
@@ -56,4 +59,10 @@ public interface AdminService {
 
 
     void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException;
+
+    void reportSave(CustomerBlacklistDTO customerBlacklistDTO); // 회원신고 저장
+
+    List<CustomerBlacklistDTO> cblackList(); // 블랙리스트 회원
+
+    void storeReportSave(StoreBlacklistDTO storeBlacklistDTO); // 업체신고 저장
 }

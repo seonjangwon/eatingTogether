@@ -41,8 +41,9 @@ public class CustomerEntity {
     @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private  List<PointEntity> pointEntityList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private CustomerBlacklistEntity customerBlacklistEntity;
+    // 220302 선영 OneToOne -> OneToMany 수정..?
+    @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CustomerBlacklistEntity> CustomerBlacklistEntity = new ArrayList<>();
 
     @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ReviewEntity> reviewEntityList = new ArrayList<>();

@@ -4,6 +4,7 @@ import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.BigCategoryDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
+import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface StoreService {
+
     boolean login(StoreLoginDTO storeLoginDTO);
 
     Long save(StoreSaveDTO storeSaveDTO) throws IOException;
@@ -44,15 +46,12 @@ public interface StoreService {
 
     void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
 
-    List<OrderDTO> findByOrderAll();
-
-/*    List<OrderDTO> findByOrderDetail(Long orderNumber);*/
-
     //orderDetail
     OrderDTO findByOrder(Long orderNumber);
 
     List<OrderMenuDTO> orderMenu(Long orderNumber);
 
-    //OrderFindAll(storeNumber)
-    List<OrderDTO> findByStoreInOrder(Long storeNumber);
+    List<OrderDTO> findOrderAll(String storeEmail);
+
+    String updateStore(StoreDetailDTO storeDetailDTO);
 }

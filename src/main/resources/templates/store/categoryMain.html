@@ -10,9 +10,10 @@
         ET
         <a href = "쿠폰링크"> 쿠폰 </a>
         <a href = "검색링크"> 검색 </a>
-        <a href = "마이페이지"> 마이페이지 </a>
-        <a href = "로그아웃"> 로그아웃 </a>
+        <a href = "/store/myStore"> 마이페이지 </a>
         <a href = "/store/menu"> 메뉴등록 </a>
+        <a href = "/storeMain"> 업체메인 </a>
+
         <!--<a href = "/store/orderList/"> 왜안돼 </a>-->
         <!--<a th:href = "@{|/store/orderList/${storeNumber}|}"> 주문관리 </a>-->
     </header>
@@ -20,14 +21,8 @@
     <section>
 
         <section class = "menuClickButton" th:each="bcl: ${bcList}">
-
-            <!--<a th:href="@{|/store/category/${bcl.storeName}|}"> 한식 </a>-->
             <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></a>
 
-<!--            <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 중식 </a>
-            <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 일식 </a>
-            <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 양식 </a>
-            <a th:href = "/store/category/${bcl.bigCategoryNumber}"> 패스트푸드(기타) </a>-->
         </section>
 
         <section class = "menuSearch">

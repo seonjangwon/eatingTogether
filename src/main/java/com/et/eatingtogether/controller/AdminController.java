@@ -1,9 +1,13 @@
 package com.et.eatingtogether.controller;
 
+import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
+import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
+import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.OrderEntity;
 import com.et.eatingtogether.service.AdminService;
@@ -121,11 +125,52 @@ public class AdminController {
     }
 
 
-//    // 신고페이지로 이동
-//    @GetMapping("/customerReport/{customerNumber}")
-//    public String reportPage(@PathVariable ){
-//        return "admin/customerReport";
-//    }
+    // 회원신고 페이지로 이동
+    @GetMapping("/customerReport/{customerNumber}")
+    public String reportForm(Model model, @PathVariable("customerNumber") Long customerNumber){
+        model.addAttribute("customerNumber", customerNumber);
+        return "admin/customerReport";
+    }
+
+    // 회원 신고저장
+    @PostMapping("/customerReport")
+    public @ResponseBody String customerReport(@ModelAttribute CustomerBlacklistDTO customerBlacklistDTO){
+        System.out.println("customerBlacklistDTO = " + customerBlacklistDTO);
+        as.reportSave(customerBlacklistDTO);
+        return "ok";
+    }
+
+    // 업체사유신고 페이지로 이동
+    @GetMapping("/storeReport/{storeNumber}")
+    public String storeReportForm(Model model, @PathVariable("storeNumber") Long storeNumber){
+        model.addAttribute("storeNumber", storeNumber);
+        return "admin/storeReport";
+    }
+
+    // 업체 신고 저장
+    @GetMapping("/sblackList")
+    public ResponseEntity storeReport(@ModelAttribute StoreBlacklistDTO storeBlacklistDTO){
+        System.out.println("storeBlacklistDTO = " + storeBlacklistDTO);
+        as.storeReportSave(storeBlacklistDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    //블랙리스트 페이지 이동
+    @GetMapping("/blackList")
+    public String blackListForm(Model model){
+        List<CustomerBlacklistDTO> cblackList = as.cblackList();
+        model.addAttribute("customerBlackList", cblackList);
+        return "admin/blackList";
+    }
+
+
+    // 업체 리뷰관리 페이지로 이동
+    @GetMapping("/storeReview")
+    public String storeReviewForm(Model model){
+        List<ReviewDetailDTO> reviewDetailDTOList = as.reviewFindAll();
+        model.addAttribute("reviewList", reviewDetailDTOList);
+        return "store/review";
+    }
 
 
 
