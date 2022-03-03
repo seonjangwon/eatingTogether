@@ -151,7 +151,7 @@ public class JiwonTest {
         System.out.println("회원정보: "+customerEntity);
 
         //업체
-        BigCategoryEntity bigCategoryEntity = bcr.findById(1l).get();
+        BigCategoryEntity bigCategoryEntity = bcr.findById(3l).get();
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setBigCategoryEntity(bigCategoryEntity);
         storeEntity.setStoreName("testStore");

@@ -1,9 +1,6 @@
 package com.et.eatingtogether.controller;
 
-import com.et.eatingtogether.dto.store.DeliveryDTO;
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreLoginDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.service.SecurityService;
 import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
@@ -54,10 +51,7 @@ public class UsualController2 {
 
         System.out.println("가입완료");
         return "storeMain";
-
-
     }
-
 
     //2-3
     @GetMapping("/slogin")
@@ -83,8 +77,6 @@ public class UsualController2 {
             }
     }
 
-
-
     //지원 0219
     @PostMapping("/idDuplicate")
     @ResponseBody //-
@@ -93,5 +85,22 @@ public class UsualController2 {
         String result = ss.idDuplicate(storeEmail);
         return result;
 }
+
+    //지원 0303 업체정보수정
+    @GetMapping ("/supdate")
+    public String storeUpdateForm(Model model)  {
+        System.out.println("UsualController.storeUpdateForm 출력");
+        model.addAttribute("storeUpdate", ss.findById((String)session.getAttribute("storeLoginEmail")));
+        return "store/update";
+    }
+
+    @PutMapping("/supdate")
+    @ResponseBody
+    public String storeUpdate(@ModelAttribute StoreDetailDTO storeDetailDTO)    {
+        System.out.println("UsualController.storeUpdate 처리요청");
+        String result = ss.updateStore(storeDetailDTO);
+        System.out.println("result = " + result);
+        return result;
+    }
 
 }

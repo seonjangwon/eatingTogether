@@ -13,10 +13,6 @@ import java.util.Optional;
 public interface StoreRepository extends JpaRepository<StoreEntity,Long> {
     StoreEntity findByStoreEmail(String storeEmail);
 
-    /*StoreEntity findByStoreName(String storeName);*/
-
     List<StoreEntity> findByBigCategoryEntity(BigCategoryEntity bigCategoryEntity);
-
-    /*StoreEntity findByStoreNumber(String storeNumber);*/
 
 }

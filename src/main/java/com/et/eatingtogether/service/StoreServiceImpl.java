@@ -295,13 +295,27 @@ public class StoreServiceImpl implements StoreService {
         StoreEntity storeEntity = sr.findByStoreEmail(storeEmail);
         List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);
         List<OrderDTO> orderAll = new ArrayList<>();
-        for (OrderEntity oe : orderEntityList)  {
+        for (OrderEntity oe : orderEntityList) {
             orderAll.add(toStoreOrderDetailDTO(oe));
         }
         return orderAll;
     }
 
-
+    @Override
+    public String updateStore(StoreDetailDTO storeDetailDTO) {
+        BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeDetailDTO.getBigCategoryNumber());
+        Optional<StoreEntity> storeEntity = sr.findById(storeDetailDTO.getStoreNumber());
+        if (storeEntity.get().getStoreNumber().equals(storeDetailDTO.getStoreNumber())) {
+            //number값이 일치한다면
+            sr.save(StoreEntity.toUpdate(storeDetailDTO, bigCategoryEntity));
+            System.out.println("수정합니당");
+            return "ok";
+        } else {
+            System.out.println("수정못해");
+            //number값이 일치하지 않는다면
+            return "no";
+        }
+    }
 
 
 }

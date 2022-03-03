@@ -53,4 +53,5 @@ public interface StoreService {
 
     List<OrderDTO> findOrderAll(String storeEmail);
 
+    String updateStore(StoreDetailDTO storeDetailDTO);
 }
