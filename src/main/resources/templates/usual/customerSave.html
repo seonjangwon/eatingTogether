@@ -117,6 +117,9 @@
                     url: "/usual/customer",
                     data: formdata,
                     dataType: 'text',
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
                     success: function(result){
                         if(result==="ok"){
                             location.href="/usual/customerLogin";

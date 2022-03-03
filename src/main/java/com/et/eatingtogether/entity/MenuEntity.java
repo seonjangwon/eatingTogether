@@ -36,8 +36,8 @@ public class MenuEntity {
 
     //아래 두 컬럼 FetchType.Lazy로 변경.
     @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<BasketEntity> basketEntity = new ArrayList<>();
-  
+    private List<BasketEntity> basketEntityList = new ArrayList<>();
+
     @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<OrderMenuEntity> orderMenuEntityList = new ArrayList<>();
     //orderMenuEntity는 OneToMany로 변경하세요.
