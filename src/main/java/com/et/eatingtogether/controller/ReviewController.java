@@ -46,29 +46,10 @@ public class ReviewController {
     @GetMapping("/save/{orderNumber}")
     public String reviewSaveForm(Model model, @PathVariable("orderNumber") Long orderNum){
         // 여기서 회원번호, 가게이름, 메뉴이름을 같이 넘겨줘야 함
-        // 회원번호
-        String customerLoginEmail = cs.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
-//        Long customerNumber = cs.findByEmail(customerLoginEmail).getCustomerNumber();
-        Long customerNumber = cs.findOrder(orderNum).getCustomerNumber();
-//         가게이름
-        Long storeNumber = cs.findOrder(orderNum).getStoreNumber();
-        String storeName = cs.findOrder(orderNum).getStoreName();
-
-//         메뉴이름
-        cs.findOrder(orderNum).getMenuName();
-
-        ReviewSaveDTO reviewSaveDTO = new ReviewSaveDTO();
-        reviewSaveDTO.setCustomerNumber(cs.findOrder(orderNum).getCustomerNumber());
-        reviewSaveDTO.setStoreNumber(cs.findOrder(orderNum).getStoreNumber());
-        reviewSaveDTO.setMenuName(cs.findOrder(orderNum).getMenuName());
-
-        model.addAttribute("review", reviewSaveDTO);
-
+        OrderDTO order = cs.findOrder(orderNum);
+        model.addAttribute("order", order);
         return "customer/reviewSave";
     }
-
-    // 리뷰 등록 처리(임시)
-    // 리뷰 내용 등을 담은 ReviewSaveDTO와 파일을 담은 ReviewFileDTO를 함께 보내줌.
 
 
     @PostMapping("/save")
@@ -76,6 +57,8 @@ public class ReviewController {
                          @RequestParam(value = "reviewFileDTO",required = false) MultipartFile[] reviewFileDTOList,
                          MultipartHttpServletRequest request
                          ) throws IOException {
+
+    // 리뷰 내용 등을 담은 ReviewSaveDTO와 파일을 담은 ReviewFileDTO를 함께 보내줌.
 
         System.out.println("reviewFileDTOList = " + reviewFileDTOList.length);
         System.out.println("reviewSaveDTO = " + reviewSaveDTO);
@@ -94,12 +77,8 @@ public class ReviewController {
         System.out.println("reviewSaveDTO.getReviewFileDTOList = " + reviewSaveDTO.getReviewFileDTOList());
         as.reviewSave(reviewSaveDTO);
 
-//        for (ReviewFileDT1O r : reviewSaveDTO.getReviewFileDTOList()){
-////            as.reviewSave(r,reviewSaveDTO);
-//        }
-        return "redirect:/review/";
+        return "redirect:/customer/";
 
-//        return new ResponseEntity(HttpStatus.OK);
 
     }
 

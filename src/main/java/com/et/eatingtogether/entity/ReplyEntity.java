@@ -21,8 +21,8 @@ public class ReplyEntity {
 
     // 이게 필요 한가? 리뷰번호가 있는데?
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "store_number")
-//    private StoreEntity storeEntity;
+//    @JoinColumn(name = "storeEntity;tore_number")
+//    private StoreEntity s
 
     private String replyContents;
 }

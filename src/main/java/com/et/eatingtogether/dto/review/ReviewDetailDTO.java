@@ -55,4 +55,22 @@ public class ReviewDetailDTO {
         return reviewDetailDTO;
     }
 
+    // 테스트용
+    public static ReviewDetailDTO toEntity1(ReviewEntity reviewEntity){
+        ReviewDetailDTO reviewDetailDTO = new ReviewDetailDTO();
+        reviewDetailDTO.setReviewNumber(reviewEntity.getReviewNumber());
+        reviewDetailDTO.setMenuName(reviewEntity.getMenuName());
+        reviewDetailDTO.setReviewComments(reviewEntity.getReviewContents());
+        reviewDetailDTO.setReviewScore(reviewEntity.getReviewScore());
+//        reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
+        reviewDetailDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());
+        reviewDetailDTO.setReviewTime(reviewEntity.getCreateTime());
+
+//        reviewDetailDTO.setReviewFileListNumber();
+        //reviewDetailDTO.setReviewFileDTOList(reviewFileDTOList);
+        //reviewDetailDTO.setReplyDetailDTO(replyDetailDTO);
+        return reviewDetailDTO;
+    }
+
+
 }
