@@ -1,14 +1,12 @@
 package com.et.eatingtogether.controller;
 
-import com.et.eatingtogether.dto.store.DeliveryDTO;
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreLoginDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.service.SecurityService;
 import com.et.eatingtogether.entity.DeliveryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
+/*import org.jetbrains.annotations.NotNull;*/
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,15 +40,7 @@ public class UsualController2 {
     public String storeSave ( @Validated @ModelAttribute("storeSave") StoreSaveDTO storeSaveDTO,BindingResult bindingResult) throws IOException {
         System.out.println("UsualController2.storeSave처리");
         System.out.println("storeSaveDTO="+storeSaveDTO);
-        // 유효성
-//        if(bindingResult.hasErrors()) {
-//            return "redirect:/usual/storeSave";
-//        }
 
-//        Long storeId = ss.save(storeSaveDTO);
-
-        //Id 중복체크
-        //아놔 재도전할거야 반드시...
         try {
             Long storeId = ss.save(storeSaveDTO);
         }   catch (IllegalStateException email) {
@@ -58,23 +48,10 @@ public class UsualController2 {
             //email.getMessage() 에는 serviceImpl에서 지정한 예외메세지가 담겨있다. serviceImpl 65번째 줄.
             return "usual/storeSave";
         }
-//        Long sNumber = ses.joinStore(storeSaveDTO);
 
         System.out.println("가입완료");
         return "storeMain";
-        /*return "/store/deliverySave";*/
-
-
     }
-
-/*    //2-2-1 이메일 중복확인
-    @GetMapping("/storeEmail")
-    public ResponseBody storeEmailCheck(@Validated String storeEmail ) {
-        System.out.println("UsualController2.storeEmailCheck");
-        String result = ss.storeEmailCheck(storeEmail);
-        return result;
-
-    }*/
 
     //2-3
     @GetMapping("/slogin")
@@ -92,23 +69,13 @@ public class UsualController2 {
             if(loginResult) {
                 session.setAttribute("storeLoginEmail", storeLoginDTO.getStoreEmail());
                 System.out.println(storeLoginDTO.getStoreEmail()+"으로 로그인성공");
-                /*return "redirect:/store/orderNow";*/
                 return "store/categoryMain";
-                /*String redirectURL = (String) session.getAttribute("redirectURL");
-*/
-                /*if(redirectURL != null) {
-                    return "redirect:/" + redirectURL;
-                } else {
-                    return "redirect:/";
-                }*/
+
             }   else {
                 System.out.println("로그인실패");
                 return "usual/storeLogin";
-                /*return "./store/category";*/
             }
     }
-
-
 
     //지원 0219
     @PostMapping("/idDuplicate")
@@ -118,5 +85,22 @@ public class UsualController2 {
         String result = ss.idDuplicate(storeEmail);
         return result;
 }
+
+    //지원 0303 업체정보수정
+    @GetMapping ("/supdate")
+    public String storeUpdateForm(Model model)  {
+        System.out.println("UsualController.storeUpdateForm 출력");
+        model.addAttribute("storeUpdate", ss.findById((String)session.getAttribute("storeLoginEmail")));
+        return "store/update";
+    }
+
+    @PutMapping("/supdate")
+    @ResponseBody
+    public String storeUpdate(@ModelAttribute StoreDetailDTO storeDetailDTO)    {
+        System.out.println("UsualController.storeUpdate 처리요청");
+        String result = ss.updateStore(storeDetailDTO);
+        System.out.println("result = " + result);
+        return result;
+    }
 
 }

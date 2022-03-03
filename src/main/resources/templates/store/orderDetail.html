@@ -48,7 +48,30 @@
             </ul>
         </li>
     </div>
+    <div id = helloRider>
+        <input type="button" value="배달요청" id="riderCheck" onclick="popUp()">
+        <input type="button" value="요청완료" id="finishRider" style="display: none">
+        <div id="message"></div>
+    </div>
 
 </section>
 </body>
+
+<script>
+    //팝업을 합니다.
+    function popUp()    {
+        const orderNum = '[[${order.orderNumber}]]';
+        window.open("/store/riderList/"+orderNum,"riderList","width=400, height=300, left=100, top=50");
+        console.log("팝업누름");
+    }
+
+    //팝업창의 데이터를 가져옵니다.
+    function getPopupData(riderNumber,riderName){
+        console.log("성공");
+        console.log(riderNumber);
+        console.log(riderName);
+
+
+    }
+</script>
 </html>

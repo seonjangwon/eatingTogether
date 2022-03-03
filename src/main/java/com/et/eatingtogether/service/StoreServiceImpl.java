@@ -1,12 +1,11 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
-import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderMenuDTO;
+import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +34,7 @@ public class StoreServiceImpl implements StoreService {
     private final OrderNowRepository onr;
     private final OrderRepository or;
     private final CustomerRepository cr;
+    private final RiderRepository rr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -87,9 +87,9 @@ public class StoreServiceImpl implements StoreService {
         StoreEntity emailCheckResult = sr.findByStoreEmail(storeEmail);
         /*StoreEntity emailCheckResult = sr.findByStoreEmail(storeSaveDTO.getStoreEmail());*/
         /*String result = sr.findByStoreEmail(storeEmail);*/
-        if (emailCheckResult== null) {
+        if (emailCheckResult == null) {
             return "ok";
-        }   else    {
+        } else {
             return "no";
         }
     }
@@ -115,7 +115,6 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("ServiceImpl.findAllBc.해치웠나");
         return bcList;
     }
-
 
     // store/category/{bigCategoryNumber} 하기위해.
 
@@ -254,20 +253,9 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
-        DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO,storeEntity);
+        DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO, storeEntity);
         System.out.println("오류가 안난다고...?");
         dr.save(deliveryEntity);
-    }
-
-    @Override
-    public List<OrderDTO> findByOrderAll() {
-        List<OrderEntity> orderEntityList = or.findAll();
-        List<OrderDTO> orderList = new ArrayList<>();
-        for (OrderEntity oe: orderEntityList)   {
-            orderList.add(toStoreOrderDetailDTO(oe));
-        }
-        System.out.println(orderList);
-        return orderList;
     }
 
     //0224. 주문상세보기
@@ -275,8 +263,8 @@ public class StoreServiceImpl implements StoreService {
     public OrderDTO findByOrder(Long orderNumber) {
         StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
-        for(OrderEntity o : orderEntityList)    {
-            if(o.getOrderNumber().equals(orderNumber))  {
+        for (OrderEntity o : orderEntityList) {
+            if (o.getOrderNumber().equals(orderNumber)) {
                 return OrderDTO.toStoreOrderDetailDTO(o);
             }
         }
@@ -287,11 +275,11 @@ public class StoreServiceImpl implements StoreService {
     public List<OrderMenuDTO> orderMenu(Long orderNumber) {
         StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         List<OrderEntity> orderEntityList = storeEntity.getOrderEntityList();
-        for (OrderEntity o: orderEntityList) {
+        for (OrderEntity o : orderEntityList) {
             if (o.getOrderNumber().equals(orderNumber)) {
                 List<OrderMenuEntity> orderMenuEntityList = o.getOrderMenuEntityList();
                 List<OrderMenuDTO> orderMenuDTOList = new ArrayList<>();
-                for (OrderMenuEntity ome: orderMenuEntityList) {
+                for (OrderMenuEntity ome : orderMenuEntityList) {
                     orderMenuDTOList.add(OrderMenuDTO.toEntity(ome));
                 }
                 return orderMenuDTOList;
@@ -301,13 +289,33 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<OrderDTO> findByStoreInOrder(Long storeNumber) {
-        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
-        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity.get());
-        List<OrderDTO> orderList = new ArrayList<>();
-        for (OrderEntity oe: orderEntityList)   {
-            orderList.add(toStoreOrderDetailDTO(oe));
+    public List<OrderDTO> findOrderAll(String storeEmail) {
+        //storeEmail에 해당하는 orderList를 가져옵니다
+
+        StoreEntity storeEntity = sr.findByStoreEmail(storeEmail);
+        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);
+        List<OrderDTO> orderAll = new ArrayList<>();
+        for (OrderEntity oe : orderEntityList) {
+            orderAll.add(toStoreOrderDetailDTO(oe));
         }
-        return orderList;
+        return orderAll;
     }
+
+    @Override
+    public String updateStore(StoreDetailDTO storeDetailDTO) {
+        BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeDetailDTO.getBigCategoryNumber());
+        Optional<StoreEntity> storeEntity = sr.findById(storeDetailDTO.getStoreNumber());
+        if (storeEntity.get().getStoreNumber().equals(storeDetailDTO.getStoreNumber())) {
+            //number값이 일치한다면
+            sr.save(StoreEntity.toUpdate(storeDetailDTO, bigCategoryEntity));
+            System.out.println("수정합니당");
+            return "ok";
+        } else {
+            System.out.println("수정못해");
+            //number값이 일치하지 않는다면
+            return "no";
+        }
+    }
+
+
 }

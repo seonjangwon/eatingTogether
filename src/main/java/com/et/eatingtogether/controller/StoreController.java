@@ -2,12 +2,10 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.store.*;
-import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderMenuDTO;
-import com.et.eatingtogether.dto.system.OrderNowDTO;
+import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
+import com.et.eatingtogether.service.AdminService;
 import com.et.eatingtogether.service.CustomerService;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,9 @@ import java.util.List;
 public class StoreController {
     private final StoreService ss;
     private final CustomerService cs;
+    private final AdminService as;
     private final HttpSession session;
+
 
     @GetMapping("/category")
     public String bigCategoryMain(Model model) {
@@ -46,31 +46,15 @@ public class StoreController {
         return "store/categoryMain";
     }
 
-    //지원
-    //일단 findAll이라고 생각해보자.
-
-    //요청받은 CategoryNumber에 대한 리스트를 띄우기 위해서는
-    //BigCategory의 정보, StoreDetail을 가져와 띄워줘야한다.
-/*    @GetMapping ("/category/{bcNumberTest}")
-    public String bigCategoryPage1 (Model model) {
-        List<StoreDetailDTO> storeList = ss.findAll();
-        model.addAttribute("storeList", storeList);
-        System.out.println(storeList);
-        System.out.println("StoreController.bigCategoryPage");
-        return "store/categorytest";
-    }*/
-
     @GetMapping("/category/{bigCategoryNumber}")
     public String bigCategoryPage(@PathVariable Long bigCategoryNumber, Model model) {
-
-        /*List<StoreDetailDTO> storeList = ss.findAll();*/
 
         // 0218
         List<StoreDetailDTO> storeList = ss.findByBcNumber(bigCategoryNumber);
 
         model.addAttribute("storeList", storeList);
         System.out.println("category/{bigCategoryNumber}");
-        // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
+                // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
         return "store/category";
     }
 
@@ -120,14 +104,14 @@ public class StoreController {
         return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
     }
 
-    //0216
-    @PostMapping("/menuList")
-    public @ResponseBody
-    List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
-        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
-        System.out.println("storeController.List<MenuDTO> menuAjax");
-        return menuList;
-    }
+                    //0216
+                @PostMapping("/menuList")
+                public @ResponseBody
+                List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
+                    List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+                    System.out.println("storeController.List<MenuDTO> menuAjax");
+                    return menuList;
+                }
 
     //0217 헉 이거 아니다 아 아니 맞다
     @GetMapping("/update/{menuNumber}")
@@ -170,12 +154,12 @@ public class StoreController {
         return "ok"; // ok는 memberUpdate의 ajax success 의 result 값으로 적용된다.
     }
 
-/*    @DeleteMapping ("/delete/{menuNumber}")
-    public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
-        System.out.println("StoreController.menuDelete");
-        ss.deleteByMenu(menuNumber);
-        return "redirect:/store/storeMain";
-    }*/
+                   /* @DeleteMapping ("/delete/{menuNumber}")
+                    public @ResponseBody String menuDelete (@PathVariable Long menuNumber)  {
+                        System.out.println("StoreController.menuDelete");
+                        ss.deleteByMenu(menuNumber);
+                        return "redirect:/store/storeMain";
+                    }*/
 
     @DeleteMapping("/delete/{menuNumber}")
     public ResponseEntity menuDelete(@PathVariable Long menuNumber) {
@@ -206,24 +190,6 @@ public class StoreController {
         return "usual/storeSave";
     }
 
-/*    //지원 0222~0223
-    // store별 주문상황을 띄웁니다. 필요한 것 storeNumber(해당 업체) , orderNowDTO(주문에 대한 전반적인 사항)
-    @GetMapping("/orderList")
-    public String orderFindAll(Model model) {
-        List<OrderDTO> orderList = ss.findByOrderAll();
-        model.addAttribute("orderList", orderList);
-        System.out.println("StoreController.orderFindAll");
-        return "store/orderList";
-    }
-
-*//*    @GetMapping("/orderList/{storeNumber}")
-    public String orderListAll(@PathVariable("storeNumber") Long storeNumber, Model model) {
-
-        System.out.println("StoreController.orderListAll");
-        return "store/orderList";
-    }*/
-
-
     //지원 0223
     // 주문상세버튼을 누를 시 해당 주문으로 이동되는 페이지입니다.
     @GetMapping("/order/{orderNumber}")
@@ -249,8 +215,39 @@ public class StoreController {
     }
 
 
+    //심기일전... 0227 n회차 재도전 findAll
+    @GetMapping ("/orderAll/{storeEmail}")
+    public String orderFindAll(@PathVariable String storeEmail, Model model)   {
+        System.out.println("StoreController.orderAll");
+
+        StoreDetailDTO storeDetailDTO = ss.findById(storeEmail);
+        List<OrderDTO> orderAll = ss.findOrderAll(storeEmail);
+        /*List<OrderDTO> storeDetailDTOList = ss.findOrderAll(storeDetailDTO.getStoreNumber());*/
+
+        model.addAttribute("store",storeDetailDTO);
+        model.addAttribute("orderAll",orderAll);
+
+        System.out.println("store: "+storeDetailDTO);
+        System.out.println("페이지 출력만이라도 일단 ㅠ");
+        return "store/orderList";
+    }
+
+    //0302 라이더선택을 위한 창 띄우기...admin에 있네.
 
 
+    @GetMapping("/riderList/{orderNumber}")
+    public String riderList(@PathVariable Long orderNumber, Model model)   {
+        List<RiderDTO> riderList = as.riderFindAll();
+        model.addAttribute("orderNumber",orderNumber);
+        model.addAttribute("riderList", riderList);
+        System.out.println(riderList);
+        return "store/riderList";
+    }
 
+    //라이더 선택
+    @PostMapping("/rider")
+    public String riderSelect() {
+        return null;
+    }
 
 }

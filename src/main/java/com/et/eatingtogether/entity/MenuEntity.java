@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class MenuEntity {
     @OneToOne(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private BasketEntity basketEntity;
     @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<OrderMenuEntity> orderMenuEntityList;
+    private List<OrderMenuEntity> orderMenuEntityList = new ArrayList<>();
     //orderMenuEntity는 OneToMany로 변경하세요.
 
     //지원

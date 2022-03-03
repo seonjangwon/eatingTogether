@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script> <!--바보 ^^-->
+    <meta charset="UTF-8">
+    <title>라이더 리스트</title>
+</head>
+<body>
+<form action="/store/rider" method="post">
+<table>
+    <tr>
+        <th>라이더번호</th>
+        <th>라이더이름</th>
+        <th>라이더상태</th>
+        <th>배달요청</th>
+    </tr>
+    <tr th:each = "rider : ${riderList}" name="able">
+        <td th:text="${rider.riderNumber}"></td>
+        <td th:text="${rider.riderName}"></td>
+        <td th:text="${rider.riderState}"></td>
+        <td><input class="form-check-input" type="radio" name="selectRider" id="selectRider"></td>
+    </tr>
+</table>
+
+<input type="button" value="요청" id="riderPopup" onclick="window.close()">
+<!--<input type = "submit" value="요청" onclick="window.close()">-->
+</form>
+</body>
+
+<script>
+    $(document).ready(function (){
+        $("#riderPopup").on("click", function(){
+
+            var riderNumber = "";
+            var riderName = "";
+            var tr = "";
+            var td = "";
+            $("input[name='selectRider']").each(function(){
+                if($(this).is(':checked')){
+                    tr = $(this).closest("tr")
+
+                    riderNumber=tr.find("td").eq(0).text()
+                    riderName=tr.find("td").eq(1).text()
+                    console.log(riderNumber)
+                    console.log(riderName)
+                }
+
+            })
+            opener.parent.getPopupData(riderNumber,riderName);
+        })
+    })
+
+
+</script>
+</html>
