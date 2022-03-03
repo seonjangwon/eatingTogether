@@ -11,6 +11,7 @@ import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -250,4 +251,17 @@ public class StoreController {
         return null;
     }
 
+
+
+    //아 증말 죄송합니다, 이건 메뉴리스트(업체용)이에요
+    @GetMapping("/MenuControl/{storeNumber}")
+    public String storeMenuControl(@PathVariable Long storeNumber, Model model) {
+        // storeNumber들고 MenuList띄웁니다
+        StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);
+        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+        model.addAttribute("storeDetailDTO",storeDetailDTO);
+        model.addAttribute("menuList",menuList);
+        System.out.println("메뉴리스트 띄우기");
+        return "store/MenuControl";
+    }
 }
