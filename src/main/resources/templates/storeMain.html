@@ -7,12 +7,14 @@
 <body>
 <span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
 <br>
-<a href="/store/delivery"> 업체가입 </a><br>
+<a href="/store/delivery"> 배달지 등록, 정리 안됨 </a><br>
 <a href="/usual/store"> 업체가입 </a><br>
 <a href="/usual/slogin"> 업체로그인 </a><br>
-<a href="/usual/supdate"> 업체로그인 </a><br>
+<a href="/usual/supdate"> 업체정보수정 </a><br>
 <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a><br>
-<a href="/store/MenuControl/{storeNumber}">메뉴관리</a>
-<!--<a th:href="@{|/store/MenuControl/${storeNumber}|}"></a>-->
+<a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a><br>
+<a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a><br>
+
+
 </body>
 </html>
