@@ -11,7 +11,6 @@ import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -263,7 +262,7 @@ public class StoreController {
         model.addAttribute("store",storeDetailDTO);
         model.addAttribute("menuList",menuList);
         System.out.println("메뉴리스트 띄우기");
-        return "store/MenuControl";
+        return "store/menuControl";
     }
 
     @GetMapping ("/sale/{storeEmail}")
