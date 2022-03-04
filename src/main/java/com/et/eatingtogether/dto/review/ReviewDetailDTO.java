@@ -46,7 +46,9 @@ public class ReviewDetailDTO {
         reviewDetailDTO.setMenuName(reviewEntity.getMenuName());
         reviewDetailDTO.setReviewComments(reviewEntity.getReviewContents());
         reviewDetailDTO.setReviewScore(reviewEntity.getReviewScore());
-        reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
+        if (reviewEntity.getReplyEntity() != null) {
+            reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
+        }
         reviewDetailDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());
         reviewDetailDTO.setReviewTime(reviewEntity.getCreateTime());
         //reviewDetailDTO.setReviewFileListNumber();

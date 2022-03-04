@@ -2,23 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>회원조회</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <!--회원삭제-->
     <script>
-        function deleteCustomer(customerNumber){
+        function deleteCustomer(customerNumber) {
             const reqUrl = "/admin/" + customerNumber;
-            const data = {"customerNumber" : customerNumber};
+            const data = {"customerNumber": customerNumber};
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+
             $.ajax({
-                type:"delete",
-                url : reqUrl,
+                type: "delete",
+                url: reqUrl,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
                 // data: JSON.stringify(data), 필요없음
                 // dataType: "json", // 받아올 필요가 없어서 생략 가능
-                success: function(result){
+                success: function (result) {
                     console.log(result);
-                    location.href="/admin/customer";
+                    location.href = "/admin/customer";
                 },
-                error: function(){
+                error: function () {
                     console.log('ajax실패');
                 }
             });
@@ -48,7 +56,7 @@
     </tr>
     <tr th:each = "customer : ${customerList}">
         <td th:text="${customer.customerNumber}"></td>
-        <td th:text="${customer.customerEmail}"></td>S
+        <td th:text="${customer.customerEmail}"></td>
         <td th:text="${customer.customerNickname}"></td>
         <td><button th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>
 <!--        <td><a th:href="@{|/admin/delete/${customer.customerNumber}|}">회원삭제</a></td>-->

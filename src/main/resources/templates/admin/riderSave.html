@@ -6,6 +6,7 @@
 </head>
 <body>
 <form action="/admin/rider" method="post" th:object="${rider}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     라이더 이름: <input type="text" th:field="*{riderName}" >
     상태 : <select name="rider" th:field="*{riderState}">
     <option value="wait">대기중</option>

@@ -2,10 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>리뷰관리</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+    function replyBtn(){
+        $("#replyFinish").show();
+        $("#notReply").hide();
+        $("#all").hide();
+    }
+
+    function notReplyBtn(){
+        $("#notReply").show();
+        $("#replyFinish").hide();
+        $("#all").hide();
+    }
+    </script>
+
+    <style>
+        #replyFinish{
+            display: none;
+        }
+        #notReply {
+            display: none;
+        }
+
+        form{
+            display: inline;
+        }
+    </style>
+
+
 </head>
 <body>
 <!--여기서 회원이 작성한 리뷰목록 확인-->
+<button onclick="replyBtn()">답변완료</button>
+<button onclick="notReplyBtn()">미답변</button>
+<div id="all">
 
 <table>
     <thead>
@@ -16,24 +50,135 @@
         <th>날짜</th>
         <th>리뷰내용</th>
         <th>별점</th>
-    </tr>
+        <th>사진</th>
+        <th>답글</th>
 
+    </tr>
     </thead>
 
-    <tbody>
-    <tr th:each="r : ${reviewList}">
+    <tbody th:each="r : ${reviewList}">
+    <tr>
         <td th:text="${r.reviewNumber}"></td>
         <td th:text="${r.customerNumber}"></td>
         <td th:text="${r.menuName}"></td>
         <td th:text="${r.reviewComments}"></td>
         <td th:text="${r.reviewScore}"></td>
+        <td th:each= "rf : ${r.reviewFileDTOList}">
+            <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
+        </td>
+
+        <td th:if="${r.replyNumber == null}">
+            <form action="/review/reply" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
+                <textarea name="replyContents"  col="50" row="10"></textarea>
+                <input type="submit" value="댓글등록">
+            </form>
+        </td>
+            <td th:if="${r.replyNumber != null}">
+                <span th:text="${r.replyDetailDTO.replyContents}"></span>
+            </td>
     </tr>
     </tbody>
-
-
-
-
-
 </table>
+
+
+
+</div>
+
+<div id="replyFinish" >
+    <table>
+        <thead>
+        <tr>
+            <th>리뷰번호</th>
+            <th>회원아이디</th>
+            <th>메뉴</th>
+            <th>리뷰내용</th>
+            <th>별점</th>
+            <th>날짜</th>
+            <th>사진</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        <tr th:each="r : ${reviewList}">
+            <div th:if="${r.replyNumber != null}">
+                <td th:text="${r.reviewNumber}"></td>
+                <td th:text="${r.customerNumber}"></td>
+                <td th:text="${r.menuName}"></td>
+                <td th:text="${r.reviewComments}"></td>
+                <td th:text="${r.reviewScore}"></td>
+                <td th:text="${r.reviewTime}"></td>
+                <td th:each="rf : ${r.reviewFileDTOList}">
+                    <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
+                </td>
+
+                <!--답글부분-->
+                <td th:if="${r.replyNumber == null}">
+                    <form action="/review/reply" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
+                        <textarea name="replyContents"  col="50" row="10"></textarea>
+                        <input type="submit" value="댓글등록">
+                    </form>
+                </td>
+                <td th:if="${r.replyNumber != null}">
+                    <span th:text="${r.replyDetailDTO.replyContents}"></span>
+                </td>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div id="notReply">
+    <table>
+        <thead>
+        <tr>
+            <th>리뷰번호</th>
+            <th>회원아이디</th>
+            <th>메뉴</th>
+            <th>날짜</th>
+            <th>리뷰내용</th>
+            <th>별점</th>
+            <th>사진</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        <tr th:each="r : ${reviewList}">
+            <div th:if="${r.replyNumber == null}">
+                <td th:text="${r.reviewNumber}"></td>
+                <td th:text="${r.customerNumber}"></td>
+                <td th:text="${r.menuName}"></td>
+                <td th:text="${r.reviewComments}"></td>
+                <td th:text="${r.reviewScore}"></td>
+                <td th:each="rf : ${r.reviewFileDTOList}">
+                    <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
+                </td>
+
+                <!--답글부분-->
+                <td th:if="${r.replyNumber == null}">
+                    <form action="/review/reply" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
+                        <textarea name="replyContents"  col="50" row="10"></textarea>
+                        <input type="submit" value="댓글등록">
+                    </form>
+                </td>
+                <td th:if="${r.replyNumber != null}">
+                    <span th:text="${r.replyDetailDTO.replyContents}"></span>
+                </td>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
 </body>
 </html>

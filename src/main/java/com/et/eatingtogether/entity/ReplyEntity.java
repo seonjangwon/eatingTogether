@@ -1,5 +1,6 @@
 package com.et.eatingtogether.entity;
 
+import com.et.eatingtogether.dto.review.ReplySaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +26,12 @@ public class ReplyEntity {
 //    private StoreEntity s
 
     private String replyContents;
+
+
+    public static ReplyEntity toDTO(ReplySaveDTO replySaveDTO, ReviewEntity reviewEntity){
+        ReplyEntity replyEntity = new ReplyEntity();
+        replyEntity.setReplyContents(replySaveDTO.getReplyContents());
+        replyEntity.setReviewEntity(reviewEntity);
+        return replyEntity;
+    }
 }

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReplySaveDTO {
+    private String replyContents;
     private Long reviewNumber;
+
 
 }

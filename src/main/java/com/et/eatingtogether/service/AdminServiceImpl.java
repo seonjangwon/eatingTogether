@@ -2,9 +2,7 @@ package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
-import com.et.eatingtogether.dto.review.ReviewDetailDTO;
-import com.et.eatingtogether.dto.review.ReviewFileDTO;
-import com.et.eatingtogether.dto.review.ReviewSaveDTO;
+import com.et.eatingtogether.dto.review.*;
 import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
 import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
@@ -42,6 +40,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final MenuRepository mr; // 메뉴
     private final HttpSession session; // 로그인세션
+
+    private final ReplyRepository rep; // 사장님 답글
 
     // 쿠폰저장
     @Override
@@ -171,19 +171,42 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ReviewDetailDTO> reviewFindAll() {
 //        // dto -> entity
-//        List<ReviewEntity> reviewEntityList = rer.findAll();
-//        List<ReviewDetailDTO> reviewDTOList = new ArrayList<>();
-//        for (ReviewEntity r : reviewEntityList) {
-//            List<ReviewFileEntity> reviewFileEntityList = rfr.findAllByReviewEntity(r); // 파일리스트
-//            for(ReviewFileEntity rf : reviewFileEntityList){
-//                reviewDTOList.add(ReviewDetailDTO.toEntity1(r)); // 리뷰 entity -> dto로 변환해서 list에 저장
-//                r.getReviewFileEntityList().get(rr.findById());
-//            }
-//
-//
-//
-//        }
-        return null;
+        // 1. 해당 업체의 리뷰 불러오기 3. 연관된 파일들 불러오기
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
+        System.out.println("storeEntity = " + storeEntity);
+        List<ReviewEntity> reviewEntityList = storeEntity.getReviewEntityList();
+        // entity -> dto로 바꾸기
+        List<ReviewDetailDTO> reviewList = new ArrayList<>(); // entity에서 가져온 리스트를 담을 List<DTO> 객체생성
+
+        // for문으로 반복문을 돌려서 entityList에 있는걸 dtoList에 담음
+        for(ReviewEntity r : reviewEntityList){
+            reviewList.add(ReviewDetailDTO.toEntity(r));
+        }
+
+        // entity 정보가 담긴 dtoList를 for문으로 반복문을 돌려 파일, 사장님 답글 저장하는 걸 처리함
+        for(ReviewDetailDTO rd : reviewList) {
+            List<ReviewFileDTO> reviewFileDTOS = new ArrayList<>();
+            // 답글처리( 주석처리된 부분이랑 아래 부분이랑 같은 코드임)
+//           if(rd.getReplyNumber()!=null){
+//           Optional<ReplyEntity> optionalReplyEntity = rep.findById(rd.getReplyNumber());
+//            rd.setReplyDetailDTO(ReplyDetailDTO.toEntity(optionalReplyEntity.get()));
+//              }
+            Optional<ReplyEntity> optionalReplyEntity = null;
+            if (rd.getReplyNumber()!=null) {
+                optionalReplyEntity = rep.findById(rd.getReplyNumber());
+                rd.setReplyDetailDTO(ReplyDetailDTO.toEntity(optionalReplyEntity.get()));
+            }
+
+            // 파일
+            for(ReviewFileEntity rfe : rd.getReviewFileEntityList()){
+                reviewFileDTOS.add(ReviewFileDTO.toEntity(rfe));
+            }
+
+            rd.setReviewFileDTOList(reviewFileDTOS); // 끝
+
+        }
+        System.out.println("reviewList = " + reviewList);
+        return reviewList;
     }
 
     @Override
@@ -223,6 +246,7 @@ public class AdminServiceImpl implements AdminService {
         //dto -> entity
         CustomerEntity customerEntity = ctr.findById(customerBlacklistDTO.getCustomerNumber()).get();
         CustomerBlacklistEntity customerBlacklistEntity = CustomerBlacklistEntity.toEntity(customerBlacklistDTO, customerEntity);
+        System.out.println("customerBlacklistEntity.getReportCause() = " + customerBlacklistEntity.getReportCause());
         cbr.save(customerBlacklistEntity);
 
     }
@@ -249,5 +273,15 @@ public class AdminServiceImpl implements AdminService {
         sbr.save(storeBlacklistEntity);
     }
 
+    // 사장님 답글 저장처리
+    @Override
+    public void replySave(ReplySaveDTO replySaveDTO) {
+        // dto -> entity
+        if(replySaveDTO.getReviewNumber()!=null){
+        Optional<ReviewEntity> reviewEntity = rer.findById(replySaveDTO.getReviewNumber());
+        ReplyEntity replyEntity = ReplyEntity.toDTO(replySaveDTO, reviewEntity.get());
+        rep.save(replyEntity);
+        }
+    }
 
 }
