@@ -11,6 +11,7 @@ import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -250,4 +251,31 @@ public class StoreController {
         return null;
     }
 
+
+
+    //아 증말 죄송합니다, 이건 메뉴리스트(업체용)이에요
+    @GetMapping("/menuControl/{storeEmail}")
+    public String storeMenuControl(@PathVariable String storeEmail, Model model) {
+        // storeNumber들고 MenuList띄웁니다
+        StoreDetailDTO storeDetailDTO = ss.findById(storeEmail);
+        /*StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);*/
+        List<MenuDTO> menuList = ss.menuFindAll(storeDetailDTO.getStoreNumber());
+        model.addAttribute("store",storeDetailDTO);
+        model.addAttribute("menuList",menuList);
+        System.out.println("메뉴리스트 띄우기");
+        return "store/MenuControl";
+    }
+
+    @GetMapping ("/sale/{storeEmail}")
+    public String salePage(@PathVariable String storeEmail, Model model)    {
+        //판매 내역 출력
+        StoreDetailDTO store = ss.findById(storeEmail);
+        model.addAttribute("store",store);
+        List<OrderDTO> order = ss.findOrderAll(storeEmail);
+        model.addAttribute("order",order);
+        List<DailySaleDTO> sale = ss.findSaleAll(store.getStoreNumber());
+        model.addAttribute("sale",sale);
+        System.out.println("판매내역 출력할 것");
+        return "store/sale";
+    }
 }

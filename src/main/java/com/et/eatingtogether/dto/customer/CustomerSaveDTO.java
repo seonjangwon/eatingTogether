@@ -17,7 +17,4 @@ public class CustomerSaveDTO {
     private String customerDname;
 
 
-
-//    public CustomerSaveDTO(String s, String s1, String s2, String s3, String s4, String s5) {
-//    }
 }
