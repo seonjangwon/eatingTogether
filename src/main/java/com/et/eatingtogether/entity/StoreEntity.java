@@ -86,7 +86,7 @@ public class StoreEntity {
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setStoreEmail(storeDetailDTO.getStoreEmail());
         storeEntity.setStoreNumber(storeDetailDTO.getStoreNumber());
-        /*storeEntity.setBigCategoryEntity(bigCategoryEntity);*/
+        storeEntity.setBigCategoryEntity(bigCategoryEntity);
         storeEntity.setStoreName(storeDetailDTO.getStoreName());
         storeEntity.setStorePassword(storeDetailDTO.getStorePassword());
         storeEntity.setStorePhone(storeDetailDTO.getStorePhone());
