@@ -1,10 +1,7 @@
 package com.et.eatingtogether.service;
 
 import com.et.eatingtogether.dto.store.*;
-import com.et.eatingtogether.dto.system.BigCategoryDTO;
-import com.et.eatingtogether.dto.system.OrderDTO;
-import com.et.eatingtogether.dto.system.OrderMenuDTO;
-import com.et.eatingtogether.dto.system.RiderDTO;
+import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
 import com.et.eatingtogether.entity.StoreEntity;
 
@@ -54,4 +51,6 @@ public interface StoreService {
     List<OrderDTO> findOrderAll(String storeEmail);
 
     String updateStore(StoreDetailDTO storeDetailDTO);
+
+    List<DailySaleDTO> findSaleAll(Long storeNumber);
 }
