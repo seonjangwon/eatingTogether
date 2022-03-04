@@ -172,17 +172,19 @@ public class CustomerServiceImpl implements CustomerService {
 
         for (ReviewDetailDTO r : reviewDetailDTOList) {
             List<ReviewFileDTO> reviewFileDTOS = new ArrayList<>();
-            Optional<ReplyEntity> replyEntity = rpr.findById(r.getReviewNumber());
-            if (replyEntity.isPresent()) {
+
+            Optional<ReplyEntity> replyEntity = null;
+            if (r.getReplyNumber() != null) {
+                replyEntity = rpr.findById(r.getReplyNumber());
                 r.setReplyDetailDTO(ReplyDetailDTO.toEntity(replyEntity.get()));
             }
-            List<ReviewFileEntity> reviewFileEntities = rfr.findAllByReviewEntity(rr.findById(r.getReviewNumber()).get());
-            if (!reviewFileEntities.isEmpty()) {
-                for (ReviewFileEntity rf : reviewFileEntities) {
-                    System.out.println("rf = " + rf.getReviewFilename());
-                    reviewFileDTOS.add(ReviewFileDTO.toEntity(rf));
-                }
+
+
+            for (ReviewFileEntity rf : r.getReviewFileEntityList()) {
+                System.out.println("rf = " + rf.getReviewFilename());
+                reviewFileDTOS.add(ReviewFileDTO.toEntity(rf));
             }
+
             r.setReviewFileDTOList(reviewFileDTOS);
         }
         System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
