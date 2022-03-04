@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>customerUpdate</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -73,12 +75,17 @@
             const detailAddress = document.getElementById("sample4_detailAddress").value;
             document.getElementById("customerAddress").value += detailAddress;
             const formData = $("#customerUpdate_form").serialize();
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
 
             $.ajax({
                 type: 'put',
                 url: '/customer/update',
                 data: formData,
                 dataType: 'text',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
                 success: function (result) {
                     if (result === "ok") {
                         location.href = "/customer/mypage";

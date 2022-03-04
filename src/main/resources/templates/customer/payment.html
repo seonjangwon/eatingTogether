@@ -175,7 +175,7 @@
         </div>
     </div>
 </div>
-
+<div id="msgStack"></div>
 </body>
 <script>
     $("#check_module").click(function () {
@@ -217,7 +217,9 @@
                 msg += '에러내용 : ' + rsp.error_msg;
             }
             alert(msg);
+            const store = '[[${}]]'
         });
     });
 </script>
+<script src="/js/webSocket.js"></script>
 </html>
