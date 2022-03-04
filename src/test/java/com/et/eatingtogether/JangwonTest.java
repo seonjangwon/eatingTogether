@@ -314,7 +314,7 @@ public class JangwonTest {
     @Test
     @DisplayName("업체 이메일 비번 생성용")
     public void storeEmailPasswordAdd(){
-        StoreEntity storeEntity = sr.findById(10l).get();
+        StoreEntity storeEntity = sr.findById(1l).get();
         storeEntity.setStoreEmail("qwe");
         storeEntity.setStorePassword("qwe");
         sr.save(storeEntity);
@@ -328,6 +328,8 @@ public class JangwonTest {
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setBigCategoryEntity(bigCategoryEntity);
         storeEntity.setStoreName("basketTestStore22");
+        storeEntity.setStoreEmail("a");
+        storeEntity.setStorePassword("a");
         Long storeNumber = sr.save(storeEntity).getStoreNumber();
         // 배달지
         DeliveryEntity deliveryEntity = new DeliveryEntity();

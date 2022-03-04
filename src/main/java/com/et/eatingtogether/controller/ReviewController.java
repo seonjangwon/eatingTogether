@@ -2,10 +2,7 @@ package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
-import com.et.eatingtogether.dto.review.ReviewDetailDTO;
-import com.et.eatingtogether.dto.review.ReviewFileDTO;
-import com.et.eatingtogether.dto.review.ReviewSaveDTO;
-import com.et.eatingtogether.dto.review.ReviewTestDTO;
+import com.et.eatingtogether.dto.review.*;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.entity.CustomerBlacklistEntity;
 import com.et.eatingtogether.entity.CustomerEntity;
@@ -93,7 +90,23 @@ public class ReviewController {
 
 
 
+    // 업체 리뷰관리 페이지로 이동
+    @GetMapping("/store")
+    public String storeReviewPage(Model model){
+        List<ReviewDetailDTO> reviewDetailDTOList = as.reviewFindAll();
+        System.out.println("reviewDetailDTOList = " + reviewDetailDTOList);
+        model.addAttribute("reviewList", reviewDetailDTOList);
+        return "store/review";
+    }
 
 
+    // 업체가 작성한 리뷰 등록
+    @PostMapping("/reply")
+    public String replySave(@ModelAttribute ReplySaveDTO replySaveDTO) {
+        System.out.println("replySaveDTO = " + replySaveDTO);
+        as.replySave(replySaveDTO);
+        
+        return "redirect:/review/store";
+    }
 
 }

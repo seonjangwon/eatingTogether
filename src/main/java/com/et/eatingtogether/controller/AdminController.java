@@ -164,13 +164,7 @@ public class AdminController {
     }
 
 
-    // 업체 리뷰관리 페이지로 이동
-    @GetMapping("/storeReview")
-    public String storeReviewForm(Model model){
-        List<ReviewDetailDTO> reviewDetailDTOList = as.reviewFindAll();
-        model.addAttribute("reviewList", reviewDetailDTOList);
-        return "store/review";
-    }
+
 
 
 

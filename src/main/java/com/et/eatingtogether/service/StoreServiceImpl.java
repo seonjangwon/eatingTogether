@@ -5,6 +5,7 @@ import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Store;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.et.eatingtogether.dto.store.DailySaleDTO.toDailySaleDTO;
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
@@ -35,6 +37,7 @@ public class StoreServiceImpl implements StoreService {
     private final OrderRepository or;
     private final CustomerRepository cr;
     private final RiderRepository rr;
+    private final DailySaleRepository dsr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -61,7 +64,8 @@ public class StoreServiceImpl implements StoreService {
             String storeFilename = storeFile.getOriginalFilename();
             storeFilename = System.currentTimeMillis() + "-" + storeFilename;
             System.out.println("파일이름: " + storeFilename);
-            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\" + storeFilename;
+//            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\" + storeFilename; // 지원이꺼
+            String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; // 내꺼
             if (!storeFile.isEmpty()) {
                 storeFile.transferTo(new File(savePath));
             }
@@ -317,5 +321,16 @@ public class StoreServiceImpl implements StoreService {
         }
     }
 
+    //0304
+    @Override
+    public List<DailySaleDTO> findSaleAll(Long storeNumber) {
+        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
+        List<DailySaleEntity> dailySaleEntityList = dsr.findByStoreEntity(storeEntity.get());
+        List<DailySaleDTO> dailySale = new ArrayList<>();
+        for (DailySaleEntity ds:dailySaleEntityList)   {
+                dailySale.add(toDailySaleDTO(ds));
+        }
+        return dailySale;
+    }
 
 }

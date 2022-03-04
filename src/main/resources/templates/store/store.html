@@ -7,56 +7,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>[뭐먹을까요:업체] 매장페이지 </title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script>
-        function delete_menu(menuNumber)  {
-            console.log("delete_menu_btn 클릭")
-            console.log(menuNumber);
-            const requestUrl = "/store/delete/" + menuNumber;
 
-            const menuName = document.getElementById('menuName').value;
-            const menuExplain = document.getElementById('menuExplain').value;
-            const menuPrice = document.getElementById('menuPrice').value;
-            var header = $("meta[name='_csrf_header']").attr('content');
-            var token = $("meta[name='_csrf']").attr('content');
-
-            $.ajax({
-                type: 'delete',
-                url: 'redirect:/store/menuList',
-                data: {
-                    'menuName' : menuName,
-                    'menuExplain' : menuExplain,
-                    'menuPrice': menuPrice
-                },
-                dataType: 'json',
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                success: function (result) {
-                    console.log(result);
-                    let output = "<table>\n" +
-                        "<thead>\n" +
-                        "<tr>+\n" +
-                        "<th>메뉴이름</th>" + "\n" +
-                        "<th>메뉴설명</th>" + "\n" +
-                        "<th>메뉴가격</th>" + "\n" +
-                        "</tr>" + "\n" +
-                        "</thead>" + "\n" +
-                        "<tbody>" + "\n";
-
-                    $.each(result, function (i) {
-                        output += "<tr>";
-                        output += "<td>" + result[i].menuName + "</td>";
-                        output += "<td>" + result[i].menuExplain + "</td>";
-                        output += "<td>" + result[i].menuPrice + "</td>";
-                        output += "</tr>";
-                    })
-                },
-                    error : function () {
-                    alert ("할수있어!");
-                    }
-        });
-        };
-    </script>
 
 </head>
 <body>
@@ -94,9 +45,7 @@
                     <th> 메뉴이름 </th>
                     <th> 메뉴설명 </th>
                     <th> 메뉴가격 </th>
-                    <th> 일단수량버튼 </th>
-                    <th> 일단수정버튼 </th>
-                    <th> 일단삭제버튼 </th>
+                    <th> 일단수량버튼 </th> <!-- 주문하는 버튼으로 해야하나요? ?????-->
                 </thead>
                 <tbody>
                 <tr th:each="menu: ${menuList}">
@@ -104,17 +53,14 @@
                     <td th:text="${menu.menuName}"></td>
                     <td th:text="${menu.menuExplain}"></td>
                     <td th:text="${menu.menuPrice}"></td>
+                    <td> <button th:onclick="count()"> 담기 </button> </td>
                     <td th:hidden="${menu.storeNumber}"></td>
                     <td th:hidden="${menu.storeCategoryName}"></td>
-                    <td> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정 </a></td>
-                    <td> <button th:onclick="delete_menu([[${menu.menuNumber}]])"> 삭제 </button> </td>
                 </tr>
 
                 </tbody>
             </table>
-            <a th:src="@{|/store/update/{menuNum}|}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
-            <a href="/store/update/{menu.menuNumber}" class="btn btn-secondary btn-sm" tabindex="-1" role="button">메뉴수정</a>
-        </div>
+    </div>
         <div id = "reviewArea" style="display: none">
             리뷰출력예정
         <table>
