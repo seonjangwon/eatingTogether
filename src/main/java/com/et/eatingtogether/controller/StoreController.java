@@ -249,7 +249,7 @@ public class StoreController {
     //라이더 선택
     //라이더 선택 완료시
     @PostMapping("/rider")
-    public String riderSelect(@ModelAttribute("orderFinish") OrderNowDTO orderNowDTO) {
+    public String riderSelect() {
         return null;
     }
 

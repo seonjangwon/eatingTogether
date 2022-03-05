@@ -51,9 +51,9 @@
     <div id = helloRider>
         <input type="button" value="배달요청" id="riderSelect" onclick="popUp()">
             <span id = "plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
-
-            <form action=""
-            <input type="submit" value="주문처리" id="orderFinish" style="display:none;">
+        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}" class="btn btn-light btn-sm" tabindex="-1" id="orderFinish" role="button" style="display:none;" aria-disabled="true"> 처리완료 </a>
+            <!--<input type="button" value="주문처리" id="orderFinish" style="display:none;" on="">-->
+            </form>
     </div>
 
 </section>
@@ -69,11 +69,6 @@
 
     //팝업창의 데이터를 가져옵니다.
     function getPopupData(riderNumber,riderName){
-        console.log("성공");
-        console.log(riderNumber);
-        console.log(riderName);
-
-        /*plz.innerHTML = riderNumber, riderName;*/
         const plz = document.getElementById('plz');
         plz.innerHTML = riderName+"님께 배달출발요청 하였습니다.";
 

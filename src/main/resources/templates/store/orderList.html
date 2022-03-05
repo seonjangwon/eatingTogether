@@ -35,8 +35,9 @@
             <td th:text="${od.menuName}"></td>
             <td th:text="${od.orderAddress}"></td>
             <td th:text="${od.orderPrice}"></td>
-            <td><button th:onclick="btn_orderStatus()" type="button" class="btn btn-white btn-sm" style="background-color: lightcoral"><span id="orderStatus" value="주문">주문1</span></button></td>
-            &lt;!&ndash;<td><a th:href="@{|/store/order/${od.orderNumber}|}"> 상세조회 </a></td>&ndash;&gt;
+            <td th:text="${od.orderNow}"></td>
+            <td><button type="button" th:onclick="btn_orderStatus()" id="orderStatus" class="btn btn-outline-info btn-sm"> 먹을까요 </button></td>
+            <!--<td><button th:onclick="btn_orderStatus()" type="button" class="btn btn-white btn-sm" style="background-color: lightcoral"><span id="orderStatus" value="주문">주문1</span></button></td>-->
             <td><a th:href="@{|/store/order/${od.orderNumber}|}" class="btn btn-white btn-sm" role="button" data-bs-toggle="button" aria-pressed="true" style="background-color: lightcoral"> 주문상세 </a></td>
         </tr>
         </tbody>
@@ -44,8 +45,12 @@
 </section>
 </body>
 <script>
+    //임시방편
     function btn_orderStatus()  {
         console.log("btn_orderStatus 누름");
+        const status = document.getElementById('orderStatus');
+        status.innerHTML = "주문접수";
     }
+
 </script>
 </html>
