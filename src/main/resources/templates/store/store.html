@@ -18,8 +18,8 @@
     </header>
 
     <section>
-<!--        <span th:text="${session['storeLoginEmail']}"> 이렇게 쓰면 안나온다. </span>-->
-        <span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
+        <!--<span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!-->
+        <h2><span th:text="${storeList.storeName}"></span> 입니다</h2>
 
         <div id="storeDataView">
             <img th:src="@{|/upload/${storeList.getStoreFilename()}|}" alt="사진">
