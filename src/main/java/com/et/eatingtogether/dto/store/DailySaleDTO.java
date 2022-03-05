@@ -15,10 +15,12 @@ public class DailySaleDTO {
     private Long dailySaleNumber;
     private LocalDateTime dailySaleTime;
     private int dailySalePrice;
+    private Long storeNumber;
 
 
     public static DailySaleDTO toDailySaleDTO (DailySaleEntity dailySaleEntity)    {
         DailySaleDTO dailySaleDTO = new DailySaleDTO();
+        dailySaleDTO.setStoreNumber(dailySaleEntity.getStoreEntity().getStoreNumber());
         dailySaleDTO.setDailySaleNumber(dailySaleEntity.getDailySaleNumber());
         dailySaleDTO.setDailySaleTime(dailySaleEntity.getDailySaleTime());
         dailySaleDTO.setDailySalePrice(dailySaleEntity.getDailySalePrice());

@@ -11,7 +11,6 @@ import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -102,7 +101,8 @@ public class StoreController {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
+        return "redirect:/store/menuControl/"+storeCategoryEntity.getStoreEntity().getStoreEmail();
+        /*return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();*/
     }
 
                     //0216
@@ -241,11 +241,13 @@ public class StoreController {
         List<RiderDTO> riderList = as.riderFindAll();
         model.addAttribute("orderNumber",orderNumber);
         model.addAttribute("riderList", riderList);
+        model.addAttribute("orderFinish",new OrderNowDTO());
         System.out.println(riderList);
         return "store/riderList";
     }
 
     //라이더 선택
+    //라이더 선택 완료시
     @PostMapping("/rider")
     public String riderSelect() {
         return null;
@@ -263,7 +265,7 @@ public class StoreController {
         model.addAttribute("store",storeDetailDTO);
         model.addAttribute("menuList",menuList);
         System.out.println("메뉴리스트 띄우기");
-        return "store/MenuControl";
+        return "store/menuControl";
     }
 
     @GetMapping ("/sale/{storeEmail}")

@@ -232,5 +232,79 @@ public class JiwonTest {
         riderNumber = rr.save(riderEntity).getRiderNumber();
     }
 
+    @Test
+    @DisplayName("주문Test")
+    //@Transactional
+    //@Rollback
+    public void 짱구분식주문테스트() {
+        //메뉴, 고객, 업체
+        //회원
+        CustomerEntity customerEntity = cr.findById(7l).get();
+        System.out.println("회원 테스트 실행");
+        System.out.println("회원정보: "+customerEntity);
+
+        //업체
+        BigCategoryEntity bigCategoryEntity = bcr.findById(3l).get();
+        StoreEntity storeEntity = sr.findById(3l).get(); //짱구분식
+        System.out.println("업체가입 테스트 실행됨");
+
+        //메뉴
+        StoreCategoryEntity storeCategoryEntity = scr.findById(1l).get();
+        MenuEntity menuEntity = mnr.findById(16l).get();
+        /*MenuEntity menuEntity2 = mnr.findById(22l).get();*/
+        System.out.println("menuEntity:"+menuEntity);
+        System.out.println("메뉴 불러왔음");
+
+
+
+        //주문
+        OrderNowEntity orderNowEntity = new OrderNowEntity();
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setStoreEntity(storeEntity);
+        orderEntity.setCustomerEntity(customerEntity);
+        orderEntity.setOrderMenuEntityList(orderEntity.getOrderMenuEntityList());
+        orderEntity.setOrderPrice(menuEntity.getMenuPrice());
+        orderEntity.setOrderAddress(customerEntity.getCustomerAddress());
+        orderEntity.setOrderTime(LocalDateTime.now());
+        orderEntity.setOrderTomaster("짱구분식 맛있죠");
+        orderEntity.setOrderTorider("벨튀하세요");
+        orderEntity.setOrderType("주문요청");
+        orderEntity.setOrderNowEntity(orderNowEntity);
+
+        Long orderNumber = or.save(orderEntity).getOrderNumber();
+        System.out.println("주문저장 테스트 실행됨");
+        System.out.println("orderEntity:"+orderEntity);
+
+        //주문상황관리
+        orderNowEntity.setOrderEntity(orderEntity);
+        orderNowEntity.setOrderNowStatus("배달접수");
+        orderNowEntity.setOrderNowTime(orderEntity.getOrderTime().plusMinutes(90));
+        Long orderNowNumber = onr.save(orderNowEntity).getOrderNowNumber();
+        System.out.println("주문상황 테스트 실행됨");
+
+        //이걸 했어야했나?
+        menuEntity = mnr.findById(16l).get();
+        /*menuEntity2 = mnr.findById(22l).get();*/
+        OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
+        orderMenuEntity.setOrderEntity(orderEntity);
+        orderMenuEntity.setOrderMenuCount(1);
+        orderMenuEntity.setMenuEntity(menuEntity);
+        orderMenuEntity.setOrderMenuCount(1);
+        /*orderMenuEntity.setMenuEntity(menuEntity2);*/
+        Long orderMenuNumber = omr.save(orderMenuEntity).getOrderMenuNumber();
+        System.out.println("오더메뉴저장 테스트 실행됨");
+
+        //배달원?
+        RiderEntity riderEntity = new RiderEntity();
+        riderEntity.setRiderName("김홍석");
+        riderEntity.setRiderState("문학동");
+        Long riderNumber = rr.save(riderEntity).getRiderNumber();
+        System.out.println("배달원저장 테스트");
+
+
+
+    }
+
+
 }
 
