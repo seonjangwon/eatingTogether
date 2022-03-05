@@ -49,9 +49,11 @@
         </li>
     </div>
     <div id = helloRider>
-        <input type="button" value="배달요청" id="riderCheck" onclick="popUp()">
-        <input type="button" value="요청완료" id="finishRider" style="display: none">
-        <div id="message"></div>
+        <input type="button" value="배달요청" id="riderSelect" onclick="popUp()">
+            <span id = "plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
+
+            <form action=""
+            <input type="submit" value="주문처리" id="orderFinish" style="display:none;">
     </div>
 
 </section>
@@ -71,7 +73,15 @@
         console.log(riderNumber);
         console.log(riderName);
 
+        /*plz.innerHTML = riderNumber, riderName;*/
+        const plz = document.getElementById('plz');
+        plz.innerHTML = riderName+"님께 배달출발요청 하였습니다.";
+
+        $("#plz").show();
+        $("#riderSelect").hide();
+        $("#orderFinish").show();
 
     }
+
 </script>
 </html>

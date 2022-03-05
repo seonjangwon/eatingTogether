@@ -241,13 +241,15 @@ public class StoreController {
         List<RiderDTO> riderList = as.riderFindAll();
         model.addAttribute("orderNumber",orderNumber);
         model.addAttribute("riderList", riderList);
+        model.addAttribute("orderFinish",new OrderNowDTO());
         System.out.println(riderList);
         return "store/riderList";
     }
 
     //라이더 선택
+    //라이더 선택 완료시
     @PostMapping("/rider")
-    public String riderSelect() {
+    public String riderSelect(@ModelAttribute("orderFinish") OrderNowDTO orderNowDTO) {
         return null;
     }
 
