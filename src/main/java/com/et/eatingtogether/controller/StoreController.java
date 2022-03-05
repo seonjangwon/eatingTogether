@@ -101,7 +101,8 @@ public class StoreController {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();
+        return "redirect:/store/menuControl/"+storeCategoryEntity.getStoreEntity().getStoreEmail();
+        /*return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();*/
     }
 
                     //0216
