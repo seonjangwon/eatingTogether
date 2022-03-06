@@ -5,7 +5,11 @@
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 카테고리2 </title>
 </head>
-<body>
+<div th:if="${storeList == null}">
+    배달 가능 업체가 없어요 ㅠㅠ
+</div>
+<div th:if="${storeList !=null}">
+    <body>
     <table>
         <thead>
         <tr>
@@ -15,16 +19,17 @@
         </tr>
         </thead>
         <tbody>
-            <tr th:each="bcl: ${storeList}">
-                <td th:text="${bcl.bigCategoryNumber}"> 번호... </td>
-                <td th:text="${bcl.storeName}"> 업체명 </td>
-                <td><a th:href="@{|/store/${bcl.storeNumber}|}"><span th:text="${bcl.storeName}"></span> </a> </td>
-                <td th:text="${bcl.storePhone}"> 업체주소 </td>
-            </tr>
+        <tr th:each="bcl: ${storeList}">
+            <td th:text="${bcl.bigCategoryNumber}"> 번호...</td>
+            <td th:text="${bcl.storeName}"> 업체명</td>
+            <td><a th:href="@{|/store/${bcl.storeNumber}|}"><span th:text="${bcl.storeName}"></span> </a></td>
+            <td th:text="${bcl.storePhone}"> 업체주소</td>
+        </tr>
 
 
         </tbody>
     </table>
-카테고리 선택시 나온다...
-</body>
+    카테고리 선택시 나온다...
+    </body>
+</div>
 </html>

@@ -23,9 +23,9 @@ public class MainController {
 
     @GetMapping ("/storeMain")
     public String storeMain(Model model)   {
-        System.out.println("storeMain");
-        List<StoreDetailDTO> store = ss.findAll();
-        model.addAttribute("store",store);
+//        System.out.println("storeMain");
+//        List<StoreDetailDTO> store = ss.findAll();
+//        model.addAttribute("store",store);
 
         return "storeMain";
     }

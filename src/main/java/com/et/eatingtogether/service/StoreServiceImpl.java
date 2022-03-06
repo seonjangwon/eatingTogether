@@ -138,7 +138,7 @@ public class StoreServiceImpl implements StoreService {
         String menuFilename = menuFile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + menuFilename;
 
-        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
+        String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
         if (!menuFile.isEmpty()) {
             menuFile.transferTo(new File(savePath));
         }
@@ -199,7 +199,12 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public List<StoreDetailDTO> findByBcNumber(Long bigCategoryNumber) {
         BigCategoryEntity bigCategoryEntity = bcr.findById(bigCategoryNumber).get();
-        List<StoreEntity> storeEntityList = sr.findByBigCategoryEntity(bigCategoryEntity);
+//        List<StoreEntity> storeEntityList = sr.findByBigCategoryEntity(bigCategoryEntity);
+        List<DeliveryEntity> deliveryEntities = dr.findByDeliveryDname((String) session.getAttribute("customerLoginEmail"));
+        List<StoreEntity> storeEntityList = new ArrayList<>();
+        for (DeliveryEntity d : deliveryEntities) {
+            storeEntityList.add(d.getStoreEntity());
+        }
 
         /*BigCategoryEntity bigCategoryEntity = scr.findById(bigCategoryNumber).get();
         List<StoreEntity> storeEntityList = sr.findByStoreCategoryEntity(storeCategoryEntity);*/
@@ -256,7 +261,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+    public void deliverySave(DeliveryDTO deliveryDTO) {
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO, storeEntity);
         System.out.println("오류가 안난다고...?");
         dr.save(deliveryEntity);
@@ -327,8 +333,8 @@ public class StoreServiceImpl implements StoreService {
         Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
         List<DailySaleEntity> dailySaleEntityList = dsr.findByStoreEntity(storeEntity.get());
         List<DailySaleDTO> dailySale = new ArrayList<>();
-        for (DailySaleEntity ds:dailySaleEntityList)   {
-                dailySale.add(toDailySaleDTO(ds));
+        for (DailySaleEntity ds : dailySaleEntityList) {
+            dailySale.add(toDailySaleDTO(ds));
         }
         return dailySale;
     }

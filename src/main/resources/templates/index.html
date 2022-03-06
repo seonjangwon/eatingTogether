@@ -33,9 +33,25 @@
 
 
 <!--<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>-->
+<div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+    <a href="/usual/loginForm">로그인</a><br>
+    <a href="/usual/customer">회원 가입</a><br>
+    <a href="/usual/store">업체 가입</a><br>
+</div>
 
+<div th:if="${session.customerLoginEmail != null}"> <!-- 회원 -->
+    <a href="/store/category">주문 하기</a>
+    <a href="/customer/basket">장바구니</a><br>
+    <a href="/customer/">마이페이지</a><br>
+</div>
 
-
+<div th:if="${session.storeLoginEmail != null}"> <!-- 업체-->
+    <a href="/store/delivery"> 배달지 등록, 정리 안됨 </a><br>
+    <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a><br>
+    <a href="/review/store">리뷰관리</a>
+    <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a><br>
+    <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a><br>
+</div>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>

@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class JangwonTest {
@@ -351,6 +352,15 @@ public class JangwonTest {
         menuEntity.setMenuPrice(4000);
         Long menuNumber = mr.save(menuEntity).getMenuNumber();
         System.out.println("menuEntity = " + menuEntity);
+    }
+
+    @Test
+    @DisplayName("빅카테고리 생성용")
+    public void BCAdd (){
+        Optional<StoreEntity> storeEntity = sr.findById(18l);
+        Optional<BigCategoryEntity> bigCategoryEntity = bcr.findById(1l);
+        storeEntity.get().setBigCategoryEntity(bigCategoryEntity.get());
+        sr.save(storeEntity.get());
     }
 
 }
