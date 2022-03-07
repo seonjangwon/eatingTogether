@@ -188,9 +188,13 @@ public class StoreController {
     @PostMapping("/delivery")
     public String storeDelivery(@Validated @ModelAttribute DeliveryDTO deliveryDTO) {
         System.out.println("StoreController.storeDelivery");
-        ss.deliverySave(deliveryDTO);
+        for (DeliveryDTO d : deliveryDTO.getDeliveryDTOList()){
+            System.out.println("d = " + d);
+            ss.deliverySave(d);
+        }
+//        ss.deliverySave(deliveryDTO);
         //등록만 하는거 맞잖어...
-        return "usual/storeSave";
+        return "index";
     }
 
     //지원 0223
