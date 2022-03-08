@@ -28,6 +28,7 @@
         <section class = "menuSearch">
             섹션2
             <form action="/store/search" method="get">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <select name="searchType">
                     <option value="menu">메뉴 이름</option>
                     <option value="store">매장 이름</option>
