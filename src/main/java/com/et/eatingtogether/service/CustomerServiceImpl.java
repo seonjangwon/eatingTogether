@@ -49,6 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final MenuRepository mr;
     private final ReviewFileRepository rfr;
     private final ReviewRepository rr;
+    private final CouponRepository cpr;
+    private final MyCouponRepository mcpr;
     private final HttpSession session;
 
     @Override
@@ -483,5 +485,23 @@ public class CustomerServiceImpl implements CustomerService {
             menuDTOList.add(MenuDTO.toMenuDetailDTO(m));
         }
         return menuDTOList;
+    }
+
+    @Override
+    public String couponSave(Long couponNumber) {
+        Optional<CouponEntity> couponEntity = cpr.findById(couponNumber);
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Optional<MyCouponEntity> myCouponEntity = mcpr.findByCustomerEntityAndCouponEntity(customerEntity.get(), couponEntity.get());
+        if (!myCouponEntity.isEmpty()) {
+            // 있으면
+            return "no";
+        }  else {
+            // 없으면
+            MyCouponEntity myCouponEntitySave = new MyCouponEntity();
+            myCouponEntitySave.setCustomerEntity(customerEntity.get());
+            myCouponEntitySave.setCouponEntity(couponEntity.get());
+            mcpr.save(myCouponEntitySave);
+            return "ok";
+        }
     }
 }

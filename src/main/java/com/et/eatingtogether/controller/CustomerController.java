@@ -71,6 +71,13 @@ public class CustomerController {
         return "customer/coupon";
     }
 
+    @PostMapping("/coupon")
+    @ResponseBody
+    public String couponSave(@RequestParam("couponNumber") Long couponNumber){
+        String result = cs.couponSave(couponNumber);
+        return result;
+    }
+
     @GetMapping("/point")
     public String point(Model model) {
         List<PointDTO> pointDTOList = cs.pointList();
@@ -138,7 +145,9 @@ public class CustomerController {
         model.addAttribute("order", new OrderDTO()); // 필드 출력용
         // 쿠폰 갯수, 리스트
         List<MyCouponDTO> myCouponDTOList = cs.couponList();
-        model.addAttribute("coupon", myCouponDTOList); // 쿠폰 출력용
+        if (!myCouponDTOList.isEmpty()) {
+            model.addAttribute("coupon", myCouponDTOList); // 쿠폰 출력용
+        }
         // 결제 금액 주문금액 배달팁 총액
         List<BasketDTO> basketDTOList = cs.basketList();
         Long storeNumber = basketDTOList.get(0).getStoreNumber();
@@ -149,6 +158,8 @@ public class CustomerController {
             menuList += b.getMenuName();
         }
         int deliveryPrice = cs.deliveryPrice(basketDTOList.get(0).getStoreNumber());
+        String storeEmail = basketDTOList.get(0).getStoreEmail();
+        model.addAttribute("storeEmail", storeEmail);
         model.addAttribute("storeNumber", storeNumber);
         model.addAttribute("menuList", menuList);
         model.addAttribute("totalPrice", totalPrice); // 장바구니 총 금액

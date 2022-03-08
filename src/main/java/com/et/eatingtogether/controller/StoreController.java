@@ -40,8 +40,8 @@ public class StoreController {
         List<BigCategoryDTO> bcList = ss.findAllBc();
         model.addAttribute("bcList", bcList);
 
-        List<StoreDetailDTO> storeList = ss.findAll();
-        model.addAttribute("storeList", storeList);
+//        List<StoreDetailDTO> storeList = ss.findAll();
+//        model.addAttribute("storeList", storeList);
         //얘를 데려와야 정보를 가져오지않남? 단순 창띄우기니까 필요가 없을지도!
         return "store/categoryMain";
     }
@@ -284,5 +284,13 @@ public class StoreController {
         model.addAttribute("sale", sale);
         System.out.println("판매내역 출력할 것");
         return "store/sale";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("searchType") String searchType,@RequestParam("keyword") String keyword,Model model){
+        //
+        List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
+        model.addAttribute("storeList",storeDetailDTOS);
+        return "store/category";
     }
 }

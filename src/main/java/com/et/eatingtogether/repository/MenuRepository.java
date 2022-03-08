@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<MenuEntity,Long> {
     List<MenuEntity> findAll();
-
+    List<MenuEntity> findByMenuNameContaining(String keyword);
 
     List<MenuEntity> findByStoreEntity(StoreEntity storeEntity);
 

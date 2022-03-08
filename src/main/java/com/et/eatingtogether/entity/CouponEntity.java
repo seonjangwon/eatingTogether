@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,8 +24,8 @@ public class CouponEntity {
 
     private int couponPrice;
 
-    @OneToOne(mappedBy = "couponEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private MyCouponEntity myCouponEntity;
+    @OneToMany(mappedBy = "couponEntity",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<MyCouponEntity> myCouponEntityList;
 
 
     public static CouponEntity toCouponSave(CouponDTO couponDTO){

@@ -68,4 +68,6 @@ public interface CustomerService {
     String basketAdd(BasketDTO basketDTO);
 
     List<MenuDTO> menuFindAll();
+
+    String couponSave(Long couponNumber);
 }

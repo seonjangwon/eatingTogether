@@ -20,7 +20,7 @@ public class MyCouponEntity {
     @JoinColumn(name = "customer_number")
     private CustomerEntity customerEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_number")
     private CouponEntity couponEntity;
 
