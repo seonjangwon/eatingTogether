@@ -3,6 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>쿠폰리스트</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const coupon_save = (couponNumber) =>{
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            console.log("쿠폰쿠폰")
+            $.ajax({
+                type:'post',
+                url:'/customer/coupon',
+                data:{"couponNumber":couponNumber},
+                dataType:'text',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success:function (result) {
+                    console.log(result);
+                    if (result === "ok"){
+                        alert("쿠폰이 등록 되었습니다!")
+                    } else if (result === "no") {
+                        alert("이미 등록된 쿠폰입니다!")
+                    }
+                },
+                error: function (){
+                    alert("아작아작");
+                }
+            });
+        }
+    </script>
 </head>
 <style>
     a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
@@ -56,12 +86,14 @@
         <th>쿠폰이름</th>
         <th>조건</th>
         <th>가격</th>
+        <th>쿠폰 가져오기</th>
     </tr>
     <tr th:each = "coupon : ${couponList}">
         <td th:text="${coupon.couponNumber}"></td>
         <td th:text="${coupon.couponName}"></td>
         <td th:text="${coupon.couponCondition}"></td>
         <td th:text="${coupon.couponPrice}"></td>
+        <td><button th:onclick="coupon_save([[${coupon.couponNumber}]])">쿠폰 가져오기</button></td>
     </tr>
 </table>
 </section>

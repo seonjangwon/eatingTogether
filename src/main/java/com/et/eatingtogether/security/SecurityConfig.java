@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("userId")
                 .passwordParameter("password")
                 .loginProcessingUrl("/usual/login")
-                .defaultSuccessUrl("/usual/loginResult")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()

@@ -40,8 +40,8 @@ public class StoreController {
         List<BigCategoryDTO> bcList = ss.findAllBc();
         model.addAttribute("bcList", bcList);
 
-        List<StoreDetailDTO> storeList = ss.findAll();
-        model.addAttribute("storeList", storeList);
+//        List<StoreDetailDTO> storeList = ss.findAll();
+//        model.addAttribute("storeList", storeList);
         //얘를 데려와야 정보를 가져오지않남? 단순 창띄우기니까 필요가 없을지도!
         return "store/categoryMain";
     }
@@ -52,9 +52,11 @@ public class StoreController {
         // 0218
         List<StoreDetailDTO> storeList = ss.findByBcNumber(bigCategoryNumber);
 
-        model.addAttribute("storeList", storeList);
-        System.out.println("category/{bigCategoryNumber}");
-                // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
+        if (storeList != null) {
+            model.addAttribute("storeList", storeList);
+            System.out.println("category/{bigCategoryNumber}");
+        }
+        // return "store/category/" + bigCategoryNumber; 경로상의 문제일 수도 있다고해서.
         return "store/category";
     }
 
@@ -101,18 +103,18 @@ public class StoreController {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/menuControl/"+storeCategoryEntity.getStoreEntity().getStoreEmail();
+        return "redirect:/store/menuControl/" + storeCategoryEntity.getStoreEntity().getStoreEmail();
         /*return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();*/
     }
 
-                    //0216
-                @PostMapping("/menuList")
-                public @ResponseBody
-                List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
-                    List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
-                    System.out.println("storeController.List<MenuDTO> menuAjax");
-                    return menuList;
-                }
+    //0216
+    @PostMapping("/menuList")
+    public @ResponseBody
+    List<MenuDTO> menuAjax(@PathVariable Long storeNumber) {
+        List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
+        System.out.println("storeController.List<MenuDTO> menuAjax");
+        return menuList;
+    }
 
     //0217 헉 이거 아니다 아 아니 맞다
     @GetMapping("/update/{menuNumber}")
@@ -184,11 +186,15 @@ public class StoreController {
 
     //지원 0220~
     @PostMapping("/delivery")
-    public String storeDelivery(@Validated @ModelAttribute DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+    public String storeDelivery(@Validated @ModelAttribute DeliveryDTO deliveryDTO) {
         System.out.println("StoreController.storeDelivery");
-        ss.deliverySave(deliveryDTO, storeEntity);
+        for (DeliveryDTO d : deliveryDTO.getDeliveryDTOList()){
+            System.out.println("d = " + d);
+            ss.deliverySave(d);
+        }
+//        ss.deliverySave(deliveryDTO);
         //등록만 하는거 맞잖어...
-        return "usual/storeSave";
+        return "index";
     }
 
     //지원 0223
@@ -205,10 +211,10 @@ public class StoreController {
         StoreDetailDTO storeDetailDTO = ss.findByNumber(orderDTO.getStoreNumber());
         // store에서 기능하기때문에 customer가 아닌 store로 진행.
 
-        model.addAttribute("order",orderDTO);
-        model.addAttribute("menu",orderMenuDTOList);
-        model.addAttribute("storeDetail",storeDetailDTO);
-        model.addAttribute("customer",customerDetailDTO);
+        model.addAttribute("order", orderDTO);
+        model.addAttribute("menu", orderMenuDTOList);
+        model.addAttribute("storeDetail", storeDetailDTO);
+        model.addAttribute("customer", customerDetailDTO);
 
         System.out.println(orderMenuDTOList);
 
@@ -217,18 +223,18 @@ public class StoreController {
 
 
     //심기일전... 0227 n회차 재도전 findAll
-    @GetMapping ("/orderAll/{storeEmail}")
-    public String orderFindAll(@PathVariable String storeEmail, Model model)   {
+    @GetMapping("/orderAll/{storeEmail}")
+    public String orderFindAll(@PathVariable String storeEmail, Model model) {
         System.out.println("StoreController.orderAll");
 
         StoreDetailDTO storeDetailDTO = ss.findById(storeEmail);
         List<OrderDTO> orderAll = ss.findOrderAll(storeEmail);
         /*List<OrderDTO> storeDetailDTOList = ss.findOrderAll(storeDetailDTO.getStoreNumber());*/
 
-        model.addAttribute("store",storeDetailDTO);
-        model.addAttribute("orderAll",orderAll);
+        model.addAttribute("store", storeDetailDTO);
+        model.addAttribute("orderAll", orderAll);
 
-        System.out.println("store: "+storeDetailDTO);
+        System.out.println("store: " + storeDetailDTO);
         System.out.println("페이지 출력만이라도 일단 ㅠ");
         return "store/orderList";
     }
@@ -237,11 +243,11 @@ public class StoreController {
 
 
     @GetMapping("/riderList/{orderNumber}")
-    public String riderList(@PathVariable Long orderNumber, Model model)   {
+    public String riderList(@PathVariable Long orderNumber, Model model) {
         List<RiderDTO> riderList = as.riderFindAll();
-        model.addAttribute("orderNumber",orderNumber);
+        model.addAttribute("orderNumber", orderNumber);
         model.addAttribute("riderList", riderList);
-        model.addAttribute("orderFinish",new OrderNowDTO());
+        model.addAttribute("orderFinish", new OrderNowDTO());
         System.out.println(riderList);
         return "store/riderList";
     }
@@ -254,7 +260,6 @@ public class StoreController {
     }
 
 
-
     //아 증말 죄송합니다, 이건 메뉴리스트(업체용)이에요
     @GetMapping("/menuControl/{storeEmail}")
     public String storeMenuControl(@PathVariable String storeEmail, Model model) {
@@ -262,22 +267,30 @@ public class StoreController {
         StoreDetailDTO storeDetailDTO = ss.findById(storeEmail);
         /*StoreDetailDTO storeDetailDTO = ss.findByNumber(storeNumber);*/
         List<MenuDTO> menuList = ss.menuFindAll(storeDetailDTO.getStoreNumber());
-        model.addAttribute("store",storeDetailDTO);
-        model.addAttribute("menuList",menuList);
+        model.addAttribute("store", storeDetailDTO);
+        model.addAttribute("menuList", menuList);
         System.out.println("메뉴리스트 띄우기");
         return "store/menuControl";
     }
 
-    @GetMapping ("/sale/{storeEmail}")
-    public String salePage(@PathVariable String storeEmail, Model model)    {
+    @GetMapping("/sale/{storeEmail}")
+    public String salePage(@PathVariable String storeEmail, Model model) {
         //판매 내역 출력
         StoreDetailDTO store = ss.findById(storeEmail);
-        model.addAttribute("store",store);
+        model.addAttribute("store", store);
         List<OrderDTO> order = ss.findOrderAll(storeEmail);
-        model.addAttribute("order",order);
+        model.addAttribute("order", order);
         List<DailySaleDTO> sale = ss.findSaleAll(store.getStoreNumber());
-        model.addAttribute("sale",sale);
+        model.addAttribute("sale", sale);
         System.out.println("판매내역 출력할 것");
         return "store/sale";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("searchType") String searchType,@RequestParam("keyword") String keyword,Model model){
+        //
+        List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
+        model.addAttribute("storeList",storeDetailDTOS);
+        return "store/category";
     }
 }

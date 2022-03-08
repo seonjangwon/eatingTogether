@@ -16,6 +16,7 @@ public class BasketDTO {
 
     private Long storeNumber;
     private String storeName;
+    private String storeEmail;
 
     private Long menuNumber;
     private String menuName;
@@ -30,6 +31,7 @@ public class BasketDTO {
         basketDTO.setCustomerName(basketEntity.getCustomerEntity().getCustomerNickname());
         basketDTO.setStoreNumber(basketEntity.getStoreEntity().getStoreNumber());
         basketDTO.setStoreName(basketEntity.getStoreEntity().getStoreName());
+        basketDTO.setStoreEmail(basketEntity.getStoreEntity().getStoreEmail());
         basketDTO.setMenuNumber(basketEntity.getMenuEntity().getMenuNumber());
         basketDTO.setMenuName(basketEntity.getMenuEntity().getMenuName());
         basketDTO.setMenuFilename(basketEntity.getMenuEntity().getMenuFilename());

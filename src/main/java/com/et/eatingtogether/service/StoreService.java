@@ -41,7 +41,7 @@ public interface StoreService {
 
     void deleteByMenu(Long menuNumber);
 
-    void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity);
+    void deliverySave(DeliveryDTO deliveryDTO);
 
     //orderDetail
     OrderDTO findByOrder(Long orderNumber);
@@ -53,4 +53,6 @@ public interface StoreService {
     String updateStore(StoreDetailDTO storeDetailDTO);
 
     List<DailySaleDTO> findSaleAll(Long storeNumber);
+
+    List<StoreDetailDTO> search(String searchType, String keyword);
 }

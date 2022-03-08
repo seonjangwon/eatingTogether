@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.et.eatingtogether.dto.store.DailySaleDTO.toDailySaleDTO;
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
@@ -138,7 +139,7 @@ public class StoreServiceImpl implements StoreService {
         String menuFilename = menuFile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + menuFilename;
 
-        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
+        String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
         if (!menuFile.isEmpty()) {
             menuFile.transferTo(new File(savePath));
         }
@@ -199,7 +200,13 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public List<StoreDetailDTO> findByBcNumber(Long bigCategoryNumber) {
         BigCategoryEntity bigCategoryEntity = bcr.findById(bigCategoryNumber).get();
-        List<StoreEntity> storeEntityList = sr.findByBigCategoryEntity(bigCategoryEntity);
+//        List<StoreEntity> storeEntityList = sr.findByBigCategoryEntity(bigCategoryEntity);
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<DeliveryEntity> deliveryEntities = dr.findByDeliveryDname(customerEntity.get().getCustomerDname());
+        List<StoreEntity> storeEntityList = new ArrayList<>();
+        for (DeliveryEntity d : deliveryEntities) {
+            storeEntityList.add(d.getStoreEntity());
+        }
 
         /*BigCategoryEntity bigCategoryEntity = scr.findById(bigCategoryNumber).get();
         List<StoreEntity> storeEntityList = sr.findByStoreCategoryEntity(storeCategoryEntity);*/
@@ -256,7 +263,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void deliverySave(DeliveryDTO deliveryDTO, StoreEntity storeEntity) {
+    public void deliverySave(DeliveryDTO deliveryDTO) {
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
         DeliveryEntity deliveryEntity = DeliveryEntity.toSaveDeliveryEntity(deliveryDTO, storeEntity);
         System.out.println("오류가 안난다고...?");
         dr.save(deliveryEntity);
@@ -327,9 +335,48 @@ public class StoreServiceImpl implements StoreService {
         Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
         List<DailySaleEntity> dailySaleEntityList = dsr.findByStoreEntity(storeEntity.get());
         List<DailySaleDTO> dailySale = new ArrayList<>();
-        for (DailySaleEntity ds:dailySaleEntityList)   {
-                dailySale.add(toDailySaleDTO(ds));
+        for (DailySaleEntity ds : dailySaleEntityList) {
+            dailySale.add(toDailySaleDTO(ds));
         }
         return dailySale;
+    }
+
+    @Override
+    public List<StoreDetailDTO> search(String searchType, String keyword) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        List<StoreDetailDTO> storeDetailDTOList = new ArrayList<>();
+        List<StoreEntity> storeEntityList = new CopyOnWriteArrayList<>();
+        if (searchType.equals("menu")){
+            // 메뉴 리스트 가져와서 스토어만 엔티티 리스트에 넣어서 디테일 디티오에 넣어서 사용하자
+            List<MenuEntity> menuEntities = mnr.findByMenuNameContaining(keyword);
+            for (MenuEntity m : menuEntities){
+                for (DeliveryEntity d : m.getStoreEntity().getDeliveryEntityList()) {
+                    if (customerEntity.get().getCustomerDname().equals(d.getDeliveryDname())) {
+                        if (!storeEntityList.isEmpty()) {
+                            for (StoreEntity s : storeEntityList) {
+                                if (!s.getStoreEmail().equals(m.getStoreEntity().getStoreEmail())) {
+                                    storeEntityList.add(m.getStoreEntity());
+                                }
+                            }
+                        } else {
+                            storeEntityList.add(m.getStoreEntity());
+                        }
+                    }
+                }
+            }
+        } else if (searchType.equals("store")){
+            List<StoreEntity> storeEntityList2 = sr.findByStoreNameContaining(keyword);
+            for (StoreEntity s : storeEntityList2) {
+                for (DeliveryEntity d : s.getDeliveryEntityList()){
+                    if (customerEntity.get().getCustomerDname().equals(d.getDeliveryDname())){
+                        storeEntityList.add(s);
+                    }
+                }
+            }
+        }
+        for (StoreEntity s : storeEntityList){
+            storeDetailDTOList.add(StoreDetailDTO.toStoreDetailDTO(s));
+        }
+        return storeDetailDTOList;
     }
 }

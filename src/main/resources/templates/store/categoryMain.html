@@ -148,12 +148,21 @@
     <section>
 
         <section class = "menuClickButton" th:each="bcl: ${bcList}">
-            <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></a>
+            <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></span></a>
 
         </section>
 
         <section class = "menuSearch">
             섹션2
+            <form action="/store/search" method="get">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <select name="searchType">
+                    <option value="menu">메뉴 이름</option>
+                    <option value="store">매장 이름</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                <input type="submit" value="검색">
+            </form>
         </section>
     </section>
 

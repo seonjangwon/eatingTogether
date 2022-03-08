@@ -122,7 +122,7 @@
                     },
                     success: function(result){
                         if(result==="ok"){
-                            location.href="/usual/customerLogin";
+                            location.href="/usual/loginForm";
                         }
                     },
                     error: function(){
@@ -144,7 +144,7 @@
 </head>
 <body>
 <form th:action="@{/usual/customer}" method="post" th:object="${customer}" id="save_form">
-    아이디 : <input type="text" th:field="*{customerEmail}" onblur="EmailCk()">
+    아이디 : <input type="email" th:field="*{customerEmail}" onblur="EmailCk()">
     <p id="EmailCheck"></p><br>
     비밀번호 : <input type="text" th:field="*{customerPassword}"><br>
     비밀번호 확인 : <input type="text"><br>
