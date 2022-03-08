@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
     <title>관리자페이지</title>
 </head>
 <body>
+<section>
 <a href="/admin/customer">회원조회</a>
 <a href="/admin/store">업체조회</a>
 <a href="/admin/blackList">블랙리스트</a>
@@ -24,6 +26,7 @@
 
 로그인아이디 : <span th:text="${session['customerLoginEmail']}"></span>
 
-
+</section>
+<footer></footer>
 </body>
 </html>
