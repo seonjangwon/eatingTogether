@@ -1,15 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="/css/form.css" rel="stylesheet" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link    {
+        color: sandybrown;
+    } /* 하이퍼링크 관련 */
+    a:visited {
+        color: sandybrown;
+    }
+    a:hover   {
+        color: coral;
+    }
+    a:active  {
+        color: deeppink;
+    }
+</style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
+<header>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-3">
+                <span id = logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class = "col-2">
+                <!-- 공백란 -->
+            </div>
+            <div class = "col-2">
+                <!--<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+            <div class="col-4">
+                <span id= "menuBar-text">
+                    마이페이지 주문내역 찜내역
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
+            </div>
+        </div>
+    </div>
+</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
+<section>
 <form action="/admin/coupon" method="post" th:object="${coupon}">
     쿠폰이름 : <input type="text" th:field="*{couponName}">
     쿠폰 금액 : <input type="text" th:field="*{couponPrice}">
     쿠폰 조건 : <input type="text" th:field="*{couponCondition}">
 <input type="submit" value="저장">
 </form>
+</section>
+<footer>
+
+</footer>
 </body>
 </html>
