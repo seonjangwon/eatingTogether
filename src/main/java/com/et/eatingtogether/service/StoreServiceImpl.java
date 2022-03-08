@@ -65,8 +65,8 @@ public class StoreServiceImpl implements StoreService {
             String storeFilename = storeFile.getOriginalFilename();
             storeFilename = System.currentTimeMillis() + "-" + storeFilename;
             System.out.println("파일이름: " + storeFilename);
-//            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\" + storeFilename; // 지원이꺼
-            String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; // 내꺼
+            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\" + storeFilename; // 지원이꺼
+/*            String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; // 내꺼*/
             if (!storeFile.isEmpty()) {
                 storeFile.transferTo(new File(savePath));
             }

@@ -48,18 +48,18 @@
 </header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
 <!-- --------------------------------------------------------- -->
 <section>
+    <div class="main-check">
+        <div th:if="${storeList == null}">
+            배달 가능 업체가 없어요 ㅠㅠ
+        </div>
+    </div>
     <div class="main-container">
-      <div th:if="${storeList == null}">
-      배달 가능 업체가 없어요 ㅠㅠ
-      </div>
-      <div th:if="${storeList !=null}">
         <div class="row row-col-md-3 g-4" th:each="bcl:${storeList}">
             <div class="col">
                 <div class="card">
                     <p class="card-img-top" alt="사진">
-                    <!--<th> <img th:src="@{|/upload/store/${bcl.storeNumber}|}" alt="붱철"></th>-->
-                    <th> <img th:src="@{|/upload/${storeList[0].getStoreFilename()}|}" alt="Do Eat, Do it" style="width:150px"; height="150px"></th>
-                    <!--<img src="..." class="card-img-top" alt="사진">-->
+                    <!--<th> <img th:src="@{|/upload/${storeList[0].getStoreFilename()}|}" alt="Do Eat, Do it" style="width:150px"; height="150px"></th>-->
+                    <th> <img th:src="@{|/upload/store/${bcl.getStoreFilename()}|}" alt="Do Eat, Do it" style="width:253px"; height="253px"></th>
                     <div class="card-body">
                         <h5 class="card-title"><td th:text="${bcl.storeName}">가게이름</td></h5>
                         <p class="card-text">오픈 <td th:text="${bcl.storeOpen}"></td>,    마감 <td th:text="${bcl.storeClose}"></td></p>
@@ -70,7 +70,6 @@
             </div>
         </div>
     </div>
-  </div>
 </section>
 <!-- --------------------------------------------------------- -->
 <footer>
@@ -78,3 +77,8 @@
 </footer>
 </body>
 </html>
+
+<!-- 장원씨가 추가했는데 오류가 나서 일단 뺴둬요, 얘 때문에 인식을 못해서 컬럼이 안먹어요 ㅠ.ㅠ -->
+<!--<div th:if="${storeList !=null}">
+        &lt;!&ndash;<div class="row row-col-md-3 g-4" th:each="bcl:${storeList}">&ndash;&gt;
+    </div>-->
