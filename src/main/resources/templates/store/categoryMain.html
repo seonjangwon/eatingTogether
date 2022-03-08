@@ -99,8 +99,13 @@
             </a>
         </div> <!-- 대분류 선택칸 -->
         <div class= "item" id="searchArea">
-            <form class="d-flex" id= "searchMenu">
-                <input class="form-control me-sm-2" id="search-input" type="text" placeholder="메뉴를 검색하세요!">
+            <form class="d-flex" id= "searchMenu" action="/store/search" method="get">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <select name="searchType">
+                    <option value="menu">메뉴 이름</option>
+                    <option value="store">매장 이름</option>
+                </select>
+                <input class="form-control me-sm-2" id="search-input" type="text" name="keyword" placeholder="검색어를 입력하세요">
                 <button class="btn my-2 my-sm-0" style="background-color: coral" type="submit" > 🥄 </button>
             </form>
         </div> <!-- 검색 -->
