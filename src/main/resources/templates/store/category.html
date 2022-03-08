@@ -20,17 +20,27 @@
     a:active  {
         color: deeppink;
     }
+
+    #bcArea{
+        left: 50%;
+        top: 400px;
+        font-family: 'Cafe24SsurroundAir';
+        font-weight: bolder;
+        font-size: larger;
+        color: #333333;
+        text-align: center;
+    }
 </style><!--로고 하이퍼링크 관련 -->
 <body>
 <header>
     <div class = "container">
         <div class = "row">
-            <div class = "col-2">
+            <div class = "col-4">
                 <span id = logoTitle>
                     <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div> <!-- 로고타이틀 -->
-            <div class = "col-3">
+            <div class = "col">
                 <!-- 공백란 -->
             </div> <!-- 공백란 -->
             <div class = "col-2">
@@ -52,6 +62,15 @@
         <div th:if="${storeList == null}">
             배달 가능 업체가 없어요 ㅠㅠ
         </div>
+        <div th:if="${storeList !=null}">
+            <div id="bcArea">
+                <span th:if="${bigCategoryNumber.toString().equals('1')}"> 🍲 한식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('2')}"> 🍜 중식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('3')}"> 🍣 일식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('4')}"> 🍝 양식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('5')}"> 🍔 패스트푸드 / 기타 </span>
+            </div>
+        </div><!--소제목을 넣어보자-->
     </div>
     <div class="main-container">
         <div class="row row-col-md-3 g-4" th:each="bcl:${storeList}">
