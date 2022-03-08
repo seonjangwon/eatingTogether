@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!--<link href="/css/layout1.css" rel="stylesheet" crossorigin="anonymous">-->
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -45,7 +46,52 @@
 
 
 </head>
+<!--<style>
+    a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link    {
+        color: sandybrown;
+    } /* 하이퍼링크 관련 */
+    a:visited {
+        color: sandybrown;
+    }
+    a:hover   {
+        color: coral;
+    }
+    a:active  {
+        color: deeppink;
+    }
+</style>&lt;!&ndash; 하이퍼링크용: 수정가능성 있음 &ndash;&gt;
 <body>
+<header>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-3">
+                <span id = logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class = "col-2">
+                &lt;!&ndash; 공백란 &ndash;&gt;
+            </div>
+            <div class = "col-2">
+                &lt;!&ndash;<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>&ndash;&gt;
+            </div>
+            <div class="col-4">
+                <span id= "menuBar-text">
+                    마이페이지 주문내역 찜내역
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                &lt;!&ndash;<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>&ndash;&gt;
+            </div>
+        </div>
+    </div>
+</header>&lt;!&ndash;header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~&ndash;&gt;-->
+<section>
 <table>
     <tr>
         <th>회원번호</th>
@@ -66,5 +112,9 @@
 <!--        <td><button th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>-->
     </tr>
 </table>
+</section>
+<footer>
+
+</footer>
 </body>
 </html>
