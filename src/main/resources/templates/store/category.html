@@ -21,13 +21,19 @@
         color: deeppink;
     }
 
+    .main-check{
+        background-color: blanchedalmond;
+        height: 100px;
+    }
     #bcArea{
         left: 50%;
-        top: 400px;
+        top: 50px;
+        position: absolute;
+        transform: translate(-50%, -50%);
         font-family: 'Cafe24SsurroundAir';
         font-weight: bolder;
         font-size: larger;
-        color: #333333;
+        color: sandybrown;
         text-align: center;
     }
 </style><!--로고 하이퍼링크 관련 -->
@@ -47,7 +53,21 @@
             </div> <!-- 검색창이 있었던 -->
             <div class="col-4">
                 <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                     <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                         뭐먹을까요, eating together!
+                     </div>
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산확인</a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>  <!-- 하이퍼링크용 -->
             <div class="col" id="menuBar-friPan"> <!-- 버튼 -->
@@ -96,8 +116,3 @@
 </footer>
 </body>
 </html>
-
-<!-- 장원씨가 추가했는데 오류가 나서 일단 뺴둬요, 얘 때문에 인식을 못해서 컬럼이 안먹어요 ㅠ.ㅠ -->
-<!--<div th:if="${storeList !=null}">
-        &lt;!&ndash;<div class="row row-col-md-3 g-4" th:each="bcl:${storeList}">&ndash;&gt;
-    </div>-->
