@@ -1,0 +1,172 @@
+/* 폰트 설정 */
+@font-face {
+    font-family: 'Yeongdo-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}/* 로고타이틀 용 */
+@font-face {
+    font-family: 'LeeSeoyun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}/* 상단 메뉴바 폰트 */
+@font-face {/*여기어때*/
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}/* 제목용으로 쓰기 좋아요 */
+@font-face {
+    font-family: 'Cafe24SsurroundAir';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}/* 가독성+귀여운 */
+
+a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
+a:link    {
+    color: sandybrown;
+} /* 하이퍼링크 관련 */
+a:visited {
+    color: sandybrown;
+}
+a:hover   {
+    color: coral;
+}
+a:active  {
+    color: deeppink;
+}
+/*---------------------------------------------------*/
+header{
+    background-color: white;
+    opacity: 90%;
+    height: 80px;
+    width: 100%;
+    z-index: 1;
+    top:0; left: 0;
+    position: relative;
+    position: fixed;
+    /*transform: translate(0,0);*/
+    margin-bottom: 10px;
+}/*헤더전체*/
+
+#logoTitle  {
+    font-family: 'Yeongdo-Rg';
+    opacity: 100%;
+    display: inline-block;
+    transform: translate(0,50%);
+    color: white;
+    margin: 10px
+}
+
+#menuBar-text    {
+    transform: translate(0,85%);
+    font-family: 'LeeSeoyun';
+    text-align: right;
+    display: inline-block;
+    float: right;
+    font-size: 18px;
+    margin: 10px;
+    word-spacing: 10px;
+}
+
+#menuBar-friPan  {
+    transform: translate(0,48%);
+    font-size: larger;
+
+}
+#menuBar-search {
+    margin: 5px;
+}
+
+
+/*---------------------------------------------------*/
+/* body-main 부분 */
+section{
+    position: relative;
+    /*top: 80px;*/
+    width: 100%;
+    /*z-index: auto;*/
+    text-align: center;
+    height: 100vh;
+    background-color: antiquewhite;
+}
+
+.container-section  {
+    display: grid;
+    width: 100%;
+    /*giving grid to container*/
+    grid-template-rows: 400px 300px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
+.item   {
+    /*background-color: sandybrown;*/
+    width: 100%;
+}
+.carousel-item{
+    left: 50%;
+    transform: translate(-50%,0%);
+    max-height: 400px;
+}
+#carousel  {
+    display: inline-block;
+    position: absolute;
+    margin-bottom: 100px;
+    max-height: 400px;
+}
+
+.nothing {
+    font-family: 'yg-jalnan';
+    display: grid;
+    position: absolute;
+    transform: translate(-50%,-80%);
+    left: 50%;
+    top:80%;
+    width: 60%;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+
+}
+
+.loginMember {
+    font-family: 'yg-jalnan';
+    display: grid;
+    position: absolute;
+    transform: translate(-50%,-80%);
+    left: 50%;
+    top:80%;
+    width: 60%;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.loginStore {
+    font-family: 'yg-jalnan';
+    display: grid;
+    position: absolute;
+    transform: translate(-50%,-80%);
+    left: 50%;
+    top:80%;
+    width: 60%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+/* ------------------------------------------ */
+footer{
+    background-color: gainsboro ;
+    display: inline-block;
+    position: fixed;
+    width: 100%;
+    height: 3%;
+    bottom: 0%;
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+    color: darksalmon;
+    font-family: 'Cafe24SsurroundAir';
+}

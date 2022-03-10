@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<link href="/css/index.css" rel="stylesheet" crossorigin="anonymous">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<link href="/css/realIndex.css" rel="stylesheet" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>[뭐먹을까요] 어서오세요</title>
@@ -22,6 +23,7 @@
     a:active  {
         color: deeppink;
     }
+
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
@@ -43,7 +45,21 @@
             </div>
             <div class="col-4">
                 <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                     <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                         뭐먹을까요, eating together!
+                     </div>
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산확인</a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
@@ -54,104 +70,85 @@
     </div>
 </header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
 <section>
-<!--    <div class="container-section">
-        <div class= "item" id="carousel">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <div class="container-section">
+        <div class="item" id="carousel">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner" id="korea">
+                            <div class="carousel-item active">
+                                <img src="https://cdn.pixabay.com/photo/2018/11/26/02/25/kimchi-3838674_960_720.jpg" class="d-block w-100" alt="한식">
+                            </div>
+                            <div class="carousel-item" id="china">
+                                <img src="https://cdn.pixabay.com/photo/2020/08/22/14/49/fried-rice-5508576_960_720.jpg" class="d-block w-100" alt="중식">
+                            </div>
+                            <div class="carousel-item" id="japan">
+                                <img src="https://cdn.pixabay.com/photo/2016/04/26/03/55/salmon-1353598_960_720.jpg" class="d-block w-100" alt="일식">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+         </div><!-- 캐러셀 -->
+        <div class="item" id="login">
+                <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                    <div class="nothing">
+                        <div class="nothing1">
+                            <h3><a href="/usual/loginForm"> <p>🧡</p>로그인</a></h3>
+                        </div>
+                        <div class="nothing2">
+                            <h3><a href="/usual/customer"><p>👑</p>회원 가입</a></h3>
+                        </div>
+                        <div class="nothing3">
+                            <h3><a href="/usual/store"><p>🍙</p>업체 가입</a></h3>
+                        </div>
+                    </div>
                 </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://blog.kakaocdn.net/dn/4PWiX/btq9s3OpJM5/PkQxTcunuKGfQ8eD6oHmuk/img.jpg" class="d-block w-100" alt="한식">
+
+                <div th:if="${session.customerLoginEmail != null}"> <!-- 회원 -->
+                    <div class="loginMember">
+                        <div class="loginMember1">
+                        <h3><a href="/store/category"><p>🥄</p>주문 하기</a></h3>
+                        </div>
+                        <div class="loginMember2">
+                        <h3><a href="/customer/basket"><p>🐱‍👓</p>장바구니</a></h3>
+                        </div>
+                        <div class="loginMember3">
+                        <h3><a href="/customer/"><p>🐾</p>마이페이지</a></h3>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://blog.kakaocdn.net/dn/cQadDg/btqIZmNixWI/kkef5cKMY4YiWIDBcsX7IK/img.png" class="d-block w-100" alt="중식">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://premierhotel-group.com/korean/discover/cuisine/img/slider-sp01.jpg" class="d-block w-100" alt="일식">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </div>&lt;!&ndash; 캐러셀 &ndash;&gt;
-        <div class= "item" id="bigCategoryArea">
-            <a href="/store/category/1"> &lt;!&ndash; 새 창에서 열리게하려면  target="_blank" 추가 &ndash;&gt;
-                <img src="https://ww.namu.la/s/214bfd4232b5b258ffd688690a297dd63ee00170d514e1b2eeecfd14b78b2af762aaf9f316ecb7bcaa4bd940c7824a595752d143aba660182a3b8fb76f740fe616ed75d37579df912b24795fea22aa1c9c221c8b747d346515f8697e705436d10a3df729c022378460d1ce7c883adc80" alt="한식" style="width:150px; height:150px">
-            </a>
-            <a href="/store/category/2"> &lt;!&ndash; 새 창에서 열리게하려면  target="_blank" 추가 &ndash;&gt;
-                <img src="https://recipe1.ezmember.co.kr/cache/recipe/2015/09/29/41cab0d7e7262c3847750c7c01815480.jpg" alt="중식" style="width:150px; height:150px">
-            </a>
-            <a href="/store/category/3"> &lt;!&ndash; 새 창에서 열리게하려면  target="_blank" 추가 &ndash;&gt;
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGqAZtSEfT-SL59mRYb97WfaeOnYJ8SONrPQ&usqp=CAU" alt="일식" style="width:150px; height:150px">
-            </a>
-            <a href="/store/category/4"> &lt;!&ndash; 새 창에서 열리게하려면  target="_blank" 추가 &ndash;&gt;
-                <img src="https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/03/a0003075/img/basic/a0003075_main.jpg" alt="양식" style="width:150px; height:150px">
-            </a>
-            <a href="/store/category/5"> &lt;!&ndash; 새 창에서 열리게하려면  target="_blank" 추가 &ndash;&gt;
-                <img src="https://newsimg.sedaily.com/2020/11/17/1ZAFYQN80J_1.jpg" alt="기타" style="width:150px; height:150px">
-            </a>
-        </div> &lt;!&ndash; 대분류 선택칸 &ndash;&gt;
-        <div class= "item" id="searchArea">
-            <form class="d-flex" id= "searchMenu">
-                <input class="form-control me-sm-2" id="search-input" type="text" placeholder="메뉴를 검색하세요!">
-                <button class="btn my-2 my-sm-0" style="background-color: coral" type="submit" > 🥄 </button>
-            </form>
-        </div> &lt;!&ndash; 검색 &ndash;&gt;
+                </div> <!--회원 로그인시-->
 
-&lt;!&ndash;        <div class = "item"> D </div>
-        <div class = "item"> C </div>
-        <div class = "item"> D </div>&ndash;&gt;
-        </div>-->
-    <a href = "/usual/customer"> 회원가입 </a><br>
-    <a href="/usual/customerLogin"> 로그인 </a><br>
-    <a href="storeMain"> ❤ </a>
-
-<a href="/usual/customer">회원가입</a>
-<a href="/usual/logout">로그아웃</a>
-<a href="/admin">관리자</a>
-로그인이메일 : <span th:text="${session['customerLoginEmail']}"></span>
-  
-<a href="/customer/basket">장바구니</a><br>
-<a href="/customer/">마이페이지</a><br>
-<a href="/customer/kakaoLogout">카카오 로그아웃</a>
-<div id="msgStack"></div>
-<button onclick="send_btn()">웹소켓 전송 테스트</button><br>
-<a href="/customer/basketAddTest">테스트용</a><br>
-이메일 : <span sec:authentication="name"></span><br>
-
-<!--<a th:href="@{|/review/save/${orderList.orderNumber}|}">리뷰작성</a>-->
-
-
-<!--<a href="/review/save/${orderList.orderNumber}">리뷰작성</a>-->
-<div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
-    <a href="/usual/loginForm">로그인</a><br>
-    <a href="/usual/customer">회원 가입</a><br>
-    <a href="/usual/store">업체 가입</a><br>
-</div>
-
-<div th:if="${session.customerLoginEmail != null}"> <!-- 회원 -->
-    <a href="/store/category">주문 하기</a>
-    <a href="/customer/basket">장바구니</a><br>
-    <a href="/customer/">마이페이지</a><br>
-</div>
-
-<div th:if="${session.storeLoginEmail != null}"> <!-- 업체-->
-    <a href="/store/delivery"> 배달지 등록, 정리 안됨 </a><br>
-    <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a><br>
-    <a href="/review/store">리뷰관리</a>
-    <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a><br>
-    <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a><br>
-</div>
-
+                <div th:if="${session.storeLoginEmail != null}"> <!-- 업체-->
+                    <div class="loginStore">
+                        <div class="ls1">
+                            <h3><a href="/store/delivery"> <p>🚗</p>배달지 등록 </a><br></h3>
+                        </div>
+                        <div class="ls2">
+                            <h3><a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> <p>📖</p>주문관리 </a><br></h3>
+                        </div>
+                        <div class="ls3">
+                            <h3><a href="/review/store"><p>👀</p>리뷰관리</a></h3>
+                        </div>
+                        <div class="ls4">
+                            <h3><a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> <p>➕</p>메뉴관리 </a><br></h3>
+                        </div>
+                        <div class="ls5">
+                            <h3><a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> <p>💰</p>정산페이지 </a><br></h3>
+                        </div>
+                    </div>  <!--업체 로그인시-->
+                </div><!-- 로그인 -->
+        </div>
+    </div>
 </section>
 
 <footer>
