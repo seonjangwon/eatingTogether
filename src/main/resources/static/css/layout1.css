@@ -144,6 +144,20 @@ section{
     transform: translate(-50%,0);
 }
 
+.container-section-store  {
+    display: grid;
+    width: 60%;
+    /*giving grid to container*/
+    grid-template-rows: 1fr 2fr;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0%);
+    text-align: center;
+    font-family: 'LeeSeoyun';
+    font-size: 18px;
+}
+
+
 /* ------------------------------------------ */
 footer{
     background-color: gainsboro ;
