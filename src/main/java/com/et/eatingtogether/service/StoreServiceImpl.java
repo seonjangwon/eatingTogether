@@ -384,14 +384,26 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public String riderStart(Long riderNumber, Long orderNumber) {
-        // 주문 내역 불러와서 주문 상태 수정
-        OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
-        orderNowEntity.setOrderNowStatus("배달중");
-        onr.save(orderNowEntity);
         // 라이더 상태 수정
         Optional<RiderEntity> riderEntity = rr.findById(riderNumber);
         riderEntity.get().setRiderState("배달중");
         rr.save(riderEntity.get());
+        // 주문 내역 불러와서 주문 상태 수정
+        OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
+        orderNowEntity.setOrderNowStatus("배달중");
+        orderNowEntity.setRiderEntity(riderEntity.get());
+        onr.save(orderNowEntity);
+        return "ok";
+    }
+
+    @Override
+    public String riderEnd(Long orderNumber) {
+        OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
+        orderNowEntity.setOrderNowStatus("배달 완료");
+        onr.save(orderNowEntity);
+        RiderEntity riderEntity = orderNowEntity.getRiderEntity();
+        riderEntity.setRiderState("대기");
+        rr.save(riderEntity);
         return "ok";
     }
 }

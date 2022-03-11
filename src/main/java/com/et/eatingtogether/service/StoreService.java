@@ -57,4 +57,6 @@ public interface StoreService {
     List<StoreDetailDTO> search(String searchType, String keyword);
 
     String riderStart(Long riderNumber, Long orderNumber);
+
+    String riderEnd(Long orderNumber);
 }

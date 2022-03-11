@@ -264,6 +264,13 @@ public class StoreController {
         return result;
     }
 
+    @PutMapping("/rider")
+    @ResponseBody
+    public String riderEnd(@RequestParam("orderNumber") Long orderNumber) {
+        String result = ss.riderEnd(orderNumber);
+        return result;
+    }
+
 
     //아 증말 죄송합니다, 이건 메뉴리스트(업체용)이에요
     @GetMapping("/menuControl/{storeEmail}")

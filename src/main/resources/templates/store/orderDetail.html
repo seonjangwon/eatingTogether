@@ -5,6 +5,8 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>[뭐먹을까요:업체] 주문현황상세 </title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -110,7 +112,12 @@
                 </ul>
             </div>
             <div class="item" id="helloRider">
-                <input type="button" value="배달요청" id="riderSelect" onclick="popUp()">
+                <div th:if="${order.orderNow == '접수 대기'}">
+                    <input type="button" value="배달요청" id="riderSelect" onclick="popUp()">
+                </div>
+                <div th:if="${order.orderNow == '배달중'}">
+                    <input type="button" value="배달 완료 요청" onclick="rider_end_btn()">
+                </div>
                 <span id="plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
                 <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}" class="btn btn-light btn-sm"
                    tabindex="-1" id="orderFinish" role="button" style="display:none;" aria-disabled="true"> 처리완료 </a>
@@ -126,6 +133,32 @@
 </body>
 
 <script>
+    const rider_end_btn = () =>{
+        const orderNumber = '[[${order.orderNumber}]]';
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        $.ajax({
+            type:'put',
+            url:'/store/rider',
+            data:{"orderNumber":orderNumber},
+            dataType:'text',
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
+            success:function (result){
+                console.log(result);
+                if (result==="ok"){
+                    alert("배달 완료 성공")
+                    location.reload();
+                } else  {
+                    alert("오류!")
+                }
+            },
+            error:function (){
+                alert("아작아작");
+            }
+        });
+    }
     //팝업을 합니다.
     function popUp() {
         const orderNum = '[[${order.orderNumber}]]';
