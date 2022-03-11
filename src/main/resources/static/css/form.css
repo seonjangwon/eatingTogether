@@ -88,12 +88,17 @@ section{
     margin-bottom: 10px;
 }
 #joinForm input  {
-    /*        border-radius: 0.25rem;
-            border: 1.5px solid sandybrown;*/
+    /*border-radius: 0.25rem;*/
     margin-top: 3px;
     margin-bottom: 3px;
     gap: 15px;
+}
 
+input {
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    gap: 15px;
 }
 
 
