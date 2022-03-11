@@ -23,7 +23,19 @@
     font-weight: normal;
     font-style: normal;
 }/* 가독성+귀여운 */
-
+a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
+a:link    {
+    color: sandybrown;
+} /* 하이퍼링크 관련 */
+a:visited {
+    color: sandybrown;
+}
+a:hover   {
+    color: coral;
+}
+a:active  {
+    color: deeppink;
+}
 /*---------------------------------------------------*/
 header{
     background-color: white;
