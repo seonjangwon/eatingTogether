@@ -4,62 +4,83 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}/* 로고타이틀 용 */
+}
+
+/* 로고타이틀 용 */
 @font-face {
     font-family: 'LeeSeoyun';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}/* 상단 메뉴바 폰트 */
-@font-face {/*여기어때*/
+}
+
+/* 상단 메뉴바 폰트 */
+@font-face {
+    /*여기어때*/
     font-family: 'yg-jalnan';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}/* 제목용으로 쓰기 좋아요 */
+}
+
+/* 제목용으로 쓰기 좋아요 */
 @font-face {
     font-family: 'Cafe24SsurroundAir';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}/* 가독성+귀여운 */
-a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
-a:link    {
+}
+
+/* 가독성+귀여운 */
+a {
+    text-decoration-line: none;
+}
+
+/* 하이퍼링크 꾸밈요소 삭제 */
+a:link {
     color: sandybrown;
-} /* 하이퍼링크 관련 */
+}
+
+/* 하이퍼링크 관련 */
 a:visited {
     color: sandybrown;
 }
-a:hover   {
+
+a:hover {
     color: coral;
 }
-a:active  {
+
+a:active {
     color: deeppink;
 }
+
 /*---------------------------------------------------*/
-header{
+header {
     background-color: white;
     opacity: 90%;
     height: 80px;
     width: 100%;
     z-index: 1;
-    top:0; left: 0;
+    top: 0;
+    left: 0;
     position: relative;
     position: fixed;
     /*transform: translate(0,0);*/
     margin-bottom: 10px;
-}/*헤더전체*/
+}
 
-#logoTitle  {
+/*헤더전체*/
+
+#logoTitle {
     font-family: 'Yeongdo-Rg';
     display: inline-block;
-    transform: translate(0,50%);
+    transform: translate(0, 50%);
     color: sandybrown;
     margin: 8px
 }
 
-#menuBar-text    {
-    transform: translate(0,85%);
+#menuBar-text {
+    transform: translate(0, 85%);
     font-family: 'LeeSeoyun';
     text-align: right;
     display: inline-block;
@@ -69,42 +90,42 @@ header{
     word-spacing: 10px;
 }
 
-#menuBar-friPan  {
-    transform: translate(0,48%);
+#menuBar-friPan {
+    transform: translate(0, 48%);
     font-size: larger;
 
 }
+
 #menuBar-search {
     margin: 5px;
 }
 
 /*---------------------------------------------------*/
 /* body-main 부분 */
-section{
+
+section {
     font-family: 'Cafe24SsurroundAir';
     position: relative;
-    top: 150px;
+    top: 100px;
     left: 50%;
     transform: translate(-50%);
     width: 30%;
+} /* 수정하려고 잠시 ㅠ */
 
-    /*z-index: auto;*/
-    /*text-align: center;*/
-}
-#hello  {
+#hello {
     text-align: center;
-
 }
-.form-select    {
+.form-select {
     margin-top: 30px;
     margin-bottom: 10px;
 }
-#joinForm input  {
-    /*border-radius: 0.25rem;*/
+
+/*#joinForm input {
+    !*border-radius: 0.25rem;*!
     margin-top: 3px;
     margin-bottom: 3px;
     gap: 15px;
-}
+}*/
 
 input {
     width: 100%;
@@ -115,8 +136,8 @@ input {
 
 
 /* ------------------------------------------ */
-footer{
-    background-color: gainsboro ;
+footer {
+    background-color: gainsboro;
     display: inline-block;
     position: fixed;
     width: 100%;
