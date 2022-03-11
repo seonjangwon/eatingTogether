@@ -31,6 +31,9 @@
     #insertDname{
         margin-bottom: 10px;
     }
+    #regionData input{
+        margin-bottom: 5px;
+    }
 </style>
 <body>
 <header>
@@ -113,7 +116,7 @@
         const dname = document.getElementById('selectOption3').value;
 
         var output = "<div>\n" +
-            "배송가능 지역\n" +
+            "<h5>배송가능 지역</h5>\n" +
             "    <input type=\"text\" name=\"deliveryDTOList[" + count + "].deliveryDname\" placeholder=\"동이름\" value=" + dname + ">\n" +
             "    <input type=\"text\" name=\"deliveryDTOList[" + count + "].deliveryTime\" placeholder=\"소요시간(분)\">\n" +
             "    <input type=\"text\" name=\"deliveryDTOList[" + count + "].deliveryPrice\" placeholder=\"배달비\">\n" +
