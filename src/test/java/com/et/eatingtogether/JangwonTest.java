@@ -43,6 +43,8 @@ public class JangwonTest {
     private MyCouponRepository mcr;
     @Autowired
     private PointRepository pr;
+    @Autowired
+    private RiderRepository rr;
 
     @Test
     @Transactional
@@ -361,6 +363,19 @@ public class JangwonTest {
         Optional<BigCategoryEntity> bigCategoryEntity = bcr.findById(1l);
         storeEntity.get().setBigCategoryEntity(bigCategoryEntity.get());
         sr.save(storeEntity.get());
+    }
+
+    @Test
+    @DisplayName("라이더 생성용")
+    public void riderAdd(){
+        RiderEntity riderEntity = new RiderEntity();
+        riderEntity.setRiderName("테스트라이더1");
+        riderEntity.setRiderState("대기");
+        rr.save(riderEntity);
+        RiderEntity riderEntity1 = new RiderEntity();
+        riderEntity1.setRiderName("테스트라이더2");
+        riderEntity1.setRiderState("대기");
+        rr.save(riderEntity1);
     }
 
 }

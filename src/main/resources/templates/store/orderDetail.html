@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 주문현황상세 </title>
@@ -9,40 +10,48 @@
 
 </head>
 <style>
-    a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
-    a:link    {
+    a {
+        text-decoration-line: none;
+    }
+
+    /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link {
         color: sandybrown;
-    } /* 하이퍼링크 관련 */
+    }
+
+    /* 하이퍼링크 관련 */
     a:visited {
         color: sandybrown;
     }
-    a:hover   {
+
+    a:hover {
         color: coral;
     }
-    a:active  {
+
+    a:active {
         color: deeppink;
     }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-3">
-                <span id = logoTitle>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
                     <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!-- 공백란 -->
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!--<form class="d-flex" id="menuBar-search">
                   <input class="form-control me-sm-2" type="text" placeholder="Search">
                   <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>-->
             </div>
             <div class="col-4">
-                <span id= "menuBar-text">
+                <span id="menuBar-text">
                     마이페이지 주문내역 찜내역
                 </span>
             </div>
@@ -63,43 +72,54 @@
             <div class="item" id="OrderNow">
                 <li>
                     <ul>
-                        <li>배달상태</li>   <p th:text="${order.orderNow}"></p>
-                        <li>업체명</li>    <p th:text="${order.storeName}"></p>
-                        <li>주문날짜</li>   <p th:text="${order.orderTime}"></p>
-                        <li>주문번호</li>   <p th:text="${order.orderNumber}"></p>
+                        <li>배달상태</li>
+                        <p th:text="${order.orderNow}"></p>
+                        <li>업체명</li>
+                        <p th:text="${order.storeName}"></p>
+                        <li>주문날짜</li>
+                        <p th:text="${order.orderTime}"></p>
+                        <li>주문번호</li>
+                        <p th:text="${order.orderNumber}"></p>
                     </ul>
                 </li>
 
             </div>
             <div class="item" id="requestByCustomer">
-            <li>
-                <ul>
-                    <li>총금액</li> <p th:text="${order.orderPrice}"></p>
-                    <li>결제 방법</li><p th:text="${order.orderType}"></p>
-                    <li>주소</li><p th:text="${customer.customerAddress}"></p>
-                    <li>번호</li><p th:text="${customer.customerPhone}"></p>
-                    <li>사장님께</li><p th:text="${order.orderTomaster}"></p>
-                    <li>라이더님께</li><p th:text="${order.orderTorider}"></p>
-                </ul>
-            </li>
-        </div>
-            <div class="item" id="Menu">
-                    <ul th:each="m :${menu}">
-                        <li th:text="${m.menuName}"></li>
-                        <li th:text="${m.orderMenuCount}"></li>
-                        <li th:text="${m.orderMenuPrice}"></li>
+                <li>
+                    <ul>
+                        <li>총금액</li>
+                        <p th:text="${order.orderPrice}"></p>
+                        <li>결제 방법</li>
+                        <p th:text="${order.orderType}"></p>
+                        <li>주소</li>
+                        <p th:text="${customer.customerAddress}"></p>
+                        <li>번호</li>
+                        <p th:text="${customer.customerPhone}"></p>
+                        <li>사장님께</li>
+                        <p th:text="${order.orderTomaster}"></p>
+                        <li>라이더님께</li>
+                        <p th:text="${order.orderTorider}"></p>
                     </ul>
+                </li>
+            </div>
+            <div class="item" id="Menu">
+                <ul th:each="m :${menu}">
+                    <li th:text="${m.menuName}"></li>
+                    <li th:text="${m.orderMenuCount}"></li>
+                    <li th:text="${m.orderMenuPrice}"></li>
+                </ul>
             </div>
             <div class="item" id="helloRider">
                 <input type="button" value="배달요청" id="riderSelect" onclick="popUp()">
-                    <span id = "plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
-                <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}" class="btn btn-light btn-sm" tabindex="-1" id="orderFinish" role="button" style="display:none;" aria-disabled="true"> 처리완료 </a>
-                    <!--<input type="button" value="주문처리" id="orderFinish" style="display:none;" on="">-->
-                    </form>
+                <span id="plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
+                <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}" class="btn btn-light btn-sm"
+                   tabindex="-1" id="orderFinish" role="button" style="display:none;" aria-disabled="true"> 처리완료 </a>
+                <!--<input type="button" value="주문처리" id="orderFinish" style="display:none;" on="">-->
             </div>
         </div>
     </div>
 </section>
+<div id="msgStack"></div>
 <footer>
     '뭐먹을까요-ET' 는 소상공인을 응원합니다.
 </footer><!--footer 내용고정 (변경할 멘트 있으시면 적어주셔도 됩니당)-->
@@ -107,16 +127,16 @@
 
 <script>
     //팝업을 합니다.
-    function popUp()    {
+    function popUp() {
         const orderNum = '[[${order.orderNumber}]]';
-        window.open("/store/riderList/"+orderNum,"riderList","width=400, height=300, left=100, top=50");
+        window.open("/store/riderList/" + orderNum, "riderList", "width=400, height=300, left=100, top=50");
         console.log("팝업누름");
     }
 
     //팝업창의 데이터를 가져옵니다.
-    function getPopupData(riderNumber,riderName){
+    function getPopupData(riderNumber, riderName) {
         const plz = document.getElementById('plz');
-        plz.innerHTML = riderName+"님께 배달출발요청 하였습니다.";
+        plz.innerHTML = riderName + "님께 배달출발요청 하였습니다.";
 
         $("#plz").show();
         $("#riderSelect").hide();
@@ -125,4 +145,5 @@
     }
 
 </script>
+<script src="/js/webSocket.js"></script>
 </html>

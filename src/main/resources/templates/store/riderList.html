@@ -3,10 +3,12 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script> <!--바보 ^^-->
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>라이더 리스트</title>
 </head>
 <body>
-<form action="/store/rider" method="post">
+<!--<form action="/store/rider" method="post">-->
 <table>
     <tr>
         <th>라이더번호</th>
@@ -18,15 +20,48 @@
         <td th:text="${rider.riderNumber}"></td>
         <td th:text="${rider.riderName}"></td>
         <td th:text="${rider.riderState}"></td>
-        <td><input class="form-check-input" type="radio" name="selectRider" id="selectRider"></td>
+        <td th:if="${rider.riderState == '대기'}">
+            <button th:onclick="rider_start_btn([[${rider.riderNumber}]])">배달 요청</button>
+        </td>
     </tr>
 </table>
 
-<input type="button" value="요청" id="riderPopup" onclick="window.close()">
-</form>
+<!--<input type="button" value="요청" id="riderPopup" onclick="window.close()">-->
+<div id="msgStack"></div>
 </body>
 
 <script>
+    const rider_start_btn = (riderNumber) =>{
+        //
+        const orderNumber = '[[${orderNumber}]]';
+        const customerEmail = '[[${customerEmail}]]';
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        console.log(riderNumber);
+        console.log(orderNumber);
+        $.ajax({
+            type:'post',
+            url:'/store/rider',
+            data: {"riderNumber" :riderNumber, "orderNumber" : orderNumber},
+            dataType:'text',
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (result) {
+                console.log(result);
+                if (result==="ok"){
+                    alert("배달 출발!")
+                    store_btn(customerEmail);
+                    window.close();
+                } else {
+                    alert("오류!")
+                }
+            },
+            error : function () {
+                alert("아작아작");
+            }
+        });
+    }
     $(document).ready(function (){
         $("#riderPopup").on("click", function(){
 
@@ -51,4 +86,5 @@
 
 
 </script>
+<script src="/js/webSocket.js"></script>
 </html>

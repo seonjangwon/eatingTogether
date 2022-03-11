@@ -28,7 +28,7 @@ const customer_btn = (storeEmail) => { // 회원이 업체에게 주문을 할 �
     socket.send(target+","+type);
 }
 
-const Store_btn = (customerEmail) => {
+const store_btn = (customerEmail) => {
     var target = customerEmail;
     var type = "2";
     socket.send(target+","+type);
