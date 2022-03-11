@@ -71,10 +71,7 @@
                 <!-- 공백란 -->
             </div>
             <div class="col-2">
-                <!--<form class="d-flex" id="menuBar-search">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+
             </div>
             <div class="col-4">
                 <span id="menuBar-text">
@@ -82,7 +79,7 @@
                         <a href="/usual/logout">로그아웃</a>
                         <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
                         <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
-                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산확인</a>
+                        <a href="/storeMain"> 스토어관리 </a>
                     </div><!-- 업체로그인시 -->
                 </span>
             </div>
