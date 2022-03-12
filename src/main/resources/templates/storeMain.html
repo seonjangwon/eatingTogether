@@ -22,38 +22,68 @@
     a:active  {
         color: deeppink;
     }
+    #helloM{
+        transform: translate(0,70%);
+        font-family: 'yg-jalnan';
+        color: blanchedalmond;
+    }
+    .hello{
+        font-family: 'LeeSeoyun';
+        font-size: 20pt;
+        background-color: sandybrown;
+        color: blanchedalmond;
+        height: 150px;
+    }
+
+    .contents {
+        transform: translate(0,30%);
+        font-family: 'LeeSeoyun';
+        font-size: 20px;
+    }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-3">
-                <span id = logoTitle>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
                     <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!-- 공백란 -->
             </div>
-            <div class = "col-2">
-                <!--<form class="d-flex" id="menuBar-search">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+            <div class="col-2">
             </div>
             <div class="col-4">
-                <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                <span id="menuBar-text">
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
                 <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
-                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
             </div>
         </div>
     </div>
-</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
+</header><!--header 수정완료-->
 <section>
+    <div class="hello">
+    <h3 id="helloM"><span th:text="${session['storeLoginEmail']}"}> </span>사장님 어서오세요!</h3><br>
+    <h5>매장 관리페이지입니다. </h5>
+    </div>
+    <div class="contents">
+    <a href="/usual/supdate"> 업체정보수정 </a><br>
+        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a><br>
+        <a href="/review/store">리뷰관리</a><br>
+        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a><br>
+        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a><br>
+    </div>
+<!--
 <span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!
     <br>
     <a href="/store/delivery"> 배달지 등록, 정리 안됨 </a><br>
@@ -64,6 +94,7 @@
     <a href="/review/store">리뷰관리</a>
     <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a><br>
     <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a><br>
+-->
 
 </section>
 <div id="msgStack"></div>

@@ -23,68 +23,76 @@
     a:active  {
         color: deeppink;
     }
+    .table-hover {
+        top:100px;
+    }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
-    <header>
-        <div class = "container">
-            <div class = "row">
-                <div class = "col-3">
-                    <span id = logoTitle>
-                        <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
-                    </span>
-                </div>
-                <div class = "col-2">
-                    <!-- 공백란 -->
-                </div>
-                <div class = "col-2">
-                    <!--<form class="d-flex" id="menuBar-search">
-                      <input class="form-control me-sm-2" type="text" placeholder="Search">
-                      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>-->
-                </div>
-                <div class="col-4">
-                    <span id= "menuBar-text">
-                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a>
-                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a>
-                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a>
-                    </span>
-                </div>
-                <div class="col" id="menuBar-friPan">
-                    <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
-                    <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
-                </div>
-            </div>
+<header>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-4">
+                <span id = logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div> <!-- 로고타이틀 -->
+            <div class = "col">
+                <!-- 공백란 -->
+            </div> <!-- 공백란 -->
+            <div class = "col-2">
+            </div> <!-- 검색창이 있었던 -->
+            <div class="col-4">
+                <span id= "menuBar-text">
+                     <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                         뭐먹을까요, eating together!
+                     </div>
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/${store.storeNumber}|}">우리가게</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
+                </span>
+            </div>  <!-- 하이퍼링크용 -->
+            <div class="col" id="menuBar-friPan"> <!-- 버튼 -->
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+            </div><!-- 버튼-->
         </div>
-    </header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
-
-
-<section id="menuList">
+    </div>
+</header>
+<section>
     메뉴를 위한, 메뉴에 의한
 
-    <table>
+    <table class="table table-hover table-bordered" id="hoverTable">
         <thead>
         <th> 메뉴사진 </th>
         <th> 메뉴이름 </th>
         <th> 메뉴설명 </th>
-        <th> 메뉴가격 </th>
-        <th> 수정 </th>
-        <th> 삭제 </th>
+        <th> 수정 / 삭제 </th>
         </thead>
         <tbody>
         <tr th:each="menu: ${menuList}">
-            <th> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></th>
-            <td th:hidden="${menu.menuNumber}"></td>
+            <!--<td th:hidden="${menu.menuNumber}"></td>-->
+            <td> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진" width="150px"; height="150px"></td>
             <td th:text="${menu.menuName}"></td>
-            <td th:text="${menu.menuExplain}"></td>
+            <!--<td colspan="2" th:text="${menu.menuExplain}"></td>-->
+            <td colspan="2" th:text="${menu.menuExplain}"></td>
             <td th:text="${menu.menuPrice}"></td>
-            <td th:hidden="${menu.storeNumber}"></td>
-            <td th:hidden="${menu.storeCategoryName}"></td>
-            <td> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정? </a></td>
+            <!--<td th:hidden="${menu.storeNumber}"></td>
+            <td th:hidden="${menu.storeCategoryName}"></td>-->
+            <td colspan="2"> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정 </a></td>
             <td> <button th:onclick="deleteMenu([[${menu.menuNumber}]])"> 삭제 </button> </td>
         </tr>
-
         </tbody>
     </table>
+    <a href="/store/menu/" class="btn btn-light btn-sm" tabindex="-1" role="button"> 메뉴추가 </a>
 </section>
     <div id="msgStack"></div>
 </body>

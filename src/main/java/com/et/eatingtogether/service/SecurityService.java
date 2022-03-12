@@ -55,7 +55,8 @@ public class SecurityService implements UserDetailsService {
             String storeFilename = storeFile.getOriginalFilename();
             storeFilename = System.currentTimeMillis() + "-" + storeFilename;
             System.out.println("파일이름: " + storeFilename);
-            String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
+            /*String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;*/ //장원씨꺼
+            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
             if (!storeFile.isEmpty()) {
                 storeFile.transferTo(new File(savePath));
             }

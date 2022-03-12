@@ -1,31 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>order</title>
 </head>
+<style>
+    .container-section {
+        font-family: 'LeeSeoyun';
+    }
+
+    #rightMenuInfo{
+        height: 700px;
+
+    }
+
+    #orderNow {
+        border: 0.5px solid;
+        border-color: coral;
+        border-radius: 0.5rem;
+        margin-bottom: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #requestByCustomer {
+        border: 0.5px solid;
+        border-color: coral;
+        border-radius: 0.5rem;
+        margin-bottom: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        height: 390px;
+    }
+
+    #orderMenu {
+        border: 0.5px solid;
+        border-color: coral;
+        border-radius: 0.5rem;
+        margin-bottom: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
-<li>
-    <ul>
-        <li>배달 상태</li><p th:text="${order.orderNow}"></p>
-        <li>업체명</li><p th:text="${order.storeName}"></p>
-        <li>주문 날짜</li><p th:text="${order.orderTime}"></p>
-        <li>주문 번호</li><p th:text="${order.orderNumber}"></p>
-    </ul>
-    <ul th:each="menu : ${menuList}">
-        <li th:text="${menu.menuName}"></li>
-        <li th:text="${menu.orderMenuCount}"></li>
-        <li th:text="${menu.orderMenuPrice}"></li>
-    </ul>
-    <ul>
-        <li>총 금액</li><p th:text="${order.orderPrice}"></p>
-        <li>결제 방법</li><p th:text="${order.orderType}"></p>
-        <li>주소</li><p th:text="${customer.customerAddress}"></p>
-        <li>번호</li><p th:text="${customer.customerPhone}"></p>
-        <li>사장님께</li><p th:text="${order.orderTomaster}"></p>
-        <li>라이더님께</li><p th:text="${order.orderTorider}"></p>
-    </ul>
-</li>
+<header>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-3">
+                <span id = logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class = "col-2">
+                <!-- 공백란 -->
+            </div>
+            <div class = "col-2">
+                <!--<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+            <div class="col-4">
+                <span id= "menuBar-text">
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
+            </div>
+        </div>
+    </div>
+</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
+<section>
+    <div class="container-section">
+        <div class="leftMenuBar">
+            <p>찜</p>
+            <p>주문내역</p>
+            <p>포인트</p>
+            <p>쿠폰함</p>
+            <p>리뷰관리</p>
+            <p>내정보수정</p>
+            <p><a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}">오늘의 주문</a></p><br>
+            <p><a href="/storeMain">메인으로</a></p><br>
+        </div>
+        <form class="row" id="rightMenuInfo">
+            <div class="col-5">
+                <div class="col" id="orderNow">
+                    <div class="textArea1">
+                        <h4><label class="form-label">주문현황</label></h4>
+                        <div class="mg-3 row">
+                            <label for="order1" class="col-sm-4">배달상태</label>
+                            <div class="col-sm-8"><p id="order1" th:text="${order.orderNow}"></p></div>
+                        </div>
+                        <div class="mg-3 row">
+                            <label for="order2" class="col-sm-4">업체명</label>
+                            <div class="col-sm-8"><p id="order2" th:text="${order.storeName}"></p></div>
+                        </div>
+                        <div class="mg-3 row">
+                            <label for="order3" class="col-sm-4">주문날짜</label>
+                            <div class="col-sm-8"><p id="order3" th:text="${order.orderTime}"></p></div>
+                        </div>
+                        <div class="mg-3 row">
+                            <label for="order4" class="col-sm-4">주문번호</label>
+                            <div class="col-sm-8"><p id="order4" th:text="${order.orderNumber}"></p></div>
+                        </div>
+                    </div>
+                </div><!-- 주문현황 -->
+                <div class="col" id="orderMenu">
+                    <div class="textArea1">
+                        <h4><label class="form-label">내가 주문한 메뉴</label></h4>
+                        <div class="mg-3 row">
+                            <ul th:each="m :${menuList}">
+                                메뉴: <span th:text="${m.menuName}"></span><br>
+                                수량: <span th:text="${m.orderMenuCount}"></span><br>
+                                금액: <span th:text="${m.orderMenuPrice}"></span><br>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- 주문메뉴 -->
+            </div>
+            <div class="col-7">
+            <div class="col" id="requestByCustomer">
+                <div class="textArea1">
+                    <h4><label class="form-label">내 요청</label></h4>
+                    <div class="mg-3 row">
+                        <label for="reque1" class="col-sm-4">총금액</label>
+                        <div class="col-sm-8"><p id="reque1" th:text="${order.orderPrice}"></p></div>
+                    </div>
+                    <div class="mg-3 row">
+                        <label for="reque2" class="col-sm-4">결제 방법</label>
+                        <div class="col-sm-8"><p id="reque2" th:text="${order.orderType}"></p></div>
+                    </div>
+                    <div class="mg-3 row">
+                        <label for="reque3" class="col-sm-4">주소</label>
+                        <div class="col-sm-8"><p id="reque3" th:text="${customer.customerAddress}"></p></div>
+                    </div>
+                    <div class="mg-3 row">
+                        <label for="reque4" class="col-sm-4">연락처</label>
+                        <div class="col-sm-8"><p id="reque4" th:text="${customer.customerPhone}"></p></div>
+                    </div>
+                    <div class="mg-3 row">
+                        <label for="reque5" class="col-sm-4">사장님께</label>
+                        <div class="col-sm-8"><p id="reque5" th:text="${order.orderTomaster}"></p></div>
+                    </div>
+                    <div class="mg-3 row">
+                        <label for="reque6" class="col-sm-4">라이더님께</label>
+                        <div class="col-sm-8"><p id="reque6" th:text="${order.orderTorider}"></p></div>
+                    </div>
+                </div>
+            </div> <!-- 고객요청 -->
+            </div>
+        </form>
+    </div>
+</section>
 <div id="msgStack"></div>
 </body>
 <script src="/js/webSocket.js"></script>
