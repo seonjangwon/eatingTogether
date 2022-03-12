@@ -39,6 +39,35 @@
     a:active  {
         color: deeppink;
     }
+
+    section{
+        background-color: sandybrown;
+    }
+    #menuSaveArea{
+        width: 600px;
+        position: absolute;
+        left: 50%;
+        top:30%;
+        transform: translate(-50%,0%);
+        margin-bottom: 10px;
+    }
+    #helloM{
+        color: coral;
+        font-family: 'yg-jalnan';
+    }
+    #menuCategorySelect{
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    #submitBtn{
+        width: 150px;
+        border-color: blanchedalmond;
+        border-radius: 0.25rem;
+        color: blanchedalmond;
+        font-size: 12pt;
+        font-weight: bold;
+    }
+
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
@@ -60,7 +89,12 @@
             </div>
             <div class="col-4">
                 <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
@@ -69,32 +103,32 @@
             </div>
         </div>
     </div>
-</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & lin
+</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
 <section>
-    <span th:text="${session['storeLoginEmail']}"}> </span>
-    님 메뉴추가요청
-
-    <form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
-        <div id = "menuCategorySelect">
-            <select id="categorySave_value" onchange="categorySave()">
-                <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
-                <option selected> 소메뉴 선택</option>
-                <option value="직접입력">직접 입력</option>
-            </select>
-            <input type ="hidden" th:field="*{storeCategoryNumber}" value="0">
-            <input type ="hidden" th:field="*{storeCategoryName}">
-        </div>
-
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <input type="text" th:field="*{menuName}" placeholder="메뉴이름"><br>
-        <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
-        <input type="text" th:field="*{menuPrice}" placeholder="가격"><br>
-        <input type="file" th:field="*{menuFile}" placeholder="메뉴사진"><br>
-        <input type="hidden" name="storeNumber" th:value="${storeNumber}"  placeholder="이게 있어야하지않나?"><br>
-
-        <input type = "submit" value="메뉴등록">
-
-    </form>
+    <div id="menuSaveArea">
+    <h3 id="helloM"><span th:text="${session['storeLoginEmail']}"}> </span>사장님 매장</h3><br>
+    <h4>메뉴를 추가해주세요! 🤤 </h4>
+        <form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
+            <div id = "menuCategorySelect">
+                <select class="form-select" id="categorySave_value" onchange="categorySave()">
+                    <option th:each="s:${storeCategory}" th:value="${s.storeCategoryNumber}"><span th:text="${s.storeCategoryName}"></span></option>
+                    <option selected> 소메뉴 선택</option>
+                    <option value="직접입력">직접 입력</option>
+                </select>
+                <input type ="hidden" th:field="*{storeCategoryNumber}" value="0">
+                <input type ="hidden" th:field="*{storeCategoryName}">
+            </div>
+            <div id="menuSaveForm">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="text" th:field="*{menuName}" placeholder="메뉴이름"><br>
+            <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
+            <input type="text" th:field="*{menuPrice}" placeholder="가격"><br>
+            <input type="file" th:field="*{menuFile}" placeholder="메뉴사진"><br>
+            <input type="hidden" name="storeNumber" th:value="${storeNumber}"  placeholder="이게 있어야하지않나?"><br>
+            <input type = "submit" style="background-color: sandybrown" value="메뉴등록" id="submitBtn">
+            </div>
+        </form>
+    </div>
 </section>
 <footer>
 

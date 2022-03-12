@@ -146,7 +146,8 @@ public class AdminServiceImpl implements AdminService {
                     String r_fileName = System.currentTimeMillis() + r_file.getOriginalFilename();
                     System.out.println("r_fileName = " + r_fileName);
                     // 저장경로
-                    String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;
+                    /*String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName;*/
+                    String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\review\\" + r_fileName; //지원
 
                     // 만약 r_file이 비어있지 않다면 저장경로에 저장하기
                     if (r_file != null) {

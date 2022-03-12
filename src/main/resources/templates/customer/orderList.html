@@ -1,42 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>orderList</title>
 </head>
 <body>
-<h2>orderList</h2>
-<table>
-    <thead>
-        <tr>
-            <th>사진</th>
-            <th>주문 번호</th>
-            <th>업체 번호</th>
-            <th>주문 시간</th>
-            <th>메뉴 명</th>
-            <th>총 가격</th>
-            <th>배달 상태</th>
-            <th>상세</th>
-            <th>리뷰</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="order : ${orderList}">
-            <td><img th:src="@{|/upload/store/*{order.storeFilename}|}" alt=""></td>
-            <td th:text="*{order.orderNumber}"></td>
-            <td th:text="*{order.storeNumber}"></td>
-            <td th:text="*{order.orderTime}"></td>
-            <td th:text="*{order.menuName}"></td>
-            <td th:text="*{order.orderPrice}"></td>
-            <td th:text="*{order.orderNow}"></td>
-            <td><a th:href="@{|/customer/history/${order.orderNumber}|}">상세</a></td>
-            <td th:if="*{order.review}">
-                <a th:href="@{|/review/save/${order.orderNumber}|}">리뷰 작성</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class="col-2">
+                <!-- 공백란 -->
+            </div>
+            <div class="col-2">
+                <!--<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+            <div class="col-4">
+                <span id="menuBar-text">
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
+            </div>
+        </div>
+    </div>
+</header><!--회원용-->
+<section>
+    <div class="container-section">
+        <div class="leftMenuBar">
+            <p>찜</p>
+            <p>주문내역</p>
+            <p>포인트</p>
+            <p>쿠폰함</p>
+            <p>리뷰관리</p>
+            <p>내정보수정</p>
+            <p><a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}">오늘의 주문</a></p><br>
+            <p><a href="/storeMain">메인으로</a></p><br>
+        </div>
+        <div class="rightMenuInfo">
+            <h2>orderList</h2>
+            <table class="table table-warning">
+                <thead>
+                <tr>
+                    <th>사진</th>
+                    <th>주문 번호</th>
+                    <th>업체 번호</th>
+                    <th>주문 시간</th>
+                    <th>메뉴 명</th>
+                    <th>총 가격</th>
+                    <th>배달 상태</th>
+                    <th>상세</th>
+                    <th>리뷰</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orderList}">
+                    <td><img th:src="@{|/upload/store/*{order.storeFilename}|}" alt="사진" width="70px" height="70px"></td>
+                    <td th:text="*{order.orderNumber}"></td>
+                    <td th:text="*{order.storeNumber}"></td>
+                    <td th:text="*{order.orderTime}"></td>
+                    <td th:text="*{order.menuName}"></td>
+                    <td th:text="*{order.orderPrice}"></td>
+                    <td th:text="*{order.orderNow}"></td>
+                    <td><a th:href="@{|/customer/history/${order.orderNumber}|}">상세</a></td>
+                    <td th:if="*{order.review}"><a th:href="@{|/review/save/${order.orderNumber}|}">리뷰 작성</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 </body>
 </html>

@@ -8,7 +8,6 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <meta charset="UTF-8">
     <title>[뭐먹을까요:업체] 업체 정보 수정 </title>
-    <!--이 창은 로그인 해야 보입니다~-->
 </head>
 <style>
     a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
@@ -24,44 +23,47 @@
     a:active  {
         color: deeppink;
     }
+
+    #storeUpdateForm input{
+        margin-bottom: 5px;
+    }
+
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-3">
-                    <span id = logoTitle>
-                        <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
-                    </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!-- 공백란 -->
             </div>
-            <div class = "col-2">
-                <!--<form class="d-flex" id="menuBar-search">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+            <div class="col-2">
             </div>
             <div class="col-4">
-                    <span id= "menuBar-text">
-                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a>
-                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a>
-                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a>
-                    </span>
+                <span id="menuBar-text">
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
+                </span>
             </div>
             <div class="col" id="menuBar-friPan">
                 <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
-                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
             </div>
         </div>
     </div>
-</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
+</header><!--header 수정완료-->
 
 <section>
 <form action = "/usual/supdate" id="storeUpdateForm" th:object="${storeUpdate}" enctype="multipart/form-data" method="put">
     <!-- 업종 분류 -->
-    <select class="form-select" name="bigCategoryNumber" aria-label="Default select example">
+    <select class="form-select" name="bigCategoryNumber" placeholder="꼭 선택해주세요!" aria-label="Default select example">
         <option selected>  </option>
         <option value="1" >한식전문</option>
         <option value="2" >중식전문</option>
@@ -78,6 +80,7 @@
     <input type="password" th:field="*{storePassword}" placeholder="비밀번호"><br>
 
     <input type="text"  th:field = "*{storeName}" placeholder="매장명"><br>
+    <input type="file" th:field = "*{storeFile}" placeholder="파일"><br>
     <input type="text" th:field="*{storePhone}" placeholder="매장연락처"><br>
     오픈시간: <input type="time" th:field="*{storeOpen}">  마감시간: <input type="time" id="storeClose" name = "storeClose" th:field="*{storeClose}"><br>
 

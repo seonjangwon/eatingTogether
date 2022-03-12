@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="/css/layout1.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -20,24 +21,24 @@
             var token = $("meta[name='_csrf']").attr('content');
 
             $.ajax({
-                type:"get",
-                url:'/customer/menu',
-                data: {"menuNumber":menuNumber},
-                dataType:'json',
-                beforeSend: function(xhr){
+                type: "get",
+                url: '/customer/menu',
+                data: {"menuNumber": menuNumber},
+                dataType: 'json',
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-                success:function (result) {
+                success: function (result) {
                     console.log(result);
 
                     let output = "<div class='row'>" +
-                        "<div class='col-3'>"+result.menuExplain+"</div> " +
-                        "<div class='col-3'>"+result.menuPrice+"</div> " +
+                        "<div class='col-3'>" + result.menuExplain + "</div> " +
+                        "<div class='col-3'>" + result.menuPrice + "</div> " +
                         "<div class='col-3'><button onclick='menuCountDown()'>-</button>" +
                         "<input type='number' id='menuCount' value='1' readonly>" +
                         "<button onclick='menuCountUp()'>+</button>" +
                         "</div>" +
-                        "<button onclick='basketAdd("+result.menuNumber+")'>장바구니 담기</button>" +
+                        "<button onclick='basketAdd(" + result.menuNumber + ")'>장바구니 담기</button>" +
                         "</div>";
                     view.innerHTML = output;
                 },
@@ -46,25 +47,25 @@
                 }
             });
         }
-        const menuCountDown = () =>{
+        const menuCountDown = () => {
             let value = document.getElementById('menuCount');
             let value1 = document.getElementById('menuCount');
             console.log(value);
-            if (value.value == 1){
+            if (value.value == 1) {
                 alert("더 이상 줄일 수 없습니다")
             } else {
                 value1.value = (parseInt(value.value) - 1);
                 console.log(value1);
             }
         }
-        const menuCountUp = () =>{
+        const menuCountUp = () => {
             let value = document.getElementById('menuCount');
             let value1 = document.getElementById('menuCount');
             console.log(value.value);
             value1.value = (parseInt(value.value) + parseInt("1"));
             console.log(value1.value);
         }
-        const basketAdd = (menuNumber) =>{
+        const basketAdd = (menuNumber) => {
             const value = document.getElementById('menuCount').value; // 메뉴 갯수
 
             var header = $("meta[name='_csrf_header']").attr('content');
@@ -76,24 +77,24 @@
             $.ajax({
                 type: 'post',
                 url: '/customer/basket',
-                data: {"menuNumber":menuNumber, "menuCount":value},
+                data: {"menuNumber": menuNumber, "menuCount": value},
                 dataType: "text",
-                beforeSend: function(xhr){
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-                success : function (result) {
+                success: function (result) {
                     console.log(result);
-                    if (result==="ok"){
+                    if (result === "ok") {
                         alert("장바구니에 담았습니다");
-                    } else if (result==="no") {
+                    } else if (result === "no") {
                         alert("이미 있는 상품입니다")
-                    } else if (result==="other"){
+                    } else if (result === "other") {
                         alert("같은 업체의 메뉴만 담을 수 있습니다")
                     }
 
                     document.getElementById('modal_close').click();
                 },
-                error : function () {
+                error: function () {
                     alert("아작아작아작");
                 }
             });
@@ -102,89 +103,169 @@
     </script>
 </head>
 <style>
-    a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
-    a:link    {
+    a {
+        text-decoration-line: none;
+    }
+
+    /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link {
         color: sandybrown;
-    } /* 하이퍼링크 관련 */
+    }
+
+    /* 하이퍼링크 관련 */
     a:visited {
         color: sandybrown;
     }
-    a:hover   {
+
+    a:hover {
         color: coral;
     }
-    a:active  {
+
+    a:active {
         color: deeppink;
+    }
+
+    #storeDataView{
+        font-family: 'LeeSeoyun';
+        border: 0.5px solid;
+        border-color: coral;
+        border-radius: 0.5rem;
+        margin: 5px;
+        min-height: 100px;
+        max-height: 270px;
+        display: grid;
+        /*grid-template-columns: 1fr 3fr;*/
+        grid-template-rows: 1fr 0.3fr;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    #store{
+        margin-bottom: 30px;
+    }
+    #sAll{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+    #storeInfo{
+
+    }
+    #sInfo{
+        font-size: 20px;
+    }
+    #mrBtn{
+        transform: translate(0%,30%);
+        height: 40px;
+    }
+
+    #menuBtn{
+        font-family: 'LeeSeoyun';
+        color: blanchedalmond;
+        font-weight: bold;
+        text-align: center;
+        height: 30px;
+    }
+    #reviewBtn{
+        font-family: 'LeeSeoyun';
+        color: blanchedalmond;
+        font-weight: bold;
+        text-align: center;
+        height: 30px;
     }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-3">
-                <span id = logoTitle>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
                     <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!-- 공백란 -->
             </div>
-            <div class = "col-2">
-                <!--<form class="d-flex" id="menuBar-search">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+            <div class="col-2">
             </div>
             <div class="col-4">
-                <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                <span id="menuBar-text">
+                     <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                         뭐먹을까요, eating together!
+                     </div>
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
                 <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
-                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
             </div>
         </div>
     </div>
-</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
-    <section>
-        <!--<span th:text="${session['storeLoginEmail']}"></span> 사장님 어서오세요!-->
-        <h2><span th:text="${storeList.storeName}"></span> 입니다</h2>
+</header><!--header 수정완료-->
+<section>
+    <div class="container-section-store">
+        <form class="row g-3" id="store">
+            <div id="storeDataView">
+                <div id="sAll">
+                    <div id="sImage">
+                        <img th:src="@{|/upload/store/${storeList.getStoreFilename()}|}" alt="사진" width="200px" ;
+                             height="200px">
+                    </div>
+                    <div id="sInfo">
+                        <h2><span id="storeInfo" th:text="${storeList.storeName}"></span></h2><br>
+                        주소:
+                        <td th:text="${storeList.storeAddress}"></td>
+                        <br>
+                        연락처:
+                        <td th:text="${storeList.storePhone}"></td>
+                        <br>
+                        오픈시간:
+                        <td th:text="${storeList.storeOpen}"></td>
+                        마감시간:
+                        <td th:text="${storeList.storeClose}"></td>
+                        <br>
 
-        <div id="storeDataView">
-            <img th:src="@{|/upload/${storeList.getStoreFilename()}|}" alt="사진">
-            <h4><td th:text="${storeList.storeName}"> </td></h4>
-            주소: <td th:text="${storeList.storeAddress}"> </td><br>
-            연락처: <td th:text="${storeList.storePhone}"> </td><br>
-            오픈시간: <td th:text="${storeList.storeOpen}"> </td>
-            마감시간: <td th:text="${storeList.storeClose}"> </td><br>
-
-            ❤ <td th:text="${storeList.storeWish}"> </td>
-        </div>
-    </section>
-
-        <button onclick="MenuBtn()" > 메뉴 </button>
-        <button onclick="reviewBtn()" > 리뷰 </button>
+                        😘
+                        <td th:text="${storeList.storeWish}"></td>
+                    </div>
+                </div>
+                <div id="mrBtn">
+                    <a class="btn btn-Light" tabindex="-1" role="button"id="menuBtn" style="background-color: coral" onclick="MenuBtn()" > 메뉴 </a>
+                    <a class="btn btn-Light" tabindex="-1" role="button"id="reviewBtn" style="background-color: coral" onclick="reviewBtn()" > 리뷰 </a>
+                    <!--<button onclick="MenuBtn()"> 메뉴</button>
+                    <button onclick="reviewBtn()"> 리뷰</button>-->
+                </div>
+            </div>
+        </form>
 
         <div id="menuArea">
-            된다 흑흑 ㅠㅠ
-
-            <table>
+            <table class="table table-warning table-hover">
                 <thead>
-                    <th> 메뉴사진 </th>
-                    <th> 메뉴이름 </th>
-                    <th> 메뉴설명 </th>
-                    <th> 메뉴가격 </th>
-                    <th> 일단수량버튼 </th> <!-- 주문하는 버튼으로 해야하나요? ?????-->
+                <th> 사진</th>
+                <th> 메뉴</th>
+                <th> 설명</th>
+                <th> 가격</th>
+                <th> 담기 </th> <!-- 주문하는 버튼으로 해야하나요? ?????-->
                 </thead>
                 <tbody>
                 <tr th:each="menu: ${menuList}">
-                    <th> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진"></th>
+                    <th><img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진" width="100px"; height="100px"></th>
                     <td th:text="${menu.menuName}"></td>
                     <td th:text="${menu.menuExplain}"></td>
                     <td th:text="${menu.menuPrice}"></td>
                     <td>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
                                 th:onclick="basket_view([[${menu.menuNumber}]])">
                             장바구니 담기
                         </button>
@@ -192,135 +273,86 @@
                     <td th:hidden="${menu.storeNumber}"></td>
                     <td th:hidden="${menu.storeCategoryName}"></td>
                 </tr>
-
                 </tbody>
             </table>
-    </div>
-        <div id = "reviewArea" style="display: none">
-            리뷰출력예정
-        <table>
-            <thead>
-            <tr>
-                <th>일단 번호</th>
-                <th>매장</th>
-                <th>작성일</th>
-                <th>사진</th>
-                <th>메뉴</th>
-                <th>리뷰 내용</th>
-                <th>사장님 댓글</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="r : ${reviewList}">
-                <td th:text="${r.reviewNumber}"></td>
-                <td><a th:href="@{|/store/${r.storeNumber}|}"><p th:text="${r.storeName}"></p></a></td>
-                <td th:text="${r.reviewTime}"></td>
-                <td><!--리뷰 사진-->
-                    <table>
-                        <thead>
-                        <tr><th>사진</th></tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="menu : ${r.reviewFileDTOList}">
-                            <td><img th:src="@{|/upload/review/${menu.reviewFilename}|}" alt=""></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <!--            <td th:text="${r.menuName}"></td>-->
-                <td th:text="${r.reviewComments}"></td>
-                <td th:if="${r.replyDetailDTO != null}"><p th:text="${r.replyDetailDTO.replyContents}"></p></td>
-            </tr>
-            </tbody>
-        </table>
+        </div>
+        <div id="reviewArea" style="display: none">
+            <table class="table table-warning table-striped">
+                <thead>
+                <tr>
+                    <th>일단 번호</th>
+                    <th>매장</th>
+                    <th>작성일</th>
+                    <th>사진</th>
+                    <th>메뉴</th>
+                    <th>리뷰 내용</th>
+                    <th>사장님 댓글</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${reviewList}">
+                    <td th:text="${r.reviewNumber}"></td>
+                    <td><a th:href="@{|/store/${r.storeNumber}|}"><p th:text="${r.storeName}"></p></a></td>
+                    <td th:text="${r.reviewTime}"></td>
+                    <td><!--리뷰 사진-->
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>사진</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="menu : ${r.reviewFileDTOList}">
+                                <td><img th:src="@{|/upload/review/${menu.reviewFilename}|}" alt=""></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <!--            <td th:text="${r.menuName}"></td>-->
+                    <td th:text="${r.reviewComments}"></td>
+                    <td th:if="${r.replyDetailDTO != null}"><p th:text="${r.replyDetailDTO.replyContents}"></p></td>
+                </tr>
+                </tbody>
+            </table>
 
         </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
+</section>
 </body>
 <script>
 
-    function MenuBtn()  {
+    function MenuBtn() {
         $("#menuArea").show();
         $("#reviewArea").hide();
         console.log("메뉴버튼 클릭");
     }
 
 </script> <!-- 메뉴버튼 클릭 -->
-
-
 <script>
-    const reviewBtn = () =>   {
+    const reviewBtn = () => {
         console.log("리뷰버튼 클릭")
         $("#reviewArea").show();
         $("#menuArea").hide();
-        /*document.getElementById("menuArea").innerHTML = "review";*/
     };
 </script> <!-- 리뷰버튼 클릭-->
-<script>
-    function delete_menu()  {
-        console.log("delete_menu_btn 클릭")
-        console.log(menuNumber);
-        const requestUrl = "/store/delete/" + menuNumber;
-
-        const menuName = document.getElementById('menuName').value;
-        const menuExplain = document.getElementById('menuExplain').value;
-        const menuPrice = document.getElementById('menuPrice').value;
-
-
-        $.ajax({
-            type: 'delete',
-            url: 'redirect:/store/menuList',
-            data: {
-                'menuName' : menuName,
-                'menuExplain' : menuExplain,
-                'menuPrice': menuPrice
-            },
-            dataType: 'json',
-            success: function (result) {
-                console.log(result);
-                let output = "<table>\n" +
-                    "<thead>\n" +
-                    "<tr>+\n" +
-                    "<th>메뉴이름</th>" + "\n" +
-                    "<th>메뉴설명</th>" + "\n" +
-                    "<th>메뉴가격</th>" + "\n" +
-                    "</tr>" + "\n" +
-                    "</thead>" + "\n" +
-                    "<tbody>" + "\n";
-
-                $.each(result, function (i) {
-                    output += "<tr>";
-                    output += "<td>" + result[i].menuName + "</td>";
-                    output += "<td>" + result[i].menuExplain + "</td>";
-                    output += "<td>" + result[i].menuPrice + "</td>";
-                    output += "</tr>";
-                })
-            },
-            error : function () {
-                alert ("할수있어!");
-            }
-        });
-    };
-</script>
-
 </html>
