@@ -176,8 +176,8 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<ReviewDetailDTO> reviewDetailDTOList = new ArrayList<>();
         for (ReviewEntity r : customerEntity.get().getReviewEntityList()) {
-            reviewDetailDTOList.add(ReviewDetailDTO.toEntity1(r));
-//            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
+//            reviewDetailDTOList.add(ReviewDetailDTO.toEntity1(r));
+            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
         }
 
         for (ReviewDetailDTO r : reviewDetailDTOList) {
