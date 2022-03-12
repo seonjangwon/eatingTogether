@@ -1,5 +1,8 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.review.ReplyDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewFileDTO;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.*;
@@ -37,6 +40,8 @@ public class StoreServiceImpl implements StoreService {
     private final CustomerRepository cr;
     private final RiderRepository rr;
     private final DailySaleRepository dsr;
+    private final ReviewFileRepository rfr;
+    private final ReplyRepository rpr;
 
     @Override
     public boolean login(StoreLoginDTO storeLoginDTO) {
@@ -423,5 +428,35 @@ public class StoreServiceImpl implements StoreService {
             dailySaleEntity1.setStoreEntity(storeEntity);
             dsr.save(dailySaleEntity1);
         }
+    }
+
+    @Override
+    public List<ReviewDetailDTO> reviewStore(Long storeNumber) {
+        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
+        List<ReviewDetailDTO> reviewDetailDTOList = new ArrayList<>();
+        for (ReviewEntity r : storeEntity.get().getReviewEntityList()) {
+//            reviewDetailDTOList.add(ReviewDetailDTO.toEntity1(r));
+            reviewDetailDTOList.add(ReviewDetailDTO.toEntity(r));
+        }
+
+        for (ReviewDetailDTO r : reviewDetailDTOList) {
+            List<ReviewFileDTO> reviewFileDTOS = new ArrayList<>();
+
+            Optional<ReplyEntity> replyEntity = null;
+            if (r.getReplyNumber() != null) {
+                replyEntity = rpr.findById(r.getReplyNumber());
+                r.setReplyDetailDTO(ReplyDetailDTO.toEntity(replyEntity.get()));
+            }
+
+
+            for (ReviewFileEntity rf : r.getReviewFileEntityList()) {
+                System.out.println("rf = " + rf.getReviewFilename());
+                reviewFileDTOS.add(ReviewFileDTO.toEntity(rf));
+            }
+
+            r.setReviewFileDTOList(reviewFileDTOS);
+        }
+        System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
+        return reviewDetailDTOList;
     }
 }

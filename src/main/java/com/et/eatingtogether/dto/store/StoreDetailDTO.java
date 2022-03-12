@@ -43,6 +43,7 @@ public class StoreDetailDTO {
         storeDetailDTO.setStoreOpen(storeEntity.getStoreOpen());
         storeDetailDTO.setStoreClose(storeEntity.getStoreClose());
         storeDetailDTO.setStoreAddress(storeEntity.getStoreAddress());
+        storeDetailDTO.setStoreWish(storeEntity.getStoreWish());
         System.out.println(storeDetailDTO);
         return storeDetailDTO;
     }

@@ -1,5 +1,6 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
@@ -61,4 +62,6 @@ public interface StoreService {
     String riderEnd(Long orderNumber);
 
     void dailySale(Long orderNumber);
+
+    List<ReviewDetailDTO> reviewStore(Long storeNumber);
 }

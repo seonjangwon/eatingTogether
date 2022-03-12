@@ -1,6 +1,7 @@
 package com.et.eatingtogether.controller;
 
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
+import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.StoreCategoryEntity;
@@ -71,6 +72,9 @@ public class StoreController {
         List<MenuDTO> menuList = ss.menuFindAll(storeNumber);
         model.addAttribute("menuList", menuList);
         System.out.println(menuList);
+
+        List<ReviewDetailDTO> reviewDetailDTOList = ss.reviewStore(storeNumber);
+        model.addAttribute("reviewList",reviewDetailDTOList);
 
         System.out.println(storeDetailDTO.getStoreName());
         System.out.println(storeDetailDTO);
@@ -305,5 +309,13 @@ public class StoreController {
         List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
         model.addAttribute("storeList",storeDetailDTOS);
         return "store/category";
+    }
+
+    @PostMapping("/wishList")
+    @ResponseBody
+    public String wishListAdd(@RequestParam("storeNumber") Long storeNumber) {
+        // 회원 찜목록에 추가
+        String  result = cs.wishlistAdd(storeNumber);
+        return result;
     }
 }

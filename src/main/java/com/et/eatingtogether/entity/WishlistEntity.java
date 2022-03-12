@@ -19,7 +19,7 @@ public class WishlistEntity {
     @JoinColumn(name = "customer_number")
     private CustomerEntity customerEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_number")
     private StoreEntity storeEntity;
 
