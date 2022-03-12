@@ -15,24 +15,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDetailDTO {
-    private Long reviewNumber;
-    private Long storeNumber;
-    private String storeName;
+    private Long reviewNumber; // 리뷰번호
+    private Long storeNumber; // 업체번호
+    private String storeName; // 업체이름
 
-    private Long customerNumber;
-    private String customerName;
+    private Long customerNumber; // 회원번호
+    private String customerName; // 회원이름
 
-    private String menuName;
+    private String menuName; // 메뉴이름
 
-    private String reviewComments;
-    private int reviewScore;
-    private LocalDateTime reviewTime;
+    private String reviewComments; // 리뷰내용
+    private int reviewScore; // 리뷰평점
+    private LocalDateTime reviewTime; // 리뷰작성 시간
 
-    private List<Long> reviewFileListNumber;
-    private List<ReviewFileDTO> reviewFileDTOList;
-    private List<ReviewFileEntity> reviewFileEntityList;
-    private Long replyNumber;
-    private ReplyDetailDTO replyDetailDTO;
+    private List<Long> reviewFileListNumber; // 파일리스트번호
+    private List<ReviewFileDTO> reviewFileDTOList; // 파일DTO 리스트
+    private List<ReviewFileEntity> reviewFileEntityList; // 파일ENTITY 리스트
+    private Long replyNumber; // 답글번호
+    private ReplyDetailDTO replyDetailDTO; // 답글정보가 담긴 DTO
 
     public static ReviewDetailDTO toEntity(ReviewEntity reviewEntity){
                                            //List<ReviewFileDTO> reviewFileDTOList,
@@ -46,7 +46,7 @@ public class ReviewDetailDTO {
         reviewDetailDTO.setMenuName(reviewEntity.getMenuName());
         reviewDetailDTO.setReviewComments(reviewEntity.getReviewContents());
         reviewDetailDTO.setReviewScore(reviewEntity.getReviewScore());
-        if (reviewEntity.getReplyEntity() != null) {
+        if (reviewEntity.getReplyEntity() != null) { // 만약 reviewEntity에 있는 replyEntity 가 null이 아닐경우 replyNumber 저장
             reviewDetailDTO.setReplyNumber(reviewEntity.getReplyEntity().getReplyNumber());
         }
         reviewDetailDTO.setReviewFileEntityList(reviewEntity.getReviewFileEntityList());

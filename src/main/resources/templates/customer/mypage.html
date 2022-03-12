@@ -1,42 +1,168 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="/css/layout3.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>customerMyPage</title>
+    <style>
+        a {
+            text-decoration-line: none;
+        }
+
+        /* 하이퍼링크 꾸밈요소 삭제 */
+        a:link {
+            color: sandybrown;
+        }
+
+        /* 하이퍼링크 관련 */
+        a:visited {
+            color: sandybrown;
+        }
+
+        a:hover {
+            color: coral;
+        }
+
+        a:active {
+            color: deeppink;
+        }
+
+        /*--------------------------------
+        목록링크 색상*/
+        .list-group-item {
+            color: sandybrown;
+        }
+
+        .list-group-item:visited {
+            color: sandybrown;
+        }
+
+        .list-group-item:hover {
+            color: coral;
+        }
+
+        .list-group-item:active {
+            color: deeppink;
+        }
+
+        /*-----------------------------------------여기까지 */
+
+    </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 </head>
 <body>
-<h2>customerMyPage</h2>
-<table>
-    <thead>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id="logoTitle">
+                    <h3 style="font-family: 'Yeongdo-Rg';"><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class="col-2">
+                <!-- 공백란 -->
+            </div>
+            <div class="col-2">
+                <!--<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+            <div class="col-4">
+                <span id="menuBar-text" style="font-family: 'LeeSeoyun';">
+                    마이페이지 주문내역 찜내역
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <!--    로그인아이디 : <span th:text="${session['customerLoginEmail']}"></span>-->
+    <div class="customer-section">
+        <div class="side-section">
+            <ul class="list-group list-group-flush"style="font-family: 'Yeongdo-Rg';">
+                <a href="/customer/update" class="list-group-item list-group-item-action" >내정보수정</a>
+                <a href="/customer/history" class="list-group-item list-group-item-action" >주문내역</a>
+                <a href="/customer/coupon" class="list-group-item list-group-item-action">내쿠폰함</a>
+                <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
+                <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
+                <a href="/customer/wishlist" class="list-group-item list-group-item-action">찜리스트</a>
+                <a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>
+            </ul>
+        </div>
+    </div>
+
+<div class="contentSection">
+    <table class="table">
+        <thead class="table-warning">
         <tr>
-            <th>번호</th>
-            <th>이메일</th>
-            <th>비밀번호</th>
-            <th>닉네임</th>
-            <th>주소</th>
-            <th>전화번호</th>
-            <th>등급</th>
-            <th>포인트</th>
+<!--            <th>사진</th>-->
+            <th>주문 번호</th>
+<!--            <th>업체 번호</th>-->
+            <th>주문 시간</th>
+            <th>메뉴 명</th>
+            <th>총 가격</th>
+            <th>배달 상태</th>
+<!--            <th>상세</th>-->
+            <th>리뷰</th>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td th:text="${customer.customerEmail}"></td>
-            <td th:text="${customer.customerPassword}"></td>
-            <td th:text="${customer.customerNickname}"></td>
-            <td th:text="${customer.customerAddress}"></td>
-            <td th:text="${customer.customerPhone}"></td>
-            <td th:text="${customer.customerGrade}"></td>
-            <td th:text="${customer.customerPoint}"></td>
+        </thead>
+        <tbody class="table table-bordered">
+        <tr th:each="order : ${orderList}">
+<!--            <td><img th:src="@{|/upload/store/*{order.storeFilename}|}" alt=""></td>-->
+            <td th:text="*{order.orderNumber}"></td>
+<!--            <td th:text="*{order.storeNumber}"></td>-->
+            <td th:text="*{order.orderTime}"></td>
+            <td th:text="*{order.menuName}"></td>
+            <td th:text="*{order.orderPrice}"></td>
+            <td th:text="*{order.orderNow}"></td>
+<!--            <td><a th:href="@{|/customer/history/${order.orderNumber}|}">상세</a></td>-->
+            <td th:if="*{order.review}">
+                <a th:href="@{|/review/save/${order.orderNumber}|}">리뷰 작성</a>
+            </td>
         </tr>
-    </tbody>
-</table>
-<a href="/customer/update">내 정보 수정</a><br>
-<a href="/customer/history">주문 내역</a><br>
-<a href="/customer/coupon">쿠폰함</a><br>
-<a href="/customer/point">포인트 사용 내역</a><br>
-<a href="/customer/review">내 리뷰 관리</a><br>
-<a href="/customer/wishlist">찜 리스트</a><br>
-<a href="/customer/kakaoUnlink">카카오 회원 탈퇴</a>
+        </tbody>
+    </table>
+<!--<table>-->
+<!--    <thead>-->
+<!--        <tr>-->
+<!--            <th>번호</th>-->
+<!--            <th>이메일</th>-->
+<!--            <th>비밀번호</th>-->
+<!--            <th>닉네임</th>-->
+<!--            <th>주소</th>-->
+<!--            <th>전화번호</th>-->
+<!--            <th>등급</th>-->
+<!--            <th>포인트</th>-->
+<!--        </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--        <tr>-->
+<!--            <td th:text="${customer.customerEmail}"></td>-->
+<!--            <td th:text="${customer.customerPassword}"></td>-->
+<!--            <td th:text="${customer.customerNickname}"></td>-->
+<!--            <td th:text="${customer.customerAddress}"></td>-->
+<!--            <td th:text="${customer.customerPhone}"></td>-->
+<!--            <td th:text="${customer.customerGrade}"></td>-->
+<!--            <td th:text="${customer.customerPoint}"></td>-->
+<!--        </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+</div>
+</section>
+<!--<a href="/customer/update">내 정보 수정</a><br>-->
+<!--<a href="/customer/history">주문 내역</a><br>-->
+<!--<a href="/customer/coupon">쿠폰함</a><br>-->
+<!--<a href="/customer/point">포인트 사용 내역</a><br>-->
+<!--<a href="/customer/review">내 리뷰 관리</a><br>-->
+<!--<a href="/customer/wishlist">찜 리스트</a><br>-->
+<!--<a href="/customer/kakaoUnlink">카카오 회원 탈퇴</a>-->
+
+
 </body>
 </html>

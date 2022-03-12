@@ -32,6 +32,7 @@ public class CustomerController {
     @GetMapping("/")
     public String myPage(Model model) {
         model.addAttribute("customer", cs.findByEmail((String) session.getAttribute("customerLoginEmail")));
+        model.addAttribute("orderList", cs.orderList()); // 220312 수정 : 마이페이지 첫화면에 주문내역 뜨도록
         return "customer/mypage";
     }
 

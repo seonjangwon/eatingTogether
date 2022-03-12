@@ -3,24 +3,22 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.review.*;
-import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.collection.internal.PersistentBag;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -131,7 +129,7 @@ public class AdminServiceImpl implements AdminService {
     // 고객리뷰 저장 220222 선영
     @Override
     public void reviewSave(ReviewSaveDTO reviewSaveDTO) throws IOException {
-        if(reviewSaveDTO!=null){
+        if (reviewSaveDTO != null) {
             OrderEntity orderEntity = or.findById(reviewSaveDTO.getOrderNumber()).get();
             Long reviewNumber = rer.save(ReviewEntity.toReviewSave(reviewSaveDTO, orderEntity)).getReviewNumber();
             System.out.println("reviewNumber = " + reviewNumber);
@@ -161,7 +159,6 @@ public class AdminServiceImpl implements AdminService {
             }
 
 
-
         }
 
     }
@@ -179,12 +176,12 @@ public class AdminServiceImpl implements AdminService {
         List<ReviewDetailDTO> reviewList = new ArrayList<>(); // entity에서 가져온 리스트를 담을 List<DTO> 객체생성
 
         // for문으로 반복문을 돌려서 entityList에 있는걸 dtoList에 담음
-        for(ReviewEntity r : reviewEntityList){
+        for (ReviewEntity r : reviewEntityList) {
             reviewList.add(ReviewDetailDTO.toEntity(r));
         }
 
         // entity 정보가 담긴 dtoList를 for문으로 반복문을 돌려 파일, 사장님 답글 저장하는 걸 처리함
-        for(ReviewDetailDTO rd : reviewList) {
+        for (ReviewDetailDTO rd : reviewList) {
             List<ReviewFileDTO> reviewFileDTOS = new ArrayList<>();
             // 답글처리( 주석처리된 부분이랑 아래 부분이랑 같은 코드임)
 //           if(rd.getReplyNumber()!=null){
@@ -192,13 +189,13 @@ public class AdminServiceImpl implements AdminService {
 //            rd.setReplyDetailDTO(ReplyDetailDTO.toEntity(optionalReplyEntity.get()));
 //              }
             Optional<ReplyEntity> optionalReplyEntity = null;
-            if (rd.getReplyNumber()!=null) {
+            if (rd.getReplyNumber() != null) {
                 optionalReplyEntity = rep.findById(rd.getReplyNumber());
                 rd.setReplyDetailDTO(ReplyDetailDTO.toEntity(optionalReplyEntity.get()));
             }
 
             // 파일
-            for(ReviewFileEntity rfe : rd.getReviewFileEntityList()){
+            for (ReviewFileEntity rfe : rd.getReviewFileEntityList()) {
                 reviewFileDTOS.add(ReviewFileDTO.toEntity(rfe));
             }
 
@@ -210,7 +207,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void reviewSave1(ReviewFileDTO r,ReviewSaveDTO reviewSaveDTO)throws IOException {
+    public void reviewSave1(ReviewFileDTO r, ReviewSaveDTO reviewSaveDTO) throws IOException {
 //        // 회원 Entity 필요함
 //        CustomerEntity customerEntity = ctr.findById(reviewSaveDTO.getCustomerNumber()).get();
 //        // 업체 Entity 필요함
@@ -257,8 +254,8 @@ public class AdminServiceImpl implements AdminService {
         List<CustomerBlacklistEntity> customerBlacklistEntityList = cbr.findAll();
         // ENTITY -> DTO
         List<CustomerBlacklistDTO> customerBlacklist = new ArrayList<>();
-        for(CustomerBlacklistEntity c : customerBlacklistEntityList){
-            customerBlacklist.add( CustomerBlacklistDTO.toDTO(c));
+        for (CustomerBlacklistEntity c : customerBlacklistEntityList) {
+            customerBlacklist.add(CustomerBlacklistDTO.toDTO(c));
         }
 
         return customerBlacklist;
@@ -277,11 +274,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void replySave(ReplySaveDTO replySaveDTO) {
         // dto -> entity
-        if(replySaveDTO.getReviewNumber()!=null){
-        Optional<ReviewEntity> reviewEntity = rer.findById(replySaveDTO.getReviewNumber());
-        ReplyEntity replyEntity = ReplyEntity.toDTO(replySaveDTO, reviewEntity.get());
-        rep.save(replyEntity);
+        if (replySaveDTO.getReviewNumber() != null) {
+            Optional<ReviewEntity> reviewEntity = rer.findById(replySaveDTO.getReviewNumber());
+            ReplyEntity replyEntity = ReplyEntity.toDTO(replySaveDTO, reviewEntity.get());
+            rep.save(replyEntity);
         }
     }
+
+
 
 }

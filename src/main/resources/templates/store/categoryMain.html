@@ -146,30 +146,30 @@
         <a href = "/store/menu"> 메뉴등록 </a>
         <a href = "/storeMain"> 업체메인 </a>
 
-        &lt;!&ndash;<a href = "/store/orderList/"> 왜안돼 </a>&ndash;&gt;
-        &lt;!&ndash;<a th:href = "@{|/store/orderList/${storeNumber}|}"> 주문관리 </a>&ndash;&gt;
-    </header>
+        <a href = "/store/orderList/"> 왜안돼 </a>-->
+        <!--<a th:href = "@{|/store/orderList/${storeNumber}|}"> 주문관리 </a>-->
+<!--    </header>-->
 
-    <section>
+<!--    <section>-->
 
-        <section class = "menuClickButton" th:each="bcl: ${bcList}">
-            <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></span></a>
+<!--        <section class = "menuClickButton" th:each="bcl: ${bcList}">-->
+<!--            <a th:href="@{|/store/category/${bcl.bigCategoryNumber}|}"> <span th:text = "${bcl.bigCategoryName}"></span></a>-->
 
-        </section>
+<!--        </section>-->
 
-        <section class = "menuSearch">
-            섹션2
-            <form action="/store/search" method="get">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <select name="searchType">
-                    <option value="menu">메뉴 이름</option>
-                    <option value="store">매장 이름</option>
-                </select>
-                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-                <input type="submit" value="검색">
-            </form>
-        </section>
-    </section>
+<!--        <section class = "menuSearch">-->
+<!--            섹션2-->
+<!--            <form action="/store/search" method="get">-->
+<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+<!--                <select name="searchType">-->
+<!--                    <option value="menu">메뉴 이름</option>-->
+<!--                    <option value="store">매장 이름</option>-->
+<!--                </select>-->
+<!--                <input type="text" name="keyword" placeholder="검색어를 입력하세요">-->
+<!--                <input type="submit" value="검색">-->
+<!--            </form>-->
+<!--        </section>-->
+<!--    </section>-->
 
     <footer>
         발끝자락
