@@ -109,7 +109,7 @@ public class SecurityService implements UserDetailsService {
         Optional<StoreEntity> storeEntity = sr.findById(storeDetailDTO.getStoreNumber());
         if (storeEntity.get().getStoreNumber().equals(storeDetailDTO.getStoreNumber())) {
             //number값이 일치한다면
-            storeEntity.get().setStorePassword(passwordEncoder.encode(storeDetailDTO.getStorePassword()));
+            storeDetailDTO.setStorePassword(passwordEncoder.encode(storeDetailDTO.getStorePassword()));
             sr.save(StoreEntity.toUpdate(storeDetailDTO, bigCategoryEntity));
             System.out.println("수정합니당");
             return "ok";
