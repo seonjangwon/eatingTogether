@@ -3,9 +3,7 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.customer.CustomerBlacklistDTO;
 import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.review.*;
-import com.et.eatingtogether.dto.store.StoreBlacklistDTO;
-import com.et.eatingtogether.dto.store.StoreDetailDTO;
-import com.et.eatingtogether.dto.store.StoreSaveDTO;
+import com.et.eatingtogether.dto.store.*;
 import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.ReportSaveDTO;
 import com.et.eatingtogether.dto.system.RiderDTO;
@@ -64,4 +62,5 @@ public interface AdminService {
     void storeReportSave(StoreBlacklistDTO storeBlacklistDTO); // 업체신고 저장
 
     void replySave(ReplySaveDTO replySaveDTO);
+
 }

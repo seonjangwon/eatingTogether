@@ -103,11 +103,13 @@
             </div>
         </div>
     </div>
+
 </header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
 <section>
     <div id="menuSaveArea">
     <h3 id="helloM"><span th:text="${session['storeLoginEmail']}"}> </span>사장님 매장</h3><br>
     <h4>메뉴를 추가해주세요! 🤤 </h4>
+
         <form action ="/store/menu" th:object="${menuSave}" method = "post" enctype="multipart/form-data">
             <div id = "menuCategorySelect">
                 <select class="form-select" id="categorySave_value" onchange="categorySave()">
@@ -119,6 +121,7 @@
                 <input type ="hidden" th:field="*{storeCategoryName}">
             </div>
             <div id="menuSaveForm">
+
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input type="text" th:field="*{menuName}" placeholder="메뉴이름"><br>
             <input type="text" th:field="*{menuExplain}" placeholder="메뉴설명"><br>
@@ -126,10 +129,12 @@
             <input type="file" th:field="*{menuFile}" placeholder="메뉴사진"><br>
             <input type="hidden" name="storeNumber" th:value="${storeNumber}"  placeholder="이게 있어야하지않나?"><br>
             <input type = "submit" style="background-color: sandybrown" value="메뉴등록" id="submitBtn">
+
             </div>
         </form>
     </div>
 </section>
+
 <footer>
 
 </footer>
