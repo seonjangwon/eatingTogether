@@ -245,6 +245,8 @@ public class StoreController {
     @GetMapping("/riderList/{orderNumber}")
     public String riderList(@PathVariable Long orderNumber, Model model) {
         List<RiderDTO> riderList = as.riderFindAll();
+        OrderDTO orderDTO = ss.findByOrder(orderNumber);
+        model.addAttribute("customerEmail",orderDTO.getCutomerEmail());
         model.addAttribute("orderNumber", orderNumber);
         model.addAttribute("riderList", riderList);
         model.addAttribute("orderFinish", new OrderNowDTO());
@@ -255,8 +257,18 @@ public class StoreController {
     //라이더 선택
     //라이더 선택 완료시
     @PostMapping("/rider")
-    public String riderSelect() {
-        return null;
+    @ResponseBody
+    public String riderSelect(@RequestParam("riderNumber") Long riderNumber,
+                              @RequestParam("orderNumber") Long orderNumber) {
+        String result = ss.riderStart(riderNumber,orderNumber);
+        return result;
+    }
+
+    @PutMapping("/rider")
+    @ResponseBody
+    public String riderEnd(@RequestParam("orderNumber") Long orderNumber) {
+        String result = ss.riderEnd(orderNumber);
+        return result;
     }
 
 

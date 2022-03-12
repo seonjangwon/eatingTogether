@@ -5,6 +5,8 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script> <!--바보 ^^-->
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>라이더 리스트</title>
 </head>
 <style>
@@ -19,8 +21,7 @@
     }
 </style>
 <body>
-<form action="/store/rider" method="post">
-    <table class="table table-warning">
+<table class="table table-warning">
     <tr>
         <th>라이더번호</th>
         <th>라이더이름</th>
@@ -31,38 +32,70 @@
         <td th:text="${rider.riderNumber}"></td>
         <td th:text="${rider.riderName}"></td>
         <td th:text="${rider.riderState}"></td>
-        <td><input class="form-check-input" type="radio" name="selectRider" id="selectRider"></td>
+        <td th:if="${rider.riderState == '대기'}">
+            <button class="btn btn-Light" tabindex="-1" role="button"id="riderPopup" style="background-color: coral" th:onclick="rider_start_btn([[${rider.riderNumber}]])">배달 요청</button>
+        </td>
     </tr>
 </table>
-
-    <a class="btn btn-Light" tabindex="-1" role="button"id="riderPopup" style="background-color: coral" onclick="window.close()" > 달려라ET </a>
+<div id="msgStack"></div>
+<!--     <a class="btn btn-Light" tabindex="-1" role="button"id="riderPopup" style="background-color: coral" onclick="window.close()" > 달려라ET </a> -->
 <!--<input type="button" value="요청" id="riderPopup" style="background-color: coral" onclick="window.close()">-->
-</form>
 </body>
-
 <script>
-    $(document).ready(function (){
-        $("#riderPopup").on("click", function(){
-
-            var riderNumber = "";
-            var riderName = "";
-            var tr = "";
-            var td = "";
-            $("input[name='selectRider']").each(function(){
-                if($(this).is(':checked')){
-                    tr = $(this).closest("tr")
-
-                    riderNumber=tr.find("td").eq(0).text()
-                    riderName=tr.find("td").eq(1).text()
-                    console.log(riderNumber)
-                    console.log(riderName)
+    const rider_start_btn = (riderNumber) =>{
+        //
+        const orderNumber = '[[${orderNumber}]]';
+        const customerEmail = '[[${customerEmail}]]';
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        console.log(riderNumber);
+        console.log(orderNumber);
+        $.ajax({
+            type:'post',
+            url:'/store/rider',
+            data: {"riderNumber" :riderNumber, "orderNumber" : orderNumber},
+            dataType:'text',
+            beforeSend: function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (result) {
+                console.log(result);
+                if (result==="ok"){
+                    alert("배달 출발!")
+                    store_btn(customerEmail);
+                    window.close();
+                } else {
+                    alert("오류!")
                 }
+            },
+            error : function () {
+                alert("아작아작");
+            }
+        });
+    }
+//     $(document).ready(function (){
+//         $("#riderPopup").on("click", function(){
 
-            })
-            opener.parent.getPopupData(riderNumber,riderName);
-        })
-    })
+//             var riderNumber = "";
+//             var riderName = "";
+//             var tr = "";
+//             var td = "";
+//             $("input[name='selectRider']").each(function(){
+//                 if($(this).is(':checked')){
+//                     tr = $(this).closest("tr")
+
+//                     riderNumber=tr.find("td").eq(0).text()
+//                     riderName=tr.find("td").eq(1).text()
+//                     console.log(riderNumber)
+//                     console.log(riderName)
+//                 }
+
+//             })
+//             opener.parent.getPopupData(riderNumber,riderName);
+//         })
+//     })
 
 
 </script>
+<script src="/js/webSocket.js"></script>
 </html>

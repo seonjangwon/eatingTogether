@@ -24,6 +24,10 @@ public class OrderNowEntity {
     private String orderNowStatus;
     private LocalDateTime orderNowTime; // 음 뭐지 시간? 현재 시간 +00분 이런식으로 해야하나?
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rider_number")
+    private RiderEntity riderEntity;
+
     // 주문용
     public static OrderNowEntity toDTO(OrderNowDTO orderNowDTO,OrderEntity orderEntity){
         OrderNowEntity orderNowEntity = new OrderNowEntity();

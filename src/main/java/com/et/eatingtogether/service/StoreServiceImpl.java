@@ -206,7 +206,9 @@ public class StoreServiceImpl implements StoreService {
         List<DeliveryEntity> deliveryEntities = dr.findByDeliveryDname(customerEntity.get().getCustomerDname());
         List<StoreEntity> storeEntityList = new ArrayList<>();
         for (DeliveryEntity d : deliveryEntities) {
-            storeEntityList.add(d.getStoreEntity());
+            if (d.getStoreEntity().getBigCategoryEntity().equals(bigCategoryEntity)) {
+                storeEntityList.add(d.getStoreEntity());
+            }
         }
 
         /*BigCategoryEntity bigCategoryEntity = scr.findById(bigCategoryNumber).get();
@@ -379,5 +381,30 @@ public class StoreServiceImpl implements StoreService {
             storeDetailDTOList.add(StoreDetailDTO.toStoreDetailDTO(s));
         }
         return storeDetailDTOList;
+    }
+
+    @Override
+    public String riderStart(Long riderNumber, Long orderNumber) {
+        // 라이더 상태 수정
+        Optional<RiderEntity> riderEntity = rr.findById(riderNumber);
+        riderEntity.get().setRiderState("배달중");
+        rr.save(riderEntity.get());
+        // 주문 내역 불러와서 주문 상태 수정
+        OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
+        orderNowEntity.setOrderNowStatus("배달중");
+        orderNowEntity.setRiderEntity(riderEntity.get());
+        onr.save(orderNowEntity);
+        return "ok";
+    }
+
+    @Override
+    public String riderEnd(Long orderNumber) {
+        OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
+        orderNowEntity.setOrderNowStatus("배달 완료");
+        onr.save(orderNowEntity);
+        RiderEntity riderEntity = orderNowEntity.getRiderEntity();
+        riderEntity.setRiderState("대기");
+        rr.save(riderEntity);
+        return "ok";
     }
 }

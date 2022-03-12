@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class OrderDTO {
     private Long orderNumber;
     private Long customerNumber;
+    private String cutomerEmail;
     private Long storeNumber;
     private int orderPrice;
     private LocalDateTime orderTime;
@@ -58,6 +59,7 @@ public class OrderDTO {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderNumber(orderEntity.getOrderNumber());
         orderDTO.setCustomerNumber(orderEntity.getCustomerEntity().getCustomerNumber());
+        orderDTO.setCutomerEmail(orderEntity.getCustomerEntity().getCustomerEmail());
         orderDTO.setStoreNumber(orderEntity.getStoreEntity().getStoreNumber());
         orderDTO.setOrderPrice(orderEntity.getOrderPrice());
         orderDTO.setOrderTime(orderEntity.getOrderTime());
