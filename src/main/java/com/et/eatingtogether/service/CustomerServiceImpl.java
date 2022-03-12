@@ -157,9 +157,17 @@ public class CustomerServiceImpl implements CustomerService {
     public List<PointDTO> pointList() {
         Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
         List<PointDTO> pointDTOList = new ArrayList<>();
-        for (PointEntity p : customerEntity.get().getPointEntityList()) {
-            pointDTOList.add(PointDTO.toEntity(p));
+
+        if(!customerEntity.get().getPointEntityList().isEmpty()){
+            for (PointEntity p : customerEntity.get().getPointEntityList()) {
+                pointDTOList.add(PointDTO.toEntity(p));
+            }
+
         }
+
+
+
+
         return pointDTOList;
     }
 

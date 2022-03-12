@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -15,44 +16,72 @@
     </style>
 </head>
 <style>
-    a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
-    a:link    {
+    a {
+        text-decoration-line: none;
+    }
+
+    /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link {
         color: sandybrown;
-    } /* 하이퍼링크 관련 */
+    }
+
+    /* 하이퍼링크 관련 */
     a:visited {
         color: sandybrown;
     }
-    a:hover   {
+
+    a:hover {
         color: coral;
     }
-    a:active  {
+
+    a:active {
         color: deeppink;
+    }
+
+    .rightContainer {
+        font-family: 'LeeSeoyun';
+        /*text-align: center;*/
+    }
+    #sumBtn1{
+        color: blanchedalmond;
+        font-weight: bold;
+        border: blanchedalmond;
+        border-radius: 5px;
+    }
+    #sumBtn2{
+        color: blanchedalmond;
+        font-weight: bold;
+        border: blanchedalmond;
+        border-radius: 5px;
+    }
+    #dailyDate{
+        transform: translate(45%,0%);
     }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-3">
-                    <span id = logoTitle>
-                        <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
-                    </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
             </div>
-            <div class = "col-2">
+            <div class="col-2">
                 <!-- 공백란 -->
             </div>
-            <div class = "col-2">
-                <!--<form class="d-flex" id="menuBar-search">
-                  <input class="form-control me-sm-2" type="text" placeholder="Search">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+            <div class="col-2">
+
             </div>
             <div class="col-4">
-                    <span id= "menuBar-text">
-                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리 </a>
-                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}"> 메뉴관리 </a>
-                        <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산페이지 </a>
-                    </span>
+                <span id="menuBar-text">
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
+                </span>
             </div>
             <div class="col" id="menuBar-friPan">
                 <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
@@ -60,96 +89,110 @@
             </div>
         </div>
     </div>
-</header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
-<section id="orderMenuArea">
-    <!--<span th:text="${session['storeLoginEmail']}"></span> ㅎ2-->
-    들어온 주문<br>
-    배달완료<br>
-</section>
-<section class="orderListDetail">
-    <div> 메인내용 </div><br>
-    <button onclick="monthView()"> 월 매출 </button>
-    <button onclick="dailyView()"> 오늘의 매출 </button>
-
-    <div id = "month_sale" >
-    <h2>3월매출</h2>
-        <div id ="saleList">
-            <table id = "monthSaleTable">
-                <thead>
-                    <tr>
-                        <th> 날짜 </th>
-                        <th> 금액 </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="s:${sale}">
-                        <!--<td th:hidden="${s.storeNumber}"></td>-->
-                        <td th:text="${s.dailySaleTime}"></td>
-                        <td th:text="${s.dailySalePrice}"></td>
-                    </tr>
-                </tbody>
-            </table>
-                <!--<td th:text="${sale[0].dailySalePrice}"></td>-->
-            <!-- controller에서 list로 보내진건 index 지정 후에 불러 올 수 있음 -->
-            <button onclick="sumMonthSale()"> 총액 </button>
-            <div id="sum"></div>
+</header><!--header 수정완 -->
+<section>
+    <div class="container-section-sale">
+        <div class="leftMenuBar">
+            <a class="btn btn-light" tabindex="-1" role="button" onclick="dailyView()"> 오늘의 매출 </a>
+            <a class="btn btn-light" tabindex="-1" role="button" onclick="monthView()"> 이달의 매출 </a>
+        </div>
+        <div class="rightContainer">
+            <div id="month_sale">
+                <div class="row"><h2>3월매출</h2></div>
+                <div class="row" id="saleListM">
+                    <table class="table table-warning" id="monthSaleTable">
+                        <thead>
+                        <tr>
+                            <th> 날짜</th>
+                            <th> 금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="s:${sale}">
+                            <td th:text="${s.dailySaleTime}"></td>
+                            <td th:text="${s.dailySalePrice}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                    <button class="col-1" id="sumBtn1" style="background-color: coral" onclick="sumMonthSale()"> 총액</button>
+                    <span class="col-1" id="sumM"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="daily_sale" style="display: none">
+                <h2><div class="row" id="dailyDate"></div></h2>
+                <div class="row" id="saleListD">
+                    <table class="table table-warning" id=dailySaleTable>
+                        <thead>
+                        <th> 주문시간</th>
+                        <th> 주문번호</th>
+                        <th> 메뉴</th>
+                        <th> 주문금액</th>
+                        <th> 고객번호</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="od:${order}">
+                            <td th:text="${od.orderTime}"></td>
+                            <td th:text="${od.orderNumber}"></td>
+                            <td th:text="${od.menuName}"></td>
+                            <td th:text="${od.orderPrice}"></td>
+                            <td th:text="${od.customerNumber}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <button class="col-1" id="sumBtn2" style="background-color: coral" onclick="sumDailySale()"> 총액</button>
+                        <span class="col-1" id="sumD"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br>
-    <div id = "daily_sale" style="display: none">
-    일매출<br>
-        <div id="dailyDate"> 날짜 </div>
-
-        <table id = dailySaleTable>
-            <thead>
-                <th> 주문시간 </th>
-                <th> 주문번호 </th>
-                <th> 메뉴 </th>
-                <th> 주문금액 </th>
-                <th> 고객번호 </th>
-            </thead>
-            <tbody>
-                <tr th:each="od:${order}">
-                    <td th:text="${od.orderTime}"></td>
-                    <td th:text="${od.orderNumber}"></td>
-                    <td th:text="${od.menuName}"></td>
-                    <td th:text="${od.orderPrice}"></td>
-                    <td th:text="${od.customerNumber}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <br>
+    <footer></footer>
 </section>
 <div id="msgStack"></div>
 </body>
 <script>
-    function monthView()  {
+    function monthView() {
         console.log("month버튼 누름")
         $("#month_sale").show();
         $("#daily_sale").hide();
     }
 
-    function dailyView()  {
-        console.log("month버튼 누름")
-        $("#month_sale").hide();
-        $("#daily_sale").show();
-    }
-
-    //금액을 결산
-    function sumMonthSale(){
+    //월별 정산, 합산액
+    function sumMonthSale() {
         const table = document.getElementById('monthSaleTable');
         console.log(table);
 
         //합계계산
         let sum = 0;
-        for (let i= 1; i < table.rows.length; i++)  {
-            sum+= parseInt(table.rows[i].cells[1].innerHTML);
+        for (let i = 1; i < table.rows.length; i++) {
+            sum += parseInt(table.rows[i].cells[1].innerHTML);
         }
-        document.getElementById('sum').innerText =sum;
+        document.getElementById('sumM').innerText = sum;
     }
-</script>
+</script><!--month-->
 <script>
+    function dailyView() {
+        console.log("daily버튼 누름")
+        $("#month_sale").hide();
+        $("#daily_sale").show();
+    }
+
+    //금일 정산
+    function sumDailySale() {
+        const table = document.getElementById('dailySaleTable');
+        console.log(table);
+
+        //합계계산
+        let sum = 0;
+        for (let i = 1; i < table.rows.length; i++) {
+            sum += parseInt(table.rows[i].cells[3].innerHTML);
+        }
+        document.getElementById('sumD').innerText = sum;
+    }
+
     //일매출 날짜
     date = new Date();
     month = date.getMonth();
