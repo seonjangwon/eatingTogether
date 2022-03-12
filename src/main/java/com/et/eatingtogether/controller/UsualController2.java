@@ -99,7 +99,8 @@ public class UsualController2 {
     @ResponseBody
     public String storeUpdate(@ModelAttribute StoreDetailDTO storeDetailDTO)    {
         System.out.println("UsualController.storeUpdate 처리요청");
-        String result = ss.updateStore(storeDetailDTO);
+//        String result = ss.updateStore(storeDetailDTO);
+        String result = ses.updateStore(storeDetailDTO);
         System.out.println("result = " + result);
         return result;
     }

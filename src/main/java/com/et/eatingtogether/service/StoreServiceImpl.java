@@ -5,14 +5,13 @@ import com.et.eatingtogether.dto.system.*;
 import com.et.eatingtogether.entity.*;
 import com.et.eatingtogether.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Store;
-import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import static com.et.eatingtogether.dto.store.DailySaleDTO.toDailySaleDTO;
 import static com.et.eatingtogether.dto.store.MenuDTO.toMenuDetailDTO;
 import static com.et.eatingtogether.dto.store.StoreDetailDTO.toStoreDetailDTO;
 import static com.et.eatingtogether.dto.system.BigCategoryDTO.toBCDetailDTO;
-import static com.et.eatingtogether.dto.system.OrderDTO.toEntity;
 import static com.et.eatingtogether.dto.system.OrderDTO.toStoreOrderDetailDTO;
 
 @Service
@@ -405,5 +403,24 @@ public class StoreServiceImpl implements StoreService {
         riderEntity.setRiderState("대기");
         rr.save(riderEntity);
         return "ok";
+    }
+
+    @Override
+    public void dailySale(Long orderNumber) {
+        OrderEntity orderEntity = or.findById(orderNumber).get();
+        StoreEntity storeEntity = sr.findByStoreEmail((String) session.getAttribute("storeLoginEmail"));
+
+        Optional<DailySaleEntity> dailySaleEntity = dsr.findByDailySaleTimeAndStoreEntity(LocalDate.now(),storeEntity);
+        if (!dailySaleEntity.isEmpty()){
+            // 있다면
+            dailySaleEntity.get().setDailySalePrice(dailySaleEntity.get().getDailySalePrice() + orderEntity.getOrderPrice());
+            dsr.save(dailySaleEntity.get());
+        } else {
+            DailySaleEntity dailySaleEntity1 = new DailySaleEntity();
+            dailySaleEntity1.setDailySalePrice(orderEntity.getOrderPrice());
+            dailySaleEntity1.setDailySaleTime(LocalDate.now());
+            dailySaleEntity1.setStoreEntity(storeEntity);
+            dsr.save(dailySaleEntity1);
+        }
     }
 }

@@ -268,6 +268,7 @@ public class StoreController {
     @ResponseBody
     public String riderEnd(@RequestParam("orderNumber") Long orderNumber) {
         String result = ss.riderEnd(orderNumber);
+        ss.dailySale(orderNumber);
         return result;
     }
 

@@ -15,6 +15,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +47,8 @@ public class JangwonTest {
     private PointRepository pr;
     @Autowired
     private RiderRepository rr;
+    @Autowired
+    private DailySaleRepository dsr;
 
     @Test
     @Transactional
@@ -376,6 +380,21 @@ public class JangwonTest {
         riderEntity1.setRiderName("테스트라이더2");
         riderEntity1.setRiderState("대기");
         rr.save(riderEntity1);
+    }
+
+    @Test
+    @DisplayName("일매출생성용")
+    public void dailySaleTest(){
+        StoreEntity storeEntity = sr.findById(22l).get();
+        DailySaleEntity dailySaleEntity = new DailySaleEntity();
+        LocalDate date = LocalDate.now();
+        dailySaleEntity.setDailySaleTime(date);
+        dailySaleEntity.setDailySalePrice(1000);
+        dailySaleEntity.setStoreEntity(storeEntity);
+        dsr.save(dailySaleEntity);
+        Optional<DailySaleEntity> dailySaleEntity1 = dsr.findByDailySaleTimeAndStoreEntity(LocalDate.now(),storeEntity);
+        System.out.println("dailySaleEntity1 = " + dailySaleEntity1.get().getDailySaleTime());
+        System.out.println("dailySaleEntity1 = " + dailySaleEntity1.get().getDailySalePrice());
     }
 
 }
