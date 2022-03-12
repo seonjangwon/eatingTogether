@@ -142,7 +142,7 @@ section{
     position: relative;
     display: grid;
     transform: translate(0,0%);
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr ;
     gap: 10px;
 }
@@ -163,10 +163,6 @@ section{
 }
 
 
-/*------------------- 여기부터 관리자페이지 -----------------------*/
-
-
-/*관리자 페이지 섹션*/
 .admin-section  {
     display: grid;
     width: 1080px;
@@ -179,7 +175,22 @@ section{
     transform: translate(-50%,0%);
     text-align: center;
 }
+  
+.container-section-sale  {
+    display: grid;
+    width: 1080px;
+    grid-template-columns: 1fr 5fr; /* 열의 길이 */
+    grid-template-rows: 50px 600px ; /* 행의 높이 */
+    gap: 15px;  /* 자식요소간의 간격 */
 
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}  
+  
+  
+  
 /*관리자페이지 사이드바*/
 .admin-list{
     position: relative;
@@ -240,15 +251,6 @@ section{
 }
 
 
-/*.btn{*/
-/*    text-decoration-line: none;*/
-/*}   !* 하이퍼링크 꾸밈요소 삭제 *!*/
-/*.btn.deeppink  {*/
-/*    color: deeppink;*/
-/*}*/
-/*.btn.sandybrown {*/
-/*    color: sandybrown;*/
-/*} !* 하이퍼링크 관련 *!*/
 
 /*--------------쿠폰 섹션----------------*/
 /* body-main 부분 */

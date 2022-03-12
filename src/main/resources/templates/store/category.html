@@ -20,24 +20,54 @@
     a:active  {
         color: deeppink;
     }
+
+    .main-check{
+        background-color: blanchedalmond;
+        height: 100px;
+    }
+    #bcArea{
+        left: 50%;
+        top: 50px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        font-family: 'Cafe24SsurroundAir';
+        font-weight: bolder;
+        font-size: larger;
+        color: sandybrown;
+        text-align: center;
+    }
 </style><!--로고 하이퍼링크 관련 -->
 <body>
 <header>
     <div class = "container">
         <div class = "row">
-            <div class = "col-2">
+            <div class = "col-4">
                 <span id = logoTitle>
                     <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div> <!-- 로고타이틀 -->
-            <div class = "col-3">
+            <div class = "col">
                 <!-- 공백란 -->
             </div> <!-- 공백란 -->
             <div class = "col-2">
             </div> <!-- 검색창이 있었던 -->
             <div class="col-4">
                 <span id= "menuBar-text">
-                    마이페이지 주문내역 찜내역
+                     <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
+                         뭐먹을까요, eating together!
+                     </div>
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
                 </span>
             </div>  <!-- 하이퍼링크용 -->
             <div class="col" id="menuBar-friPan"> <!-- 버튼 -->
@@ -48,18 +78,27 @@
 </header><!--header 헷갈리니까 접어두고 사용하기! 이동할 menu text & link 체크해주세요~-->
 <!-- --------------------------------------------------------- -->
 <section>
+    <div class="main-check">
+        <div th:if="${storeList == null}">
+            배달 가능 업체가 없어요 ㅠㅠ
+        </div>
+        <div th:if="${storeList !=null}">
+            <div id="bcArea">
+                <span th:if="${bigCategoryNumber.toString().equals('1')}"> 🍲 한식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('2')}"> 🍜 중식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('3')}"> 🍣 일식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('4')}"> 🍝 양식 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('5')}"> 🍔 패스트푸드 / 기타 </span>
+            </div>
+        </div><!--소제목을 넣어보자-->
+    </div>
     <div class="main-container">
-      <div th:if="${storeList == null}">
-      배달 가능 업체가 없어요 ㅠㅠ
-      </div>
-      <div th:if="${storeList !=null}">
         <div class="row row-col-md-3 g-4" th:each="bcl:${storeList}">
             <div class="col">
                 <div class="card">
                     <p class="card-img-top" alt="사진">
-                    <!--<th> <img th:src="@{|/upload/store/${bcl.storeNumber}|}" alt="붱철"></th>-->
-                    <th> <img th:src="@{|/upload/${storeList[0].getStoreFilename()}|}" alt="Do Eat, Do it" style="width:150px"; height="150px"></th>
-                    <!--<img src="..." class="card-img-top" alt="사진">-->
+                    <!--<th> <img th:src="@{|/upload/${storeList[0].getStoreFilename()}|}" alt="Do Eat, Do it" style="width:150px"; height="150px"></th>-->
+                    <th> <img th:src="@{|/upload/store/${bcl.getStoreFilename()}|}" alt="Do Eat, Do it" style="width:253px"; height="253px"></th>
                     <div class="card-body">
                         <h5 class="card-title"><td th:text="${bcl.storeName}">가게이름</td></h5>
                         <p class="card-text">오픈 <td th:text="${bcl.storeOpen}"></td>,    마감 <td th:text="${bcl.storeClose}"></td></p>
@@ -70,7 +109,6 @@
             </div>
         </div>
     </div>
-  </div>
 </section>
 <!-- --------------------------------------------------------- -->
 <footer>
