@@ -8,6 +8,7 @@ import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 import com.et.eatingtogether.service.AdminService;
 import com.et.eatingtogether.service.CustomerService;
+import com.et.eatingtogether.service.SecurityService;
 import com.et.eatingtogether.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class CustomerController {
     private final CustomerService cs;
     private final AdminService as;
     private final StoreService ss;
+    private final SecurityService ses;
     private final HttpSession session;
 
     @GetMapping("/")
@@ -44,7 +46,8 @@ public class CustomerController {
 
     @PutMapping("/update")
     public String update(@ModelAttribute CustomerDetailDTO customerDetailDTO) {
-        return cs.update(customerDetailDTO);
+//        return cs.update(customerDetailDTO);
+        return ses.updateCustomer(customerDetailDTO);
     }
 
     @GetMapping("/history")
@@ -82,8 +85,10 @@ public class CustomerController {
     @GetMapping("/point")
     public String point(Model model) {
         List<PointDTO> pointDTOList = cs.pointList();
-        CustomerDetailDTO customerDetailDTO = cs.findById(pointDTOList.get(0).getCustomerNumber());
-        model.addAttribute("pointList", pointDTOList);
+        if (!pointDTOList.isEmpty()) {
+            model.addAttribute("pointList", pointDTOList);
+        }
+        CustomerDetailDTO customerDetailDTO = cs.findByEmail((String) session.getAttribute("customerLoginEmail"));
         model.addAttribute("point", customerDetailDTO.getCustomerPoint());
         return "customer/point";
     }

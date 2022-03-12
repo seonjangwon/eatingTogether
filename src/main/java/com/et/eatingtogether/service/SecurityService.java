@@ -1,6 +1,8 @@
 package com.et.eatingtogether.service;
 
+import com.et.eatingtogether.dto.customer.CustomerDetailDTO;
 import com.et.eatingtogether.dto.customer.CustomerSaveDTO;
+import com.et.eatingtogether.dto.store.StoreDetailDTO;
 import com.et.eatingtogether.dto.store.StoreSaveDTO;
 import com.et.eatingtogether.entity.BigCategoryEntity;
 import com.et.eatingtogether.entity.CustomerEntity;
@@ -99,5 +101,37 @@ public class SecurityService implements UserDetailsService {
 
             return new User(storeEntity.getStoreEmail(),storeEntity.getStorePassword(),authorities);
         }
+    }
+
+    public String updateStore(StoreDetailDTO storeDetailDTO) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeDetailDTO.getBigCategoryNumber());
+        Optional<StoreEntity> storeEntity = sr.findById(storeDetailDTO.getStoreNumber());
+        if (storeEntity.get().getStoreNumber().equals(storeDetailDTO.getStoreNumber())) {
+            //number값이 일치한다면
+            storeEntity.get().setStorePassword(passwordEncoder.encode(storeDetailDTO.getStorePassword()));
+            sr.save(StoreEntity.toUpdate(storeDetailDTO, bigCategoryEntity));
+            System.out.println("수정합니당");
+            return "ok";
+        } else {
+            System.out.println("수정못해");
+            //number값이 일치하지 않는다면
+            return "no";
+        }
+    }
+
+    public String updateCustomer(CustomerDetailDTO customerDetailDTO) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Optional<CustomerEntity> customerEntity = cr.findById(customerDetailDTO.getCustomerNumber());
+//        if (customerEntity.get().getCustomerPassword().equals(customerDetailDTO.getCustomerPassword())) {
+//            // 비밀 번호가 일치하면
+            customerDetailDTO.setCustomerPassword(passwordEncoder.encode(customerDetailDTO.getCustomerPassword()));
+            cr.save(CustomerEntity.toUpdate(customerDetailDTO));
+            return "ok";
+            // 시큐리티에서 확인할 방법이 없으니 그냥 해줘야할듯
+//        } else {
+//            // 비밀 번호가 일치하지 않으면
+//            return "no";
+//        }
     }
 }

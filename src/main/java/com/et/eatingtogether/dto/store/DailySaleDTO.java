@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class DailySaleDTO {
     private Long dailySaleNumber;
-    private LocalDateTime dailySaleTime;
+    private LocalDate dailySaleTime;
     private int dailySalePrice;
     private Long storeNumber;
 

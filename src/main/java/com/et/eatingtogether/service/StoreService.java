@@ -59,4 +59,6 @@ public interface StoreService {
     String riderStart(Long riderNumber, Long orderNumber);
 
     String riderEnd(Long orderNumber);
+
+    void dailySale(Long orderNumber);
 }

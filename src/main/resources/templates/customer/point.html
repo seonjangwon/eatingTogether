@@ -91,8 +91,7 @@
 
 
 <h3>내 포인트 <p th:text="${point}"></p></h3>
-
-
+    <div th:if="${pointList != null}">
     <div class="contentSection">
         <table class="table">
             <thead class="table-warning">
@@ -104,8 +103,8 @@
             <th>내용</th>
             <th>포인트</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr th:each="p : ${pointList}">
             <td th:text="${p.pointNumber}"></td>
             <td><a th:href="@{|/customer/history/${p.orderNumber}|}"><p th:text="${p.orderNumber}"></p></a></td>
@@ -115,8 +114,13 @@
             <td th:text="${p.pointHistory}"></td>
             <td th:text="${p.pointQuantity}"></td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    </div>
+</div>
+<div th:if="${pointList == null}">
+    포인트 사용/적립 내역이 없습니다!
+</div>
 <div id="msgStack"></div>
 </body>
 <script src="/js/webSocket.js"></script>
