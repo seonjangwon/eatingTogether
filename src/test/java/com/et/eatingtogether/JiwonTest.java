@@ -53,6 +53,8 @@ public class JiwonTest {
     private OrderMenuRepository omr;
     @Autowired
     private RiderRepository rr;
+    @Autowired
+    private BasketRepository br;
 
 
     //✔ 테스트에 앞서 의존성 주입을 진행
@@ -300,9 +302,72 @@ public class JiwonTest {
         riderEntity.setRiderState("문학동");
         Long riderNumber = rr.save(riderEntity).getRiderNumber();
         System.out.println("배달원저장 테스트");
+    }
 
+    @Test
+    @DisplayName("주문Test")
+    //@Transactional
+    //@Rollback
+    public void orderTest2() {
+        //메뉴, 고객, 업체
+        //회원
+        CustomerEntity customerEntity = cr.findById(9l).get();
+        System.out.println("회원정보: "+customerEntity);
 
+        //업체
+        /*BigCategoryEntity bigCategoryEntity = bcr.findById(17l).get();*/
+        StoreEntity storeEntity = sr.findById(17L).get();
+        /*System.out.println("bigCategoryEntity:"+bigCategoryEntity);*/
+        System.out.println("업체가입 테스트 실행됨");
 
+        //메뉴
+        MenuEntity menuEntity = mnr.findById(28l).get();
+        StoreCategoryEntity storeCategoryEntity = scr.findById(1l).get();
+        System.out.println("메뉴저장 테스트 실행됨");
+
+        //주문
+        OrderNowEntity orderNowEntity = new OrderNowEntity();
+        /*orderNowEntity = onr.findById(1l).get();*/
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setStoreEntity(storeEntity);
+        orderEntity.setCustomerEntity(customerEntity);
+        orderEntity.setOrderMenuEntityList(orderEntity.getOrderMenuEntityList());
+        orderEntity.setOrderPrice(menuEntity.getMenuPrice());
+        orderEntity.setOrderAddress(customerEntity.getCustomerAddress());
+        orderEntity.setOrderTime(LocalDateTime.now());
+        orderEntity.setOrderTomaster("우울우울");
+        orderEntity.setOrderTorider("ㅠㅠㅠ");
+        orderEntity.setOrderType("주문");
+        orderEntity.setOrderNowEntity(orderNowEntity);
+
+        Long orderNumber = or.save(orderEntity).getOrderNumber();
+        System.out.println("주문저장 테스트 실행됨");
+        System.out.println("orderEntity:"+orderEntity);
+
+        //주문상황관리
+        orderNowEntity.setOrderEntity(orderEntity);
+        orderNowEntity.setOrderNowStatus("요리");
+        orderNowEntity.setOrderNowTime(orderEntity.getOrderTime().plusMinutes(10));
+        Long orderNowNumber = onr.save(orderNowEntity).getOrderNowNumber();
+        System.out.println("주문상황 테스트 실행됨");
+
+        //이걸 했어야했나?
+        menuEntity = mnr.findById(1l).get();
+        OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
+        orderMenuEntity.setOrderEntity(orderEntity);
+        orderMenuEntity.setOrderMenuCount(1);
+        orderMenuEntity.setMenuEntity(menuEntity);
+        Long orderMenuNumber = omr.save(orderMenuEntity).getOrderMenuNumber();
+        System.out.println("오더메뉴저장 테스트 실행됨");
+
+        //장바구니?
+        BasketEntity basketEntity = new BasketEntity();
+        basketEntity.setBasketMenuCount(1);
+        basketEntity.setMenuEntity(menuEntity);
+        basketEntity.setCustomerEntity(customerEntity);
+        basketEntity.setStoreEntity(storeEntity);
+        Long basketNumber = br.save(basketEntity).getBasketNumber();
+        System.out.println("장바구니 테스트 실행");
     }
 
 
