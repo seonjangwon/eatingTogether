@@ -101,7 +101,10 @@
                         </div>
                         <div id="commentArea">
                             <h5><span> 사장님 답글 </span></h5>
-                            <p th:if="${r.replyDetailDTO != null}" th:text="${r.replyDetailDTO.replyContents}"></p></span>
+                            <div th:if="${r.replyDetailDTO != null}">
+                                <p th:text="${r.replyDetailDTO.replyContents}"></p>
+                            </div>
+<!--                            <p th:if="${r.replyDetailDTO != null}" th:text="${r.replyDetailDTO.replyContents}"></p></span>-->
                             <!--<span th:text="${r.replyDetailDTO.replyContents}"></span>-->
                                     <!--<span th:if="${r.replyDetailDTO != null}"><p
                                             th:text="${r.replyDetailDTO.replyContents}"></p></span>-->
