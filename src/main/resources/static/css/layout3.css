@@ -170,6 +170,7 @@ section{
     display: inline-block;
     top: 80%;
     transform: translate(0,0%);
+    height: 100vh;
     color: sandybrown;
 }
 
