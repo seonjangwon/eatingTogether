@@ -136,6 +136,17 @@ section{
     transform: translate(-50%,0%);
     text-align: center;
 }
+.container-section-1  {
+    display: grid;
+    width: 1080px;
+    /*giving grid to container*/
+    grid-template-columns: 1fr 5fr; /* 열의 길이 */
+    gap: 15px;  /* 자식요소간의 간격 */
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
 
 
 .orderInfo{
@@ -157,11 +168,10 @@ section{
     position: relative;
     font-size: larger;
     display: inline-block;
-    top: 80%;
+    /*top: 80%;*/
     transform: translate(0,0%);
     color: sandybrown;
 }
-
 
 .admin-section  {
     display: grid;
