@@ -41,11 +41,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
             if (type.equals("1")) {
                 if (targetSession != null) { // 실시간 접속시
                     TextMessage textMessage = new TextMessage(userId + "님의 주문이 들어왔습니다");
+                    System.out.println("textMessage = " + textMessage);
                     targetSession.sendMessage(textMessage);
                 }
             } else if (type.equals("2")){
                 if (targetSession != null) { // 실시간 접속시
                     TextMessage textMessage = new TextMessage(target + "님의 주문이 배송을 출발했습니다");
+                    System.out.println("textMessage = " + textMessage);
                     targetSession.sendMessage(textMessage);
                 }
             }

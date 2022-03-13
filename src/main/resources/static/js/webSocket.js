@@ -5,11 +5,13 @@ socket.onopen = function (e) {
 
 socket.onmessage = function (msg) {
     var data = msg.data;
-    let toast = "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">";
+    let toast = "<div class=\"position-fixed bottom-0 end-0 p-3\" style=\"z-index: 11\">" +
+        "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">";
     toast += "<div class='toast-header'><img src=\"...\" class=\"rounded me-2\" alt=\"...\"><strong class=\"me-auto\">Bootstrap</strong>";
-    toast += "<button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
+    // toast += "<button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
     toast += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>";
-    toast += "</div> <div class='toast-body'>" + data + "</div></div>";
+    toast += "</div> <div class='toast-body'>" + data + "<audio autoplay controls style='display: none'> <source src=\"/sound/실로폰_효과음.wav\" type=\"audio/wav\"> </audio></div></div></div>";
+    // toast += "</div> <div class='toast-body'>" + data + "</div></div></div>";
     // $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
     document.getElementById('msgStack').innerHTML = toast;
     $(".toast").toast({"animation": true, "autohide": false});
