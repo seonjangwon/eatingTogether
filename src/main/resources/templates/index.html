@@ -150,12 +150,40 @@
         </div>
     </div>
 </section>
-
+<div id="msgStack"></div>
+<toast>
+    <h5>토슷흐</h5>
+    <button type="button" class="btn btn-warning btn-sm" id="liveToastBtn">🍞toast</button>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <!--<img src="https://pbs.twimg.com/media/DjrJOrKUcAE02V7.jpg" width="15px" height="15px" class="rounded me-2" alt="...">-->
+                <strong class="me-auto">🍙뭐먹을까요</strong>
+                <small><span th:text="${#dates.createNowForTimeZone('MM-dd HH:mm')}"></span></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <span th:text="${session['storeLoginEmail']}"></span>님!
+                주문이 들어왔습니다.
+            </div>
+        </div>
+    </div>
+</toast>
 <footer>
     '뭐먹을까요-ET' 푸터내용
 </footer>
 
 </body>
+<script>
+    var toastTrigger = document.getElementById('liveToastBtn')
+    var toastLiveExample = document.getElementById('liveToast')
+    if (toastTrigger) {
+        toastTrigger.addEventListener('click', function () {
+            var toast = new bootstrap.Toast(toastLiveExample)
 
+            toast.show()
+        })
+    }
+</script><!--토스트-->
 <script src="/js/webSocket.js"></script>
 </html>
