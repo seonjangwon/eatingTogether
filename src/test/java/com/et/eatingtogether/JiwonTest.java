@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,8 @@ public class JiwonTest {
     private RiderRepository rr;
     @Autowired
     private BasketRepository br;
+    @Autowired
+    private DailySaleRepository dsr;
 
 
     //✔ 테스트에 앞서 의존성 주입을 진행
@@ -369,6 +372,89 @@ public class JiwonTest {
         Long basketNumber = br.save(basketEntity).getBasketNumber();
         System.out.println("장바구니 테스트 실행");
     }
+
+    @Test
+    //@Transactional
+    //@Rollback
+    public void 정산테스트() {
+        //메뉴, 고객, 업체
+        //회원
+        CustomerEntity customerEntity = cr.findById(12l).get();
+        System.out.println("회원정보: "+customerEntity);
+
+        //업체
+        StoreEntity storeEntity = sr.findById(19L).get();
+        System.out.println("업체:"+storeEntity);
+
+        //메뉴
+        MenuEntity menuEntity = mnr.findById(26l).get();
+        StoreCategoryEntity storeCategoryEntity = scr.findById(1l).get();
+        System.out.println("메뉴 불러옴:"+menuEntity);
+
+        //주문
+        OrderNowEntity orderNowEntity = new OrderNowEntity();
+        /*orderNowEntity = onr.findById(1l).get();*/
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setStoreEntity(storeEntity);
+        orderEntity.setCustomerEntity(customerEntity);
+        orderEntity.setOrderMenuEntityList(orderEntity.getOrderMenuEntityList());
+        orderEntity.setOrderPrice(menuEntity.getMenuPrice());
+        orderEntity.setOrderAddress(customerEntity.getCustomerAddress());
+        orderEntity.setOrderTime(LocalDateTime.now());
+        orderEntity.setOrderTomaster("ㅎㅇ");
+        orderEntity.setOrderTorider("ㄴㅇㅁㄴ");
+        orderEntity.setOrderType("만나서결제");
+        orderEntity.setOrderNowEntity(orderNowEntity);
+
+        Long orderNumber = or.save(orderEntity).getOrderNumber();
+        System.out.println("주문실행됨");
+        System.out.println("orderEntity:"+orderEntity);
+
+        //주문상황관리
+        orderNowEntity.setOrderEntity(orderEntity);
+        orderNowEntity.setOrderNowStatus("접수 대기");
+        orderNowEntity.setOrderNowTime(orderEntity.getOrderTime().plusMinutes(10));
+        Long orderNowNumber = onr.save(orderNowEntity).getOrderNowNumber();
+        System.out.println("주문상황테스트 완료");
+
+        //이걸 했어야했나?
+        menuEntity = mnr.findById(1l).get();
+        OrderMenuEntity orderMenuEntity = new OrderMenuEntity();
+        orderMenuEntity.setOrderEntity(orderEntity);
+        orderMenuEntity.setOrderMenuCount(1);
+        orderMenuEntity.setMenuEntity(menuEntity);
+        Long orderMenuNumber = omr.save(orderMenuEntity).getOrderMenuNumber();
+        System.out.println("오더메뉴저장 테스트 실행됨");
+
+        //장바구니?
+        BasketEntity basketEntity = new BasketEntity();
+        basketEntity.setBasketMenuCount(1);
+        basketEntity.setMenuEntity(menuEntity);
+        basketEntity.setCustomerEntity(customerEntity);
+        basketEntity.setStoreEntity(storeEntity);
+        Long basketNumber = br.save(basketEntity).getBasketNumber();
+        System.out.println("장바구니 테스트 실행");
+
+        //라이더선택 ~ 정산
+        RiderEntity riderEntity = rr.findById(10l).get();
+        System.out.println("라이더: "+riderEntity);
+        riderEntity.setRiderState("배달중");
+        System.out.println("라이더배달요청: "+riderEntity);
+        Long riderNumber = rr.save(riderEntity).getRiderNumber();
+        orderNowEntity.setOrderNowStatus("배달완료");
+        orderNowEntity.setRiderEntity(riderEntity);
+        orderNowEntity = onr.save(orderNowEntity);
+
+        //정산테스트
+        DailySaleEntity dailySaleEntity = new DailySaleEntity();
+        System.out.println("정산시스템가동:"+dailySaleEntity);
+        dailySaleEntity.setDailySalePrice(orderEntity.getOrderPrice());
+        dailySaleEntity.setDailySaleTime(LocalDate.now());
+        dailySaleEntity.setStoreEntity(storeEntity);
+        Long dailySaleNumber = dsr.save(dailySaleEntity).getDailySaleNumber();
+        System.out.println("정산시스템가동완료:"+dailySaleEntity);
+    }
+
 
 
 }
