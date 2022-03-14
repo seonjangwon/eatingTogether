@@ -148,7 +148,7 @@ section{
     display: grid;
     width: 60%;
     /*giving grid to container*/
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr 4fr;
     position: absolute;
     left: 50%;
     transform: translate(-50%,0%);
@@ -172,6 +172,7 @@ section{
     align-content: center;
     margin-bottom: 5px;
 }
+
 
 /* ------------------------------------------ */
 footer{
