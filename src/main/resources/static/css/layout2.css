@@ -197,9 +197,16 @@ section{
     left: 50%;
     transform: translate(-50%,0%);
     text-align: center;
-}  
-  
-  
+}
+
+.lmp {
+    font-family: 'LeeSeoyun';
+    position: relative;
+    font-size: larger;
+    display: inline-block;
+    transform: translate(0, 0%);
+    color: sandybrown;
+}
   
 /*관리자페이지 사이드바*/
 .admin-list{
