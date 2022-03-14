@@ -157,6 +157,21 @@ section{
     font-size: 18px;
 }
 
+.modal-content{
+    font-family: 'LeeSeoyun';
+}
+.menuInfo{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.countBtn{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 5px;
+}
 
 /* ------------------------------------------ */
 footer{

@@ -306,8 +306,15 @@ section{
     gap: 15px;
 
 }
-
-
+.modal-content{
+    font-family: 'LeeSeoyun';
+}
+.modal-body{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
 
 /* ------------------------------------------ */
 footer{
