@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -458,5 +459,20 @@ public class StoreServiceImpl implements StoreService {
         }
         System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
         return reviewDetailDTOList;
+    }
+
+    @Override
+    public List<OrderDTO> findOrderDaily(String storeEmail) {
+        StoreEntity storeEntity = sr.findByStoreEmail(storeEmail);
+        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);
+        List<OrderDTO> orderAll = new ArrayList<>();
+        for (OrderEntity oe : orderEntityList) {
+            if (oe.getOrderNowEntity().getOrderNowStatus().equals("배달 완료")){
+                if (oe.getOrderTime().getDayOfMonth() == LocalDateTime.now().getDayOfMonth()){
+                    orderAll.add(toStoreOrderDetailDTO(oe));
+                }
+            }
+        }
+        return orderAll;
     }
 }

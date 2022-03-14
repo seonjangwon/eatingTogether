@@ -64,4 +64,6 @@ public interface StoreService {
     void dailySale(Long orderNumber);
 
     List<ReviewDetailDTO> reviewStore(Long storeNumber);
+
+    List<OrderDTO> findOrderDaily(String storeEmail);
 }

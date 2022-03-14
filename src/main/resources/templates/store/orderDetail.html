@@ -171,7 +171,16 @@
             <div class="col-5" id="helloRider">
                 <div class="textArea1">
                 <h4><label class="form-label">라이더선택</label></h4>
-                <button type="button" class="btn btn-light" style="background-color: coral" id="riderSelect" onclick="popUp()">배달요청</button>
+                    <div th:if="${order.orderNow == '접수 대기'}">
+                        <button type="button" class="btn btn-light" style="background-color: coral" id="riderSelect"
+                                onclick="popUp()">배달요청
+                        </button>
+                    </div>
+                    <div  th:if="${order.orderNow == '배달중'}">
+                        <button type="button" class="btn btn-light" style="background-color: coral" id="orderFinish"
+                                onclick="rider_end_btn()">배달 완료
+                        </button>
+                    </div>
                 <span id="plz" style="display: none"> 배달요청 실행하면 나옵니다 </span>
                 </div>
             </div> <!--라이더선택 -->
@@ -183,10 +192,10 @@
                     </label>
                 </div>
             </div>
-            <div class="col-12">
+            <!--<div class="col-12">
                 <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}" class="btn btn-light"
                    tabindex="-1" id="orderFinish" role="button" style="display:none;" aria-disabled="true">배달출발</a>
-            </div>
+            </div>-->
         </form>
     </div>
 </section>

@@ -295,7 +295,8 @@ public class StoreController {
         //판매 내역 출력
         StoreDetailDTO store = ss.findById(storeEmail);
         model.addAttribute("store", store);
-        List<OrderDTO> order = ss.findOrderAll(storeEmail);
+//        List<OrderDTO> order = ss.findOrderAll(storeEmail);
+        List<OrderDTO> order = ss.findOrderDaily(storeEmail);
         model.addAttribute("order", order);
         List<DailySaleDTO> sale = ss.findSaleAll(store.getStoreNumber());
         model.addAttribute("sale", sale);
