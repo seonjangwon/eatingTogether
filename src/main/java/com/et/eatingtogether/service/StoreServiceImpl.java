@@ -404,6 +404,12 @@ public class StoreServiceImpl implements StoreService {
         OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
         orderNowEntity.setOrderNowStatus("배달 완료");
         onr.save(orderNowEntity);
+        //
+        OrderEntity orderEntity = or.findById(orderNumber).get();
+        DailySaleEntity dailySaleEntity = dsr.findById(orderNumber).get();
+        dailySaleEntity.setDailySalePrice(orderEntity.getOrderPrice());
+        dsr.save(dailySaleEntity);
+        //
         RiderEntity riderEntity = orderNowEntity.getRiderEntity();
         riderEntity.setRiderState("대기");
         rr.save(riderEntity);
@@ -457,4 +463,6 @@ public class StoreServiceImpl implements StoreService {
         System.out.println("서비스 임플에서 reviewDetailDTOList = " + reviewDetailDTOList);
         return reviewDetailDTOList;
     }
+
+
 }
