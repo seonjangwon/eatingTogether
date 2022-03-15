@@ -52,6 +52,7 @@
                         <a href="/usual/logout"> 로그아웃</a>
                         <a href="/customer/"> 마이페이지</a>
                         <a href="/customer/basket"> 장바구니</a>
+                        <a href="/contact">011해적단</a>
                     </div><!-- 회원로그인시 -->
 
                     <div th:if="${session.storeLoginEmail}">
@@ -59,6 +60,7 @@
                         <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
                         <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
                         <a th:href="@{|/store/sale/${session['storeLoginEmail']}|}"> 정산확인</a>
+                        <a href="/contact">011해적단</a>
                     </div><!-- 업체로그인시 -->
                 </span>
             </div>
@@ -152,8 +154,8 @@
 </section>
 <div id="msgStack"></div>
 <toast>
-    <h5>토슷흐</h5>
-    <button type="button" class="btn btn-warning btn-sm" id="liveToastBtn">🍞toast</button>
+    <!--<h5>토슷흐</h5>
+    <button type="button" class="btn btn-warning btn-sm" id="liveToastBtn">🍞toast</button>-->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -169,10 +171,6 @@
         </div>
     </div>
 </toast>
-<footer>
-    '뭐먹을까요-ET' 푸터내용
-</footer>
-
 </body>
 <script>
     var toastTrigger = document.getElementById('liveToastBtn')
