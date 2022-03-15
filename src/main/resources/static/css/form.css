@@ -31,6 +31,31 @@
     font-style: normal;
 }
 
+/*쿠폰등록 폰트 v2. 충북대 70주년체 */
+@font-face {
+    font-family: 'ChungbukNationalUniversity-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/ChungbukNationalUniversity-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*장바구니 제목용*/
+@font-face {
+    font-family: 'EliceDigitalBaeum-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_elice@1.0/EliceDigitalBaeum-Bd.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*장바구니 제목용2*/
+@font-face {
+    font-family: 'KOHIBaeumOTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/KOHIBaeumOTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 /* 가독성+귀여운 */
 a {
     text-decoration-line: none;
@@ -54,6 +79,33 @@ a:active {
     color: deeppink;
 }
 
+/*메뉴링크 버튼*/
+.btn-peach{
+    /*background-color: lightsalmon;*/
+    background-color: peachpuff;
+    border: none;
+    color: white;
+    padding: 4px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-peach:hover{
+    background-color: lightgray;
+    opacity: 50%;
+    color: black;
+}
+
+.btn-peach:active{
+    background-color: lightgray;
+}
+
 /*---------------------------------------------------*/
 header {
     background-color: white;
@@ -68,8 +120,8 @@ header {
     /*transform: translate(0,0);*/
     margin-bottom: 10px;
 }
-
 /*헤더전체*/
+
 
 #logoTitle {
     font-family: 'Yeongdo-Rg';
@@ -112,6 +164,9 @@ section {
     width: 30%;
 } /* 수정하려고 잠시 ㅠ */
 
+
+
+
 #hello {
     text-align: center;
 }
@@ -134,6 +189,232 @@ input {
     gap: 15px;
 }
 
+
+/*회원 페이지 섹션*/
+.customer-section  {
+    display: grid;
+    width: 1080px;
+    /*giving grid to container*/
+    grid-template-columns: 1fr 5fr; /* 열의 길이 */
+    grid-template-rows: 300px 300px ; /* 행의 높이 */
+    gap: 15px;  /* 자식요소간의 간격 */
+    position: absolute;
+    left: 40%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
+
+/*회원페이지 사이드바*/
+.side-section{
+    position: relative;
+    display: grid;
+    top: 80px;
+    text-align: center;
+    /*gap: 10px;  !* 자식요소간의 간격 *!*/
+    /*transform: translate(0,0%);*/
+    /*grid-template-columns: 2fr 1fr;*/
+    /*grid-template-rows: 1fr 1fr ;*/
+    /*gap: 10px;*/
+}
+
+
+
+/*--------------- 장바구니 섹션 -----------*/
+
+
+.outline{
+    width: 100%;
+    height: 1300px;
+    /*background-color: lavenderblush;*/
+    /*background-color: antiquewhite;;*/
+    position:relative;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+
+}
+
+#1{
+
+}
+
+
+.container-grid{
+    display: grid;
+    grid-row-gap: 10px;
+    border: 1px solid lightgrey;
+    font-family: 'ChungbukNationalUniversity-Regular';
+    left: 25%;
+    top: 150px;
+    position: absolute;
+    height: 80%;
+    grid-template-rows: 50px 200px 200px 200px 100px;
+    width: 50%;
+    padding: 20px;
+    background-color: white;
+
+
+}
+
+
+#cartHead{
+    display: grid;
+    position: relative;
+    left: -30%;
+    padding-top: 10px;
+    font-weight: bolder;
+    /*font-size: 100px;*/
+    font-family: 'KOHIBaeumOTF';
+    color: dimgrey;
+}
+
+
+
+
+.item{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+#storeName {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid lightgrey;
+    font-size: 16pt;
+
+}
+
+#menu-info{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr 5fr;
+    border-bottom: 1px solid lightgrey;
+
+    /*font-weight: bold;*/
+    /*font-size: 16pt;*/
+}
+
+#menuName{
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+#payment-info{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    /*grid-template-columns: 1fr 1fr;*/
+    border-bottom: 1px solid lightgrey;
+    align-items: center;
+}
+
+
+#deleteBtn{
+    text-align: right;
+
+}
+
+#countBtn{
+    text-align:right;
+}
+
+#delivery {
+    text-align: right;
+
+}
+
+#allPrice{
+    text-align: right;
+
+}
+
+#payment-price {
+    text-align: right;
+    font-weight: bold;
+}
+
+
+/*}*/
+
+#orderBtn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: flex-end;
+    font-size: 16pt;
+}
+
+.operatorBtn{
+    background-color: blanchedalmond;
+
+}
+
+
+
+/*.main{*/
+/*    background-color: white;*/
+/*    top: 100px;*/
+/*    left:50%;*/
+/*    width: 50%;*/
+/*    position: absolute;*/
+/*    border: 1px solid lightgrey;*/
+/*    font-family: 'ChungbukNationalUniversity-Regular';*/
+/*    transform: translate(-50%);*/
+/*    display: grid;*/
+/*    !*grid-template-rows: 350px 300px 50px;*!*/
+/*    !*gap: 30px;*!*/
+/*    height: 100%;*/
+/*}*/
+
+/*#basket-price-section{*/
+/*    !*left: 50%;*!*/
+/*    !*top: 10%;*!*/
+/*    width: 100%;*/
+/*    position: relative;*/
+/*    grid-row-gap: 10px;*/
+/*    padding-top: 50px;*/
+/*    display: grid;*/
+/*    grid-template-rows: 50px 50px 50px;*/
+/*    background-color: red;*/
+/*}*/
+
+/*.content{*/
+/*    background-color: white;*/
+/*    left:50%;*/
+/*    width: 100%;*/
+/*    border: 1px solid lightgrey;*/
+/*    font-family: 'ChungbukNationalUniversity-Regular';*/
+/*    height: 300px;*/
+/*}*/
+
+/*.basket-container{*/
+/*    left:50%;*/
+/*    width: 50%;*/
+/*    position: absolute;*/
+/*    border: 1px solid lightgrey;*/
+/*    font-family: 'ChungbukNationalUniversity-Regular';*/
+/*    transform: translate(-50%);*/
+/*    display: grid;*/
+/*    grid-template-rows: 500px 300px 50px;*/
+/*    gap: 10px;*/
+/*}*/
+
+
+
+/*.basket-section{*/
+/*    position: relative;*/
+/*    transform: translate(0,0%);*/
+/*    !*grid-template-columns: 1fr 1fr;*!*/
+/*    !*grid-template-rows: 1fr 1fr ;*!*/
+/*    !*gap: 10px;*!*/
+/*    !*margin-bottom: 40px;*!*/
+/*    !*margin-top: 40px;*!*/
+/*    !*padding: 40px 39px;*!*/
+/*    background-color: white;*/
+
+
+/*}*/
 
 /* ------------------------------------------ */
 footer {

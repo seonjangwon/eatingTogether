@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/layout2.css" type="text/css">
+    <link rel="stylesheet" href="/css/form.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
@@ -10,68 +10,68 @@
     <title>basket</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-        const menuDown_btn = (basketNumber) =>{
+        const menuDown_btn = (basketNumber) => {
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
             $.ajax({
-               type:'put',
-               url:'/customer/menu',
-               data:{"basketNumber":basketNumber,"type":"down"},
-               dataType:'text',
-                beforeSend: function(xhr){
+                type: 'put',
+                url: '/customer/menu',
+                data: {"basketNumber": basketNumber, "type": "down"},
+                dataType: 'text',
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-               success:function (result){
-                   console.log(result);
-                   if (result==="ok"){
-                       location.reload();
-                   }
-               },
-               error:function (){
-                   alert('아작아작');
-               }
-            });
-        }
-        const menuUp_btn = (basketNumber) =>{
-            var header = $("meta[name='_csrf_header']").attr('content');
-            var token = $("meta[name='_csrf']").attr('content');
-            $.ajax({
-                type:'put',
-                url:'/customer/menu',
-                data:{"basketNumber":basketNumber,"type":"up"},
-                dataType:'text',
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                success:function (result){
+                success: function (result) {
                     console.log(result);
-                    if (result==="ok"){
+                    if (result === "ok") {
                         location.reload();
                     }
                 },
-                error:function (){
+                error: function () {
                     alert('아작아작');
                 }
             });
         }
-        const menuDelete_btn = (basketNumber) =>{
+        const menuUp_btn = (basketNumber) => {
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
             $.ajax({
-                type:'delete',
-                url:"/customer/menu",
-                data:{"basketNumber":basketNumber},
-                dataType:'text',
-                beforeSend: function(xhr){
+                type: 'put',
+                url: '/customer/menu',
+                data: {"basketNumber": basketNumber, "type": "up"},
+                dataType: 'text',
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-                success:function (result){
+                success: function (result) {
                     console.log(result);
-                    if (result==="ok"){
+                    if (result === "ok") {
                         location.reload();
                     }
                 },
-                error:function (){
+                error: function () {
+                    alert('아작아작');
+                }
+            });
+        }
+        const menuDelete_btn = (basketNumber) => {
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            $.ajax({
+                type: 'delete',
+                url: "/customer/menu",
+                data: {"basketNumber": basketNumber},
+                dataType: 'text',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (result) {
+                    console.log(result);
+                    if (result === "ok") {
+                        location.reload();
+                    }
+                },
+                error: function () {
                     alert('아작아작');
                 }
             });
@@ -122,10 +122,94 @@
 
     </style><!-- 하이퍼링크용: 수정가능성 있음 -->
     <style>
-        #storeName{
+
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: blanchedalmond;
+        }
+
+        header {
+            background-color: blanchedalmond;
+            height: 100px;
+        }
+
+
+        #basketTitle {
+            font-family: 'EliceDigitalBaeum-Bd';
+            margin-bottom: 15px;
+            text-align: center;
+            color: black;
+            opacity: 80%;
+            left: 200px;
+        }
+
+
+        section {
+            width: 100%;
+            height: 100%;
+
+        }
+
+        p {
+            margin: 0;
+
+        }
+
+
+        #payment {
+            text-align: right;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+
+        #cart-icon {
+            width: 0.7cm;
+            height: 0.7cm
+
+        }
+
+        #table-first {
+            position: relative;
+            width: 100%;
+            /*padding: 30px 30px 30px 30px;*/
+
+
+        }
+
+        #orderPrice {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 60%;
+            display: grid;
+        }
+
+
+        #delete-btn {
+            background-color: white;
+            display: inline-block;
+            border: none;
+
+        }
+
+        #table-second {
+            width: 60%;
+
+        }
+
+        #order-info {
+            font-size: 14pt;
             text-align: left;
         }
+
+        .table {
+            border-collapse: separate;
+        }
+
+
     </style>
+
 </head>
 <body>
 <header>
@@ -147,7 +231,9 @@
             </div>
             <div class="col-4">
                 <span id="menuBar-text" style="font-family: 'LeeSeoyun';">
-                    마이페이지 주문내역 찜내역
+                       <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
@@ -158,59 +244,92 @@
     </div>
 </header>
 <section>
-    <div class="contentSection">
-<h2>장바구니</h2>
-<div th:if="${basketList != null}">
-    <h3 ><p id="storeName" th:text="${basketList[0].storeName}"></p></h3> <!--가게명-->
-    <div>
+    <div class="outline">
+        <div id="1" style="background-color: blanchedalmond">
+        </div>
+        <div id="2">
+            <div id="cartHead">
+                <h1>
+                    <svg id=cart-icon xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-cart4" viewBox="0 0 16 16">
+                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                    </svg>
+                    장바구니
+                </h1>
+            </div>
+            <div th:if="${basketList != null}">
+                <div class="container-grid">
+                    <div class="row" id="storeName">
+                        <h4 style="font-weight: bold;"><p th:text="${basketList[0].storeName}"></p></h4> <!--가게명-->
+                    </div>
+                    <!--주문정보 첫째줄-->
+                    <div class="row" id="menu-info" th:each="b : ${basketList}">
+                        <div id="menuName" th:text="${b.menuName}"></div>
+                        <div id="deleteBtn">
+                            <button id=delete-btn th:onclick="menuDelete_btn([[${b.basketNumber}]])">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                     fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <!--주문정보 둘째줄-->
+
+                        <!--이미지(왼쪽)-->
+                        <div id="store-img">
+                            이미지
+                            <img th:src="@{|/upload/store/${b.menuFilename}|}" alt="">
+                        </div>
+                        <!--정보(오른쪽)-->
+                        <div id="order-info">
+                            <!--                            <div th:text="'가격 : '+ ${b.menuPrice} + '원'"></div>-->
+                            <div id="price-sum" th:text="${b.menuPrice * b.menuCount} + '원'"></div>
+                            <div id="countBtn"><span th:switch="${b.menuCount}">
+                            <span th:case="1">
+                                <button type="button" class="btn btn-light">-</button></span>
+                            <span th:case="*">
+                                <button type="button" class="btn btn-light"
+                                        th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></span>
+                            <span th:text="${b.menuCount}"></span>
+                                <button type="button" class="btn btn-light"
+                                        th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
+                          </span></div>
+                            <!--                            <div id="price-sum" th:text="'가격 : ' + ${b.menuPrice * b.menuCount} + '원'"></div>-->
+                        </div>
+                    </div>
+
+                    <div class="row" id="payment-info">
+
+                            <div style="font-size:16pt;">총주문금액</div>
+                            <div id="allPrice" th:text="${totalPrice}"></div>
 
 
-    </div><!--메뉴이름-->
+                            <div style="font-size:17pt;">배달비</div>
+                            <div id="delivery" th:text="${deliveryPrice}"></div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>일단 장바구니 번호</th>
-                <th>일단 메뉴 번호</th>
-                <th>메뉴 사진</th>
-                <th>메뉴 이름</th>
-                <th>개당 가격</th>
-                <th>가격</th>
-                <th>숫자</th>
-                <th>삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="b : ${basketList}">
-                <td th:text="${b.basketNumber}"></td>
-                <td th:text="${b.menuNumber}"></td>
-                <td><img th:src="@{|/upload/store/${b.menuFilename}|}" alt=""></td>
-                <td th:text="${b.menuName}"></td>
-                <td th:text="${b.menuPrice}"></td>
-                <td th:text="${b.menuPrice * b.menuCount}"></td>
-                <td>
-                    <span th:switch="${b.menuCount}">
-                        <span th:case="1"><button>-</button></span>
-                        <span th:case="*"><button th:onclick="menuDown_btn([[${b.basketNumber}]])">-</button></span>
-                    </span>
-                    <span th:text="${b.menuCount}"></span>
-                    <button th:onclick="menuUp_btn([[${b.basketNumber}]])">+</button>
-                </td>
-                <td><button th:onclick="menuDelete_btn([[${b.basketNumber}]])">삭제</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <h3>총 주문 금액 : <p th:text="${totalPrice}"></p></h3>
-    <h3>배달비 : <p th:text="${deliveryPrice}"></p></h3>
-    <h3>결제 예정 금액 : <p th:text="${totalPrice + deliveryPrice}"></p></h3>
-    <a href="/customer/payment">주문 하기</a>
-</div>
-    </div>
+
+                            <div style="font-weight: bold; font-size: 18pt;">결제예정금액</div>
+                            <div id="payment-price" th:text="${totalPrice + deliveryPrice}"></div>
+
+                    </div>
+                    <div class="row" id="orderBtn">
+                        <a href="/customer/payment">주문 하기</a>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${basketList == null}">
+                <h3 style="font-family: 'LeeSeoyun'; font-size:30pt; margin-top: 100px; text-align: center";>장바구니가 비었어요!</h3>
+            </div>
+        </div>
+        <div id="3" style="background-color: blanchedalmond">
+        </div>
+
+
 </section>
-<div th:if="${basketList == null}">
-    <h3>장바구니가 비었어요!</h3>
-</div>
 <div id="msgStack"></div>
 </body>
 <script src="/js/webSocket.js"></script>
-</html>
+</html>`
