@@ -9,11 +9,6 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>[뭐먹을까요:업체] 판매현황 </title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <style>
-        .orderListDetail {
-            width: 600px;
-        }
-    </style>
 </head>
 <style>
     a {
@@ -42,20 +37,27 @@
         font-family: 'LeeSeoyun';
         /*text-align: center;*/
     }
-    #sumBtn1{
+
+    #sumBtn1 {
+        margin: 10px;
         color: blanchedalmond;
         font-weight: bold;
         border: blanchedalmond;
         border-radius: 5px;
     }
-    #sumBtn2{
+
+    #sumBtn2 {
+        margin: 10px;
         color: blanchedalmond;
         font-weight: bold;
         border: blanchedalmond;
         border-radius: 5px;
     }
-    #dailyDate{
-        transform: translate(45%,0%);
+    #monthMonth {
+        transform: translate(45%, 0%);
+    }
+    #dailyDate {
+        transform: translate(45%, 0%);
     }
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
@@ -93,63 +95,60 @@
 <section>
     <div class="container-section-sale">
         <div class="leftMenuBar">
-            <a class="btn btn-light" tabindex="-1" role="button" onclick="dailyView()"> 오늘의 매출 </a>
-            <a class="btn btn-light" tabindex="-1" role="button" onclick="monthView()"> 이달의 매출 </a>
+            <p class="lmp" onclick="dailyView()"> 하루 매출 </p><br>
+            <p class="lmp" onclick="monthView()"> 한달 매출 </p>
+
         </div>
         <div class="rightContainer">
             <div id="month_sale">
-                <div class="row"><h2>3월매출</h2></div>
-                <div class="row" id="saleListM">
-                    <table class="table table-warning" id="monthSaleTable">
-                        <thead>
-                        <tr>
-                            <th> 날짜</th>
-                            <th> 금액</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="s:${sale}">
-                            <td th:text="${s.dailySaleTime}"></td>
-                            <td th:text="${s.dailySalePrice}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="row">
+                <h2><div class="row" id="monthMonth"></div></h2>
+                <table class="table table-warning" id=monthSaleTable>
+                    <thead>
+                    <th> 주문일</th>
+                    <th> 총액</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sale:${sale}">
+                        <td th:text="${sale.dailySaleTime}"></td>
+                        <td th:text="${sale.dailySalePrice}"></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div class="sum">
                     <button class="col-1" id="sumBtn1" style="background-color: coral" onclick="sumMonthSale()"> 총액</button>
                     <span class="col-1" id="sumM"></span>
-                    </div>
                 </div>
             </div>
-            <div id="daily_sale" style="display: none">
+            <div id="daily_sale">
                 <h2><div class="row" id="dailyDate"></div></h2>
-                <div class="row" id="saleListD">
-                    <table class="table table-warning" id=dailySaleTable>
-                        <thead>
-                        <th> 주문시간</th>
-                        <th> 주문번호</th>
-                        <th> 메뉴</th>
-                        <th> 주문금액</th>
-                        <th> 고객번호</th>
-                        </thead>
-                        <tbody>
-                        <tr th:each="od:${order}">
-                            <td th:text="${od.orderTime}"></td>
-                            <td th:text="${od.orderNumber}"></td>
-                            <td th:text="${od.menuName}"></td>
-                            <td th:text="${od.orderPrice}"></td>
-                            <td th:text="${od.customerNumber}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <button class="col-1" id="sumBtn2" style="background-color: coral" onclick="sumDailySale()"> 총액</button>
-                        <span class="col-1" id="sumD"></span>
-                    </div>
+                <table class="table table-warning" id=dailySaleTable>
+                    <!--<span data-th-text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>-->
+                    <thead>
+                    <th> 주문시간</th>
+                    <th> 주문번호</th>
+                    <th> 메뉴</th>
+                    <th> 주문금액</th>
+                    <th> 고객번호</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="od:${order}" th:if="${od.orderNow.toString().equals('배달완료')}" >
+                        <td th:text="${od.orderTime}"></td>
+                        <td th:text="${od.orderNumber}"></td>
+                        <td th:text="${od.menuName}"></td>
+                        <td th:text="${od.orderPrice}"></td>
+                        <td th:text="${od.customerNumber}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="sum">
+                    <button class="col-1" id="sumBtn2" style="background-color: coral" onclick="sumDailySale()"> 총액</button>
+                    <span class="col-1" id="sumD"></span>
                 </div>
             </div>
         </div>
     </div>
-    <footer></footer>
+        <footer></footer>
 </section>
 <div id="msgStack"></div>
 </body>
@@ -172,8 +171,15 @@
         }
         document.getElementById('sumM').innerText = sum;
     }
+
+    //월매출 날짜
+    date = new Date();
+    var month = ('' + (date.getMonth() + 1)).slice(-2);
+    document.getElementById("monthMonth").innerHTML = month + "월";
+    /*document.getElementById("dailyDate").innerHTML = Date();*/
 </script><!--month-->
 <script>
+
     function dailyView() {
         console.log("daily버튼 누름")
         $("#month_sale").hide();

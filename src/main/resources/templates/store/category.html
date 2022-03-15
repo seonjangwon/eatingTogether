@@ -35,6 +35,19 @@
         font-size: larger;
         color: sandybrown;
         text-align: center;
+        border-radius: 3px;
+    }
+    .sub-title{
+        left: 50%;
+        top: 130px;
+        position: absolute;
+        transform: translate(-50%, -0%);
+        font-family: 'Cafe24SsurroundAir';
+        font-weight: bolder;
+        font-size: 12px;
+        color: sandybrown;
+        text-align: center;
+        border-radius: 3px;
     }
 </style><!--로고 하이퍼링크 관련 -->
 <body>
@@ -89,6 +102,13 @@
                 <span th:if="${bigCategoryNumber.toString().equals('3')}"> 🍣 일식 </span>
                 <span th:if="${bigCategoryNumber.toString().equals('4')}"> 🍝 양식 </span>
                 <span th:if="${bigCategoryNumber.toString().equals('5')}"> 🍔 패스트푸드 / 기타 </span>
+            </div>
+            <div class="sub-title">
+                <a href="/store/category/1"> 🍲 한식 </a>&nbsp;
+                <a href="/store/category/2"> 🍜 중식 </a>&nbsp;
+                <a href="/store/category/3"> 🍣 일식 </a>&nbsp;
+                <a href="/store/category/4"> 🍝 양식 </a>&nbsp;
+                <a href="/store/category/5"> 🍔 패스트푸드 / 기타 </a>
             </div>
         </div><!--소제목을 넣어보자-->
     </div>

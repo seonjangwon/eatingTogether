@@ -170,6 +170,7 @@ section{
     display: inline-block;
     top: 80%;
     transform: translate(0,0%);
+    height: 100vh;
     color: sandybrown;
 }
 
@@ -184,6 +185,18 @@ section{
     /*giving grid to container*/
     grid-template-columns: 1fr 5fr; /* 열의 길이 */
     grid-template-rows: 300px 300px ; /* 행의 높이 */
+    gap: 15px;  /* 자식요소간의 간격 */
+    position: absolute;
+    left: 40%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
+/* 고객결제창 */
+.customer-section-payment  {
+    display: grid;
+    width: 1080px;
+    /*giving grid to container*/
+    grid-template-columns: 1fr 5fr; /* 열의 길이 */
     gap: 15px;  /* 자식요소간의 간격 */
     position: absolute;
     left: 40%;
@@ -270,8 +283,15 @@ section{
     gap: 15px;
 
 }
-
-
+.modal-content{
+    font-family: 'LeeSeoyun';
+}
+.modal-body{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
 
 /* ------------------------------------------ */
 footer{

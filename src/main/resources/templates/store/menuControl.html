@@ -23,9 +23,13 @@
     a:active  {
         color: deeppink;
     }
+    section{
+        font-family: 'LeeSeoyun';
+    }
     .table-hover {
         top:100px;
     }
+
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
@@ -68,14 +72,14 @@
     </div>
 </header>
 <section>
-    메뉴를 위한, 메뉴에 의한
-
     <table class="table table-hover table-bordered" id="hoverTable">
         <thead>
-        <th> 메뉴사진 </th>
-        <th> 메뉴이름 </th>
-        <th> 메뉴설명 </th>
-        <th> 수정 / 삭제 </th>
+        <th> 사진 </th>
+        <th> 이름 </th>
+        <th> 설명 </th>
+        <th> 가격 </th>
+        <th colspan="2"> 수정 </th>
+        <th> 삭제 </th>
         </thead>
         <tbody>
         <tr th:each="menu: ${menuList}">
@@ -83,16 +87,16 @@
             <td> <img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진" width="150px"; height="150px"></td>
             <td th:text="${menu.menuName}"></td>
             <!--<td colspan="2" th:text="${menu.menuExplain}"></td>-->
-            <td colspan="2" th:text="${menu.menuExplain}"></td>
+            <td th:text="${menu.menuExplain}"></td>
             <td th:text="${menu.menuPrice}"></td>
             <!--<td th:hidden="${menu.storeNumber}"></td>
             <td th:hidden="${menu.storeCategoryName}"></td>-->
             <td colspan="2"> <a th:href="@{|/store/update/${menu.menuNumber}|}">메뉴수정 </a></td>
-            <td> <button th:onclick="deleteMenu([[${menu.menuNumber}]])"> 삭제 </button> </td>
+            <td> <sapn th:onclick="deleteMenu([[${menu.menuNumber}]])"> 메뉴삭제 </sapn> </td>
         </tr>
         </tbody>
     </table>
-    <a href="/store/menu/" class="btn btn-light btn-sm" tabindex="-1" role="button"> 메뉴추가 </a>
+    <a href="/store/menu/" class="btn btn-secondary" tabindex="-1" role="button"> 메뉴추가 </a>
 </section>
     <div id="msgStack"></div>
 </body>

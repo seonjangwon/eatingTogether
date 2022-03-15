@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-       <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/css/form.css" rel="stylesheet" crossorigin="anonymous">
+    <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>customerUpdate</title>
+    <title>🍙 뭐먹을까요 🍙 내 정보 수정</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -83,7 +86,7 @@
                 url: '/customer/update',
                 data: formData,
                 dataType: 'text',
-                beforeSend: function(xhr){
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (result) {
@@ -100,13 +103,79 @@
         }
     </script>
 </head>
+<style>
+    a {
+        text-decoration-line: none;
+    }
+
+    /* 하이퍼링크 꾸밈요소 삭제 */
+    a:link {
+        color: sandybrown;
+    }
+
+    /* 하이퍼링크 관련 */
+    a:visited {
+        color: sandybrown;
+    }
+
+    a:hover {
+        color: coral;
+    }
+
+    a:active {
+        color: deeppink;
+    }
+
+    /*--------------------------------
+    목록링크 색상*/
+    .list-group-item {
+        color: sandybrown;
+    }
+
+    .list-group-item:visited {
+        color: sandybrown;
+    }
+
+    .list-group-item:hover {
+        color: coral;
+    }
+
+    .list-group-item:active {
+        color: deeppink;
+    }
+
+    body{
+        width: 100%;
+        background-color: #ffcccc;
+    }
+
+    .textArea{
+        margin-top: 5px;
+        font-weight: bold;
+        color: coral;
+    }
+    .line{
+        width:100%;
+        border-bottom: 0px;
+        text-align: left;
+        margin-left: 0;
+        color: coral;
+
+    }
+    #customerAddressForm input {
+        margin-bottom: 5px;
+    }
+
+    /*-----------------------------------------여기까지 */
+
+</style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
     <div class="container">
         <div class="row">
             <div class="col-3">
-                <span id="logoTitle">
-                    <h3 style="font-family: 'Yeongdo-Rg';"><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
                 </span>
             </div>
             <div class="col-2">
@@ -119,10 +188,12 @@
                 </form>-->
             </div>
             <div class="col-4">
-                <span id="menuBar-text" style="font-family: 'LeeSeoyun';">
-                          <a href="/usual/logout"> 로그아웃</a>
+                <span id="menuBar-text">
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
                         <a href="/customer/"> 마이페이지</a>
                         <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
@@ -131,40 +202,29 @@
             </div>
         </div>
     </div>
-</header>
+</header><!--고객용 header-->
 <section>
-
-    <div class="customer-section">
-        <div class="side-section">
-            <ul class="list-group list-group-flush"style="font-family: 'Yeongdo-Rg';">
-                <a href="/customer/update" class="list-group-item list-group-item-action" >내정보수정</a>
-                <a href="/customer/history" class="list-group-item list-group-item-action" >주문내역</a>
-                <a href="/customer/coupon" class="list-group-item list-group-item-action">내쿠폰함</a>
-                <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
-                <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
-                <a href="/customer/wishlist" class="list-group-item list-group-item-action">찜리스트</a>
-                <a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>
-            </ul>
+    <h2>내 정보 수정</h2>
+    <form th:object="${customer}" id="customerUpdate_form">
+        <input type="hidden" th:field="*{customerNumber}" th:value="*{customerNumber}"><br>
+        <h6 class="textArea">아이디</h6> <span th:text="*{customerEmail}"></span>
+        <h6 class="textArea">비밀번호</h6><input type="password" th:field="*{customerPassword}"><br>
+        <h6 class="textArea">닉네임</h6><input type="text" th:field="*{customerNickname}" th:value="*{customerNickname}"><br>
+        <h6 class="textArea">연락처</h6> <input type="text" th:field="*{customerPhone}" th:value="*{customerPhone}"><br>
+        <hr class="line">
+        <div id=customerAddressForm>
+            <input type="text" id="sample4_postcode" placeholder="우편번호">
+            <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+            <input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+            <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+            <span id="guide" style="color:#999;display:none"></span>
+            <input type="text" id="sample4_detailAddress" placeholder="상세주소">
+            <input type="text" id="sample4_extraAddress" placeholder="참고항목">
+            <input type="hidden" th:field="*{customerAddress}" th:value="*{customerAddress}"><br>
+            <input type="hidden" th:field="*{customerDname}" th:value="*{customerDname}"><br>
         </div>
-    </div>
-<form th:object="${customer}" id="customerUpdate_form">
-<!--    <input type="text" th:field="*{customerNumber}" th:value="*{customerNumber}"><br> --><!--회원번호-->
-   <input type="text" th:field="*{customerEmail}" th:value="*{customerEmail}"><br>
-  <input type="text" th:field="*{customerPassword}"><br>
-    <input type="text" th:field="*{customerNickname}" th:value="*{customerNickname}"><br>
-   <input type="text" id="sample4_postcode" placeholder="우편번호">
-    <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-    <input type="text" id="sample4_roadAddress" placeholder="도로명주소">
-    <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
-    <span id="guide" style="color:#999;display:none"></span>
-    <input type="text" id="sample4_detailAddress" placeholder="상세주소">
-    <input type="text" id="sample4_extraAddress" placeholder="참고항목">
-    <input type="hidden" th:field="*{customerAddress}" th:value="*{customerAddress}"><br>
-    <input type="hidden" th:field="*{customerDname}" th:value="*{customerDname}"><br>
-    <input type="text" th:field="*{customerPhone}" th:value="*{customerPhone}"><br>
-</form>
-</div>
-<br><button onclick="update_form()">수정하기</button>
+    </form>
+    <button onclick="update_form()">수정하기</button>
 </section>
 <div id="msgStack"></div>
 </body>

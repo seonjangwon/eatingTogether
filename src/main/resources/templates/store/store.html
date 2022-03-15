@@ -30,13 +30,13 @@
                     console.log(result);
 
                     let output = "<div class='row'>" +
-                        "<div class='col-3'>" + result.menuExplain + "</div> " +
-                        "<div class='col-3'>" + result.menuPrice + "</div> " +
-                        "<div class='col-3'><button onclick='menuCountDown()'>-</button>" +
+                        "<div class='menuInfo' style='display: flex' >" + result.menuExplain + '&nbsp;' + result.menuPrice + "</div> " + "\n" +
+                        /*"<div class='col-3'><button class='btn btn-black-50' onclick='menuCountDown()'>-</button>" +*/
+                        "<div class='countBtn mb-10px' style='display: flex'><button class='btn btn-black-50' onclick='menuCountDown()'>-</button>" +
                         "<input type='number' id='menuCount' value='1' readonly>" +
-                        "<button onclick='menuCountUp()'>+</button>" +
+                        "<button class='btn btn-black-50' onclick='menuCountUp()'>+</button>" +
                         "</div>" +
-                        "<button onclick='basketAdd(" + result.menuNumber + ")'>장바구니 담기</button>" +
+                        "<button class='btn btn-secondary' onclick='basketAdd(" + result.menuNumber + ")'>장바구니에 메뉴 추가</button>" +
                         "</div>";
                     view.innerHTML = output;
                 },
@@ -123,7 +123,7 @@
         color: deeppink;
     }
 
-    #storeDataView{
+    #storeDataView {
         font-family: 'LeeSeoyun';
         border: 0.5px solid;
         border-color: coral;
@@ -137,38 +137,112 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    #store{
+
+    /*#store {
         margin-bottom: 30px;
-    }
-    #sAll{
+    }*/
+
+    #sAll {
         display: grid;
         grid-template-columns: 1fr 3fr;
     }
-    #storeInfo{
 
-    }
-    #sInfo{
+    #sInfo {
         font-size: 20px;
     }
-    #mrBtn{
-        transform: translate(0%,30%);
+
+    #mrBtn {
+        transform: translate(0%, 30%);
         height: 40px;
     }
 
-    #menuBtn{
+    #menuBtn {
         font-family: 'LeeSeoyun';
         color: blanchedalmond;
         font-weight: bold;
         text-align: center;
         height: 30px;
     }
-    #reviewBtn{
+
+    #reviewBtn {
         font-family: 'LeeSeoyun';
         color: blanchedalmond;
         font-weight: bold;
         text-align: center;
         height: 30px;
     }
+
+    .contents {
+        width: 100%;
+        /*transform: translate(50%, 0%);*/
+        background-color: blanchedalmond;
+        border-radius: 0.5rem;
+        font-family: 'LeeSeoyun';
+        margin: 5px;
+        /*min-height: 100px;*/
+        display: grid;
+        /*grid-template-rows: 1fr 0.5fr;*/
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #reviewArea1 {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        transform: translate(4%);
+        width: 96%;
+        min-height: 150px;
+        padding: 3px;
+        background-color: blanchedalmond;
+        border-radius: 0.5rem;
+        margin-bottom: 5px;
+    }
+
+    #commentArea {
+        width: 96%;
+        display: flex;
+        transform: translate(4%);
+        justify-content: center;
+        align-items: center;
+        min-height: 50px;
+        padding: 3px;
+        background-color: azure;
+        border-radius: 0.5rem;
+        margin-bottom: 5px;
+    }
+
+    #review1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #review2 {
+        display: grid;
+        grid-template-rows: 1fr 2fr;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .t012 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+
+    #1 {
+        text-align: left;
+        font-size: large;
+    }
+
+    #time {
+        text-align: right;
+        font-size: medium;
+    }
+    .ment{
+        height: 50px;
+        margin-bottom: 10px;
+    }
+
 </style><!-- 하이퍼링크용: 수정가능성 있음 -->
 <body>
 <header>
@@ -211,7 +285,7 @@
 </header><!--header 수정완료-->
 <section>
     <div class="container-section-store">
-        <form class="row g-3" id="store">
+        <form class="row" id="store">
             <div id="storeDataView">
                 <div id="sAll">
                     <div id="sImage">
@@ -237,14 +311,15 @@
                     </div>
                 </div>
                 <div id="mrBtn">
-                    <a class="btn btn-Light" tabindex="-1" role="button"id="menuBtn" style="background-color: coral" onclick="MenuBtn()" > 메뉴 </a>
-                    <a class="btn btn-Light" tabindex="-1" role="button"id="reviewBtn" style="background-color: coral" onclick="reviewBtn()" > 리뷰 </a>
+                    <a class="btn btn-Light" tabindex="-1" role="button" id="menuBtn" style="background-color: coral"
+                       onclick="MenuBtn()"> 메뉴 </a>
+                    <a class="btn btn-Light" tabindex="-1" role="button" id="reviewBtn" style="background-color: coral"
+                       onclick="reviewBtn()"> 리뷰 </a>
                     <!--<button onclick="MenuBtn()"> 메뉴</button>
                     <button onclick="reviewBtn()"> 리뷰</button>-->
                 </div>
             </div>
         </form>
-
         <div id="menuArea">
             <table class="table table-warning table-hover">
                 <thead>
@@ -252,17 +327,18 @@
                 <th> 메뉴</th>
                 <th> 설명</th>
                 <th> 가격</th>
-                <th> 담기 </th> <!-- 주문하는 버튼으로 해야하나요? ?????-->
+                <th> 담기</th> <!-- 주문하는 버튼으로 해야하나요? ?????-->
                 </thead>
                 <tbody>
                 <tr th:each="menu: ${menuList}">
-                    <th><img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진" width="100px"; height="100px"></th>
+                    <th><img th:src="@{|/upload/store/${menu.menuFilename}|}" alt="사진" width="100px" ; height="100px">
+                    </th>
                     <td th:text="${menu.menuName}"></td>
                     <td th:text="${menu.menuExplain}"></td>
                     <td th:text="${menu.menuPrice}"></td>
                     <td>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
                                 th:onclick="basket_view([[${menu.menuNumber}]])">
                             장바구니 담기
@@ -274,69 +350,69 @@
                 </tbody>
             </table>
         </div>
-        <div id="reviewArea" style="display: none">
-            <table class="table table-warning table-striped">
-                <thead>
-                <tr>
-                    <th>일단 번호</th>
-                    <th>매장</th>
-                    <th>작성일</th>
-                    <th>사진</th>
-                    <th>메뉴</th>
-                    <th>리뷰 내용</th>
-                    <th>사장님 댓글</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="r : ${reviewList}">
-                    <td th:text="${r.reviewNumber}"></td>
-                    <td><a th:href="@{|/store/${r.storeNumber}|}"><p th:text="${r.storeName}"></p></a></td>
-                    <td th:text="${r.reviewTime}"></td>
-                    <td><!--리뷰 사진-->
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>사진</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="menu : ${r.reviewFileDTOList}">
-                                <td><img th:src="@{|/upload/review/${menu.reviewFilename}|}" alt=""></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <!--            <td th:text="${r.menuName}"></td>-->
-                    <td th:text="${r.reviewComments}"></td>
-                    <td th:if="${r.replyDetailDTO != null}"><p th:text="${r.replyDetailDTO.replyContents}"></p></td>
-                </tr>
-                </tbody>
-            </table>
-
+        <div class="contents" id="reviewArea" style="display: none">
+            <div class="rv" th:each="r:${reviewList}">
+                <div class="row" id="reviewArea1">
+                    <div id="review1">
+                        <div id="3">
+                        <span th:each="menu : ${r.reviewFileDTOList}">
+                            <span><img th:src="@{|/upload/review/${menu.reviewFilename}|}" alt="사진실종됨" width="220px"
+                                       height="150px"></span>
+                        </span>
+                        </div>
+                    </div>
+                    <div id="review2">
+                        <div class="t012">
+                            <div id="1"><h3><span th:text="${r.customerName}"></span>님</h3></div>
+                            <div id="2"><span id="time" th:text="${r.reviewTime}"></span></div>
+                        </div>
+                        <div id="4">
+                            <div>
+                                <span th:text="${r.reviewScore}"></span>점 주셨습니다.
+                                <h5><span th:if="${r.reviewScore.toString().equals('5')}">🍗🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore.toString().equals('4')}">🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore.toString().equals('3')}">🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore.toString().equals('2')}">🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore.toString().equals('1')}">🍗</span></h5>
+                            </div>
+                            <span th:text="${r.menuName}"></span>를 시키셨네요!<br>
+                            <hr class="line">
+                            <span th:text="${r.reviewComments}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="commentArea">
+                    <h5><span> 사장님 답글 </span></h5>
+                    <div th:if="${r.replyDetailDTO != null}">
+                        <p class="ment" th:text="${r.replyDetailDTO.replyContents}"></p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
-</div>
+    </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">🍙 Eating together!</h5>
                     <button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modal-body">
                     ...
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-info btn-sm">담기</button>
+                </div>-->
             </div>
         </div>
     </div>
-<div id="msgStack"></div>
+    <div id="msgStack"></div>
 </section>
 </body>
 <script src="/js/webSocket.js"></script>

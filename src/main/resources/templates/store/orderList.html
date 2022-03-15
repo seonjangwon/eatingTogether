@@ -10,9 +10,9 @@
     <style>
 
 
-        #border {
+        .border1 {
             font-family: 'LeeSeoyun';
-            border: 0.5px solid;
+            border: 1px solid;
             border-color: coral;
             border-radius: 0.5rem;
             margin: 5px;
@@ -24,13 +24,39 @@
             padding-bottom: 10px;
         }
 
-        #detail{
+        .detail{
             transform: translate(0,30%);
             font-weight: bolder;
             text-align: center;
         }
 
     </style>
+    <script>
+        $(document).ready(function (){
+            $(".orderAll").show();
+            $(".checked").hide();
+            $(".deliFinish").hide();
+        })
+
+        function all1() {
+            console.log("all1누름");
+            $(".orderAll").show();
+            $(".checked").hide();
+            $(".deliFinish").hide();
+        }
+            function checked1(){
+            console.log("checked1누름");
+            $(".orderAll").hide();
+            $(".checked").show();
+            $(".deliFinish").hide();
+        }
+        function deliFinish1(){
+            console.log("deliFinish1누름");
+            $(".orderAll").hide();
+            $(".checked").hide();
+            $(".deliFinish").show();
+        }
+    </script>
 </head>
 <style>
     a {
@@ -89,25 +115,58 @@
 <section>
     <div class="container-section">
         <div class="leftMenuBar">
-            <!--ajax 이용해서 오른쪽 창 내용 변경시킬 것-->
-            <p><a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}">오늘의 주문</a></p><br>
-            <p><a href="/storeMain">완료된 주문</a></p><br>
+            <p class="lmp" onclick="all1()">모든주문</p><br>
+            <p class="lmp" onclick="checked1()">주문접수</p><br>
+            <p class="lmp" onclick="deliFinish1()">배달완료</p><br>
         </div>
         <div class="rightContainer">
             <form class="row g-3">
-                    <div th:each="od:${orderAll}">
-                        <div class="mg-3" id="border">
-                            <div id="order">
+                <div class="orderAll">
+                    <div class="contentsArea" th:each="od:${orderAll}">
+                        <div class="border1">
+                            <div class="order">
                             <p th:text="${od.orderTime}"></p>
                             <h4><sapn th:text="${od.customerNumber}"></sapn>님 주문</h4>
                             메뉴: <span th:text="${od.menuName}"></span><br>
                             주문금액: <span th:text="${od.orderPrice}"></span>       배달상황: <span th:text="${od.orderNow}"></span><br>
                             </div>
-                            <div id="detail">
+                            <div class="detail">
                                 <h3><a th:href="@{|/store/order/${od.orderNumber}|}"> 👀<br>더보기 </a></td></h3>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="checked">
+                    <div class="contentsArea" th:each="od:${orderAll}">
+                        <div class="border1" th:if="${od.orderNow.toString().equals('배달중')} or ${od.orderNow.toString().equals('주문접수')}">
+                            <div class="order">
+                            <p th:text="${od.orderTime}"></p>
+                            <h4><sapn th:text="${od.customerNumber}"></sapn>님 주문</h4>
+                            메뉴: <span th:text="${od.menuName}"></span><br>
+                            주문금액: <span th:text="${od.orderPrice}"></span>       배달상황: <span th:text="${od.orderNow}"></span><br>
+                            </div>
+                            <div class="detail">
+                                <h3><a th:href="@{|/store/order/${od.orderNumber}|}"> 👀<br>더보기 </a></td></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="deliFinish">
+                    <div class="contentsArea" th:each="od:${orderAll}">
+                        <div class="border1"  th:if="${od.orderNow.toString().equals('배달완료')}">
+                            <div class="order">
+                            <p th:text="${od.orderTime}"></p>
+                            <h4><sapn th:text="${od.customerNumber}"></sapn>님 주문</h4>
+                            메뉴: <span th:text="${od.menuName}"></span><br>
+                            주문금액: <span th:text="${od.orderPrice}"></span>       배달상황: <span th:text="${od.orderNow}"></span><br>
+                            </div>
+                            <div class="detail">
+                                <h3><a th:href="@{|/store/order/${od.orderNumber}|}"> 👀<br>더보기 </a></td></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>

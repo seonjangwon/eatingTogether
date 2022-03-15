@@ -29,4 +29,14 @@ public class MainController {
 
         return "storeMain";
     }
+
+    @GetMapping("/contact")
+    public String contact(){
+        return "contact";
+    }
+
+    @GetMapping("/baseFormat")
+    public String testTemplate(){
+        return "baseFormat";
+    }
 }
