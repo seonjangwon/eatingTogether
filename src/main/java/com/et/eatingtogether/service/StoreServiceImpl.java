@@ -42,6 +42,7 @@ public class StoreServiceImpl implements StoreService {
     private final RiderRepository rr;
     private final DailySaleRepository dsr;
     private final ReviewFileRepository rfr;
+
     private final ReplyRepository rpr;
 
     @Override
@@ -142,6 +143,7 @@ public class StoreServiceImpl implements StoreService {
         MultipartFile menuFile = menuDTO.getMenuFile();
         String menuFilename = menuFile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + menuFilename;
+
 
 //        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename; // 지원이꺼 + menuFilename;
         /*String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;*/
@@ -407,6 +409,12 @@ public class StoreServiceImpl implements StoreService {
         OrderNowEntity orderNowEntity = or.findById(orderNumber).get().getOrderNowEntity();
         orderNowEntity.setOrderNowStatus("배달 완료");
         onr.save(orderNowEntity);
+        //
+        OrderEntity orderEntity = or.findById(orderNumber).get();
+        DailySaleEntity dailySaleEntity = dsr.findById(orderNumber).get();
+        dailySaleEntity.setDailySalePrice(orderEntity.getOrderPrice());
+        dsr.save(dailySaleEntity);
+        //
         RiderEntity riderEntity = orderNowEntity.getRiderEntity();
         riderEntity.setRiderState("대기");
         rr.save(riderEntity);
@@ -431,7 +439,7 @@ public class StoreServiceImpl implements StoreService {
             dsr.save(dailySaleEntity1);
         }
     }
-
+  
     @Override
     public List<ReviewDetailDTO> reviewStore(Long storeNumber) {
         Optional<StoreEntity> storeEntity = sr.findById(storeNumber);

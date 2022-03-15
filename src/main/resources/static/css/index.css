@@ -135,6 +135,9 @@ section{
     left: 50%;
     height: 650px;
     transform: translate(-50%,70%);
+    font-family: 'LeeSeoyun';
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #searchMenu {
@@ -145,7 +148,6 @@ section{
     left: 50%;
     transform: translate(-50%,300px);
 }
-
 
 /* ------------------------------------------ */
 footer{

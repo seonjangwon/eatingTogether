@@ -1,185 +1,371 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="/css/layout2.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>리뷰관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    function replyBtn(){
-        $("#replyFinish").show();
-        $("#notReply").hide();
-        $("#all").hide();
-    }
+        $(document).ready(function(){
+            $(".all").show();
+            $(".replyFinish").hide();
+            $(".notReply").hide();
+        })
 
-    function notReplyBtn(){
-        $("#notReply").show();
-        $("#replyFinish").hide();
-        $("#all").hide();
-    }
+        function replyBtn() {
+            $(".replyFinish").show();
+            $(".notReply").hide();
+            $(".all").hide();
+        }
+
+        function notReplyBtn() {
+            $(".notReply").show();
+            $(".replyFinish").hide();
+            $(".all").hide();
+        }
     </script>
 
     <style>
-        #replyFinish{
-            display: none;
-        }
-        #notReply {
-            display: none;
-        }
-
-        form{
+        form {
             display: inline;
         }
+
+        /*-------------- 링크 ---------------*/
+        a {
+            text-decoration-line: none;
+        }
+
+        /* 하이퍼링크 꾸밈요소 삭제 */
+        a:link {
+            color: sandybrown;
+        }
+
+        /* 하이퍼링크 관련 */
+        a:visited {
+            color: sandybrown;
+        }
+
+        a:hover {
+            color: coral;
+        }
+
+        a:active {
+            color: deeppink;
+        }
+
+        /*---------- left bar -----------*/
+        .leftMenuBarScroll{       /*내용많아지면 스크롤*/
+            font-family: 'Yeongdo-Rg';
+            position: sticky;
+            /*position: sticky;*/
+            font-size: larger;
+            display: inline-block;
+            top: 0%;
+            transform: translate(0,50%);
+            color: sandybrown;
+        }
+
+     /*   .lmp {
+            font-family: 'LeeSeoyun';
+            position: relative;
+            font-size: larger;
+            display: inline-block;
+            transform: translate(0, 0%);
+            color: sandybrown;
+        }*/
+
+        .contentsArea {
+            margin-bottom: 5%;
+        }
+
+        #contents1 {
+            font-family: 'LeeSeoyun';
+            border: 0.5px solid;
+            border-color: coral;
+            border-radius: 0.5rem;
+            margin: 5px;
+            min-height: 100px;
+            width: 80%;
+            display: grid;
+            grid-template-rows: 1fr;
+            /*grid-template-columns: 1fr 2fr;*/
+            padding: 10px;
+            /*padding-top: 10px;
+            padding-bottom: 10px;*/
+        }
+
+        #contents2 {
+            font-family: 'LeeSeoyun';
+            border: 0.5px solid;
+            border-color: coral;
+            border-radius: 0.5rem;
+            margin: 5px;
+            min-height: 100px;
+            width: 80%;
+            display: grid;
+            grid-template-rows: 1fr;
+            /*grid-template-columns: 1fr 2fr;*/
+            padding: 10px;
+            /*padding-top: 10px;
+            padding-bottom: 10px;*/
+        }
+
+        #contents3 {
+            font-family: 'LeeSeoyun';
+            border: 0.5px solid;
+            border-color: coral;
+            border-radius: 0.5rem;
+            margin: 5px;
+            min-height: 100px;
+            width: 80%;
+            display: grid;
+            grid-template-rows: 1fr;
+            /*grid-template-columns: 1fr 2fr;*/
+            padding: 10px;
+            /*padding-top: 10px;
+            padding-bottom: 10px;*/
+        }
+
+        .review1 {
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .review1-2 {
+            margin: 5px;
+            display: grid;
+            /*grid-template-rows: 1fr 2fr;*/
+            grid-template-columns: 1fr 2fr;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .commentArea {
+            font-family: 'LeeSeoyun';
+            background-color: #ffcccc;
+            border-radius: 0.5rem;
+            margin: 5px;
+            min-height: 100px;
+            width: 80%;
+            display: grid;
+            /*grid-template-columns: 1fr 3fr;*/
+            grid-template-rows: 0.3fr 1fr;
+            padding: 10px;
+        }
+
+        .commentByOwner {
+            width: 90%;
+        }
+
+        .standText {
+            font-family: 'Cafe24SsurroundAir';
+            font-size: 16px;
+            color: sandybrown;
+            font-weight: bolder;
+            margin: 3px;
+        }
+
+        .line {
+            border: coral;
+            border-style: solid;
+            border-bottom: 0px;
+            text-align: left;
+            margin-left: 0;
+        }
     </style>
-
-
-</head>
 <body>
-<!--여기서 회원이 작성한 리뷰목록 확인-->
-<button onclick="replyBtn()">답변완료</button>
-<button onclick="notReplyBtn()">미답변</button>
-<div id="all">
-
-<table>
-    <thead>
-    <tr>
-        <th>리뷰번호</th>
-        <th>회원아이디</th>
-        <th>메뉴</th>
-        <th>날짜</th>
-        <th>리뷰내용</th>
-        <th>별점</th>
-        <th>사진</th>
-        <th>답글</th>
-
-    </tr>
-    </thead>
-
-    <tbody th:each="r : ${reviewList}">
-    <tr>
-        <td th:text="${r.reviewNumber}"></td>
-        <td th:text="${r.customerNumber}"></td>
-        <td th:text="${r.menuName}"></td>
-        <td th:text="${r.reviewComments}"></td>
-        <td th:text="${r.reviewScore}"></td>
-        <td th:each= "rf : ${r.reviewFileDTOList}">
-            <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
-        </td>
-
-        <td th:if="${r.replyNumber == null}">
-            <form action="/review/reply" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
-                <textarea name="replyContents"  col="50" row="10"></textarea>
-                <input type="submit" value="댓글등록">
-            </form>
-        </td>
-            <td th:if="${r.replyNumber != null}">
-                <span th:text="${r.replyDetailDTO.replyContents}"></span>
-            </td>
-    </tr>
-    </tbody>
-</table>
-
-
-
-</div>
-
-<div id="replyFinish" >
-    <table>
-        <thead>
-        <tr>
-            <th>리뷰번호</th>
-            <th>회원아이디</th>
-            <th>메뉴</th>
-            <th>리뷰내용</th>
-            <th>별점</th>
-            <th>날짜</th>
-            <th>사진</th>
-        </tr>
-
-        </thead>
-
-        <tbody>
-        <tr th:each="r : ${reviewList}">
-            <div th:if="${r.replyNumber != null}">
-                <td th:text="${r.reviewNumber}"></td>
-                <td th:text="${r.customerNumber}"></td>
-                <td th:text="${r.menuName}"></td>
-                <td th:text="${r.reviewComments}"></td>
-                <td th:text="${r.reviewScore}"></td>
-                <td th:text="${r.reviewTime}"></td>
-                <td th:each="rf : ${r.reviewFileDTOList}">
-                    <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
-                </td>
-
-                <!--답글부분-->
-                <td th:if="${r.replyNumber == null}">
-                    <form action="/review/reply" method="post">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
-                        <textarea name="replyContents"  col="50" row="10"></textarea>
-                        <input type="submit" value="댓글등록">
-                    </form>
-                </td>
-                <td th:if="${r.replyNumber != null}">
-                    <span th:text="${r.replyDetailDTO.replyContents}"></span>
-                </td>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
             </div>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-
-
-<div id="notReply">
-    <table>
-        <thead>
-        <tr>
-            <th>리뷰번호</th>
-            <th>회원아이디</th>
-            <th>메뉴</th>
-            <th>날짜</th>
-            <th>리뷰내용</th>
-            <th>별점</th>
-            <th>사진</th>
-        </tr>
-
-        </thead>
-
-        <tbody>
-        <tr th:each="r : ${reviewList}">
-            <div th:if="${r.replyNumber == null}">
-                <td th:text="${r.reviewNumber}"></td>
-                <td th:text="${r.customerNumber}"></td>
-                <td th:text="${r.menuName}"></td>
-                <td th:text="${r.reviewComments}"></td>
-                <td th:text="${r.reviewScore}"></td>
-                <td th:each="rf : ${r.reviewFileDTOList}">
-                    <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ">
-                </td>
-
-                <!--답글부분-->
-                <td th:if="${r.replyNumber == null}">
-                    <form action="/review/reply" method="post">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <input type="text" name="reviewNumber" th:value="${r.reviewNumber}"> <!--리뷰번호 -->
-                        <textarea name="replyContents"  col="50" row="10"></textarea>
-                        <input type="submit" value="댓글등록">
-                    </form>
-                </td>
-                <td th:if="${r.replyNumber != null}">
-                    <span th:text="${r.replyDetailDTO.replyContents}"></span>
-                </td>
+            <div class="col-2">
+                <!-- 공백란 -->
             </div>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <div class="col-2">
+            </div>
+            <div class="col-4">
+                <span id="menuBar-text">
+                    <div th:if="${session.storeLoginEmail}">
+                        <a href="/usual/logout">로그아웃</a>
+                        <a th:href="@{|/store/menuControl/${session['storeLoginEmail']}|}">메뉴관리</a>
+                        <a th:href="@{|/store/orderAll/${session['storeLoginEmail']}|}"> 주문관리</a>
+                        <a href="/storeMain"> 스토어관리 </a>
+                    </div><!-- 업체로그인시 -->
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+            </div>
+        </div>
+    </div>
+</header><!--header 수정완료-->
+<section>
+    <div class="container-section-1">
+        <div class="leftMenuBarScroll">
+            <p class="lmp" onclick="replyBtn()">답변완료</p><br>
+            <p class="lmp" onclick="notReplyBtn()">미답변</p>
+        </div>
+        <div class="rightContainer">
+            <div class="all">
+                <div class="contentsArea" th:each="r: ${reviewList}">
+                    <form class="row g-3">
+                        <div class="row" id="contents1">
+                            <div id="reviewArea">
+                                <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                <div class="review1">
+                                    작성시간 <span th:text="${r.reviewTime}"></span>
+                                </div>
+                                <hr class="line">
+                                <div class="review1-2">
+                                    <div class="review3">
+                                        <span th:each="rf : ${r.reviewFileDTOList}">
+                                            <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ" width="150px"
+                                                 height="150px">
+                                        </span>
+                                    </div>
+                                    <div class="review2">
+                                        주문메뉴: <span th:text="${r.menuName}"></span><br>
+                                        <!--<span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
+                                        <span th:if="${r.reviewScore==4}"><span>🍙🍙🍙🍙</span></span>
+                                        <span th:if="${r.reviewScore==3}"><span>🍙🍙🍙</span></span>
+                                        <span th:if="${r.reviewScore==2}"><span>🍙🍙</span></span>
+                                        <span th:if="${r.reviewScore==1}"><span>🍙</span></span>-->
 
+
+                                        &lt;!&ndash;별점: <span th:text="${r.reviewScore}"></span>점&ndash;&gt;
+                                        <span th:text="${r.reviewComments}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="commentArea">
+                        <h5><span class="standText"> 사장님 답글 </span></h5>
+                        <div th:if="${r.replyDetailDTO == null}">
+                            <form action="/review/reply" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <input type="hidden" name="reviewNumber" th:value="${r.reviewNumber}">
+                                <textarea class="commentByOwner" name="replyContents"></textarea><br>
+                                <input type="submit" class="btn btn-light btn-sm" value="댓글등록">
+                            </form>
+                        </div>
+                        <div th:if="${r.replyDetailDTO != null}">
+                            <span th:text="${r.replyDetailDTO.replyContents}"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="replyFinish">
+                <div class="contentsArea" th:each="r: ${reviewList}">
+                    <!--<div class="test123" th:if="${r.replyDetailDTO != null}">-->
+                    <!--<div class="test123" th:if="${not #strings.isEmpty(r.replyDetailDTO)}" th:text="${r.replyDetailDTO.replyNumber}">-->
+                    <!--<div class="test123" th:if="${not #strings.isEmpty(r.replyDetailDTO)}"
+                         th:text="${r.replyDetailDTO.replyNumber}">-->
+                    <div class="test123" th:if="${r.replyNumber != null}">
+                        <form class="row g-3">
+                            <div class="row" id="contents2">
+                                <div class="reviewArea">
+                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                    <div class="review1">
+                                        작성시간 <span th:text="${r.reviewTime}"></span>
+                                    </div>
+                                    <hr class="line">
+                                    <div class="review1-2">
+                                        <div class="review3">
+                                        <span th:each="rf : ${r.reviewFileDTOList}">
+                                            <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ" width="150px"
+                                                 height="150px">
+                                        </span>
+                                        </div>
+                                        <div class="review2">
+                                            주문메뉴: <span th:text="${r.menuName}"></span><br>
+                                            <span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==4}"><span>🍙🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==3}"><span>🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==2}"><span>🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==1}"><span>🍙</span></span>
+
+
+                                            <!--별점: <span th:text="${r.reviewScore}"></span>점-->
+                                            <span th:text="${r.reviewComments}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="commentArea">
+                            <h5><span class="standText"> 사장님 답글 </span></h5>
+                            <span th:text="${r.replyDetailDTO.replyContents}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notReply">
+                <div class="contentsArea" th:each="r: ${reviewList}">
+                    <div class="test123" th:if="${r.replyNumber == null}">
+                        <form class="row g-3">
+                            <div class="row" id="contents3">
+                                <div class="reviewArea">
+                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                    <div class="review1">
+                                        작성시간 <span th:text="${r.reviewTime}"></span>
+                                    </div>
+                                    <hr class="line">
+                                    <div class="review1-2">
+                                        <div class="review3">
+                                        <span th:each="rf : ${r.reviewFileDTOList}">
+                                            <img th:src="@{|/upload/review/${rf.reviewFilename}|}" alt="ㅎ" width="150px"
+                                                 height="150px">
+                                        </span>
+                                        </div>
+                                        <div class="review2">
+                                            주문메뉴: <span th:text="${r.menuName}"></span><br>
+                                            <!--<span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==4}"><span>🍙🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==3}"><span>🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==2}"><span>🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==1}"><span>🍙</span></span>-->
+
+
+                                            <!--별점: <span th:text="${r.reviewScore}"></span>점-->
+                                            <span th:text="${r.reviewComments}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="commentArea">
+                            <h5><span class="standText"> 사장님 답글 </span></h5>
+                            <!--<div th:if="${r.replyNumber == null}">-->
+                            <form action="/review/reply" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <!--<input type="hidden" name="reviewNumber" th:value="${r.reviewNumber}">-->
+                                <textarea class="commentByOwner" name="replyContents"></textarea><br>
+                                <input type="submit" class="btn btn-light btn-sm" value="댓글등록">
+                            </form>
+                            <!--</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!----------------------------------- 댓글을 안달았을 때 ----------------------------------------->
+    </div>
+</section>
 <div id="msgStack"></div>
+<footer>
+
+</footer>
 </body>
 <script src="/js/webSocket.js"></script>
 </html>

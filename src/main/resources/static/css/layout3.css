@@ -170,6 +170,7 @@ section{
     display: inline-block;
     top: 80%;
     transform: translate(0,0%);
+    height: 100vh;
     color: sandybrown;
 }
 
@@ -190,13 +191,26 @@ section{
     transform: translate(-50%,0%);
     text-align: center;
 }
+/* 고객결제창 */
+.customer-section-payment  {
+    display: grid;
+    width: 1080px;
+    /*giving grid to container*/
+    grid-template-columns: 1fr 5fr; /* 열의 길이 */
+    gap: 15px;  /* 자식요소간의 간격 */
+    position: absolute;
+    left: 40%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}
 
 /*회원페이지 사이드바*/
 .side-section{
-    position: relative;
+    position: absolute;
     display: grid;
     top: 80px;
     text-align: center;
+    height: 100vh;
     /*gap: 10px;  !* 자식요소간의 간격 *!*/
     /*transform: translate(0,0%);*/
     /*grid-template-columns: 2fr 1fr;*/
@@ -225,31 +239,7 @@ section{
     gap: 10px;
 }
 
-/*메뉴링크 버튼*/
-.button{
-    background-color: darkgray;
-    border: none;
-    color: white;
-    padding: 4px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 300;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-}
 
-.button:hover{
-    background-color: peachpuff;
-    opacity: 50%;
-    color: black;
-}
-
-.button:active{
-    background-color: lightsalmon;
-}
 
 
 /*.btn{*/
@@ -293,8 +283,15 @@ section{
     gap: 15px;
 
 }
-
-
+.modal-content{
+    font-family: 'LeeSeoyun';
+}
+.modal-body{
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
 
 /* ------------------------------------------ */
 footer{

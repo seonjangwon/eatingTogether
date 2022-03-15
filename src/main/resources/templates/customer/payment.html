@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>payment</title>
+    <title>🍙뭐먹을까요 결제요청</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/css/layout3.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
@@ -75,11 +76,13 @@
             }
 
         }
+
         function cash1() {
             console.log("현금");
             $('#cash_btn').show();
             $('#check_module').hide();
         }
+
         function creditCard1() {
             console.log("카드");
             $('#cash_btn').hide();
@@ -99,113 +102,258 @@
         // };
     </script>
     <style>
-        #check_module{
+        #check_module {
             display: none;
+        }
+
+        /*--------------------------------
+        목록링크 색상*/
+        .list-group-item {
+            color: sandybrown;
+        }
+
+        .list-group-item:visited {
+            color: sandybrown;
+        }
+
+        .list-group-item:hover {
+            color: coral;
+        }
+
+        .list-group-item:active {
+            color: deeppink;
+        }
+
+        /*-----------------------------------------여기까지 */
+        .line{
+            border: coral;
+            border-style: solid;
+            border-bottom: 0px;
+            text-align: left;
+            margin-left: 0;
+        }
+        .textArea{
+            font-family: 'Cafe24SsurroundAir';
+            margin-top: 5px;
+            font-weight: bold;
+            color: coral;
+        }
+        .standText{
+            font-family: 'Cafe24SsurroundAir';
+            font-size: 16px;
+            color: sandybrown;
+            font-weight: bolder;
+            margin: 3px;
+        }
+        /*.plz{
+            width: 50%;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            gap: 15px;
+        }*/
+        .plz toOwner{
+            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .plz toRider{
+            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #toOwner input{
+            width: 42%;
+        }
+        #toRider_select{
+            width: 40%;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            gap: 15px;
+        }
+        /*----- 요청사항 -----*/
+
+        .payment1 input{
+            display: flex;
+            margin-bottom: 5px;
+        }
+        .route{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #point{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-<h2>payment</h2>
-<div>
-    <div>
-        <h3>배달 정보</h3>
-        <span>
-                내 주소 : <p th:text="${customer.customerAddress}"></p>
-                연락처 : <p th:text="${customer.customerPhone}"></p>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <span id=logoTitle>
+                    <h3><a href="/"> 🍙 뭐먹을까요?</a></h3>
+                </span>
+            </div>
+            <div class="col-2">
+                <!-- 공백란 -->
+            </div>
+            <div class="col-2">
+                <!--<form class="d-flex" id="menuBar-search">
+                  <input class="form-control me-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+            <div class="col-4">
+                <span id="menuBar-text">
+                    <div th:if="${session.customerLoginEmail}">
+                        <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
+                    </div><!-- 회원로그인시 -->
+                </span>
+            </div>
+            <div class="col" id="menuBar-friPan">
+                <a href="#" class="btn btn-light btn-sm " tabindex="-1" role="button" aria-disabled="true">🍳</a>
+                <!--<button class="btn btn-right" id="menuBar-offCanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">🍳</button>-->
+            </div>
+        </div>
+    </div>
+</header><!--고객용 header-->
+<section>
+    <div class="customer-section-payment">
+        <div class="side-section">
+            <ul class="list-group list-group-flush" style="font-family: 'Yeongdo-Rg';">
+                <a href="/customer/update" class="list-group-item list-group-item-action">내정보수정</a>
+                <a href="/customer/history" class="list-group-item list-group-item-action">주문내역</a>
+                <a href="/customer/coupon" class="list-group-item list-group-item-action">내쿠폰함</a>
+                <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
+                <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
+                <a href="/customer/wishlist" class="list-group-item list-group-item-action">찜리스트</a>
+                <a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>
+            </ul>
+        </div>
+    </div>
+    <div class="contentSection">
+        <div class="deli">
+            <h4 class="textArea">배달 정보</h4>
+            <span>
+                <span class="standText">내 주소 </span> <span th:text="${customer.customerAddress}"></span><br>
+                <span class="standText"> 연락처</span> <span th:text="${customer.customerPhone}"></span>
             </span>
-    </div>
-    <form action="/customer/payment" method="post" id="payment_form">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <input type="hidden" name="storeNumber" th:value="${storeNumber}">
-        <input type="hidden" name="customerNumber" th:value="${customer.customerNumber}">
-        <div>
-            <h3>요청 사항</h3>
-            사장님께 : <input type="text" th:field="${order.orderTomaster}"><br>
-            라이더님께 :
-            <select id="toRider_select" onchange="toRider_s()">
-                <option value="-" selected> 선택하기</option>
-                <option value="조심히 오세요">조심히 오세요</option>
-                <option value="안전 운전 하세요">안전 운전 하세요</option>
-                <option value="직접 입력">직접 입력</option>
-            </select><br>
-            <input type="hidden" th:field="${order.orderTorider}">
+        </div>
+        <hr class="line">
+        <form action="/customer/payment" method="post" id="payment_form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" name="storeNumber" th:value="${storeNumber}">
+            <input type="hidden" name="customerNumber" th:value="${customer.customerNumber}">
 
-        </div>
-        <div>
-            <h3>결제 수단</h3>
-            <input type="radio" name="orderType" id="creditCard" onchange="creditCard1()" value="카카오"><label
-                for="creditCard">카카오</label>
-            <input type="radio" name="orderType" id="cash" onchange="cash1()" value="만나서결제" checked><label
-                for="cash">만나서 결제</label><br>
-            포인트 사용 : <input type="number" min="0" th:max="${customer.customerPoint}" id="point_use_value"
-                            name="pointUse" onblur="point_use()" value="0"><br>
-            내 포인트 : <input type="text" th:value="${customer.customerPoint}" readonly><br>
-            할인 쿠폰 :
-            <!-- 쿠폰용 모달 -->
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                쿠폰 조회
-            </button>
-            <!-- Modal -->
+            <div class="plz">
+                <h4 class="textArea">요청 사항</h4>
+                <div id="toOwner">
+                    <span class="standText">사장님께</span>&nbsp; <input type="text" th:field="${order.orderTomaster}"><br>
+                </div>
+                <div id="toRider">
+                    <span class="standText">라이더님께</span>&nbsp;
+                    <select id="toRider_select" onchange="toRider_s()">
+                        <option value="-" selected> 선택하기</option>
+                        <option value="조심히 오세요">조심히 오세요</option>
+                        <option value="안전 운전 하세요">안전 운전 하세요</option>
+                        <option value="직접 입력">직접 입력</option>
+                    </select><br>
+                    <input type="hidden" th:field="${order.orderTorider}">
+                </div>
+            </div><!--요청사항-->
+            <hr class="line">
 
-        </div>
-        <div>
-            <h3>결제 금액</h3>
-            주문 금액 : <span th:text="${totalPrice}"></span><br>
-            배달비 : <span th:text="${deliveryPrice}"></span><br>
-            -<span id="couponDiscount"></span><input type="hidden" id="coupon_value" value="0">
-            <span id="pointDiscount"></span><input type="hidden" id="point_value" value="0">
-            총액 : <p id="finalPrice" th:text="${deliveryPrice + totalPrice}"></p>
-            <input type="hidden" name="orderPrice" id="orderPrice" th:value="${deliveryPrice + totalPrice}"><br>
-        </div>
-    </form>
-    <button type="button" id="cash_btn" onclick="cash_payment()">만나서 결제</button>
-    <button id="check_module" type="button">카카오 결제</button>
-</div>
-<div class="modal fade " id="exampleModal"
-     tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">쿠폰 리스트</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div th:if="${coupon == null}" class="modal-body">
-                <p>쿠폰이 없어요 ㅠㅁㅠ</p><br>
-                <a href="/admin/coupon/">쿠폰 받으러 가기</a>
-            </div>
-            <div th:unless="${coupon == null}" class="modal-body">
-                <ul th:each="c : ${coupon}">
-                    <div th:if="${c.couponCondition <= totalPrice + deliveryPrice}">
-                        <li>
-                            <label>
-                                <input type="radio" name="coupon"
-                                       th:attr="onclick=|coupon_select('${c.couponPrice}')|">
-                                쿠폰 이름 : <span th:text="${c.couponName}"></span>
-                            </label>
-                        </li>
-                    </div>
-                    <div th:unless="${c.couponCondition <= totalPrice + deliveryPrice}">
-                        <li>
-                            <label>
-                                <input type="radio" th:disabled="true">
-                                쿠폰 이름 : <span th:text="${c.couponName}"></span> 사용 못함
-                            </label>
-                        </li>
-                    </div>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="payment1">
+                <h4 class="textArea">결제 수단</h4>
+                <div class="route">
+                <input type="radio" name="orderType" id="creditCard" onchange="creditCard1()" value="카카오"><label
+                    for="creditCard">카카오</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="orderType" id="cash" onchange="cash1()" value="만나서결제" checked><label
+                    for="cash">만나서 결제</label><br>
+                </div>
+                <div id="point">
+                <span class="standText">포인트 사용</span>
+                    <input type="number" min="0" th:max="${customer.customerPoint}" id="point_use_value"
+                                name="pointUse" onblur="point_use()" value="0"><br>
+                </div>
+                <span class="standText">보유 포인트: </span>&nbsp; <span th:value="${customer.customerPoint}"></span><br>
+                <span class="standText">할인쿠폰</span>
+                <!-- 쿠폰용 모달 -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    쿠폰 조회
+                </button>
+                <!-- Modal -->
+            </div><!--결제수단-->
+            <hr class="line">
+
+            <div class="money">
+                <h4 class="textArea">결제 금액</h4>
+                <span class="standText">주문 금액</span>&nbsp;  <span th:text="${totalPrice}"></span><br>
+                <span class="standText">배달비</span>&nbsp;  <span th:text="${deliveryPrice}"></span><br>
+                <!-- -<span id="couponDiscount"></span><input type="hidden" id="coupon_value" value="0">
+                <span id="pointDiscount"></span><input type="hidden" id="point_value" value="0">-->
+                <span class="standText">총액</span>&nbsp;  <span id="finalPrice" th:text="${deliveryPrice + totalPrice}"></span>
+                <input type="hidden" name="orderPrice" id="orderPrice" th:value="${deliveryPrice + totalPrice}"><br>
+            </div><!--결제금액-->
+        </form>
+        <button class="btn btn-warning btn-sm" id="cash_btn" onclick="cash_payment()">만나서 결제</button>
+        <button class="btn btn-warning btn-sm" id="check_module">카카오 결제</button>
+    </div>
+    <br>
+    <div class="modal fade " id="exampleModal"
+         tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">🍙 ET Coupon </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div th:if="${coupon == null}" class="modal-body">
+                    <p>😭</p>
+                    <p>쿠폰이 없어요 </p>&nbsp; <br>
+                    <a href="/admin/coupon/">쿠폰 받으러 가기</a>
+                </div>
+                <div th:unless="${coupon == null}" class="modal-body">
+                    <ul th:each="c : ${coupon}">
+                        <div th:if="${c.couponCondition <= totalPrice + deliveryPrice}">
+                            <li>
+                                <label>
+                                    <input type="radio" name="coupon"
+                                           th:attr="onclick=|coupon_select('${c.couponPrice}')|">
+                                    쿠폰 이름 : <span th:text="${c.couponName}"></span>
+                                </label>
+                            </li>
+                        </div>
+                        <div th:unless="${c.couponCondition <= totalPrice + deliveryPrice}">
+                            <li>
+                                <label>
+                                    <input type="radio" th:disabled="true">
+                                    쿠폰 이름 : <span th:text="${c.couponName}"></span> 사용 못함
+                                </label>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> 닫기 </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="msgStack"></div>
+    <div id="msgStack"></div>
+</section>
 </body>
 <script>
-    const cash_payment = () =>{
+    const cash_payment = () => {
         // 결제
         var store = '[[${storeEmail}]]';
         customer_btn(store);
