@@ -143,8 +143,9 @@ public class StoreServiceImpl implements StoreService {
         String menuFilename = menuFile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + menuFilename;
 
-        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename; // 지원이꺼 + menuFilename;
+//        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename; // 지원이꺼 + menuFilename;
         /*String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;*/
+        String savePath = "C:\\development\\source\\FinalProject\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
         if (!menuFile.isEmpty()) {
             menuFile.transferTo(new File(savePath));
         }
