@@ -98,6 +98,31 @@
             });
             value.value = 0;
         }
+        const wishlist_add_btn = (storeNumber) =>{
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            $.ajax({
+                type:'post',
+                url:'/store/wishList',
+                data:{"storeNumber":storeNumber},
+                dataType:'text',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success:function (result){
+                    if (result === "ok"){
+                        alert("찜 등록 완료!")
+                    } else if (result === "no"){
+                        alert("이미 등록된 업체입니다!")
+                    } else {
+                        alert("오류!")
+                    }
+                },
+                error:function (){
+                    alert("아작아작")
+                }
+            });
+        }
     </script>
 </head>
 <style>
@@ -306,7 +331,7 @@
                         <td th:text="${storeList.storeClose}"></td>
                         <br>
 
-                        😘
+                        <button th:onclick="wishlist_add_btn([[${storeList.storeNumber}]])">😘</button>
                         <td th:text="${storeList.storeWish}"></td>
                     </div>
                 </div>
@@ -389,7 +414,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     </div>
     </div>

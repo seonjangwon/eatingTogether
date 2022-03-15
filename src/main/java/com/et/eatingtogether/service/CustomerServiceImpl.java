@@ -20,8 +20,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -51,6 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final ReviewRepository rr;
     private final CouponRepository cpr;
     private final MyCouponRepository mcpr;
+    private final WishlistRepository wr;
     private final HttpSession session;
 
     @Override
@@ -510,6 +509,26 @@ public class CustomerServiceImpl implements CustomerService {
             myCouponEntitySave.setCouponEntity(couponEntity.get());
             mcpr.save(myCouponEntitySave);
             return "ok";
+        }
+    }
+
+    @Override
+    public String wishlistAdd(Long storeNumber) {
+        Optional<CustomerEntity> customerEntity = cr.findByCustomerEmail((String) session.getAttribute("customerLoginEmail"));
+        Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
+        Optional<WishlistEntity> optionalWishlistEntity = wr.findByCustomerEntityAndStoreEntity(customerEntity.get(), storeEntity.get());
+        if (optionalWishlistEntity.isEmpty()){
+            WishlistEntity wishlistEntity = new WishlistEntity();
+            wishlistEntity.setCustomerEntity(customerEntity.get());
+            wishlistEntity.setStoreEntity(storeEntity.get());
+            // 찜목록 저장
+            wr.save(wishlistEntity);
+            storeEntity.get().setStoreWish(storeEntity.get().getStoreWish()+1);
+            // 업체 찜 숫자 +1
+            sr.save(storeEntity.get());
+            return "ok";
+        } else {
+            return "no";
         }
     }
 }

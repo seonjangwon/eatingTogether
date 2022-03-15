@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,8 @@ public class StoreServiceImpl implements StoreService {
     private final CustomerRepository cr;
     private final RiderRepository rr;
     private final DailySaleRepository dsr;
+    private final ReviewFileRepository rfr;
+
     private final ReplyRepository rpr;
 
     @Override
@@ -141,8 +144,10 @@ public class StoreServiceImpl implements StoreService {
         String menuFilename = menuFile.getOriginalFilename();
         menuFilename = System.currentTimeMillis() + menuFilename;
 
-        String savePath = "C:\\development_psy\\source\\img\\final\\" + menuFilename; // 지원이꺼 + menuFilename;
+
+//        String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename; // 지원이꺼 + menuFilename;
         /*String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;*/
+        String savePath = "C:\\development\\source\\FinalProject\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + menuFilename;
         if (!menuFile.isEmpty()) {
             menuFile.transferTo(new File(savePath));
         }
@@ -434,6 +439,7 @@ public class StoreServiceImpl implements StoreService {
             dsr.save(dailySaleEntity1);
         }
     }
+  
     @Override
     public List<ReviewDetailDTO> reviewStore(Long storeNumber) {
         Optional<StoreEntity> storeEntity = sr.findById(storeNumber);
@@ -464,5 +470,18 @@ public class StoreServiceImpl implements StoreService {
         return reviewDetailDTOList;
     }
 
-
+    @Override
+    public List<OrderDTO> findOrderDaily(String storeEmail) {
+        StoreEntity storeEntity = sr.findByStoreEmail(storeEmail);
+        List<OrderEntity> orderEntityList = or.findByStoreEntity(storeEntity);
+        List<OrderDTO> orderAll = new ArrayList<>();
+        for (OrderEntity oe : orderEntityList) {
+            if (oe.getOrderNowEntity().getOrderNowStatus().equals("배달 완료")){
+                if (oe.getOrderTime().getDayOfMonth() == LocalDateTime.now().getDayOfMonth()){
+                    orderAll.add(toStoreOrderDetailDTO(oe));
+                }
+            }
+        }
+        return orderAll;
+    }
 }

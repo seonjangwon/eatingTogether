@@ -3,7 +3,6 @@ package com.et.eatingtogether.service;
 import com.et.eatingtogether.dto.customer.*;
 import com.et.eatingtogether.dto.review.ReviewDetailDTO;
 import com.et.eatingtogether.dto.store.MenuDTO;
-import com.et.eatingtogether.dto.system.CouponDTO;
 import com.et.eatingtogether.dto.system.OrderDTO;
 import com.et.eatingtogether.dto.system.OrderMenuDTO;
 
@@ -70,4 +69,6 @@ public interface CustomerService {
     List<MenuDTO> menuFindAll();
 
     String couponSave(Long couponNumber);
+
+    String wishlistAdd(Long storeNumber);
 }

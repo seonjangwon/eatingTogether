@@ -295,7 +295,8 @@ public class StoreController {
         //판매 내역 출력
         StoreDetailDTO store = ss.findById(storeEmail);
         model.addAttribute("store", store);
-        List<OrderDTO> order = ss.findOrderAll(storeEmail);
+//        List<OrderDTO> order = ss.findOrderAll(storeEmail);
+        List<OrderDTO> order = ss.findOrderDaily(storeEmail);
         model.addAttribute("order", order);
         List<DailySaleDTO> sale = ss.findSaleAll(store.getStoreNumber());
         model.addAttribute("sale", sale);
@@ -309,5 +310,13 @@ public class StoreController {
         List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
         model.addAttribute("storeList",storeDetailDTOS);
         return "store/category";
+    }
+
+    @PostMapping("/wishList")
+    @ResponseBody
+    public String wishListAdd(@RequestParam("storeNumber") Long storeNumber) {
+        // 회원 찜목록에 추가
+        String  result = cs.wishlistAdd(storeNumber);
+        return result;
     }
 }
