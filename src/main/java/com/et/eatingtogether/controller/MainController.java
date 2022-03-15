@@ -34,4 +34,9 @@ public class MainController {
     public String contact(){
         return "contact";
     }
+
+    @GetMapping("/baseFormat")
+    public String testTemplate(){
+        return "baseFormat";
+    }
 }
