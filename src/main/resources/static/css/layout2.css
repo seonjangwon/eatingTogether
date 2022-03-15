@@ -234,16 +234,43 @@ section{
     text-align: center;
 }
 
-.reportBtnSection{
+.blackList-btn-section{
     position: relative;
-    width: 500px;
+    width:600px;
+    height: 40px;
     left: 36%;
     gap: 10px;
+    top:50%;
+    /*background-color: peachpuff;*/
+    /*color: black;*/
 }
 
+.buttons-flex{
+    background-color: lightgrey;
+    color: black;
+    radius: 5;
+    width:300px;
+    border:none;
+
+}
+
+.button-flex:hover{
+    background: peachpuff;
+}
+
+.button-flex:active {
+    background: lightgrey;
+}
+
+
+
+
+
+
 /*메뉴링크 버튼*/
-.button{
-    background-color: darkgray;
+.btn-peach{
+    /*background-color: lightsalmon;*/
+    background-color: peachpuff;
     border: none;
     color: white;
     padding: 4px 15px;
@@ -257,15 +284,17 @@ section{
     border-radius: 5px;
 }
 
-.button:hover{
-    background-color: peachpuff;
+.btn-peach:hover{
+    background-color: lightgray;
     opacity: 50%;
     color: black;
 }
 
-.button:active{
-    background-color: lightsalmon;
+.btn-peach:active{
+    background-color: lightgray;
 }
+
+
 
 
 
@@ -301,6 +330,13 @@ section{
 
 }
 
+/*블랙리스트 회원/업체 버튼 효과*/
+#customerBtn{
+    background-color:gray;}
+    #customerBtn.selected{
+        background-color:white;
+
+    }
 
 
 /* ------------------------------------------ */

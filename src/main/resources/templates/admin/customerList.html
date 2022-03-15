@@ -150,7 +150,9 @@
             </div>
             <div class="col-4">
                 <span id="menuBar-text">
-                    마이페이지 주문내역 찜내역
+                      <a href="/usual/logout"> 로그아웃</a>
+                        <a href="/customer/"> 마이페이지</a>
+                        <a href="/customer/basket"> 장바구니</a>
                 </span>
             </div>
             <div class="col" id="menuBar-friPan">
@@ -194,7 +196,7 @@
                 <td th:text="${customer.customerEmail}"></td>
                 <td th:text="${customer.customerNickname}"></td>
 <!--                <td><button type="button" class="btn btn-outline-secondary btn-sm" th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>-->
-                <td><button class="button" th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>
+                <td><button class="btn-peach" th:onclick="deleteCustomer([[${customer.customerNumber}]])">삭제</button></td>
                 <!--        <td><a th:href="@{|/admin/delete/${customer.customerNumber}|}">회원삭제</a></td>-->
                 <!--        <button type="button" onclick="location.href='/admin/customerReport/${customerList.customerNumber}'">신고하기</button>-->
                 <td><button type="button" class="btn btn-outline-warning btn-sm" th:onclick="blackCustom_btn([[${customer.customerNumber}]])">회원신고</button></td>

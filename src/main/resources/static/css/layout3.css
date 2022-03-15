@@ -239,31 +239,7 @@ section{
     gap: 10px;
 }
 
-/*메뉴링크 버튼*/
-.button{
-    background-color: darkgray;
-    border: none;
-    color: white;
-    padding: 4px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 300;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-}
 
-.button:hover{
-    background-color: peachpuff;
-    opacity: 50%;
-    color: black;
-}
-
-.button:active{
-    background-color: lightsalmon;
-}
 
 
 /*.btn{*/
