@@ -11,9 +11,8 @@
 </head>
 <style>
     #riderPopup{
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%,0);
+        /*position: absolute;*/
+        /*transform: translate(30%,0);*/
         font-family: 'LeeSeoyun';
         color: blanchedalmond;
         font-weight: bold;
@@ -33,7 +32,7 @@
         <td th:text="${rider.riderName}"></td>
         <td th:text="${rider.riderState}"></td>
         <td th:if="${rider.riderState == '대기'}">
-            <button class="btn btn-Light" tabindex="-1" role="button"id="riderPopup" style="background-color: coral" th:onclick="rider_start_btn([[${rider.riderNumber}]])">배달 요청</button>
+            <button class="btn btn-Light btn-sm" tabindex="-1" role="button"id="riderPopup" style="background-color: coral" th:onclick="rider_start_btn([[${rider.riderNumber}]])">배달 요청</button>
         </td>
     </tr>
 </table>

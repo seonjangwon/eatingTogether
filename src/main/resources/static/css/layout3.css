@@ -206,10 +206,11 @@ section{
 
 /*회원페이지 사이드바*/
 .side-section{
-    position: relative;
+    position: absolute;
     display: grid;
     top: 80px;
     text-align: center;
+    height: 100vh;
     /*gap: 10px;  !* 자식요소간의 간격 *!*/
     /*transform: translate(0,0%);*/
     /*grid-template-columns: 2fr 1fr;*/
