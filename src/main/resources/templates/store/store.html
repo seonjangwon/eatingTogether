@@ -394,11 +394,11 @@
                         <div id="4">
                             <div>
                                 <span th:text="${r.reviewScore}"></span>점 주셨습니다.
-                                <h5><span th:if="${r.reviewScore.toString().equals('5')}">🍗🍗🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('4')}">🍗🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('3')}">🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('2')}">🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('1')}">🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 5}">🍗🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 4}">🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 3}">🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 2}">🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 1}">🍗</span></h5>
                             </div>
                             <span th:text="${r.menuName}"></span>를 시키셨네요!<br>
                             <hr class="line">
