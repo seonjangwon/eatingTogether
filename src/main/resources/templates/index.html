@@ -74,33 +74,33 @@
 <section>
     <div class="container-section">
         <div class="item" id="carousel">
-                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                        </div>
-                        <div class="carousel-inner" id="korea">
-                            <div class="carousel-item active">
-                                <img src="https://cdn.pixabay.com/photo/2018/11/26/02/25/kimchi-3838674_960_720.jpg" class="d-block w-100" alt="한식">
-                            </div>
-                            <div class="carousel-item" id="china">
-                                <img src="https://cdn.pixabay.com/photo/2020/08/22/14/49/fried-rice-5508576_960_720.jpg" class="d-block w-100" alt="중식">
-                            </div>
-                            <div class="carousel-item" id="japan">
-                                <img src="https://cdn.pixabay.com/photo/2016/04/26/03/55/salmon-1353598_960_720.jpg" class="d-block w-100" alt="일식">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner" id="korea">
+                    <div class="carousel-item active">
+                        <img src="https://cdn.pixabay.com/photo/2018/04/03/11/20/palace-bo-3286574_960_720.jpg" class="d-block w-100" alt="한식">
                     </div>
-         </div><!-- 캐러셀 -->
+                    <div class="carousel-item" id="pizza">
+                        <img src="https://cdn.pixabay.com/photo/2020/05/17/04/22/pizza-5179939_960_720.jpg" class="d-block w-100" alt="양식">
+                    </div>
+                    <div class="carousel-item" id="japan">
+                        <img src="https://cdn.pixabay.com/photo/2018/03/06/09/02/food-3202918_960_720.jpg" class="d-block w-100" alt="일식">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div><!-- 캐러셀 -->
         <div class="item" id="login">
                 <div th:if="${session.customerLoginEmail == null && session.storeLoginEmail == null}"><!-- 로그인 없음-->
                     <div class="nothing">
