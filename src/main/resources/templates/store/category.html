@@ -102,6 +102,7 @@
                 <span th:if="${bigCategoryNumber.toString().equals('3')}"> 🍣 일식 </span>
                 <span th:if="${bigCategoryNumber.toString().equals('4')}"> 🍝 양식 </span>
                 <span th:if="${bigCategoryNumber.toString().equals('5')}"> 🍔 패스트푸드 / 기타 </span>
+                <span th:if="${bigCategoryNumber.toString().equals('6')}"> 🔍 검색 </span>
             </div>
             <div class="sub-title">
                 <a href="/store/category/1"> 🍲 한식 </a>&nbsp;
@@ -131,10 +132,6 @@
     </div>
 </section>
 <div id="msgStack"></div>
-<!-- --------------------------------------------------------- -->
-<footer>
-    '뭐먹을까요-ET' 는 소상공인을 응원합니다.
-</footer>
 </body>
 <script src="/js/webSocket.js"></script>
 </html>

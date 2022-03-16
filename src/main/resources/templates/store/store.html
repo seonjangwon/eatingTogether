@@ -332,7 +332,7 @@
                         <br>
 
                         <button th:onclick="wishlist_add_btn([[${storeList.storeNumber}]])">😘</button>
-                        <td th:text="${storeList.storeWish}"></td>
+                        <td th:text="${storeList.storeWish}"></td><span><a th:href="@{|/admin/storeReport/${storeList.storeNumber}|}">신고하기</a></span>
                     </div>
                 </div>
                 <div id="mrBtn">
@@ -402,7 +402,7 @@
                             </div>
                             <span th:text="${r.menuName}"></span>를 시키셨네요!<br>
                             <hr class="line">
-                            <span th:text="${r.reviewComments}"></span>
+                            <span th:text="${r.reviewComments}"></span><span><a th:href="@{|/admin/customerReport/${r.customerNumber}|}">신고하기</a></span>
                         </div>
                     </div>
                 </div>

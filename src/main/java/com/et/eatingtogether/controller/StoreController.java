@@ -309,6 +309,7 @@ public class StoreController {
         //
         List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
         model.addAttribute("storeList",storeDetailDTOS);
+        model.addAttribute("bigCategoryNumber",6);
         return "store/category";
     }
 

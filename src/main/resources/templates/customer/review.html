@@ -28,9 +28,9 @@
 
     /*-----------------------------------------여기까지 */
     #contents {
-        width: 400px;
-        transform: translate(50%, 0%);
-        background-color: darkseagreen;
+        width: 80%;
+        transform: translate(10%, 0%);
+        background-color: bisque;
         border-radius: 0.5rem;
         font-family: 'LeeSeoyun';
         margin: 5px;
@@ -39,7 +39,9 @@
         grid-template-rows: 1fr 0.5fr;
         padding-top: 10px;
         padding-bottom: 10px;
+        border-radius: 5px;
     }
+
 
     #reviewArea {
         width: 90%;
@@ -47,7 +49,9 @@
         background-color: blanchedalmond;
         border-radius: 0.5rem;
         margin-bottom: 5px;
+        font-size: 20px;
     }
+
 
     #commentArea {
         width: 90%;
@@ -55,6 +59,7 @@
         background-color: azure;
         border-radius: 0.5rem;
         margin-bottom: 5px;
+        font-size: 16px;
     }
 
 </style>
@@ -102,7 +107,7 @@
                 <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
                 <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
                 <a href="/customer/wishlist" class="list-group-item list-group-item-action">찜리스트</a>
-                <a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>
+                <!--<a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>-->
             </ul>
         </div>
     </div>
@@ -111,23 +116,27 @@
             <div th:each="r:${reviewList}">
                 <div class="row" id="contents">
                     <div id="reviewArea">
-                        <h5><span> 내가 쓴 리뷰 </span></h5>
+                        <h4><span> 내가 쓴 리뷰 </span></h4>
                         <div id="review1">
                             업체: <span th:text="${r.storeNumber}"></span>
                             작성: <span th:text="${r.reviewTime}"></span>
                         </div>
                         <div id="review2">
-                            주문메뉴: <span th:text="${r.menuName}"></span>
+                            주문메뉴: <span th:text="${r.menuName}"></span><br>
                             <span th:text="${r.reviewComments}"></span>
                         </div>
                     </div>
                     <div id="commentArea">
-                        <h5><span> 사장님 답글 </span></h5>
+                        <h4><span> 사장님 답글 </span></h4>
                         <div th:if="${r.replyDetailDTO != null}">
                             <p th:text="${r.replyDetailDTO.replyContents}"></p>
                         </div>
+                        <div th:if="${r.replyDetailDTO == null}">
+                            <span> 아직 답글을 안 달아주셨어요!</span>
+                        </div>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
 </section>
