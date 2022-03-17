@@ -113,7 +113,12 @@
 <section>
 <form id="report_form">
     <input type="hidden" id="customerNumber" name="customerNumber" th:value="${customerNumber}" > <!--회원번호?-->
-    <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session['customerLoginEmail']}">
+    <span th:if="${session.customerLoginEmail != null}">
+        <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session['customerLoginEmail']}">
+    </span>
+    <span th:if="${session.storeLoginEmail != null}">
+        <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session['storeLoginEmail']}">
+    </span>
 <filedset>
     <input type="checkbox" name="reportCause" value="1"> 주문과 관련없는 내용
     <input type="checkbox" name="reportCause" value="2"> 음란성, 욕설 등 부적절한 내용

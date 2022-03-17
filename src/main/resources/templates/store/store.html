@@ -110,9 +110,10 @@
                     xhr.setRequestHeader(header, token);
                 },
                 success:function (result){
-                    if (result === "ok"){
+                    if (result == "ok"){
                         alert("찜 등록 완료!")
-                    } else if (result === "no"){
+                        location.reload();
+                    } else if (result == "no"){
                         alert("이미 등록된 업체입니다!")
                     } else {
                         alert("오류!")

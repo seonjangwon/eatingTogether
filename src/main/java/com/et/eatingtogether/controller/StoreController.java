@@ -319,6 +319,7 @@ public class StoreController {
     public String wishListAdd(@RequestParam("storeNumber") Long storeNumber) {
         // 회원 찜목록에 추가
         String  result = cs.wishlistAdd(storeNumber);
+        System.out.println("result = " + result);
         return result;
     }
 }

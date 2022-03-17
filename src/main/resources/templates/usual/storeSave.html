@@ -74,7 +74,7 @@
     </div><!-- 업종 분류 -->
     <div id="joinForm">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <input type="text" th:field = "*{storeEmail}" placeholder="이메일" oublur="emailCheck()">
+        <input type="text" th:field = "*{storeEmail}" placeholder="아이디" oublur="emailCheck()">
         <input type = "button" onclick="emailCheck_btn()" value="중복확인"><br>
         <div id="emailCheckBlockSpan" style="display: none">
             <span></span><br> <!--이부분이 변화-->

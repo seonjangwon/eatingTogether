@@ -274,21 +274,21 @@ public class JangwonTest {
     public void couponAdd(){
         CustomerEntity customerEntity = cr.findById(17l).get();
 
-        CouponEntity couponEntity = new CouponEntity();
-        couponEntity.setCouponName("testCoupon1");
-        couponEntity.setCouponCondition(1000);
-        couponEntity.setCouponPrice(1000);
-        cpr.save(couponEntity);
+//        CouponEntity couponEntity = new CouponEntity();
+//        couponEntity.setCouponName("testCoupon1");
+//        couponEntity.setCouponCondition(1000);
+//        couponEntity.setCouponPrice(1000);
+//        cpr.save(couponEntity);
         CouponEntity couponEntity2 = new CouponEntity();
-        couponEntity2.setCouponName("testCoupon2");
-        couponEntity2.setCouponCondition(10000);
+        couponEntity2.setCouponName("testCoupon123");
+        couponEntity2.setCouponCondition(1000000);
         couponEntity2.setCouponPrice(1000);
         cpr.save(couponEntity2);
 
-        MyCouponEntity myCouponEntity = new MyCouponEntity();
-        myCouponEntity.setCustomerEntity(customerEntity);
-        myCouponEntity.setCouponEntity(couponEntity);
-        mcr.save(myCouponEntity);
+//        MyCouponEntity myCouponEntity = new MyCouponEntity();
+//        myCouponEntity.setCustomerEntity(customerEntity);
+//        myCouponEntity.setCouponEntity(couponEntity);
+//        mcr.save(myCouponEntity);
         MyCouponEntity myCouponEntity2 = new MyCouponEntity();
         myCouponEntity2.setCustomerEntity(customerEntity);
         myCouponEntity2.setCouponEntity(couponEntity2);

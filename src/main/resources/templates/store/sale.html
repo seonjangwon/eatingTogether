@@ -120,7 +120,7 @@
                     <span class="col-1" id="sumM"></span>
                 </div>
             </div>
-            <div id="daily_sale">
+            <div id="daily_sale" style="display: none;">
                 <h2><div class="row" id="dailyDate"></div></h2>
                 <table class="table table-warning" id=dailySaleTable>
                     <!--<span data-th-text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>-->
@@ -132,7 +132,7 @@
                     <th> 고객번호</th>
                     </thead>
                     <tbody>
-                    <tr th:each="od:${order}" th:if="${od.orderNow.toString().equals('배달완료')}" >
+                    <tr th:each="od:${order}" >
                         <td th:text="${od.orderTime}"></td>
                         <td th:text="${od.orderNumber}"></td>
                         <td th:text="${od.menuName}"></td>
