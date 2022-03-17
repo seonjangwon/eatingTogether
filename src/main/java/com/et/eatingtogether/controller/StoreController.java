@@ -107,7 +107,8 @@ public class StoreController {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/menuControl/" + storeCategoryEntity.getStoreEntity().getStoreEmail();
+        String email = ((String) session.getAttribute("storeLoginEmail"));
+        return "redirect:/store/menuControl/" + email;
         /*return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();*/
     }
 
@@ -250,7 +251,7 @@ public class StoreController {
     public String riderList(@PathVariable Long orderNumber, Model model) {
         List<RiderDTO> riderList = as.riderFindAll();
         OrderDTO orderDTO = ss.findByOrder(orderNumber);
-        model.addAttribute("customerEmail",orderDTO.getCutomerEmail());
+        model.addAttribute("customerEmail",orderDTO.getCustomerEmail());
         model.addAttribute("orderNumber", orderNumber);
         model.addAttribute("riderList", riderList);
         model.addAttribute("orderFinish", new OrderNowDTO());

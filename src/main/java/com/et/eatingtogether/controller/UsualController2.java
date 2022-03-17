@@ -97,7 +97,7 @@ public class UsualController2 {
 
     @PutMapping("/supdate")
     @ResponseBody
-    public String storeUpdate(@ModelAttribute StoreDetailDTO storeDetailDTO)    {
+    public String storeUpdate(@ModelAttribute StoreDetailDTO storeDetailDTO) throws IOException {
         System.out.println("UsualController.storeUpdate 처리요청");
 //        String result = ss.updateStore(storeDetailDTO);
         String result = ses.updateStore(storeDetailDTO);
