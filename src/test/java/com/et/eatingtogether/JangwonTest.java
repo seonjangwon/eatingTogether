@@ -382,6 +382,7 @@ public class JangwonTest {
         rr.save(riderEntity1);
     }
 
+
     @Test
     @DisplayName("일매출생성용")
     public void dailySaleTest(){
