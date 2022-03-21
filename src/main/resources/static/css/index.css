@@ -105,7 +105,7 @@ section{
     /*giving grid to container*/
     /*grid-template-columns: 1fr 4fr;*/
     /*grid-template-rows: 1fr 1fr 1fr ;*/
-    grid-template-rows: 400px 300px 100px;
+    grid-template-rows: 300px 300px 100px;
     position: absolute;
     left: 50%;
     transform: translate(-50%,0%);
@@ -133,7 +133,7 @@ section{
     position: absolute;
     width: 80%;
     left: 50%;
-    height: 650px;
+    /*height: 650px;*/
     transform: translate(-50%,70%);
     font-family: 'LeeSeoyun';
     font-size: 20px;

@@ -98,14 +98,14 @@
             });
             value.value = 0;
         }
-        const wishlist_add_btn = (storeNumber) =>{
+        const wishlist_add_btn = (storeNumber) => {
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
             $.ajax({
-                type:'post',
-                url:'/store/wishList',
-                data:{"storeNumber":storeNumber},
-                dataType:'text',
+                type: 'post',
+                url: '/store/wishList',
+                data: {"storeNumber": storeNumber},
+                dataType: 'text',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
@@ -119,7 +119,7 @@
                         alert("오류!")
                     }
                 },
-                error:function (){
+                error: function () {
                     alert("아작아작")
                 }
             });
@@ -264,7 +264,8 @@
         text-align: right;
         font-size: medium;
     }
-    .ment{
+
+    .ment {
         height: 50px;
         margin-bottom: 10px;
     }
