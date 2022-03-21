@@ -127,6 +127,9 @@
                         <div class="loginMember3">
                         <h3><a href="/customer/"><p>🐾</p>마이페이지</a></h3>
                         </div>
+                        <div th:if="${session.customerLoginEmail == 'admin'}">
+                            <h3><a href="/admin/"><p>🍙</p>관리자 페이지</a></h3>
+                        </div>
                     </div>
                 </div> <!--회원 로그인시-->
 

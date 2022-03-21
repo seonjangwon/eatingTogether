@@ -23,6 +23,7 @@
                 },
                 success : function(){
                     console.log('성공');
+                    history.back();
                 },
                 error: function(){
                     console.log('실패');
@@ -84,7 +85,7 @@
 <section>
 <form id="storeReport_form">
     <input type="hidden" id="storeNumber" name="storeNumber" th:value="${storeNumber}" > <!--업체번호?-->
-    <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session['customerLoginEmail']}">
+    <input type="hidden" id="loginEmail" name="customerLoginEmail" th:value="${session.customerLoginEmail}">
     <filedset>
         <input type="checkbox" name="reportCause" value="1"> 불친절함
         <input type="checkbox" name="reportCause" value="2"> 청결하지 않음

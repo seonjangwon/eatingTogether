@@ -109,10 +109,11 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
-                success: function (result) {
-                    if (result === "ok") {
+                success:function (result){
+                    if (result == "ok"){
                         alert("찜 등록 완료!")
-                    } else if (result === "no") {
+                        location.reload();
+                    } else if (result == "no"){
                         alert("이미 등록된 업체입니다!")
                     } else {
                         alert("오류!")
@@ -333,7 +334,7 @@
                         <br>
 
                         <button th:onclick="wishlist_add_btn([[${storeList.storeNumber}]])">😘</button>
-                        <td th:text="${storeList.storeWish}"></td>
+                        <td th:text="${storeList.storeWish}"></td><span><a th:href="@{|/admin/storeReport/${storeList.storeNumber}|}">신고하기</a></span>
                     </div>
                 </div>
                 <div id="mrBtn">
@@ -395,15 +396,15 @@
                         <div id="4">
                             <div>
                                 <span th:text="${r.reviewScore}"></span>점 주셨습니다.
-                                <h5><span th:if="${r.reviewScore.toString().equals('5')}">🍗🍗🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('4')}">🍗🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('3')}">🍗🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('2')}">🍗🍗</span></h5>
-                                <h5><span th:if="${r.reviewScore.toString().equals('1')}">🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 5}">🍗🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 4}">🍗🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 3}">🍗🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 2}">🍗🍗</span></h5>
+                                <h5><span th:if="${r.reviewScore == 1}">🍗</span></h5>
                             </div>
                             <span th:text="${r.menuName}"></span>를 시키셨네요!<br>
                             <hr class="line">
-                            <span th:text="${r.reviewComments}"></span>
+                            <span th:text="${r.reviewComments}"></span><span><a th:href="@{|/admin/customerReport/${r.customerNumber}|}">신고하기</a></span>
                         </div>
                     </div>
                 </div>

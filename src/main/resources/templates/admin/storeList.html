@@ -9,12 +9,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
         function deleteById(storeNumber) {
-            const reqUrl = "/admin/store" + storeNumber;
+            const reqUrl = "/admin/store/" + storeNumber;
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
             $.ajax({
                 type: "delete",
                 url: reqUrl,
-                data: {"storeNumber": storeNumber},
-                dataType: "text",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
                 success: function (result) {
                     location.href = "/admin/store";
                 },
@@ -23,7 +26,7 @@
                 }
 
 
-            })
+            });
         }
 
     </script>

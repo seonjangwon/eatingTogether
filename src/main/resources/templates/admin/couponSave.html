@@ -102,6 +102,7 @@
     <!--   목록 출력부분-->
     <div class="couponSection">
         <form act="/admin/coupon" method="post" th:object="${coupon}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             쿠폰 이름 : <input type="text" th:field="*{couponName}"><br><br>
             쿠폰 금액 : <input type="text" th:field="*{couponPrice}"><br><br>
             쿠폰 조건 : <input type="text" th:field="*{couponCondition}"><br><br>

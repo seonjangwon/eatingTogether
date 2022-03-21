@@ -4,10 +4,19 @@ socket.onopen = function (e) {
 };
 
 socket.onmessage = function (msg) {
+    let today = new Date();
+
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+    let day = today.getDay();  // 요일
+    let hours = today.getHours(); // 시
+    let minutes = today.getMinutes();  // 분
+    let seconds = today.getSeconds();  // 초
     var data = msg.data;
     let toast = "<div class=\"position-fixed bottom-0 end-0 p-3\" style=\"z-index: 11\">" +
         "<div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">";
-    toast += "<div class='toast-header'><img src=\"...\" class=\"rounded me-2\" alt=\"...\"><strong class=\"me-auto\">🍙뭐먹을까요</strong><small><span th:text=\"${#dates.createNowForTimeZone('MM-dd HH:mm')}\"></span></small>";
+    toast += "<div class='toast-header'><strong class=\"me-auto\">🍙뭐먹을까요</strong><small><span>"+year + '/' + month + '/' + date+" "+hours + ':' + minutes + ':' + seconds+"</span></small>";
     // toast += "<button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
     toast += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>";
     toast += "</div> <div class='toast-body'>" + data + "<audio autoplay controls style='display: none'> <source src=\"/sound/실로폰_효과음.wav\" type=\"audio/wav\"> </audio></div></div></div>";

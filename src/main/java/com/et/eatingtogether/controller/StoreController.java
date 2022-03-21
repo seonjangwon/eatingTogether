@@ -107,7 +107,8 @@ public class StoreController {
             storeCategoryEntity = ss.findCategory(menuDTO.getStoreCategoryNumber());
         }
         ss.saveMenu(menuDTO, storeCategoryEntity);
-        return "redirect:/store/menuControl/" + storeCategoryEntity.getStoreEntity().getStoreEmail();
+        String email = ((String) session.getAttribute("storeLoginEmail"));
+        return "redirect:/store/menuControl/" + email;
         /*return "redirect:/store/" + storeCategoryEntity.getStoreEntity().getStoreNumber();*/
     }
 
@@ -250,7 +251,7 @@ public class StoreController {
     public String riderList(@PathVariable Long orderNumber, Model model) {
         List<RiderDTO> riderList = as.riderFindAll();
         OrderDTO orderDTO = ss.findByOrder(orderNumber);
-        model.addAttribute("customerEmail",orderDTO.getCutomerEmail());
+        model.addAttribute("customerEmail",orderDTO.getCustomerEmail());
         model.addAttribute("orderNumber", orderNumber);
         model.addAttribute("riderList", riderList);
         model.addAttribute("orderFinish", new OrderNowDTO());
@@ -309,6 +310,7 @@ public class StoreController {
         //
         List<StoreDetailDTO> storeDetailDTOS = ss.search(searchType,keyword);
         model.addAttribute("storeList",storeDetailDTOS);
+        model.addAttribute("bigCategoryNumber",6);
         return "store/category";
     }
 
@@ -317,6 +319,7 @@ public class StoreController {
     public String wishListAdd(@RequestParam("storeNumber") Long storeNumber) {
         // 회원 찜목록에 추가
         String  result = cs.wishlistAdd(storeNumber);
+        System.out.println("result = " + result);
         return result;
     }
 }

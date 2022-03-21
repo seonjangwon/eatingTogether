@@ -234,7 +234,7 @@
                 <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
                 <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
                 <a href="/customer/wishlist" class="list-group-item list-group-item-action">찜리스트</a>
-                <a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>
+                <!--<a href="/customer/kakaoUnlink" class="list-group-item list-group-item-action">카카오 회원탈퇴</a>-->
             </ul>
         </div>
     </div>
@@ -283,7 +283,7 @@
                     <input type="number" min="0" th:max="${customer.customerPoint}" id="point_use_value"
                                 name="pointUse" onblur="point_use()" value="0"><br>
                 </div>
-                <span class="standText">보유 포인트: </span>&nbsp; <span th:value="${customer.customerPoint}"></span><br>
+                <span class="standText">보유 포인트: </span>&nbsp; <span th:text="${customer.customerPoint}"></span><br>
                 <span class="standText">할인쿠폰</span>
                 <!-- 쿠폰용 모달 -->
                 <!-- Button trigger modal -->
@@ -298,8 +298,8 @@
                 <h4 class="textArea">결제 금액</h4>
                 <span class="standText">주문 금액</span>&nbsp;  <span th:text="${totalPrice}"></span><br>
                 <span class="standText">배달비</span>&nbsp;  <span th:text="${deliveryPrice}"></span><br>
-                <!-- -<span id="couponDiscount"></span><input type="hidden" id="coupon_value" value="0">
-                <span id="pointDiscount"></span><input type="hidden" id="point_value" value="0">-->
+                <!-- -<span id="couponDiscount">--></span><input type="hidden" id="coupon_value" value="0">
+                <!--<span id="pointDiscount"></span>--><input type="hidden" id="point_value" value="0">
                 <span class="standText">총액</span>&nbsp;  <span id="finalPrice" th:text="${deliveryPrice + totalPrice}"></span>
                 <input type="hidden" name="orderPrice" id="orderPrice" th:value="${deliveryPrice + totalPrice}"><br>
             </div><!--결제금액-->
@@ -329,7 +329,9 @@
                                 <label>
                                     <input type="radio" name="coupon"
                                            th:attr="onclick=|coupon_select('${c.couponPrice}')|">
-                                    쿠폰 이름 : <span th:text="${c.couponName}"></span>
+                                    쿠폰 이름 : <span th:text="${c.couponName}"></span><br>
+                                    사용 조건 : <span th:text="${c.couponCondition}"></span><br>
+                                      금 액  : <span th:text="${c.couponPrice}"></span>
                                 </label>
                             </li>
                         </div>
@@ -338,6 +340,7 @@
                                 <label>
                                     <input type="radio" th:disabled="true">
                                     쿠폰 이름 : <span th:text="${c.couponName}"></span> 사용 못함
+                                    사용 조건 : <span th:text="${c.couponCondition}"></span><br>
                                 </label>
                             </li>
                         </div>

@@ -111,9 +111,6 @@
     <input type="button" id="submitBtn" value="수정" style="background-color: sandybrown" onclick="updateMenu_btn()">
   </div>
   </section>
-<footer>
-
-</footer>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -143,6 +140,9 @@
       enctype: 'multipart/form-data',
       cache: false,
       dataType: 'text',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader(header, token);
+      },
       success: function (result)  {
         console.log(result);
         if(result==="ok"){

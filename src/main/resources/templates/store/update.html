@@ -98,7 +98,6 @@
     <button onclick="store_update_form()">수정하기</button>
 </section>
 <div id="msgStack"></div>
-<footer></footer>
 </body>
 
 <script>
@@ -110,6 +109,10 @@
             type: 'put',
             url: '/usual/supdate',
             data: formData,
+            processData : false,
+            contentType : false,
+            enctype: 'multipart/form-data',
+            cache: false,
             dataType: 'text',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);

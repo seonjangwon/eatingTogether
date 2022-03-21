@@ -307,3 +307,11 @@ footer{
     color: darksalmon;
     font-family: 'Cafe24SsurroundAir';
 }
+.customer-section-reviewSave  {
+    width: 1080px;
+    gap: 15px;  /* 자식요소간의 간격 */
+    position: relative;
+    left: 50%;
+    transform: translate(-50%,0%);
+    text-align: center;
+}

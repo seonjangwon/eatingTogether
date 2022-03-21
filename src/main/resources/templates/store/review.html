@@ -146,7 +146,7 @@
 
         .commentArea {
             font-family: 'LeeSeoyun';
-            background-color: #ffcccc;
+            background-color: blanchedalmond;
             border-radius: 0.5rem;
             margin: 5px;
             min-height: 100px;
@@ -219,7 +219,8 @@
                     <form class="row g-3">
                         <div class="row" id="contents1">
                             <div id="reviewArea">
-                                <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5><a
+                                    th:href="@{|/admin/customerReport/${r.customerNumber}|}">신고하기</a></span>
                                 <div class="review1">
                                     작성시간 <span th:text="${r.reviewTime}"></span>
                                 </div>
@@ -233,14 +234,14 @@
                                     </div>
                                     <div class="review2">
                                         주문메뉴: <span th:text="${r.menuName}"></span><br>
-                                        <!--<span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
+                                        <span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
                                         <span th:if="${r.reviewScore==4}"><span>🍙🍙🍙🍙</span></span>
                                         <span th:if="${r.reviewScore==3}"><span>🍙🍙🍙</span></span>
                                         <span th:if="${r.reviewScore==2}"><span>🍙🍙</span></span>
-                                        <span th:if="${r.reviewScore==1}"><span>🍙</span></span>-->
+                                        <span th:if="${r.reviewScore==1}"><span>🍙</span></span>
 
 
-                                        &lt;!&ndash;별점: <span th:text="${r.reviewScore}"></span>점&ndash;&gt;
+                                        <span th:text="${r.reviewScore}"></span>점<br>
                                         <span th:text="${r.reviewComments}"></span>
                                     </div>
                                 </div>
@@ -274,7 +275,8 @@
                         <form class="row g-3">
                             <div class="row" id="contents2">
                                 <div class="reviewArea">
-                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5><span><a
+                                        th:href="@{|/admin/customerReport/${r.customerNumber}|}">신고하기</a></span>
                                     <div class="review1">
                                         작성시간 <span th:text="${r.reviewTime}"></span>
                                     </div>
@@ -295,7 +297,7 @@
                                             <span th:if="${r.reviewScore==1}"><span>🍙</span></span>
 
 
-                                            <!--별점: <span th:text="${r.reviewScore}"></span>점-->
+                                            <span th:text="${r.reviewScore}"></span>점<br>
                                             <span th:text="${r.reviewComments}"></span>
                                         </div>
                                     </div>
@@ -315,7 +317,8 @@
                         <form class="row g-3">
                             <div class="row" id="contents3">
                                 <div class="reviewArea">
-                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5>
+                                    <h5><span class="standText" th:text="${r.customerName}"></span>님이 작성해주셨습니다</h5><a
+                                        th:href="@{|/admin/customerReport/${r.customerNumber}|}">신고하기</a></span>
                                     <div class="review1">
                                         작성시간 <span th:text="${r.reviewTime}"></span>
                                     </div>
@@ -329,14 +332,14 @@
                                         </div>
                                         <div class="review2">
                                             주문메뉴: <span th:text="${r.menuName}"></span><br>
-                                            <!--<span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
+                                            <span th:if="${r.reviewScore==5}"><span>🍙🍙🍙🍙🍙</span></span>
                                             <span th:if="${r.reviewScore==4}"><span>🍙🍙🍙🍙</span></span>
                                             <span th:if="${r.reviewScore==3}"><span>🍙🍙🍙</span></span>
                                             <span th:if="${r.reviewScore==2}"><span>🍙🍙</span></span>
-                                            <span th:if="${r.reviewScore==1}"><span>🍙</span></span>-->
+                                            <span th:if="${r.reviewScore==1}"><span>🍙</span></span>
 
 
-                                            <!--별점: <span th:text="${r.reviewScore}"></span>점-->
+                                            <span th:text="${r.reviewScore}"></span>점<br>
                                             <span th:text="${r.reviewComments}"></span>
                                         </div>
                                     </div>
@@ -363,9 +366,6 @@
     </div>
 </section>
 <div id="msgStack"></div>
-<footer>
-
-</footer>
 </body>
 <script src="/js/webSocket.js"></script>
 </html>

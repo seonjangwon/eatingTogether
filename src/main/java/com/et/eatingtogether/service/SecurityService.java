@@ -55,9 +55,9 @@ public class SecurityService implements UserDetailsService {
             String storeFilename = storeFile.getOriginalFilename();
             storeFilename = System.currentTimeMillis() + "-" + storeFilename;
             System.out.println("파일이름: " + storeFilename);
-            /*String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;*/ //장원씨꺼
-//            String savePath = "C:\\development\\source\\FinalProject\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
-            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
+//            String savePath = "C:\\Users\\wkddn\\Desktop\\wkddnjs\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; //장원씨꺼
+            String savePath = "C:\\development\\source\\FinalProject\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
+//            String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
             if (!storeFile.isEmpty()) {
                 storeFile.transferTo(new File(savePath));
             }
@@ -104,12 +104,25 @@ public class SecurityService implements UserDetailsService {
         }
     }
 
-    public String updateStore(StoreDetailDTO storeDetailDTO) {
+    public String updateStore(StoreDetailDTO storeDetailDTO) throws IOException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         BigCategoryEntity bigCategoryEntity = bcr.findByBigCategoryNumber(storeDetailDTO.getBigCategoryNumber());
         Optional<StoreEntity> storeEntity = sr.findById(storeDetailDTO.getStoreNumber());
         if (storeEntity.get().getStoreNumber().equals(storeDetailDTO.getStoreNumber())) {
             //number값이 일치한다면
+
+                MultipartFile storeFile = storeDetailDTO.getStoreFile();
+                String storeFilename = storeFile.getOriginalFilename();
+                storeFilename = System.currentTimeMillis() + "-" + storeFilename;
+                System.out.println("파일이름: " + storeFilename);
+                String savePath = "C:\\development\\source\\FinalProject\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename;
+//                String savePath = "C:\\Users\\exo_g\\Documents\\GitHub\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; // 지원이꺼
+                /*            String savePath = "C:\\development_psy\\source\\springboot\\eatingTogether\\src\\main\\resources\\static\\upload\\store\\" + storeFilename; // 내꺼*/
+                if (!storeFile.isEmpty()) {
+                    storeFile.transferTo(new File(savePath));
+                }
+                storeDetailDTO.setStoreFilename(storeFilename);
+
             storeDetailDTO.setStorePassword(passwordEncoder.encode(storeDetailDTO.getStorePassword()));
             sr.save(StoreEntity.toUpdate(storeDetailDTO, bigCategoryEntity));
             System.out.println("수정합니당");

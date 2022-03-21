@@ -8,34 +8,46 @@
     <meta charset="UTF-8">
     <title>wishlist</title>
     <style>
-        a{ text-decoration-line: none; }   /* 하이퍼링크 꾸밈요소 삭제 */
-        a:link    {
+        a {
+            text-decoration-line: none;
+        }
+
+        /* 하이퍼링크 꾸밈요소 삭제 */
+        a:link {
             color: sandybrown;
-        } /* 하이퍼링크 관련 */
+        }
+
+        /* 하이퍼링크 관련 */
         a:visited {
             color: sandybrown;
         }
-        a:hover   {
+
+        a:hover {
             color: coral;
         }
-        a:active  {
+
+        a:active {
             color: deeppink;
         }
 
         /*--------------------------------
         목록링크 색상*/
-        .list-group-item{
+        .list-group-item {
             color: sandybrown;
         }
+
         .list-group-item:visited {
             color: sandybrown;
         }
-        .list-group-item:hover   {
+
+        .list-group-item:hover {
             color: coral;
         }
-        .list-group-item:active  {
+
+        .list-group-item:active {
             color: deeppink;
         }
+
         /*-----------------------------------------여기까지 */
 
     </style><!-- 하이퍼링크용: 수정가능성 있음 -->
@@ -76,9 +88,9 @@
     <!--    로그인아이디 : <span th:text="${session['customerLoginEmail']}"></span>-->
     <div class="customer-section">
         <div class="side-section">
-            <ul class="list-group list-group-flush"style="font-family: 'Yeongdo-Rg';">
-                <a href="/customer/update" class="list-group-item list-group-item-action" >내정보수정</a>
-                <a href="/customer/history" class="list-group-item list-group-item-action" >주문내역</a>
+            <ul class="list-group list-group-flush" style="font-family: 'Yeongdo-Rg';">
+                <a href="/customer/update" class="list-group-item list-group-item-action">내정보수정</a>
+                <a href="/customer/history" class="list-group-item list-group-item-action">주문내역</a>
                 <a href="/customer/coupon" class="list-group-item list-group-item-action">내쿠폰함</a>
                 <a href="/customer/point" class="list-group-item list-group-item-action">내포인트</a>
                 <a href="/customer/review" class="list-group-item list-group-item-action">내리뷰관리</a>
@@ -90,21 +102,23 @@
     <div class="contentSection">
         <table class="table">
             <thead class="table-warning">
-        <tr>
-            <th>찜 번호</th>
-            <th>매장 사진</th>
-            <th>매장 이름</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="w : ${wishlist}">
-            <td th:text="${w.wishlistNumber}"></td>
-            <td><img th:src="@{|/upload/store/${w.storeFilename}|}" alt="" width="200px" height="200px"></td>
-            <td><a th:href="@{|/store/${w.storeNumber}|}"><p th:text="${w.storeName}"></p></a></td>
-        </tr>
-    </tbody>
-</table>
-<div id="msgStack"></div>
+            <tr>
+                <th>찜 번호</th>
+                <th>매장 사진</th>
+                <th>매장 이름</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="w : ${wishlist}">
+                <td th:text="${w.wishlistNumber}"></td>
+                <td><img th:src="@{|/upload/store/${w.storeFilename}|}" alt="" width="200px" height="200px"></td>
+                <td><a th:href="@{|/store/${w.storeNumber}|}"><p th:text="${w.storeName}"></p></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+        <div id="msgStack"></div>
 </body>
 <script src="/js/webSocket.js"></script>
 </html>
