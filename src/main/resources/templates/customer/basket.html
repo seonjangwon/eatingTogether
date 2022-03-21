@@ -169,6 +169,10 @@
             height: 0.7cm
 
         }
+        #cartHead{
+         position:absolute;
+            left:25%;
+        }
 
         #table-first {
             position: relative;
@@ -206,7 +210,21 @@
         .table {
             border-collapse: separate;
         }
-
+        .room{
+            display: flex;
+        }
+        #allPrice{
+          position: absolute;
+            right: 20px;
+        }
+        #delivery{
+            position: absolute;
+            right: 20px;
+        }
+        #payment-price{
+            position: absolute;
+            right: 20px;
+        }
 
     </style>
 
@@ -280,8 +298,7 @@
 
                         <!--이미지(왼쪽)-->
                         <div id="store-img">
-                            이미지
-                            <img th:src="@{|/upload/store/${b.menuFilename}|}" alt="">
+                            <img th:src="@{|/upload/store/${b.menuFilename}|}" alt="" width="150px" height="150px">
                         </div>
                         <!--정보(오른쪽)-->
                         <div id="order-info">
@@ -302,18 +319,18 @@
                     </div>
 
                     <div class="row" id="payment-info">
-
+                        <div class="room">
                             <div style="font-size:16pt;">총주문금액</div>
                             <div id="allPrice" th:text="${totalPrice}"></div>
-
-
+                        </div>
+                        <div class="room">
                             <div style="font-size:17pt;">배달비</div>
                             <div id="delivery" th:text="${deliveryPrice}"></div>
-
-
+                        </div>
+                        <div class="room">
                             <div style="font-weight: bold; font-size: 18pt;">결제예정금액</div>
                             <div id="payment-price" th:text="${totalPrice + deliveryPrice}"></div>
-
+                        </div>
                     </div>
                     <div class="row" id="orderBtn">
                         <a href="/customer/payment">주문 하기</a>

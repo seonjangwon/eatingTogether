@@ -91,7 +91,7 @@
         <table class="table">
             <thead class="table-warning">
         <tr>
-            <th>일단 번호</th>
+            <th>찜 번호</th>
             <th>매장 사진</th>
             <th>매장 이름</th>
         </tr>
@@ -99,7 +99,7 @@
     <tbody>
         <tr th:each="w : ${wishlist}">
             <td th:text="${w.wishlistNumber}"></td>
-            <td><img th:src="@{|/upload/store/${w.storeFilename}|}" alt=""></td>
+            <td><img th:src="@{|/upload/store/${w.storeFilename}|}" alt="" width="200px" height="200px"></td>
             <td><a th:href="@{|/store/${w.storeNumber}|}"><p th:text="${w.storeName}"></p></a></td>
         </tr>
     </tbody>
